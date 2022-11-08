@@ -1,6 +1,0 @@
-{
-    "name": "Security",
-    "version": "0.0.0",
-    "private": true,
-    "main": "./Security.js"
-}

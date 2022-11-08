@@ -1,6 +1,0 @@
-{
-    "name": "BankAccount",
-    "version": "0.0.0",
-    "private": true,
-    "main": "./BankAccount.js"
-}

@@ -143,7 +143,7 @@ const MarketTrend = () => {
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
-                        <div className="banner_running_ticker_new pt-0" data-aos="fade-up" data-aos-duration="1000">
+                        <div className="banner_running_ticker_new pt-0" >
                         <div className='notices_wrapper'>
                         <div class="notices_tag">Announcement</div>
                         <div className='notice_sec d-flex justify-content-between align-items-center'>

@@ -29,6 +29,9 @@ const Dashboard = () => {
                 </GridContainer>
 
                 <GridContainer>
+                <GridItem xs={12} sm={12} md={12} lg={12}>
+                        <BalanceDetail />
+                    </GridItem>
                     <GridItem xs={12} sm={12} md={12} lg={6} className="height_full_div">
                         <UserDetail />
                        
@@ -37,9 +40,7 @@ const Dashboard = () => {
                        
                         <Notification />
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={12} lg={12}>
-                        <BalanceDetail />
-                    </GridItem>
+                  
 
                 </GridContainer>
                 <GridContainer>

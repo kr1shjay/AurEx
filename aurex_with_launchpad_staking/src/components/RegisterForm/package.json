@@ -1,6 +1,0 @@
-{
-    "name": "RegisterForm",
-    "version": "0.0.0",
-    "private": true,
-    "main": "./RegisterForm.js"
-}

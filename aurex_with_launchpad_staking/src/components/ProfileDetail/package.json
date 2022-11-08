@@ -1,6 +1,0 @@
-{
-    "name": "ProfileDetail",
-    "version": "0.0.0",
-    "private": true,
-    "main": "./ProfileDetail.js"
-}

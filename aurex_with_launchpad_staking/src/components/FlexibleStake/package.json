@@ -1,6 +1,0 @@
-{
-    "name": "FlexibleStake",
-    "version": "0.0.0",
-    "private": true,
-    "main": "./FlexibleStake.js"
-}

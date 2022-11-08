@@ -44,6 +44,11 @@ const HeaderLinks = () => {
   const language = useSelector(state => state.language);
   const themeData = useSelector(state => state.theme)
 
+  
+  // redux-state
+const accountData = useSelector(state => state.account);
+const { firstName, lastName, email, blockNo, address, state, city, postalCode, country } = accountData;
+
   // function
   const handleLanguage = (e) => {
     e.preventDefault();
@@ -98,15 +103,23 @@ const HeaderLinks = () => {
           </Select>
         </ListItem> */}
 
-        {
-          isAuth && <ListItem className={classes.listItem}>
-            <Link to="/wallet" color="transparent" className="nav-link">Wallet</Link>
+       
+         <ListItem className={classes.listItem}>
+            <Link to="/staking-list" color="transparent" className="nav-link">Staking</Link>
           </ListItem>
-        }
          {
          <ListItem className={classes.listItem}>
           <Link to="/spot" color="transparent" className="nav-link">{t('MARKET')}</Link>
         </ListItem>
+         
+        }
+         <ListItem className={classes.listItem}>
+          <Link to="/launchpad" color="transparent" className="nav-link">Launchpad</Link>
+        </ListItem>
+        {
+          isAuth && <ListItem className={classes.listItem}>
+            <Link to="/wallet" color="transparent" className="nav-link">Wallet</Link>
+          </ListItem>
         }
         {
           isAuth && <ListItem className={classes.listItem}>
@@ -134,11 +147,11 @@ const HeaderLinks = () => {
                   onClose={handleClose}
                 >
                     <Link to="/profile"><MenuItem className="px-2">
-                  <div className="d-flex afterlogin_profile"><div><img src={Profileicon}  alt="profileicon"/> </div><div><p className="mx-3 mb-0 first">Manojkumar</p>
-                    <p className="second mb-0 mx-3">manojkumarmaticz@gmail.com</p></div> </div>
+                    <div className="d-flex afterlogin_profile"><div><img src={Profileicon}  alt="profileicon"/> </div><div><p className="mx-3 mb-0 first">{`${firstName} ${lastName}`}</p>
+<p className="second mb-0 mx-3">{email}</p></div> </div>
                   </MenuItem></Link>
                                 
-                   <MenuItem>
+                  <MenuItem>
                     <Link to="/profile"><i className="fa fa-user" aria-hidden="true"></i><span>Profile</span></Link>
                   </MenuItem>
                   <hr/> 
@@ -149,24 +162,29 @@ const HeaderLinks = () => {
                   <MenuItem>
                     <Link to="/security"><i className="fa fa-lock" aria-hidden="true"></i><span>Security</span></Link>
                   </MenuItem>
+                  
                   <hr/> 
                   <MenuItem>
                     <Link to="/setting"><i className="fa fa-cog" aria-hidden="true"></i><span>Settings</span></Link>
                   </MenuItem>
+                 
                   <hr/> 
                   <MenuItem>
-                    <Link to="/support-ticket"><i className="fa fa-question-circle" aria-hidden="true"></i><span>Support</span></Link>
+                    <Link to="/orders"><i className="fa fa-list" aria-hidden="true"></i><span>Orders</span></Link>
                   </MenuItem>
-                  <hr/> 
+                  {/* <hr/> 
                   <MenuItem>
                     <Link to="/referral"><i className="fa fa-users" aria-hidden="true"></i><span>Referral</span></Link>
-                  </MenuItem>
+                  </MenuItem> */}
                   <hr/> 
                   {/* <MenuItem><Link to="/notification">Notifications</Link></MenuItem> */}
                   <MenuItem>
                     <Link to="/history"><i className="far fa-clock"></i><span>History</span></Link>
                   </MenuItem>
                   <hr/> 
+                  <MenuItem>
+                    <Link to="/support-ticket"><i className="fa fa-question-circle" aria-hidden="true"></i><span>Support</span></Link>
+                  </MenuItem>
                   {/* <MenuItem>
                     <Link to="/orders">Orders</Link>
                   </MenuItem> */}

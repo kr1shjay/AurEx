@@ -1,6 +1,0 @@
-{
-    "name": "SpotTrade",
-    "version": "0.0.0",
-    "private": true,
-    "main": "./SpotTrade.js"
-}

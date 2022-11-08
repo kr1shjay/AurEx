@@ -1,6 +1,0 @@
-{
-    "name": "AddressProof",
-    "version": "0.0.0",
-    "private": true,
-    "main": "./AddressProof.js"
-}

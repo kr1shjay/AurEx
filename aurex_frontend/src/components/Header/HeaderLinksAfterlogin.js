@@ -36,9 +36,10 @@ export default function HeaderLinks(props) {
   const themeData = useSelector((state) => state.theme);
   const { isAuth } = useSelector((state) => state.auth);
   const { unread, isOpen } = useSelector((state) => state.notice);
+
   // redux-state
-  const accountData = useSelector(state => state.account);
-  const { firstName, lastName, email, blockNo, address, state, city, postalCode, country } = accountData;
+const accountData = useSelector(state => state.account);
+const { firstName, lastName, email, blockNo, address, state, city, postalCode, country } = accountData;
 
   // function
   const handleClick = (event) => {
@@ -198,53 +199,57 @@ export default function HeaderLinks(props) {
                   className="afterlogin_hr"
                   anchorEl={anchorEl}
                   keepMounted
-                  open={Boolean(anchorEl)}  
+                  open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
                     <Link to="/profile"><MenuItem className="px-2">
-                  <div className="d-flex afterlogin_profile"><div><img src={Profileicon}  alt="profileicon"/> </div><div><p className="mx-3 mb-0 first">{`${firstName} ${lastName}`}</p>
-                    <p className="second mb-0 mx-3">{email}</p></div> </div>
+                    <div className="d-flex afterlogin_profile"><div><img src={Profileicon}  alt="profileicon"/> </div><div><p className="mx-3 mb-0 first">{`${firstName} ${lastName}`}</p>
+<p className="second mb-0 mx-3">{email}</p></div> </div>
                   </MenuItem></Link>
                                 
-                  <Link to="/profile"><MenuItem>
-                   <i className="fa fa-user" aria-hidden="true"></i><span>Profile</span>
-                  </MenuItem></Link>
+                   <MenuItem>
+                    <Link to="/profile"><i className="fa fa-user" aria-hidden="true"></i><span>Profile</span></Link>
+                  </MenuItem>
                   <hr/> 
-                  <Link to="/launchpad">
-                  <MenuItem><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></MenuItem></Link>
+                  <MenuItem><Link to="/launchpad"><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></Link></MenuItem>
                   <hr/> 
-                  <Link to="/staking-list"><MenuItem><i class="fab fa-stack-exchange"></i><span>Staking</span></MenuItem></Link>
+                  <MenuItem><Link to="/staking-list"><i class="fab fa-stack-exchange"></i><span>Staking</span></Link></MenuItem>
                   <hr/> 
-                  <Link to="/security"><MenuItem>
-                   <i className="fa fa-lock" aria-hidden="true"></i><span>Security</span>
-                  </MenuItem></Link>
+                  <MenuItem>
+                    <Link to="/security"><i className="fa fa-lock" aria-hidden="true"></i><span>Security</span></Link>
+                  </MenuItem>
+                  
                   <hr/> 
-                  <Link to="/setting"><MenuItem>
-                   <i className="fa fa-cog" aria-hidden="true"></i><span>Settings</span>
-                  </MenuItem></Link>
+                  <MenuItem>
+                    <Link to="/setting"><i className="fa fa-cog" aria-hidden="true"></i><span>Settings</span></Link>
+                  </MenuItem>
+                 
                   <hr/> 
-                  <Link to="/support-ticket"><MenuItem>
-                   <i className="fa fa-question-circle" aria-hidden="true"></i><span>Support</span>
-                  </MenuItem></Link>
+                  <MenuItem>
+                    <Link to="/orders"><i className="fa fa-list" aria-hidden="true"></i><span>Orders</span></Link>
+                  </MenuItem>
+                  {/* <hr/> 
+                  <MenuItem>
+                    <Link to="/referral"><i className="fa fa-users" aria-hidden="true"></i><span>Referral</span></Link>
+                  </MenuItem> */}
                   <hr/> 
-                  {/* <Link to="/referral"><MenuItem>
-                   <i className="fa fa-users" aria-hidden="true"></i><span>Referral</span>
-                  </MenuItem></Link>
-                  <hr/>  */}
                   {/* <MenuItem><Link to="/notification">Notifications</Link></MenuItem> */}
-                  <Link to="/history"><MenuItem>
-                   <i className="far fa-clock"></i><span>History</span>
-                  </MenuItem></Link>
+                  <MenuItem>
+                    <Link to="/history"><i className="far fa-clock"></i><span>History</span></Link>
+                  </MenuItem>
                   <hr/> 
+                  <MenuItem>
+                    <Link to="/support-ticket"><i className="fa fa-question-circle" aria-hidden="true"></i><span>Support</span></Link>
+                  </MenuItem>
                   {/* <MenuItem>
                     <Link to="/orders">Orders</Link>
                   </MenuItem> */}
                   {/* <MenuItem><Link to="/api-management">API Management</Link></MenuItem> */}
-                  <Link to="#" onClick={() => logout(history, dispatch)}><MenuItem>
-                   
+                  <MenuItem>
+                    <Link to="#" onClick={() => logout(history, dispatch)}>
                     <i className="fas fa-sign-out-alt"></i> <span> Logout</span>
-                   
-                  </MenuItem> </Link>
+                    </Link>
+                  </MenuItem>
                 </Menu>
               </li>
             )}
@@ -300,17 +305,7 @@ export default function HeaderLinks(props) {
               </li>
             )}
 
-            {
-              isAuth && 
-              <li>
-                <Link to="/staking-list">Staking</Link>
-              </li>
-            }
-            {
-              isAuth && <li>
-                <Link to="/launchpad">Launchpad</Link>
-              </li>
-            }
+           
             {isAuth && (
               <li>
                 <Link to="/notification">Notifications</Link>
@@ -322,6 +317,18 @@ export default function HeaderLinks(props) {
                 <Link to="/profile">Profile</Link>
               </li>
             )}
+              {
+              isAuth && <li>
+                <Link to="/launchpad">Launchpad</Link>
+              </li>
+            }
+             {
+              isAuth && 
+              <li>
+                <Link to="/staking-list">Staking</Link>
+              </li>
+            }
+          
             {/* {
               isAuth && <li>
                 <Link to="/profile">KYC</Link>
