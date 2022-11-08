@@ -1,0 +1,6 @@
+{
+    "name": "TwoFA",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./TwoFA.js"
+}

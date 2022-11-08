@@ -1,0 +1,6 @@
+{
+    "name": "EditPostModal",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./EditPostModal.js"
+}

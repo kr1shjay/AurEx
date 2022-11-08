@@ -1,0 +1,6 @@
+{
+    "name": "UpgradeProfile",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./UpgradeProfile.js"
+}
