@@ -1,0 +1,6 @@
+{
+    "name": "P2pSetting",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./P2pSetting.js"
+}

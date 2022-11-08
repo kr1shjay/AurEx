@@ -1,0 +1,6 @@
+{
+    "name": "Launchpad",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./Launchpad.js"
+}

@@ -1,0 +1,6 @@
+{
+    "name": "EmailChange",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./EmailChange.js"
+}
