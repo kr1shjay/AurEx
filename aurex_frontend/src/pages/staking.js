@@ -6,7 +6,7 @@ import DataTable from 'react-data-table-component';
 import Checkbox from 'rc-checkbox';
 
 
-import FooterInner from "../components/Footer/Footer_innerpage"
+import Footer from "../components/Footer/Footer"
 import FlexibleStake from '../components/FlexibleStake'
 import FlexibleOrderList from '../components/FlexibleStake/OrderList'
 import FlexibleStakeHistory from '../components/FlexibleStake/StakeHistory'
@@ -73,7 +73,7 @@ export default function StakingPage(props) {
 
                   <GridItem xs={12} sm={12} md={12} lg={12}>
                     <div className="table_p2p_section inprofile cion_table_sectio">
-                      <div className="d-flex justify-content-between">
+                      <div>
                         <ul class="nav nav-tabs ">
                           <li class="active"><a data-toggle="tab" class="active" href="#Flexible">{t('FLEX_STAKING')}</a></li>
                           <li><a data-toggle="tab" class="" href="#Locked">{t('LOCKED_STAKING')}</a></li>
@@ -144,7 +144,7 @@ export default function StakingPage(props) {
           </div>
         </div>
       </div>
-      <FooterInner />
+      <Footer />
       {/* model */}
 
 

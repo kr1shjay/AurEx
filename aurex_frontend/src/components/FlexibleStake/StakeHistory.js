@@ -150,9 +150,9 @@ const StakeHistory = () => {
         <div className="dashboard_box stakingHistoryTable">
             <div className="newUsersFilter contact_form settingsSelect mb-0">
                 <div className="newsSelectGroup">
-                    <label>{t('FILTER_BY')}</label>
+                    <label className='mb-0'>{t('FILTER_BY')}</label>
                     <Select
-                        className="marginSpace"
+                        className="marginSpace min_height_select"
                         value={coin}
                         name="coin"
                         onChange={handleChange}
@@ -171,7 +171,7 @@ const StakeHistory = () => {
                         }
                     </Select>
                     <Select
-                        className="marginSpace"
+                        className="marginSpace min_height_select"
                         value={type}
                         name="type"
                         onChange={handleChange}
@@ -194,7 +194,7 @@ const StakeHistory = () => {
                 pagination
                 paginationServer
                 onChangeRowsPerPage={handlePerRowsChange}
-                onChangePage={handlePageChange}
+                onChangePage={handlePageChange}  className='text_center_div_table stak_his_table'
             />
         </div>
     )

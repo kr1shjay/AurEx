@@ -45,6 +45,7 @@ const UserBalance = () => {
                         console.log("itemssssssssssss",item.spotBal,item.coin,CNVPriceData)
 
                         if (CNVPriceData) {
+
                             let bal = (item.spotBal / CNVPriceData.convertPrice)
                             let CNVPrice = priceConversion.find(el => el.baseSymbol == reqData.firstCurrencySymbol && el.convertSymbol == userSetting.currencySymbol)
                             if (CNVPrice) {
@@ -54,7 +55,8 @@ const UserBalance = () => {
                     }
                 } else {
                     let CNVPriceData = priceConversion.find(el => el.baseSymbol == item.coin && el.convertSymbol == userSetting.currencySymbol)
-                   if (CNVPriceData) {
+                    // console.log("CNVPriceDataCNVPriceDataCNVPriceData",CNVPriceData,item.coin)
+                    if (CNVPriceData) {
                         estBal = estBal + (item.spotBal * CNVPriceData.convertPrice)
                     }
                 }
@@ -63,7 +65,8 @@ const UserBalance = () => {
             
             console.log("estBalestBalestBal",estBal)
             
-           priceConversion.find(el => 
+            console.log("proiceconversionssssssssssssssssssssssss", priceConversion)
+            priceConversion.find(el => 
                 {
                 //     console.log("aaaaaaaaaaaaaaaaaaaaaaaaa",
                 //     el.baseSymbol,
@@ -78,7 +81,6 @@ const UserBalance = () => {
                 
                 // el.baseSymbol == reqData.firstCurrencySymbol && el.convertSymbol == userSetting.currencySymbol
                 )
-          
             let firPriceCNV = priceConversion.find(el => el.baseSymbol == reqData.firstCurrencySymbol && el.convertSymbol == userSetting.currencySymbol)
             if (firPriceCNV) {
                 setTotalBals((estBal / firPriceCNV.convertPrice))

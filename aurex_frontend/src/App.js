@@ -147,7 +147,7 @@ const App = () => {
                             <ConditionRoute exact path='/referral' component={Referral} type={"private"} />
                             <ConditionRoute exact path='/notification' component={Notification} type={"private"} />
                             <ConditionRoute exact path="/launchpad" component={Launchpad} type={"private"} />
-                            <ConditionRoute exact path="/launchpad-details/:launchId" component={TokenDetailPage} type={"private"} />
+                            <ConditionRoute exact path="/launchpad/:launchId" component={TokenDetailPage} type={"private"} />
                             {/* PRIVATE */}
 
 

@@ -8,6 +8,8 @@ import GridItem from "components/Grid/GridItem.js";
 import Announcement from '../Announcement';
 import BuyToken from './BuyToken';
 import History from './History';
+import Launchpaddetails from '../Launchpad/Launchpaddetails';
+import Footer from '../../components/Footer/Footer';
 
 // import action
 import { getLaunchpad } from '../../actions/launchpad';
@@ -15,6 +17,10 @@ import { getLaunchpad } from '../../actions/launchpad';
 // import lib
 import isEmpty from '../../lib/isEmpty';
 import { dateTimeFormat } from '../../lib/dateTimeHelper'
+
+
+import launchpad_round from "../../assets/images/launchpad_round.png"
+
 
 const LaunchpadDetail = () => {
     const { launchId } = useParams();
@@ -39,57 +45,157 @@ const LaunchpadDetail = () => {
         fetchLaunchpad()
     }, [])
     return (
-
-        <div className="container">
+        <>
+        <div className="container-fluid">
+            <Launchpaddetails />
 
             {
                 loader && isEmpty(data) && <div className="loader loader-1">
-                    <div class="loader-outter"></div>
-                    <div class="loader-inner"></div>
+                    <div className="loader-outter"></div>
+                    <div className="loader-inner"></div>
                 </div>
             }           
 
             {
-                !loader && !isEmpty(data) && <div className="whiteBoxLaunchpad dashboard_box">
-                     {
-                        !loader && !isEmpty(data) && 
-                        <div className='launchPadCoinDetails'>
-                            <div className="launchpadCoinName">
-                                <img src={data.image} className="img-fluid" />
-                                <h3>{data.name} <small>{data.coin}</small></h3>
-                            </div>
-                            <h4>{dateTimeFormat(data.startTimeStamp)} - {dateTimeFormat(data.endTimeStamp)}</h4>
-                        </div>                       
-                    }
+                !loader && !isEmpty(data) && <div className="whiteBoxLaunchpad">
+                  
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-7">
+                        <div className="whiteBoxLaunchpad dashboard_box dash_border mb-0 h-100">
                             <div className="projectIntroduction">
-                                <h3>Project Introduction</h3>
-                                <ul>
+                            {
+                        !loader && !isEmpty(data) && 
+                        <div className=''>
+                            <div className="launchpadCoinName">
+                                <h3 className='title_green_launchpad'>{data.name} <small className='text_sm_white mb-0'>{data.coin}</small></h3>
+                            </div>
+                            <div className='row'>
+                            <div className='col-12 col-md-5 col-lg-4'>
+                            <div className='finish_col finish_col_round'>
+
+                            <img src=
+                            // {data.image} 
+                            {launchpad_round}
+                            alt="Banner" className="img-fluid" />                                      
+                                        <span className='badge_finish'>
+                                            <span className='check_round'><i className="fa fa-check"></i></span>
+                                            <span className='finish_tect_tag ml-2'>Finished</span>
+                                        </span>
+                                        </div>
+
+                         
+                            </div>
+                            <div className='col-12 col-md-7 col-lg-8 mt-4 mt-md-0'>
+                            <div className='timer_card_grey ml-lg-auto'>
+                            <p className='my-0'>{dateTimeFormat(data.startTimeStamp)} - {dateTimeFormat(data.endTimeStamp)}</p>
+
+                                </div>
+                            <h3 className='proj_intro_text'>Project Introduction</h3>
+                                <ul className='proj_ul_new'>
                                     <li><span>Name</span> {data.name}</li>
                                     <li><span>Industry</span> {data.industry}</li>
                                     <li><span>Website</span> {data.website}</li>
                                 </ul>
-                                <div dangerouslySetInnerHTML={{ __html: data.content }} />
+                                <div dangerouslySetInnerHTML={{ __html: data.content }} className="text_white_desc" />
+                          
 
-                                <h3>Token Details</h3>
-                                <ul>
-                                    <li><span>Name</span> {data.name}</li>
-                                    <li><span>Symbol</span> {data.symbol}</li>
-                                    <li><span>Token Sale Start Date</span> {dateTimeFormat(data.startTimeStamp)}</li>
-                                    <li><span>Token Sale End Date</span> {dateTimeFormat(data.endTimeStamp)}</li>
-                                    <li><span>Token Launch Price</span>{data.launchPrice} {data.launchCoin}</li>
-                                    <li><span>Minimim Purchase Amount</span> {data.minAmount} {data.coin}</li>
-                                    <li><span>Accepted Currencies</span> {data.availableCoin.join(', ')}</li>
-                                    <li><span>Discount</span>{data.discount > 0 ? `${data.discount}%` : '0%'} </li>
-                                    <li><span>Token Available to Sale</span> {data.availableSupply}</li>
-                                    <li><span>Token Max Supply</span> {data.maxSupply}</li>
-                                </ul>
-                                <h3>Documents</h3>
-                                <p className="project_docs"><a href={data.whitePaper} target="_blank" className="active">Whitepaper</a></p>
+
+                            </div>
+                            </div>
+                        </div>                       
+                    }
+                                
+                    <hr className='hr_blue' />
+                                <h3 className='proj_intro_text'>Token Details</h3>
+                                <div className="row">
+                                    <div className="col-12 col-lg-6">
+                                        <div className="grid_values">
+                                            <p className="text_white_launch_p">Name</p>
+                                            <p className='text_grey_launch_p'>{data.name}</p>
+                                            </div>
+                                            <div className="grid_values">
+                                                <p className="text_white_launch_p">Symbol</p>
+                                                <p className='text_grey_launch_p'>{data.symbol}</p>
+                                            </div>
+                                            <div className="grid_values">
+                                                <p className="text_white_launch_p">Token Sale Start Date</p>
+                                                <p className='text_grey_launch_p'>{dateTimeFormat(data.startTimeStamp)}</p>
+                                                </div>
+                                                <div className="grid_values">
+                                                    <p className="text_white_launch_p">Token Sale End Date</p>
+                                                    <p className='text_grey_launch_p'>{dateTimeFormat(data.endTimeStamp)}</p>
+                                                    </div>
+                                                    <div className="grid_values">
+                                                            <p className="text_white_launch_p">Token Launch Price</p>
+                                                            <p className='text_grey_launch_p'>{data.launchPrice} {data.launchCoin}</p>
+                                                            </div>
+                                                    </div>
+                                                    <div className="col-12 col-lg-6 mb-3 mb-lg-0">
+                                                       
+                                                            <div className="grid_values">
+                                                                <p className="text_white_launch_p">Minimim Purchase Amount</p>
+                                                                <p className='text_grey_launch_p'>{data.minAmount} {data.coin}</p>
+                                                                </div>
+                                                                <div className="grid_values">
+                                                                    <p className="text_white_launch_p">Accepted Currencies</p>
+                                                                    <p className='text_grey_launch_p'>{data.availableCoin.join(', ')}</p>
+                                                                    </div>
+                                                                    <div className="grid_values">
+                                                                        <p className="text_white_launch_p">Discount</p>
+                                                                        <p className='text_grey_launch_p'>{data.discount > 0 ? `${data.discount}%` : '0%'}</p>
+                                                                        </div>
+                                                                    
+                                                                        <div className="grid_values">
+                                                                        <p className="text_white_launch_p">Token Available to Sale</p>
+                                                                        <p className='text_grey_launch_p'>{data.availableSupply}</p>
+                                                                        </div>
+
+                                                                        <div className="grid_values">
+                                                                        <p className="text_white_launch_p">Token Max Supply</p>
+                                                                        <p className='text_grey_launch_p'>{data.maxSupply}</p>
+                                                                        </div>
+                                                                        </div>
+                                                                        </div>
+                                                                        <div className='document_sec'>
+                            <div className='row'>
+                                <div className='col-12 col-md-6'>
+                                <p className='proj_intro_text my-3'>Documents</p>
+                                </div>
+                                <div className='col-12 col-md-6'>
+                                <p className="project_docs my-3"><a href={data.whitePaper} target="_blank" className="active">Whitepaper</a></p>
+
+                                </div>
+                            </div>
+                            </div>
+                            <div className='timeline_details'>
+                            <h3 className='proj_intro_text'>Subscription Timeline</h3>
+                            <div className='row mt-5 ml-2'>
+                                <div className='col-12 completed'>
+                                    <p className='timeline_head'>BNB holding calculation period</p>
+                                    <p className='timeline_desc'>22-03-01 16:00</p>
+                                </div>
+                                <div className='col-12 completed'>
+                                    <p className='timeline_head'>Subscription period</p>
+                                    <p className='timeline_desc'>22-03-01 22:00</p>
+                                </div>
+                                <div className='col-12 completed'>
+                                    <p className='timeline_head'>Calculation period</p>
+                                    <p className='timeline_desc'>22-03-01 02:00</p>
+                                </div>
+                                <div className='col-12 final'>
+                                    <p className='timeline_head'>Final token distribution</p>
+                                    <p className='timeline_desc'>22-03-01 16:00</p>
+                                </div>
+                            </div>
+                            <div className='text_white_desc ml-5'>
+                            <p>The allocation calculation is complete. We will deduct the corresponding BNB from your account based on your final GMT allocation, which will be transferred to your spot account along with your remaining BNB.</p>
+                            </div>
+                            </div>
+                           </div>
                             </div>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-5">
+                        <div className="whiteBoxLaunchpad dashboard_box h-100">
                             <BuyToken
                                 data={data}
                                 setData={setData}
@@ -98,7 +204,7 @@ const LaunchpadDetail = () => {
                                 launchId={launchId}
                             />
                             <div className="socialMediaCoinDetails">
-                                <h3>Social Media</h3>
+                                <h3 className='proj_intro_text'>Social Media</h3>
                                 <ul>
                                     <li><a href={data.telegram} target="_blank"><i className="fab fa-telegram-plane"></i></a></li>
                                     <li><a href={data.twitter} target="_blank"><i className="fab fa-twitter"></i></a></li>
@@ -107,11 +213,19 @@ const LaunchpadDetail = () => {
                                     <li><a href={data.linkedIn} target="_blank"><i className="fab fa-linkedin-in"></i></a></li>
                                 </ul>
                             </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             }
+            
+          
+
         </div>
+        <div className='mt-5'>
+          <Footer />
+          </div>
+          </>
     )
 }
 

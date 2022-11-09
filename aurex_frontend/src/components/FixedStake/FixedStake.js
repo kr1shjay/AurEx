@@ -185,7 +185,7 @@ const FixedStake = () => {
             }
         },
         {
-            name: '',
+            name: 'Action',
             selector: 'button',
             sortable: false,
             cell: (record) => {
@@ -267,7 +267,7 @@ const FixedStake = () => {
                 columns={columns}
                 data={fetchData}
                 noHeader
-                progressPending={loader}
+                progressPending={loader} className="text_center_div_table staking_btn_table"
             />
         </Fragment>
 

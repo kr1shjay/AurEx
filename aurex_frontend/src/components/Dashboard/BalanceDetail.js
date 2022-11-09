@@ -30,9 +30,7 @@ const BalanceDetail = () => {
     const fetchBalance = async () => {
         try {
             const { status, loading, result } = await getDashBal();
-            console.log("result dash  : ",result)
             if (status == 'success') {
-               
                 setDashList(result)
             }
         } catch (err) { }

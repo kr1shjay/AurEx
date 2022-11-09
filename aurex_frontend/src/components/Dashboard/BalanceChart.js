@@ -17,7 +17,7 @@ const initialFormValue = [{
 const BalanceChart = (props) => {
     // props
     const { result } = props;
-    console.log("result : ",result)
+
     // state
     const [assetList, setAssetList] = useState([])
     const [dataPts, setDataPts] = useState(initialFormValue)
@@ -52,7 +52,6 @@ const BalanceChart = (props) => {
 
     useEffect(() => {
         if (result && result.length > 0) {
-           
             let arr = [], isDefault = true;
             result.map((item, index) => {
                 if ((item.derivativeBal + item.spotBal + item.p2pBal) > 0) {

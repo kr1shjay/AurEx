@@ -7,7 +7,9 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import ActiveList from './ActiveList'
 import CompletedList from './CompletedList';
+import Launchpaddetails from './Launchpaddetails';
 import { Button } from "@material-ui/core";
+import Footer from '../../components/Footer/Footer';
 
 //config
 import config from '../../config';
@@ -23,15 +25,26 @@ const Launchpad = () => {
     }
 
     return (
-        <div className="container">
+        <>
+        <div className="container-fluid">
+            <Launchpaddetails />
+           
             <div class="dashboard_box launchpad_box">
                 <GridContainer>
-                    <GridItem lg={12}>                        
+                    <GridItem lg={12}>  
+                    <div className='d-flex align-items-center justify-content-between'>
+                        <div>
                         <h3 className="login_title_8">Launchpad</h3>
-                        <h4>For Dynamic Token Listing</h4>
-                        <Button className="btn btn-primary mb-3" onClick={handleClick}>Apply</Button>
-                        <div className="copy_trading_top_panel">
-                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                        <p className='text_sm_white'>Explore the Crypto Newbies</p>
+                        </div>
+                        <div>
+                        <Button className="btn btn-green-new mb-3" onClick={handleClick}>Apply</Button>
+
+                        </div>
+                    </div>                      
+                      
+                        <div className="copy_trading_top_panel mt-4">
+                            <ul class="nav nav-pills primaryNav block_nav" id="pills-tab" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <a
                                         className="nav-link active"
@@ -86,6 +99,8 @@ const Launchpad = () => {
 
             </div>
         </div>
+        <Footer />
+        </>
     )
 }
 

@@ -44,7 +44,7 @@ const LaunchpadPage = (props) => {
             {...rest}
           />
 
-          <div className="settingsContent userPages">
+          <div className="settingsContent userPages pb-0">
             <div className="inner_wrapper">
               <div className="inner_pageheader container-fluid px-0">
 

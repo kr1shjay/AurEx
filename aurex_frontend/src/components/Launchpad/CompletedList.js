@@ -15,6 +15,8 @@ import { launchpadList } from '../../actions/launchpad'
 // import lib
 import { dateTimeFormat } from '../../lib/dateTimeHelper';
 
+import bannerimg1 from "../../assets/images/launchpad1.jpg"
+
 const CompletedList = (props) => {
     const history = useHistory();
 
@@ -82,47 +84,100 @@ const CompletedList = (props) => {
                             let currency = currencyData.find(el => el._id == item.currencyId);
                             if (currency) {
                                 return (
-                                    <GridItem md={4} sm={6} key={key}>
-                                        <div className="launchpad_token_single wow fadeInUp">
-                                            <img
-                                                src={currency.image}
-                                                alt="Banner"
-                                                className="img-fluid"
-                                            />
-                                            <h4 className="text-center">{currency.coin}</h4>
-                                            <h6 className="text-center">{currency.name}</h6>
-                                            <hr />
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <p>Available Currency</p>
-                                                <p>{
-                                                    item.availableCoin.map(function (currencyId) {
-                                                        let currency = currencyData.find(el => el._id == currencyId);
-                                                        return currency.coin;
-                                                    }).join(', ')
-                                                }</p>
-                                            </div>
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <p>Session Supply</p>
-                                                <p>{item.maxSupply}</p>
-                                            </div>
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <p>Start</p>
-                                                <p>{dateTimeFormat(item.startTimeStamp, 'YYYY-MM-DD HH:mm')}</p>
-                                            </div>
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <p>End</p>
-                                                <p>{dateTimeFormat(item.endTimeStamp, 'YYYY-MM-DD HH:mm')}</p>
-                                            </div>
-                                            <div className="text-center mb-4 mt-4">
-                                                <Button
-                                                    className="btn btn-primary"
-                                                    onClick={() => history.push('/launchpad-details/' + item._id)}
-                                                >
-                                                    View
-                                                </Button>
+
+                                    <GridItem md={12} sm={12} key={key}>
+                                    <div className="launchpad_card_view mt-4 wow fadeInUp">
+                                    <div className='row'>
+                                                <div className='col-12 col-lg-4 mb-3 mb-lg-0 finish_col'>
+                                        <img
+                                            src=
+                                            // {currency.image}
+                                            {bannerimg1}
+                                            alt="Banner"
+                                            className="img-fluid"
+                                        />
+                                        <span className='badge_finish'>
+                                            <span className='check_round'><i class="fa fa-check"></i></span>
+                                            <span className='finish_tect_tag ml-2'>Finished</span>
+                                        </span>
+                                        </div>
+                                        <div className='col-12 col-lg-8'>
+                                        <div className='row mb-3'>
+                                        <div className='col-12 col-lg-6 mb-3 mb-lg-0'>
+                                        <h4>{currency.coin}</h4>
+                                        <h6 className='text_green_sm'>{currency.name}</h6>
+                                        </div>
+                                        </div>
+                                        <div className='row'>
+                                                        <div className='col-12 col-lg-6'>
+                                                        <div className="grid_values">
+                                            <p>Available Currency</p>
+                                            <p>{
+                                                item.availableCoin.map(function (currencyId) {
+                                                    let currency = currencyData.find(el => el._id == currencyId);
+                                                    return currency.coin;
+                                                }).join(', ')
+                                            }</p>
+                                        </div>
+                                        <div className="grid_values">
+                                            <p>Session Supply</p>
+                                            <p>{item.maxSupply}</p>
+                                        </div>
+                                        <div className="grid_values">
+                                            <p>Start</p>
+                                            <p>{dateTimeFormat(item.startTimeStamp, 'YYYY-MM-DD HH:mm')}</p>
+                                        </div>
+                                        <div className="grid_values">
+                                            <p>End</p>
+                                            <p>{dateTimeFormat(item.endTimeStamp, 'YYYY-MM-DD HH:mm')}</p>
+                                        </div>
+                                        </div>
+
+                                        <div className='col-12 col-lg-6'>
+                                                        <div className="grid_values">
+                                            <p>Available Currency</p>
+                                            <p>{
+                                                item.availableCoin.map(function (currencyId) {
+                                                    let currency = currencyData.find(el => el._id == currencyId);
+                                                    return currency.coin;
+                                                }).join(', ')
+                                            }</p>
+                                        </div>
+                                        <div className="grid_values">
+                                            <p>Session Supply</p>
+                                            <p>{item.maxSupply}</p>
+                                        </div>
+                                        <div className="grid_values">
+                                            <p>Start</p>
+                                            <p>{dateTimeFormat(item.startTimeStamp, 'YYYY-MM-DD HH:mm')}</p>
+                                        </div>
+                                        <div className="grid_values">
+                                            <p>End</p>
+                                            <p>{dateTimeFormat(item.endTimeStamp, 'YYYY-MM-DD HH:mm')}</p>
+                                        </div>
+                                        </div>
+                                        </div>
+
+                                        <div className="text-right mb-2 mt-2">
+                                            <Button
+                                                className="btn btn-green-sm"
+                                                onClick={() => history.push('/launchpad-details/' + item._id)}
+                                            >
+                                                View
+                                            </Button>
+                                        </div>
                                             </div>
                                         </div>
+                                      
+                                     
+                                       
+                                       
+                                      
+                                    </div>
                                     </GridItem>
+
+
+                                 
                                 )
                             }
                         })
@@ -132,7 +187,7 @@ const CompletedList = (props) => {
 
             {
                 !loader && data && data.length > 0 && count > data.length && <div className="text-center mt-3">
-                    <Button className="btn btn-primary px-4"
+                    <Button className="btn_view_link"
                         onClick={fetchMore}
                     >
                         View more</Button>

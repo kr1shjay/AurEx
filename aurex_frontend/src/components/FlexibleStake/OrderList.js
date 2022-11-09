@@ -25,7 +25,7 @@ const SubscribeStake = () => {
     return (
         <div className="dashboard_box">
             {/* <h5 className="dash_subtitle">Current Subscription</h5> */}
-            <div className="stakingSubscription">
+            <div className="stakingSubscription stakingSubscription_bg_trans">
                 <Scrollbars style={{ width: "100%", height: 250 }}>
                     <ul>
                         {
@@ -55,10 +55,10 @@ const SubscribeStake = () => {
                             })
                         }
                         {
-                            !loader && data && data.length == 0 && <li className='text-center'>{t('NO_RECORD')}</li>
+                            !loader && data && data.length == 0 && <li className='text-center justify-content-center'>{t('NO_RECORD')}</li>
                         }
                         {
-                            loader && <li className='text-center'>{t('LOADING')}</li>
+                            loader && <li className='text-center justify-content-center'>{t('LOADING')}</li>
                         }
                     </ul>
                 </Scrollbars>

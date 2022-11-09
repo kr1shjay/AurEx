@@ -4,6 +4,7 @@ import { Button } from "@material-ui/core";
 import clsx from 'classnames'
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import BuyConfirm from './BuyConfirm';
 
 // import action
 import { purchaseToken, addListPurchase } from '../../actions/launchpad'
@@ -47,6 +48,8 @@ const BuyToken = (props) => {
     const { t, i18n } = useTranslation();
     const dispatch = useDispatch();
 
+   const [shows, buyShow] = useState(false); 
+
     // props
     const { data, setData } = props;
 
@@ -84,6 +87,7 @@ const BuyToken = (props) => {
     }
 
     const calculation = (price, quantity, coin, type = 'price') => {
+        console.log("calculation : ",priceConversion)
         if (type == 'price' && !isEmpty(priceConversion)) {
             let conversionData = priceConversion.find(el => el.baseSymbol == coin && el.convertSymbol == data.launchCoin);
             if (conversionData) {
@@ -189,7 +193,7 @@ const BuyToken = (props) => {
         })
     }, [priceConversion])
     return (
-        <div className="whiteShadowBox contact_form">
+        <div className="contact_form form_append_grey">
             <ul className="choose_coin_list">
                 {
                     data.availableCoin && data.availableCoin.length > 0 && data.availableCoin.map((item, key) => {
@@ -216,7 +220,7 @@ const BuyToken = (props) => {
                     })
                 }
             </ul>
-            <div className="form-group">
+            <div className="form-group mt-5">
                 <label>Price</label>
                 <div className="input-group mb-3">
                     <input
@@ -271,19 +275,21 @@ const BuyToken = (props) => {
                 </div>
             </div>
             <div className="form-group">
-                <label>Balance: <small>{asset.spotBal}</small></label>
+                <label>Balance : <span>{asset.spotBal}</span></label>
             </div>
             {
-                data.dateStatus == 'active' && <div className="text-center">
-                    <Button
+                data.dateStatus == 'active' && <div className="text-left">
+                    {/* <Button
                         className="btn btn-primary mb-3 px-4"
                         onClick={handleSubmit}
                         disabled={loader}
                     >
                         {loader && <i class="fas fa-spinner fa-spin"></i>}
                         Buy Token
-                    </Button>
-                </div>
+                    </Button> */}  {shows && <BuyConfirm onSumbit={handleSubmit} onDismiss = {() => buyShow(false) }/>}
+                    <Button className="btn btn-primary mb-3 px-4" onClick={()=>buyShow(true)}>Buy Token</Button>
+                 
+                                    </div>
             }
 
         </div>

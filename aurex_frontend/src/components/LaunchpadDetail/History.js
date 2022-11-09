@@ -33,10 +33,10 @@ const History = (props) => {
     }, [])
 
     return (
-        <div className="whiteShadowBox">
-            <h3>My Trades</h3>
+        <div className="my_trade_table_sec">
+            <h3 className='proj_intro_text'>My Trades</h3>
             <div className="table-responsive">
-                <table className="table">
+                <table className="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -64,12 +64,12 @@ const History = (props) => {
                             !loader && data && data.length > 0 && data.map((item, key) => {
                                 return (
                                     <tr>
-                                        <td className="text-center">{dateTimeFormat(item.createdAt, 'YYYY-MM-DD HH:mm')}</td>
-                                        <td className="text-center">{item.sendCoin}</td>
-                                        <td className="text-center">{item && item.price && toFixed(item.price, decimalETH != '' ? decimalETH : 0)}</td>
-                                        <td className="text-center">{item.quantity}</td>
-                                        <td className="text-center">{item.discount}</td>
-                                        <td className="text-center">{item.total && toFixed(item.total, decimalETH != '' ? decimalETH : 0)}</td>
+                                        <td>{dateTimeFormat(item.createdAt, 'YYYY-MM-DD HH:mm')}</td>
+                                        <td>{item.sendCoin}</td>
+                                        <td>{item && item.price && toFixed(item.price, decimalETH != '' ? decimalETH : 0)}</td>
+                                        <td>{item.quantity}</td>
+                                        <td>{item.discount}</td>
+                                        <td>{item.total && toFixed(item.total, decimalETH != '' ? decimalETH : 0)}</td>
                                     </tr>
                                 )
                             })

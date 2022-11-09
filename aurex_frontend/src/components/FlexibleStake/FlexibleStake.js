@@ -36,7 +36,7 @@ const stakingHistoryColumns = [
     },
 
     {
-        name: '',
+        name: 'Action',
         selector: 'button',
         sortable: false,
     },
@@ -119,7 +119,7 @@ const FlexibleStake = () => {
                 columns={stakingHistoryColumns}
                 data={list}
                 noHeader
-                progressPending={loader}
+                progressPending={loader} className="text_center_div_table staking_btn_table"
             />
         </Fragment>
 
