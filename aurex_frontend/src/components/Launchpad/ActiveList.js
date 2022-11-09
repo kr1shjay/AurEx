@@ -107,6 +107,7 @@ const ActiveList = (props) => {
                                         <div className="launchpad_card_view mt-4 wow fadeInUp">
                                             <div className='row'>
                                                 <div className='col-12 col-lg-4 mb-3 mb-lg-0'>
+                                                <div className='finish_col_boundary'>
                                                 <img
                                                 src=
                                                  {currency.image}
@@ -114,6 +115,7 @@ const ActiveList = (props) => {
                                                 alt="Banner"
                                                 className="img-fluid"
                                             />
+                                            </div>
                                                 </div>
                                                 <div className='col-12 col-lg-8'>
                                                     <div className='row mb-3'>
