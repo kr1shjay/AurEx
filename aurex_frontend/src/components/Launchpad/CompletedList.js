@@ -89,6 +89,7 @@ const CompletedList = (props) => {
                                     <div className="launchpad_card_view mt-4 wow fadeInUp">
                                     <div className='row'>
                                                 <div className='col-12 col-lg-4 mb-3 mb-lg-0 finish_col'>
+                                       <div className='finish_col_boundary'>
                                         <img
                                             src=
                                             // {currency.image}
@@ -96,6 +97,7 @@ const CompletedList = (props) => {
                                             alt="Banner"
                                             className="img-fluid"
                                         />
+                                        </div>
                                         <span className='badge_finish'>
                                             <span className='check_round'><i class="fa fa-check"></i></span>
                                             <span className='finish_tect_tag ml-2'>Finished</span>
