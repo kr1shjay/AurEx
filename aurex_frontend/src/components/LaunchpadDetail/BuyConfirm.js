@@ -41,7 +41,7 @@ const BuyConfirm = (props) => {
           <div className="d-flex justify-content-between mt-4 pb-4">
           
           <button type="button" class="btn btn-bordered-secondary w-100 mt-3 mr-3"  onClick={()=>props.onDismiss()}>Cancel</button>
-            <button
+            <button onClick={(e)=>props.onSumbit(e)}
               type="button"
               class="btn btn-primary w-100 mt-3"             
             >

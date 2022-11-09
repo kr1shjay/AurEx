@@ -87,6 +87,7 @@ const BuyToken = (props) => {
     }
 
     const calculation = (price, quantity, coin, type = 'price') => {
+        console.log("calculation : ",priceConversion)
         if (type == 'price' && !isEmpty(priceConversion)) {
             let conversionData = priceConversion.find(el => el.baseSymbol == coin && el.convertSymbol == data.launchCoin);
             if (conversionData) {
@@ -285,7 +286,7 @@ const BuyToken = (props) => {
                     >
                         {loader && <i class="fas fa-spinner fa-spin"></i>}
                         Buy Token
-                    </Button> */}  {shows && <BuyConfirm onDismiss = {() => buyShow(false) }/>}
+                    </Button> */}  {shows && <BuyConfirm onSumbit={handleSubmit} onDismiss = {() => buyShow(false) }/>}
                     <Button className="btn btn-primary mb-3 px-4" onClick={()=>buyShow(true)}>Buy Token</Button>
                  
                                     </div>

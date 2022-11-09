@@ -35,7 +35,7 @@ const Launchpad = () => {
                     <div className='d-flex align-items-center justify-content-between'>
                         <div>
                         <h3 className="login_title_8">Launchpad</h3>
-                        <p className='text_sm_white'>For Dynamic Token Listing</p>
+                        <p className='text_sm_white'>Explore the Crypto Newbies</p>
                         </div>
                         <div>
                         <Button className="btn btn-green-new mb-3" onClick={handleClick}>Apply</Button>
