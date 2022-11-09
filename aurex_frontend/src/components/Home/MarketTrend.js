@@ -170,22 +170,34 @@ const MarketTrend = () => {
 
                                 } */}
                                 <div>
+                                    <div className='banner_carousel_boundary'>
                                     <img src={require("../../assets/images/banner_img_01.png")} alt="Banner" className="img-fluid" />
+                                    </div>
                                 </div>
                                 <div>
+                                <div className='banner_carousel_boundary'>
                                     <img src={require("../../assets/images/banner_img_02.png")} alt="Banner" className="img-fluid" />
                                 </div>
+                                </div>
                                 <div>
+                                <div className='banner_carousel_boundary'>
                                     <img src={require("../../assets/images/banner_img_01.png")} alt="Banner" className="img-fluid" />
                                 </div>
-                                <div>
-                                    <img src={require("../../assets/images/banner_img_02.png")} alt="Banner" className="img-fluid" />
                                 </div>
                                 <div>
+                                <div className='banner_carousel_boundary'>
+                                    <img src={require("../../assets/images/banner_img_02.png")} alt="Banner" className="img-fluid" />
+                                </div>
+                                </div>
+                                <div>
+                                <div className='banner_carousel_boundary'>
                                     <img src={require("../../assets/images/banner_img_01.png")} alt="Banner" className="img-fluid" />
                                 </div>
+                                </div>
                                 <div>
+                                <div className='banner_carousel_boundary'>
                                     <img src={require("../../assets/images/banner_img_02.png")} alt="Banner" className="img-fluid" />
+                                </div>
                                 </div>
                             </Slider>
                         </div>
