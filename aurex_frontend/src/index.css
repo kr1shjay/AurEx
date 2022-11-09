@@ -28609,6 +28609,10 @@ min-height: 410px !important;
 
 @media only screen and (max-width:575px)
 {
+  .nav_item_count
+  {
+    margin-top: 10px !important;
+  }
   .btnGroupPercent .btn {
     height: 45px !important;
     min-width: 56px !important;
@@ -29959,4 +29963,22 @@ width: 40px;
     box-shadow: 0 0 0px #c4b5b57d !important;
     background: #d4d5d6;
     border-radius: 15px;
+}
+.position_text_count
+{
+  position: relative;
+}
+.count_value_badge
+{
+background: #21b77a;
+width: 20px;
+height:20px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+color:#fff !important;
+position: absolute;
+right: -25px;
+top: -15px;
 }
