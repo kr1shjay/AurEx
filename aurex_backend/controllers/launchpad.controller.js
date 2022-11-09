@@ -259,7 +259,10 @@ export const getAllLaunchpad = async (req, res) => {
         else if (reqParam.listType == 'completed') {
             findObj['endTimeStamp'] = { "$lt": getTimeStamp('current') }
         }
-
+        let totalLaunches = await Launchpad.countDocuments({})
+        let totalPurchased = await TokenPurchase.find({}).select({ "total": 1, "quantity": 1, "_id": 0});
+        var totalBought = totalPurchased.reduce(function (acc, obj) { return acc + parseFloat(obj.total); }, 0);
+        var totalSold = totalPurchased.reduce(function (acc, obj) { return acc + parseFloat(obj.quantity); }, 0);
         let count = await Launchpad.countDocuments(findObj)
         let launchpadDoc = await Launchpad.find(findObj, {
             "availableCoin": 1,
@@ -279,7 +282,11 @@ export const getAllLaunchpad = async (req, res) => {
         }).sort({ 'createdAt': -1 }).skip(pagination.skip).limit(pagination.limit)
         let result = {
             count,
-            data: launchpadDoc
+            data: launchpadDoc,
+            bought: totalBought,
+            sold: totalSold,
+            all:totalLaunches
+
         }
         return res.status(200).json({ 'success': true, 'message': 'FETCH_SUCCESS', result })
     } catch (err) {

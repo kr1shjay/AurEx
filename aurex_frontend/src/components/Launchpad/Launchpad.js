@@ -55,7 +55,7 @@ const Launchpad = () => {
                                         aria-controls="pills-active_tokens"
                                         aria-selected="true"
                                     >
-                                        Active Tokens {activeCnt > 0 && <span> - {activeCnt}</span>}
+                                        Active  {activeCnt > 0 && <span>  {activeCnt}</span>}
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
@@ -68,7 +68,7 @@ const Launchpad = () => {
                                         aria-controls="pills-completed_tokens"
                                         aria-selected="false"
                                     >
-                                        Completed Tokens {completedCnt > 0 && <span> - {completedCnt}</span>}
+                                        Completed  {completedCnt > 0 && <span>  {completedCnt}</span>}
                                     </a>
                                 </li>
                             </ul>
