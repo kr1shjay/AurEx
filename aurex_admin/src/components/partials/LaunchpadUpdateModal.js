@@ -318,7 +318,7 @@ class LaunchpadUpdateModal extends React.Component {
                                 <span className="text-danger">{errors.currencyId}</span>
                             </div>
                             <div className="col-md-2">
-                                <Link to={'/currency'}>Add Currency</Link>
+                                <Link to={'/currency'} className="link_new_green">Add Currency</Link>
                             </div>
                         </div>
 
@@ -361,7 +361,7 @@ class LaunchpadUpdateModal extends React.Component {
                                 </label>
                                 <span className="text-danger">{errors.whitePaper}</span>
                                 {whitePaper &&
-                                    <a target="_blank" href={fileObjectUrl(whitePaper)}>view</a>
+                                    <a target="_blank" href={fileObjectUrl(whitePaper)} className="link_new_green">view</a>
                                 }
                             </div>
                         </div>
@@ -370,7 +370,7 @@ class LaunchpadUpdateModal extends React.Component {
                             <div className="col-md-3">
                                 <label htmlFor="price">Launch Price</label>
                             </div>
-                            <div className="col-md-4">
+                            <div className="col-md-9">
                                 <input
                                     name="launchPrice"
                                     type="text"
@@ -384,11 +384,16 @@ class LaunchpadUpdateModal extends React.Component {
                                 <span className="text-danger">{errors.launchPrice}</span>
                             </div>
 
-                            <div className="col-md-2">
+                           
+                        </div>
+
+                        <div className="row mt-2">
+                        <div className="col-md-3">
                                 <label htmlFor="price">Launch Coin</label>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-9">
                                 <Select
+                                styles={this.styles} className="border_blue_select basic-multi-select"
                                     value={fiatCurOption && fiatCurOption.length > 0 ? fiatCurOption.filter((el) => {
                                         if (el.value == launchCoin) {
                                             return el;

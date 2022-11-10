@@ -74,3 +74,33 @@ footer {
   background-color: transparent !important;
   color:#fff !important;
 }
+
+.link_new_green
+{
+  color:#02c076 !important;
+}
+
+.link_new_green:hover
+{
+  color:#fff !important;
+}
+.react-datepicker-wrapper input
+{
+  border:1px solid #242827  !important;
+  padding: 10px !important;
+  width: 100% !important;
+  display: block !important;
+}
+.react-datepicker-wrapper
+{
+  width: 100% !important;
+  display: block !important;
+}
+.react-datepicker-wrapper input:focus-visible
+
+{
+  border:1px solid #242827  !important;
+ box-shadow: 0 0 0 0rem #fff !important;
+ outline: -webkit-focus-ring-color auto 0px !important;
+
+}

@@ -79,14 +79,14 @@ class TradeBot extends Component {
 
         return (
             <div className="container-fluid">
-                <button className="btn mt-3" id="menu-toggle"><FontAwesomeIcon icon={faList} /></button>
+                {/* <button className="btn mt-3" id="menu-toggle"><FontAwesomeIcon icon={faList} /></button> */}
 
                 <NewBot
                     pairList={pairList}
                     refetchPair={this.fetchSpotPair}
                 />
 
-                <h3 className="mt-2 text-secondary">Delete Spot Orders</h3>
+                <h3 className="mt-4 text-secondary">Delete Spot Orders</h3>
                 {/* <form noValidate onSubmit={this.onDeleteBot} id="delete-bot">
                     <div className="row mt-2">
                         <div className="col-md-3">
