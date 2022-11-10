@@ -19,7 +19,7 @@ const BuyConfirm = (props) => {
       <Modal.Header>
         <Modal.Title>
           <h4 className="modal-title mt-0">
-           Confirm BNB Commitment
+           Confirm {props.coin} Commitment
           </h4>
         </Modal.Title>
         <button type="button" class="close" onClick={()=>props.onDismiss()}><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
@@ -30,13 +30,13 @@ const BuyConfirm = (props) => {
         
         <div className='row mt-3'>
             <div className='col-12 col-md-6'>
-                <p className='text-white'>BNB amount to commit</p>
+                <p className='text-white'>{props.coin} amount to commit</p>
             </div>
             <div className='col-12 col-md-6'>
-                <p className='text_grey_launch_p text-md-right'>0.1100 BNB</p>
+                <p className='text_grey_launch_p text-md-right'>{props.total &&  parseFloat(props.total).toFixed(3) <= parseFloat(0) ? parseFloat(props.total).toFixed(18) : parseFloat(props.total).toFixed(3)} {props.coin} </p>
             </div>
         </div>
-        <p className='text-white mt-3'>Once successfully committed, your BNB will be <b>temporarily locked and will not be able to be redeemed</b> until the final distribution period, which point the remaining BNB will be automatically sent back to ypur spot wallet</p>
+        <p className='text-white mt-3'>Once successfully committed, your {props.coin} will be <b> locked and will not be able to be redeemed</b> and the Purchased Token will be reflected on the spot wallet !</p>
         
           <div className="d-flex justify-content-between mt-4 pb-4">
           

@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"userId":{"$numberInt":"1"}},"name":"userId_1","background":true,"unique":true}],"uuid":"faad66421425447a8e20e4a95236b12d","collectionName":"wallet","type":"collection"}

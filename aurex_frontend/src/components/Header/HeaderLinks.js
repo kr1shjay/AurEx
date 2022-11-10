@@ -104,9 +104,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
         </ListItem> */}
 
        
-         <ListItem className={classes.listItem}>
-            <Link to="/staking-list" color="transparent" className="nav-link">Staking</Link>
-          </ListItem>
+        
          {
          <ListItem className={classes.listItem}>
           <Link to="/spot" color="transparent" className="nav-link">{t('MARKET')}</Link>
@@ -116,6 +114,9 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
          <ListItem className={classes.listItem}>
           <Link to="/launchpad" color="transparent" className="nav-link">Launchpad</Link>
         </ListItem>
+        <ListItem className={classes.listItem}>
+            <Link to="/staking" color="transparent" className="nav-link">Staking</Link>
+          </ListItem>
         {
           isAuth && <ListItem className={classes.listItem}>
             <Link to="/wallet" color="transparent" className="nav-link">Wallet</Link>
@@ -157,7 +158,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                   <hr/> 
                   <MenuItem><Link to="/launchpad"><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></Link></MenuItem>
                   <hr/> 
-                  <MenuItem><Link to="/staking-list"><i class="fab fa-stack-exchange"></i><span>Staking</span></Link></MenuItem>
+                  <MenuItem><Link to="/staking"><i class="fab fa-stack-exchange"></i><span>Staking</span></Link></MenuItem>
                   <hr/> 
                   <MenuItem>
                     <Link to="/security"><i className="fa fa-lock" aria-hidden="true"></i><span>Security</span></Link>
@@ -287,7 +288,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
              {
               isAuth && 
               <li>
-                <Link to="/staking-list">Staking</Link>
+                <Link to="/staking">Staking</Link>
               </li>
             }
            

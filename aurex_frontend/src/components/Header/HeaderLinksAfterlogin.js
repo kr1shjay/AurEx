@@ -96,15 +96,15 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
             )}
             {isAuth && (
               <li>
-                <Link to="/orders">{t("SPOT_ORDERS")}</Link>
+                <Link to="/launchpad">Launchpad</Link>
                 {/* <Link to="/walletnew">Wallet</Link> */}
               </li>
             )}
-            {/*{
+            {
               isAuth && <li>
-                <Link to="/staking-list">{t('STAKING')}</Link>
+                <Link to="/staking">{t('STAKING')}</Link>
               </li>
-            }*/}
+            }
 
             {isAuth && (
               <li>
@@ -213,7 +213,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                   <hr/> 
                   <MenuItem><Link to="/launchpad"><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></Link></MenuItem>
                   <hr/> 
-                  <MenuItem><Link to="/staking-list"><i class="fab fa-stack-exchange"></i><span>Staking</span></Link></MenuItem>
+                  <MenuItem><Link to="/staking"><i class="fab fa-stack-exchange"></i><span>Staking</span></Link></MenuItem>
                   <hr/> 
                   <MenuItem>
                     <Link to="/security"><i className="fa fa-lock" aria-hidden="true"></i><span>Security</span></Link>
@@ -325,7 +325,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
              {
               isAuth && 
               <li>
-                <Link to="/staking-list">Staking</Link>
+                <Link to="/staking">Staking</Link>
               </li>
             }
           

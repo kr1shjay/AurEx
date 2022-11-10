@@ -171,7 +171,7 @@ const ActiveList = (props) => {
                                                 <p>{item.industry}</p>
                                             </div>
                                             <div className="grid_values">
-                                                <p className='text_white_launch_p'>website</p>
+                                                <p className='text_white_launch_p'>Website</p>
                                                 <p> <a target={`_blank`} href={item.website}>{item.website}<i className="fa fa-external-link" aria-hidden="true"></i></a></p>
                                             </div>
                                                         </div>
