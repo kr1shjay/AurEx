@@ -28609,6 +28609,10 @@ min-height: 410px !important;
 
 @media only screen and (max-width:575px)
 {
+  .nav_item_count
+  {
+    margin-top: 10px !important;
+  }
   .btnGroupPercent .btn {
     height: 45px !important;
     min-width: 56px !important;
@@ -29521,7 +29525,7 @@ font-size: 14px !important;
   color:#FFF !important;
   min-width: 30px;
   min-height: 30px;
-  max-width: 30px;
+  max-width: 100%;
   max-height: 30px;
   display: inline-flex;
   align-items: center;
@@ -29959,4 +29963,107 @@ width: 40px;
     box-shadow: 0 0 0px #c4b5b57d !important;
     background: #d4d5d6;
     border-radius: 15px;
+}
+.position_text_count
+{
+  position: relative;
+}
+.count_value_badge
+{
+background: #21b77a;
+width: 20px;
+height:20px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+color:#fff !important;
+position: absolute;
+right: -25px;
+top: -15px;
+}
+
+@media only screen and (max-width:767px)
+{
+  .finish_col.finish_col_round {
+    position: relative;
+    min-height: 216px;
+    border: 1px solid #242827;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 216px;
+    min-width: 216px;
+    max-height: 216px;
+    overflow: hidden;
+
+  }
+}
+@media only screen and (min-width:768px) and (max-width:810px)
+{
+  .finish_col.finish_col_round {
+    position: relative;
+    min-height: 134px;
+    border: 1px solid #242827;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 134px;
+    min-width: 134px;
+    max-height: 134px;
+    overflow: hidden;
+
+  }
+}
+@media only screen and (min-width:811px) and (max-width:991px)
+{
+  .finish_col.finish_col_round {
+    position: relative;
+    min-height: 145px;
+    border: 1px solid #242827;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 145px;
+    min-width: 145px;
+    max-height: 145px;
+    overflow: hidden;
+
+  }
+}
+@media only screen and (min-width:991px) and (max-width:1199px)
+{
+  .finish_col.finish_col_round {
+    position: relative;
+    min-height: 145px;
+    border: 1px solid #242827;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 145px;
+    min-width: 145px;
+    max-height: 145px;
+    overflow: hidden;
+
+  }
+}
+@media only screen and (min-width:1200px)
+{
+  .finish_col.finish_col_round {
+    position: relative;
+    min-height: 185px;
+    border: 1px solid #242827;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 185px;
+    min-width: 185px;
+    max-height: 185px;
+    overflow: hidden;
+  }
 }

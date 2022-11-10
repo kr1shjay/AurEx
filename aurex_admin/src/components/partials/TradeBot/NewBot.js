@@ -147,7 +147,7 @@ class NewBot extends Component {
                     <div className="col-md-3">
                         <label htmlFor="copyright_text">Live Price</label>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-4 text-white">
                         {
                             !isMarkPrice && "0.00000000"
                         }
@@ -283,7 +283,7 @@ class NewBot extends Component {
                         <span className="text-danger">{errors.count}</span>
                     </div>
                 </div>
-                <div className="row mt-2">
+                <div className="row mt-4 mx-0">
                     <button
                         type="submit"
                         className="btn btn-primary">

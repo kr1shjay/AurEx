@@ -869,12 +869,18 @@ margin-bottom: 30px !important;
 }
 .custom-select
 {
-    background-color: transparent !important;
+    background-color: #1a1b1c !important;
+    background: #1a1b1c !important;
+
     border-color: #242827  !important;
     border-radius: 8px !important;
     color:#787272 !important;
     box-shadow: 0 0 0 0rem #fff !important;
     height: 52px !important;
+}
+.custom-select option
+{
+    background-color: #1a1b1c !important;
 }
 input[type="file"] {
     display: none;
@@ -1023,4 +1029,8 @@ color: #fff !important;
 {
     padding-left: 10px !important;
     padding-right: 10px !important;
+}
+.select__menu
+{
+    background: #000 !important;
 }

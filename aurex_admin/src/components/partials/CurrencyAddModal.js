@@ -54,6 +54,45 @@ class CurrencyAddModal extends React.Component {
     this.handlePayment = this.handlePayment.bind(this);
   }
 
+  styles = {
+		option: (provided, state) => ({
+		  ...provided,
+		  color: "white",
+		  backgroundColor: "#242827",
+		}),
+		valueContainer: (provided, state) => ({
+		  ...provided,
+		  height: '52px',
+		  padding: '0 6px',
+		  backgroundColor: "#1a1b1c",
+		  borderColor: '#242827',
+		borderRadius: 8,
+		borderStyle: 'solid',
+		borderWidth: '1px'
+		 
+		}),
+		control: (provided, state) => ({
+		  ...provided,
+		  height: '52px',
+		  borderRadius:8,
+		  backgroundColor: "#1a1b1c",
+		  border:'none'
+		 
+		}),
+		indicatorsContainer: (provided, state) => ({
+		  ...provided,
+		  height: '52px',
+		  position: 'absolute',
+		  right: 0,
+		  top: 0,
+		  color:'#fff' 
+		}),    
+		singleValue: (provided, state) => ({
+		  ...provided,
+		  color: "#fff"
+		})
+	  };
+
   handlePayment(selectedOption) {
     if (selectedOption && selectedOption.length > 0) {
       let formData = { ...this.state.formValue, 'payment': selectedOption.map((el) => { return el.value; }) };
@@ -438,7 +477,7 @@ class CurrencyAddModal extends React.Component {
                       name="colors"
                       options={this.paymentOption}
                       onChange={this.handlePayment}
-                      className="basic-multi-select"
+                      styles={this.styles} className="border_blue_select basic-multi-select"
                       classNamePrefix="select"
                     />
                     <span className="text-danger">{errors.payment}</span>

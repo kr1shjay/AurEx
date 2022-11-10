@@ -21,6 +21,45 @@ class TradeBot extends Component {
         this.fetchSpotPair = this.fetchSpotPair.bind(this);
     }
 
+    styles = {
+		option: (provided, state) => ({
+		  ...provided,
+		  color: "white",
+		  backgroundColor: "#242827",
+		}),
+		valueContainer: (provided, state) => ({
+		  ...provided,
+		  height: '52px',
+		  padding: '0 6px',
+		  backgroundColor: "#1a1b1c",
+		  borderColor: '#242827',
+		borderRadius: 8,
+		borderStyle: 'solid',
+		borderWidth: '1px'
+		 
+		}),
+		control: (provided, state) => ({
+		  ...provided,
+		  height: '52px',
+		  borderRadius:8,
+		  backgroundColor: "#1a1b1c",
+		  border:'none'
+		 
+		}),
+		indicatorsContainer: (provided, state) => ({
+		  ...provided,
+		  height: '52px',
+		  position: 'absolute',
+		  right: 0,
+		  top: 0,
+		  color:'#fff' 
+		}),    
+		singleValue: (provided, state) => ({
+		  ...provided,
+		  color: "#fff"
+		})
+	  };
+
 
     componentDidMount() {
         this.fetchSpotPair()
@@ -40,14 +79,14 @@ class TradeBot extends Component {
 
         return (
             <div className="container-fluid">
-                <button className="btn mt-3" id="menu-toggle"><FontAwesomeIcon icon={faList} /></button>
+                {/* <button className="btn mt-3" id="menu-toggle"><FontAwesomeIcon icon={faList} /></button> */}
 
                 <NewBot
                     pairList={pairList}
                     refetchPair={this.fetchSpotPair}
                 />
 
-                <h3 className="mt-2 text-secondary">Delete Spot Orders</h3>
+                <h3 className="mt-4 text-secondary">Delete Spot Orders</h3>
                 {/* <form noValidate onSubmit={this.onDeleteBot} id="delete-bot">
                     <div className="row mt-2">
                         <div className="col-md-3">
@@ -58,6 +97,7 @@ class TradeBot extends Component {
                                 value={this.state.pair}
                                 onChange={this.handleselectChange}
                                 options={options}
+                                 styles={this.styles} className="border_blue_select basic-multi-select"
                             />
                         </div>
                     </div>
@@ -70,6 +110,7 @@ class TradeBot extends Component {
                                 value={this.state.buyorsell}
                                 onChange={this.handleselectbuyChange}
                                 options={options1}
+                                 styles={this.styles} className="border_blue_select basic-multi-select"
                             />
                         </div>
                     </div>
