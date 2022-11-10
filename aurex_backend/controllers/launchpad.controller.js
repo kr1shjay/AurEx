@@ -386,6 +386,7 @@ export const getLaunchpad = async (req, res) => {
                 'facebook': 1,
                 'youtube': 1,
                 'linkedIn': 1,
+                'createdAt':1,
                 'dateStatus': {
                     "$cond": [{
                         "$and": [

@@ -154,7 +154,7 @@ const App = () => {
                             {/* PUBLIC */}
                             <ConditionRoute exact path='/' component={HomePage} type={"public"} />
                             <ConditionRoute exact path='/home' component={HomePage} type={"public"} />
-                            <ConditionRoute exact path='/staking-list' component={Staking} type={"public"} />
+                            <ConditionRoute exact path='/staking' component={Staking} type={"public"} />
                             <ConditionRoute exact path='/history' component={HistoryPage} type={"public"} />
                             <ConditionRoute exact path='/support-ticket' component={SupportPage} type={"public"} />
                             <ConditionRoute exact path='/p2p' component={P2P} type={"public"} />

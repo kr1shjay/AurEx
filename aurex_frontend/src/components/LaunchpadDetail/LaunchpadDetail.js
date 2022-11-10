@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Announcement from '../Announcement';
+import Countdown, { zeroPad } from "react-countdown";
 import BuyToken from './BuyToken';
 import History from './History';
 import Launchpaddetails from '../Launchpad/Launchpaddetails';
@@ -21,6 +22,20 @@ import { dateTimeFormat } from '../../lib/dateTimeHelper'
 
 import launchpad_round from "../../assets/images/launchpad_round.png"
 
+
+const renderer = ({ days, hours, minutes, seconds }) => {
+    return (
+        <div className="timer_panel">
+            <span><span className="timer_time">{zeroPad(days)}</span><span className="timer_label ml-1">Days</span></span>
+            <span className="timer_dots">:</span>
+            <span><span className="timer_time">{zeroPad(hours)}</span><span className="timer_label ml-1">Hours</span></span>
+            <span className="timer_dots">:</span>
+            <span><span className="timer_time">{zeroPad(minutes)}</span><span className="timer_label ml-1">Mins</span></span>
+            <span className="timer_dots">:</span>
+            <span><span className="timer_time">{zeroPad(seconds)}</span><span className="timer_label ml-1">Secs</span></span>
+        </div>
+    );
+};
 
 const LaunchpadDetail = () => {
     const { launchId } = useParams();
@@ -74,27 +89,35 @@ const LaunchpadDetail = () => {
                             <div className='finish_col finish_col_round'>
 
                             <img src=
-                            // {data.image} 
-                            {launchpad_round}
-                            alt="Banner" className="img-fluid" />                                      
+                             {data.image} 
+                          // {launchpad_round}
+                            alt="Banner" className="img-fluid" /> 
+                                {          parseFloat(data.endTimeStamp) < Date.now() ?                            
                                         <span className='badge_finish'>
                                             <span className='check_round'><i className="fa fa-check"></i></span>
                                             <span className='finish_tect_tag ml-2'>Finished</span>
-                                        </span>
+                                        </span> : <></>
+                                        }
                                         </div>
 
                          
                             </div>
                             <div className='col-12 col-md-7 col-lg-8 mt-4 mt-md-0'>
-                            <div className='timer_card_grey ml-lg-auto'>
+                            {/* <div className='timer_card_grey ml-lg-auto'>
                             <p className='my-0'>{dateTimeFormat(data.startTimeStamp)} - {dateTimeFormat(data.endTimeStamp)}</p>
 
-                                </div>
+                                </div> */}
+                                  <div className='timer_card_grey ml-lg-auto'>
+                                                        <Countdown
+                                                date={new Date(data.endTimeStamp)}
+                                                renderer={renderer}
+                                            />
+                                            </div>
                             <h3 className='proj_intro_text'>Project Introduction</h3>
                                 <ul className='proj_ul_new'>
-                                    <li><span>Name</span> {data.name}</li>
-                                    <li><span>Industry</span> {data.industry}</li>
-                                    <li><span>Website</span> {data.website}</li>
+                                    <li><span>Name : </span> {data.name}</li>
+                                    <li><span>Industry : </span> {data.industry}</li>
+                                    <li><span>Website : </span> {data.website}</li>
                                 </ul>
                                 <div dangerouslySetInnerHTML={{ __html: data.content }} className="text_white_desc" />
                           
@@ -168,27 +191,24 @@ const LaunchpadDetail = () => {
                             </div>
                             </div>
                             <div className='timeline_details'>
-                            <h3 className='proj_intro_text'>Subscription Timeline</h3>
+                            <h3 className='proj_intro_text'>LaunchPad Timeline</h3>
                             <div className='row mt-5 ml-2'>
-                                <div className='col-12 completed'>
-                                    <p className='timeline_head'>BNB holding calculation period</p>
-                                    <p className='timeline_desc'>22-03-01 16:00</p>
+                                <div className={`col-12 ${ data.startTimeStamp < Date.now() ? "completed" : "final" }`}>
+                                    <p className='timeline_head'>Sale Created Period</p>
+                                    <p className='timeline_desc'>{new Date(data.createdAt).toLocaleString("en-IN")}</p>
                                 </div>
-                                <div className='col-12 completed'>
-                                    <p className='timeline_head'>Subscription period</p>
-                                    <p className='timeline_desc'>22-03-01 22:00</p>
+                                <div  className={`col-12 ${ data.startTimeStamp < Date.now() ? "completed" : "final" }`}>
+                                    <p className='timeline_head'>Sale Started Period</p>
+                                    <p className='timeline_desc'>{new Date(data.startTimeStamp).toLocaleString("en-IN")}</p>
                                 </div>
-                                <div className='col-12 completed'>
-                                    <p className='timeline_head'>Calculation period</p>
-                                    <p className='timeline_desc'>22-03-01 02:00</p>
-                                </div>
-                                <div className='col-12 final'>
-                                    <p className='timeline_head'>Final token distribution</p>
-                                    <p className='timeline_desc'>22-03-01 16:00</p>
+                               
+                                <div className={`col-12 ${ data.endTimeStamp < Date.now() ? "completed" : "final" }`}>
+                                    <p className='timeline_head'>Sale Ended Period</p>
+                                    <p className='timeline_desc'>{new Date(data.endTimeStamp).toLocaleString("en-IN")}</p>
                                 </div>
                             </div>
                             <div className='text_white_desc ml-5'>
-                            <p>The allocation calculation is complete. We will deduct the corresponding BNB from your account based on your final GMT allocation, which will be transferred to your spot account along with your remaining BNB.</p>
+                            <p>The allocation calculation is complete. We will deduct the corresponding Crypto/Token from your account on instant transferred to your spot account.</p>
                             </div>
                             </div>
                            </div>

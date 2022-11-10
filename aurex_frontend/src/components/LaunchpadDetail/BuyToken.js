@@ -228,7 +228,7 @@ const BuyToken = (props) => {
                         className="form-control"
                         placeholder="0.00"
                         name="price"
-                        value={price && toFixed(price, decimalETH != '' ? decimalETH : 0)}
+                        value={price && parseFloat(price).toFixed(3) <= parseFloat(0) ? parseFloat(price).toFixed(18) : parseFloat(price).toFixed(3)}
                         disabled={true}
                     />
                     <div className="input-group-append"> <span className="input-group-text">{coin}</span></div>
@@ -256,7 +256,7 @@ const BuyToken = (props) => {
                         className="form-control"
                         placeholder="0.00"
                         name="quantity"
-                        value={quantity && toFixed(quantity, decimalUSDT != '' ? decimalUSDT : 0)}
+                        value={quantity && parseFloat(quantity).toFixed(3) <= parseFloat(0) ? parseFloat(quantity).toFixed(18) : parseFloat(quantity).toFixed(3)}
                         onChange={handleChange}
                     />
                     <div className="input-group-append"> <span className="input-group-text">{data.coin}</span></div>
@@ -269,7 +269,8 @@ const BuyToken = (props) => {
                         type="text"
                         className="form-control"
                         placeholder="0.00"
-                        value={total && toFixed(total, decimalETH != '' ? decimalETH : 0)}
+                        value={total && parseFloat(total).toFixed(3) <= parseFloat(0) ? parseFloat(total).toFixed(18) : parseFloat(total).toFixed(3)}
+
                     />
                     <div className="input-group-append"> <span className="input-group-text">{coin}</span></div>
                 </div>
@@ -286,8 +287,8 @@ const BuyToken = (props) => {
                     >
                         {loader && <i class="fas fa-spinner fa-spin"></i>}
                         Buy Token
-                    </Button> */}  {shows && <BuyConfirm onSumbit={handleSubmit} onDismiss = {() => buyShow(false) }/>}
-                    <Button className="btn btn-primary mb-3 px-4" onClick={()=>buyShow(true)}>Buy Token</Button>
+                    </Button> */}  {shows && <BuyConfirm total={total} coin={coin} onSumbit={handleSubmit} onDismiss = {() => buyShow(false) }/>}
+                    <Button className="btn btn-primary mb-3 px-4" onClick={()=>buyShow(true)}>Buy {data.symbol}</Button>
                  
                                     </div>
             }
