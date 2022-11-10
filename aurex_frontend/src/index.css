@@ -30067,3 +30067,14 @@ top: -15px;
     overflow: hidden;
   }
 }
+.staking_btn_table .btn
+{
+  height:45px !important;
+}
+
+.staking_btn_table .rdt_TableHead,
+.staking_btn_table .rdt_TableRow .rdt_TableCell
+{
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
