@@ -91,7 +91,7 @@ const FlexibleStake = () => {
                                         history.push('/login')
                                     }
                                 }}
-                            >{t('SUBSCRIBE')}</Button>
+                            >{t('STAKE_NOW')}</Button>
                         </div>
                     })
                 })

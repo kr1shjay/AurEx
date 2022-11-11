@@ -195,7 +195,7 @@ const FixedStake = () => {
                             data-toggle="modal"
                             data-target="#SubscribeETH"
                             onClick={() => handleSubscribe(record)}
-                        >{t('SUBSCRIBE')}</Button>
+                        >{t('STAKE_NOW')}</Button>
                     </div>
                 )
 
