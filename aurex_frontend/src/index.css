@@ -29702,6 +29702,7 @@ display: inline-flex;
 align-items: center;
 justify-content: center;
 text-transform: capitalize !important;
+margin: 5px;
 }
 .btn_grp_green .btn:hover
 {

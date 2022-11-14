@@ -66,6 +66,7 @@ const FlexibleStake = () => {
                 type: 'flexible'
             }
             const { status, loading, message, result } = await getStaking(reqData);
+           
             setLoader(loading)
             if (status == 'success') {
                 let data = []

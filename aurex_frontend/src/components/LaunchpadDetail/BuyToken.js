@@ -228,7 +228,7 @@ const BuyToken = (props) => {
                         className="form-control"
                         placeholder="0.00"
                         name="price"
-                        value={price && parseFloat(price).toFixed(3) <= parseFloat(0) ? parseFloat(price).toFixed(18) : parseFloat(price).toFixed(3)}
+                        value={price && parseFloat(price).toFixed(3) <= parseFloat(0) ? parseFloat(price).toFixed(8) : parseFloat(price).toFixed(3)}
                         disabled={true}
                     />
                     <div className="input-group-append"> <span className="input-group-text">{coin}</span></div>
@@ -256,7 +256,7 @@ const BuyToken = (props) => {
                         className="form-control"
                         placeholder="0.00"
                         name="quantity"
-                        value={quantity && parseFloat(quantity).toFixed(3) <= parseFloat(0) ? parseFloat(quantity).toFixed(18) : parseFloat(quantity).toFixed(3)}
+                        value={quantity && parseFloat(quantity).toFixed(3) <= parseFloat(0) ? parseFloat(quantity).toFixed(8) : parseFloat(quantity).toFixed(3)}
                         onChange={handleChange}
                     />
                     <div className="input-group-append"> <span className="input-group-text">{data.coin}</span></div>
@@ -269,7 +269,7 @@ const BuyToken = (props) => {
                         type="text"
                         className="form-control"
                         placeholder="0.00"
-                        value={total && parseFloat(total).toFixed(3) <= parseFloat(0) ? parseFloat(total).toFixed(18) : parseFloat(total).toFixed(3)}
+                        value={total && parseFloat(total).toFixed(3) <= parseFloat(0) ? parseFloat(total).toFixed(8) : parseFloat(total).toFixed(3)}
 
                     />
                     <div className="input-group-append"> <span className="input-group-text">{coin}</span></div>

@@ -33,7 +33,7 @@ const BuyConfirm = (props) => {
                 <p className='text-white'>{props.coin} amount to commit</p>
             </div>
             <div className='col-12 col-md-6'>
-                <p className='text_grey_launch_p text-md-right'>{props.total &&  parseFloat(props.total).toFixed(3) <= parseFloat(0) ? parseFloat(props.total).toFixed(18) : parseFloat(props.total).toFixed(3)} {props.coin} </p>
+                <p className='text_grey_launch_p text-md-right'>{props.total &&  parseFloat(props.total).toFixed(3) <= parseFloat(0) ? parseFloat(props.total).toFixed(8) : parseFloat(props.total).toFixed(3)} {props.coin} </p>
             </div>
         </div>
         <p className='text-white mt-3'>Once successfully committed, your {props.coin} will be <b> locked and will not be able to be redeemed</b> and the Purchased Token will be reflected on the spot wallet !</p>

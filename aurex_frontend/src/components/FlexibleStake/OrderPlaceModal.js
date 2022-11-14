@@ -32,6 +32,7 @@ const OrderPlaceModal = (props) => {
     // state
     const [formValue, setFormValue] = useState(initialFormValue);
     const [assetData, setAssetData] = useState({})
+    const [intrest, setintrest] = useState();
     const [pricePct, setPricePct] = useState(0) // Balance Percentage
     const [validateError, setValidateError] = useState({});
     const [loader, setLoader] = useState();
@@ -127,6 +128,8 @@ const OrderPlaceModal = (props) => {
             let data = walletData.find(el => el._id == record.currencyId)
             if (!isEmpty(data)) {
                 setAssetData(data)
+                setintrest(toFixed(interestByDays(1000, record.flexibleAPY, 365), 4));
+       
                 return
             }
             // onHide()
@@ -144,14 +147,13 @@ const OrderPlaceModal = (props) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title>
-                    {t('SUBSCRIBE')} {record.coin}
+                    Stake {record.coin}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div className='row'>
                     <div className='col-12 col-md-7'>
                     <div className="modedl_subscribe_content">
-                        <p className='heading_whte_modal_dark'>Locked Staking</p>
                     <div className="duration_slecys">
                         <label>Type</label>
                         <div className="duratin-a">
@@ -165,7 +167,7 @@ const OrderPlaceModal = (props) => {
                         <p><span>{t('SUBSCRIPTION_AMOUNT')}</span> <span><a href="#" onClick={() => {
                             let formData = { ...formValue, 'price': assetData.spotBal }
                             setFormValue(formData)
-                        }}>{t('ALL')}</a></span></p>
+                        }}>{t('MAX')}</a></span></p>
                     </div>
                     <div className="entaer_amount">
                        
@@ -183,7 +185,7 @@ const OrderPlaceModal = (props) => {
                         {validateError.price && <p className="error-message">{t(validateError.price)}</p>}
                     </div>
                     <div className="wlleet_ballece_new">
-                        <p><span>Locked amount limitation</span></p>
+                        <p><span>Staked amount limitation</span></p>
                     </div>
                     <p className='min_max_p'>
                         <span className='tetx_grey_sm_amount'>Minumum:</span>
@@ -207,7 +209,7 @@ const OrderPlaceModal = (props) => {
                         </div>
 
                         <div className="d-flex justify-content-between mt-4 pb-4 btn_div_sm_font">
-    <button type="button" className="btn btn-bordered-secondary w-100 mt-3 mr-3">Cancel</button>
+    <button type="button" onClick={handleClose} className="btn btn-bordered-secondary w-100 mt-3 mr-3">Cancel</button>
    
 </div>
                     </div>
@@ -223,7 +225,7 @@ const OrderPlaceModal = (props) => {
                                     <p className='mb-0 tetx_white_sm_amount'>Stake Date</p>
                                 </div>
                                 <div className='col-6'>
-                                    <p className='mb-0 tetx_grey_sm_amount'>2022-02-08 23:41</p>
+                                    <p className='mb-0 tetx_grey_sm_amount'>{new Date().toLocaleString("en-IN")}</p>
                                 </div>
                             </div>
                             <div className='row row_initiate inner_complete_row'>
@@ -231,26 +233,26 @@ const OrderPlaceModal = (props) => {
                                     <p className='mb-0 tetx_white_sm_amount'>Value Date</p>
                                 </div>
                                 <div className='col-6'>
-                                    <p className='mb-0 tetx_grey_sm_amount'>2022-02-08 23:41</p>
+                                    <p className='mb-0 tetx_grey_sm_amount'>{new Date().toLocaleString("en-IN")}</p>
                                 </div>
                             </div>
                             <div className='row inner_complete_row'>
                                 <div className='col-6'>
-                                    <p className='mb-0 tetx_white_sm_amount'>Interest Period</p>
+                                    <p className='mb-0 tetx_white_sm_amount'>Interest Per Day</p>
                                 </div>
                                 <div className='col-6'>
-                                    <p className='mb-0 tetx_grey_sm_amount'>1 days</p>
+                                    <p className='mb-0 tetx_grey_sm_amount'>{intrest}</p>
                                 </div>
                             </div>
-                            <div className='row'>
+                            {/* <div className='row'>
                                 <div className='col-6'>
                                     <p className='mb-0 tetx_white_sm_amount'>Interest End Date</p>
                                 </div>
                                 <div className='col-6'>
                                     <p className='mb-0 tetx_grey_sm_amount'>2022-02-08 23:41</p>
                                 </div>
-                            </div>
-                            <div className='row'>
+                            </div> */}
+                            <div className='row row row_initiate row_fianl'>
                                 <div className='col-6'>
                                     <p className='mb-0 tetx_white_sm_amount'>Redemption Period</p>
                                 </div>
@@ -258,21 +260,21 @@ const OrderPlaceModal = (props) => {
                                     <p className='mb-0 tetx_grey_sm_amount'>{record.redemptionPeriod} {"Days"}</p>
                                 </div>
                             </div>
-                            <div className='row row_initiate row_fianl'>
+                            {/* <div className='row row_initiate row_fianl'>
                                 <div className='col-6'>
                                     <p className='mb-0 tetx_white_sm_amount'>Redemption Date</p>
                                 </div>
                                 <div className='col-6'>
-                                    <p className='mb-0 tetx_grey_sm_amount'>2022-02-08 23:41</p>
+                                    <p className='mb-0 tetx_grey_sm_amount'>{new Date(Date.now() + 86400 * 1000).toLocaleString("en-IN")}</p>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                   <hr className='border_bott_grey' />
                     <div className="wlleet_ballece_new">
                         <p><span>Est.APY</span> <span>{record.flexibleAPY}%</span></p>
                     </div>
                     <div className="wlleet_ballece_new">
-                        <p className='mt-1'><span>Est.Interest</span> <span>0.00000000 BNB</span></p>
+                        <p className='mt-1'><span>Est.Interest</span> <span>{toFixed(interestByDays(price, record.flexibleAPY, 365), 8)} {record.coin}</span></p>
                     </div>
                     <div className='apy_card mt-3'>
                         <div className='d-flex'>
@@ -283,7 +285,7 @@ const OrderPlaceModal = (props) => {
                         </div>
                     </div>
                     <div className="d-flex justify-content-between mt-4 pb-4 btn_div_sm_font">
-    <button type="button" className="btn btn-primary w-100 mt-3" disabled={loader} onClick={handleFormSubmit}>{t('CONFIRM')}</button>
+    <button type="button" className="btn btn-primary w-100 mt-3" disabled={!isTerms} onClick={handleFormSubmit}>{t('CONFIRM')}</button>
 </div>
                  
                   

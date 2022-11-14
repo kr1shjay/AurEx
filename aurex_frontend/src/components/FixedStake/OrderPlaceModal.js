@@ -186,6 +186,8 @@ const OrderPlaceModalLocked = (props) => {
     //   }
     //   // onHide()
     // }
+    setdurationdays(props.durationdays)
+    setintrest_per(props.durationAPY)
   }, [record]);
 
   useEffect(() => {
@@ -200,7 +202,7 @@ const OrderPlaceModalLocked = (props) => {
   }, [record]);
 
   const durationloop = (durations) => {
-    return ''
+   // return ''
     let arr = [];
     if (!isEmpty(durations) && durations.length > 0) {
       durations.map((duration, index, array) => {
@@ -212,25 +214,25 @@ const OrderPlaceModalLocked = (props) => {
         if (index == array.length - 1) {
           arr.push(
             <button
-              className={clsx("stake_date_btn", { "active": isActive })}
+              className={clsx("btn btn-secondary", { "active": isActive })}
               onClick={() => {
                 onClick_Days(duration);
               }}
             >
               {" "}
-              {duration.days}
+              {`${duration.days} Days`}
             </button>
           );
         } else {
           arr.push(
             <button
-              className={clsx("stake_date_btn", { "active": isActive })}
+              className={clsx("btn btn-secondary", { "active": isActive })}
               onClick={() => {
                 onClick_Days(duration);
               }}
             >
               {" "}
-              {duration.days}
+              {`${duration.days} Days`}
             </button>
           );
         }
@@ -258,7 +260,7 @@ const OrderPlaceModalLocked = (props) => {
       <Modal.Header closeButton>
         <Modal.Title>
           <h4 className="modal-title mt-0">
-            {"Transfer"}
+            {"Lock "}
             {record.name}
           </h4>
         </Modal.Title>
@@ -267,7 +269,7 @@ const OrderPlaceModalLocked = (props) => {
       <div className='row'>
     <div className='col-12 col-md-7'>
     <div className="modedl_subscribe_content">
-        <p className='heading_whte_modal_dark'>Locked Staking</p>
+        {/* <p className='heading_whte_modal_dark'>Locked Staking</p> */}
     <div className="duration_slecys">
         <label>Type</label>
         <div className="duratin-a">
@@ -278,9 +280,12 @@ const OrderPlaceModalLocked = (props) => {
         <label>{t('DURATION_DAYS')}</label>
         <div>
         <div class="btn_grp_green" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-secondary mr-1 mr-sm-2 mr-md-1 mr-lg-3">30 Days</button>
-        <button type="button" class="btn btn-secondary mr-1 mr-sm-2 mr-md-1 mr-lg-3">60 Days</button>
-        <button type="button" class="btn btn-secondary">90 Days</button>
+
+        {/* <button type="button" class="btn btn-secondary">30 Days</button>
+        <button type="button" class="btn btn-secondary ">60 Days</button>
+        <button type="button" class="btn btn-secondary">90 Days</button> */}
+        { durationloop(record.periodList)}
+
       </div>
             {/* <p>{!isEmpty(durationdays) ? durationdays : record.periodList && record.periodList[0].days}</p> */}
         </div>
@@ -292,7 +297,7 @@ const OrderPlaceModalLocked = (props) => {
         <p><span>{t('SUBSCRIPTION_AMOUNT')}</span> <span><a href="#" onClick={() => {
             let formData = { ...formValue, 'price': assetData.spotBal }
             setFormValue(formData)
-          }}>{t('ALL')}</a></span></p>
+          }}>{t('MAX')}</a></span></p>
     </div>
     <div className="entaer_amount">
        
@@ -350,7 +355,7 @@ const OrderPlaceModalLocked = (props) => {
                     <p className='mb-0 tetx_white_sm_amount'>Stake Date</p>
                 </div>
                 <div className='col-6'>
-                    <p className='mb-0 tetx_grey_sm_amount'>2022-02-08 23:41</p>
+                    <p className='mb-0 tetx_grey_sm_amount'>{new Date().toLocaleString("en-IN")}</p>
                 </div>
             </div>
             <div className='row row_initiate inner_complete_row'>
@@ -358,7 +363,7 @@ const OrderPlaceModalLocked = (props) => {
                     <p className='mb-0 tetx_white_sm_amount'>Value Date</p>
                 </div>
                 <div className='col-6'>
-                    <p className='mb-0 tetx_grey_sm_amount'>2022-02-08 23:41</p>
+                    <p className='mb-0 tetx_grey_sm_amount'>{new Date().toLocaleString("en-IN")}</p>
                 </div>
             </div>
             <div className='row inner_complete_row'>
@@ -366,7 +371,7 @@ const OrderPlaceModalLocked = (props) => {
                     <p className='mb-0 tetx_white_sm_amount'>Interest Period</p>
                 </div>
                 <div className='col-6'>
-                    <p className='mb-0 tetx_grey_sm_amount'>1 days</p>
+                    <p className='mb-0 tetx_grey_sm_amount'>{duration_days} days</p>
                 </div>
             </div>
             <div className='row'>
@@ -374,10 +379,10 @@ const OrderPlaceModalLocked = (props) => {
                     <p className='mb-0 tetx_white_sm_amount'>Interest End Date</p>
                 </div>
                 <div className='col-6'>
-                    <p className='mb-0 tetx_grey_sm_amount'>2022-02-08 23:41</p>
+                    <p className='mb-0 tetx_grey_sm_amount'>{new Date(Date.now() + parseFloat(duration_days) * 86400000).toLocaleString("en-IN")}</p>
                 </div>
             </div>
-            <div className='row'>
+            <div className='row row_initiate row_fianl'>
                 <div className='col-6'>
                     <p className='mb-0 tetx_white_sm_amount'>Redemption Period</p>
                 </div>
@@ -385,21 +390,21 @@ const OrderPlaceModalLocked = (props) => {
                     <p className='mb-0 tetx_grey_sm_amount'>{record.redemptionPeriod} {"Days"}</p>
                 </div>
             </div>
-            <div className='row row_initiate row_fianl'>
+            {/* <div className='row row_initiate row_fianl'>
                 <div className='col-6'>
                     <p className='mb-0 tetx_white_sm_amount'>Redemption Date</p>
                 </div>
                 <div className='col-6'>
-                    <p className='mb-0 tetx_grey_sm_amount'>2022-02-08 23:41</p>
+                    <p className='mb-0 tetx_grey_sm_amount'>{new Date(Date.now() + 86400 * 1000).toLocaleString("en-IN")}</p>
                 </div>
-            </div>
+            </div> */}
         </div>
   <hr className='border_bott_grey' />
     <div className="wlleet_ballece_new">
         <p><span>Est.APY</span> <span>{!isEmpty(durationAPY) ? durationAPY : record.periodList && record.periodList[0].APY}%</span></p>
     </div>
     <div className="wlleet_ballece_new">
-        <p className='mt-1'><span>Est.Interest</span> <span>0.00000000 BNB</span></p>
+        <p className='mt-1'><span>Est.Interest</span> <span>{toFixed((duration_days * interestByDays(price, intrest_per, 365)), 4)} {record.coin}</span></p>
     </div>
     <div className='apy_card mt-3'>
         <div className='d-flex'>
@@ -410,7 +415,7 @@ const OrderPlaceModalLocked = (props) => {
         </div>
     </div>
     <div className="d-flex justify-content-between mt-4 pb-4 btn_div_sm_font">
-<button type="button" className="btn btn-primary w-100 mt-3" disabled={loader} onClick={handleFormSubmit}>{t('CONFIRM')}</button>
+<button type="button" className="btn btn-primary w-100 mt-3" disabled={!isTerms} onClick={handleFormSubmit}>{t('CONFIRM')}</button>
 </div>
  
   

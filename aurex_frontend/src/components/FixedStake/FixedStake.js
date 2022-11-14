@@ -238,6 +238,7 @@ const FixedStake = () => {
             }
             const { status, loading, message, result } = await getStaking(reqData);
             setLoader(loading)
+            console.log("Result staking : ",result)
             if (status == 'success') {
                 setFetchData(result)
             }
