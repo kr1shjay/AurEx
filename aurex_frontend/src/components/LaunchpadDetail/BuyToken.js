@@ -228,7 +228,7 @@ const BuyToken = (props) => {
                         className="form-control"
                         placeholder="0.00"
                         name="price"
-                        value={price && parseFloat(price).toFixed(3) <= parseFloat(0) ? parseFloat(price).toFixed(8) : parseFloat(price).toFixed(3)}
+                        value={price && parseFloat(price).toFixed(3) <= parseFloat(0) ?  parseFloat(price).toFixed(8) : parseFloat(price).toFixed(3)}
                         disabled={true}
                     />
                     <div className="input-group-append"> <span className="input-group-text">{coin}</span></div>

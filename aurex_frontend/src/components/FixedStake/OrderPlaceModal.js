@@ -243,6 +243,7 @@ const OrderPlaceModalLocked = (props) => {
   };
 
   const onClick_Days = (duration) => {
+   
     setintrest_per(duration.APY);
     setintrest(toFixed(interestByDays(1000, duration.APY, 365), 4));
     setdurationdays(duration.days);
@@ -261,7 +262,7 @@ const OrderPlaceModalLocked = (props) => {
         <Modal.Title>
           <h4 className="modal-title mt-0">
             {"Lock "}
-            {record.name}
+            {record.coin}
           </h4>
         </Modal.Title>
       </Modal.Header>
@@ -401,7 +402,8 @@ const OrderPlaceModalLocked = (props) => {
         </div>
   <hr className='border_bott_grey' />
     <div className="wlleet_ballece_new">
-        <p><span>Est.APY</span> <span>{!isEmpty(durationAPY) ? durationAPY : record.periodList && record.periodList[0].APY}%</span></p>
+   
+        <p><span>Est.APY</span> <span>{intrest_per && !isEmpty(intrest_per) ? intrest_per : record.periodList && record.periodList[0].APY}%</span></p>
     </div>
     <div className="wlleet_ballece_new">
         <p className='mt-1'><span>Est.Interest</span> <span>{toFixed((duration_days * interestByDays(price, intrest_per, 365)), 4)} {record.coin}</span></p>

@@ -28,9 +28,11 @@ const HighYield = () => {
         <>
             <GridItem xs={12} sm={12} md={12} lg={2}>
                 <div className="statking_title">
-                    <h3>{t('HIGH_YIELD')}</h3>
-                    <small>{t('CRYPTOS')}</small>
+                    <h3>{t('Stake & Earn')}</h3>
+                    <small>{t('Yields')}</small>
                 </div>
+
+              
             </GridItem>
             {/* <GridItem xs={12} sm={6} md={4} lg={2}>
                 <div className="coin_top_list">
@@ -59,7 +61,7 @@ const HighYield = () => {
                                             <span className="color_blue m-0">{item.coin}</span>
                                         </div>
                                         <div>
-                                            <span className="color_green">{toFixed(item.percentage,2)}%</span>
+                                            <span className="color_green">{toFixed(item.percentage,8)}%</span>
                                         </div>
                                     </h1>
                                     <p>{t('FLEXIBLE')}</p>
@@ -82,7 +84,7 @@ const HighYield = () => {
                                             <span className="color_blue m-0">{item.coin} </span>
                                         </div>
                                         <div>
-                                            <span className="color_green">{toFixed(item.percentage,2)}%</span>
+                                            <span className="color_green">{toFixed(item.percentage,8)}%</span>
                                         </div>
                                     </h1>
                                     <p>{t('LOCKED')} - <span className="color_blue">{item.day}</span>{t('DAYS')}</p>
