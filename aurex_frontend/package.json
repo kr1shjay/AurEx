@@ -79,6 +79,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start_demo": "REACT_APP_MODE='demo' react-scripts start",
     "livestart": "set REACT_APP_MODE='production' && react-scripts start",
     "build": "REACT_APP_MODE='production' react-scripts build",
     "build_demo": "REACT_APP_MODE='demo' react-scripts build",

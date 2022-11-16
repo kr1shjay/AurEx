@@ -202,21 +202,21 @@ if (process.env.NODE_ENV === "production") {
 } else if (process.env.NODE_ENV === "demo") {
   console.log("\x1b[35m%s\x1b[0m", `Set Demo Config`);
 
-  const API_URL = "https://cluxapi.wealwin.com";
-  const PORT = 3506;
+  const API_URL = "https://aurex.maticz.com/api";
+  const PORT = 9360;
   key = {
-    SITE_NAME: "CluxChange",
+    SITE_NAME: "Aurex",
     secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
     cryptoSecretKey: "1234567812345678",
     DATABASE_URL:
-      "mongodb://cluxdb:Fvdhcdcedhf6wed34sxdz@172.105.40.100:10730/cluxdb",
+      "mongodb://XMxnWnAlra:LLtgjmidvw@127.0.0.1:27017/CluxChange",
     RUN_CRON: true,
     PORT: PORT,
-    FRONT_URL: "https://clux.wealwin.com",
-    ADMIN_URL: "https://clux.wealwin.com/admin",
+    FRONT_URL: "https://aurex.maticz.com",
+    ADMIN_URL: "https://aurex.maticz.com/admin",
     SERVER_URL: `${API_URL}`,
     IMAGE_URL: `${API_URL}`,
-    RECAPTCHA_SECRET_KEY: "6LeHezUfAAAAABKS-mUfSrqlHD9jBQbmevozwzgr",
+    RECAPTCHA_SECRET_KEY: "6LfbZAsjAAAAAKqTafoVOsaOttEX8EwGPneUc-Yn",
     NUM_VERIFY: {
       API_KEY: "",
     },

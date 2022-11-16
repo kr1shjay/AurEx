@@ -20,16 +20,16 @@ if (process.env.REACT_APP_MODE === "production") {
 
 }else if (process.env.REACT_APP_MODE === "demo") {
     console.log("Set Demo Config")
-    const API_URL = 'https://cluxapi.wealwin.com';
+    const API_URL = 'https://aurex.maticz.com/api';
 
     key = {
         secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
         CRYPTO_SECRET_KEY: "1234567812345678",
-        RECAPTCHA_SITE_KEY: "6LfBAlcgAAAAAIeo-0Q2m2gh35MnNt7GDfbOaz2o", //local
-        API_URL: 'https://cluxapi.wealwin.com',
-        FRONT_URL: 'https://clux.wealwin.com',
-        ADMIN_URL: 'https://clux.wealwin.com/admin',
-        SOCKET_URL: 'https://cluxapi.wealwin.com',
+        RECAPTCHA_SITE_KEY: "6Lc0jA4jAAAAADmNtnnGw7Px86Pscz2sgpavPIcn", //local
+        API_URL: 'https://aurex.maticz.com/api',
+        FRONT_URL: 'https://aurex.maticz.com',
+        ADMIN_URL: 'https://aurex.maticz.com/admin',
+        SOCKET_URL: 'https://aurex.maticz.com',
         getGeoInfo: "https://ipapi.co/json/",
         AUTHENTICATOR_URL: {
             PLAY_STORE: "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2",

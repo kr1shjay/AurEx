@@ -16,14 +16,14 @@ if (process.env.REACT_APP_MODE === "production") {
 
 } else if (process.env.REACT_APP_MODE === "demo") {
     console.log("Set Demo Config")
-    const API_URL = 'https://cluxapi.wealwin.com';
+    const API_URL = 'https://aurex.maticz.com/api';
 
     key = {
         secretOrKey: "FxUum76z",
-        Recaptchakey: "6LeHezUfAAAAAE_uuY_HFN5HoEVsQv8bpyC3xTat", //local
-        API_URL: 'https://cluxapi.wealwin.com',
-        FRONT_URL: 'https://clux.wealwin.com',
-        ADMIN_URL: 'https://clux.wealwin.com/admin',
+        Recaptchakey: "6LfbZAsjAAAAAKqTafoVOsaOttEX8EwGPneUc-Yn", //local
+        API_URL: 'https://aurex.maticz.com/api',
+        FRONT_URL: 'https://aurex.maticz.com',
+        ADMIN_URL: 'https://aurex.maticz.com/admin',
         getGeoInfo: "https://ipapi.co/json/",
     };
 
