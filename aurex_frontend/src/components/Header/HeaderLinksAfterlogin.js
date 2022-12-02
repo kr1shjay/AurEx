@@ -31,6 +31,7 @@ export default function HeaderLinks(props) {
 
   // state
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElNoti, setAnchorElNoti] = React.useState(null);
 
   // redux state
   const themeData = useSelector((state) => state.theme);
@@ -46,8 +47,21 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
     setAnchorEl(event.currentTarget);
   };
 
+  const handleClickNotification = async (event,val) => {
+    if(val=="readall")
+    {
+      let { staus, message } = await readNotification();
+    }
+    setAnchorElNoti(event.currentTarget);
+  };
+
+  
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleCloseNotification = () => {
+    setAnchorElNoti(null);
   };
 
   const readAllMsg = async () => {
@@ -55,9 +69,16 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
     noticePopup(dispatch, false);
   };
 
-  const closeBox = () => {
+  const closeBox = (event) => {
+    // console.log(event.currentTarget,"event");
+    // event.stopPropogation();
     noticePopup(dispatch, true);
   };
+
+  // document.getElementsByTagName("body")[0].onclick(function(event)
+  // {
+  //   console.log(event.currentTarget,"event");
+  // });
 
   useEffect(() => {
     socketContext.socket.on("notice", (result) => {
@@ -107,40 +128,49 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
             }
 
             {isAuth && (
-              <li>
+              <>
+              <li className="noti_parent_po notiification_link_for_web">
                 {unread && unread.length > 0 ? (
                   <span className="notify_count">
                     {unread && unread.length}
                   </span>
                 ) : null}
                 {isOpen == false ? (
+                  // <Button
+                  //   class="btn btnNotification"
+                  //   type="button"
+                  //   data-toggle="collapse"
+                  //   data-target="#notificationDropdown"
+                  //   onClick={closeBox}
+                  //   aria-expanded="false"
+                  //   aria-controls="notificationDropdown"
+                  // >
                   <Button
-                    class="btn btnNotification"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#notificationDropdown"
-                    onClick={closeBox}
-                    aria-expanded="false"
-                    aria-controls="notificationDropdown"
-                  >
+                  aria-controls="notificationDropdown"
+                  aria-haspopup="true"
+                  onClick={handleClickNotification}
+                >
                     <i className="fas fa-bell"></i>
                   </Button>
                 ) : (
                   <Button
-                    class="btn btnNotification"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#notificationDropdown"
-                    aria-expanded="false"
-                    onClick={readAllMsg}
-                    aria-controls="notificationDropdown"
-                  >
+                  aria-controls="notificationDropdown"
+                  aria-haspopup="true"
+                  onClick={handleClickNotification("readall")}
+                >
                     <i className="fas fa-bell"></i>
                   </Button>
                 )}
-
-                <div class="collapse" id="notificationDropdown">
-                  <div className="notificationDropdown">
+                <Menu
+                  id="notificationDropdown"
+                  className="afterlogin_hr"
+                  anchorEl={anchorElNoti}
+                  keepMounted
+                  open={Boolean(anchorElNoti)}
+                  onClose={handleCloseNotification}
+                >
+                {/* <div class="collapse" id="notificationDropdown"> */}
+                  <div className="notificationDropdown noti_child_po">
                     {!isEmpty(unread) && unread.length > 0 ? (
                       <>
                         <ul>
@@ -174,8 +204,12 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                       <Link to="/notification">All Notifications</Link>
                     </p>
                   </div>
-                </div>
+                  </Menu>
+                {/* </div> */}
               </li>
+
+              <li className="notiification_link_for_mob"><a href="/notification">Notifications</a></li>
+              </>
             )}
 
             {isAuth && (

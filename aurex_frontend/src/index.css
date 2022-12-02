@@ -20070,7 +20070,7 @@ button.btn.btn-outline:active {
   font-size: 10px;
   position: absolute;
   right: 15px;
-  margin-top: -13px;
+  margin-top: -5px;
   border: 2px solid #fff;
   z-index: 9;
 }
@@ -30078,4 +30078,46 @@ top: -6px;
 {
   padding-top: 5px !important;
   padding-bottom: 5px !important;
+}
+
+.noti_parent_po
+{
+  position: relative;
+}
+
+.noti_child_po
+{
+  position: fixed;
+  right:35px;
+    top:62px;
+}
+.notiification_link_for_mob
+{
+  margin-top: 10px;
+}
+.notiification_link_for_web
+{
+  margin-top: 5px;
+}
+@media only screen and (max-width:1279px)
+{
+  .notiification_link_for_mob
+  {
+    display: block !important;
+  }
+  .notiification_link_for_web
+  {
+    display: none !important;
+  }
+}
+@media only screen and (min-width:1280px)
+{
+  .notiification_link_for_mob
+  {
+    display: none !important;
+  }
+  .notiification_link_for_web
+  {
+    display: block !important;
+  }
 }

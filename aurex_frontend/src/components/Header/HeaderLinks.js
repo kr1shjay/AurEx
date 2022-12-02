@@ -149,14 +149,19 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                 >
                     <Link to="/profile"><MenuItem className="px-2">
                     <div className="d-flex afterlogin_profile"><div><img src={Profileicon}  alt="profileicon"/> </div><div><p className="mx-3 mb-0 first">{`${firstName} ${lastName}`}</p>
-<p className="second mb-0 mx-3">{email}</p></div> </div>
+                  <p className="second mb-0 mx-3">{email}</p></div> </div>
                   </MenuItem></Link>
-                                
+                  <Link to="/profile">        
                   <MenuItem>
-                    <Link to="/profile"><i className="fa fa-user" aria-hidden="true"></i><span>Profile</span></Link>
+                    <i className="fa fa-user" aria-hidden="true"></i><span>Profile</span>
                   </MenuItem>
+                  </Link>
                   <hr/> 
-                  <MenuItem><Link to="/launchpad"><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></Link></MenuItem>
+                  <Link to="/launchpad">
+                  <MenuItem>
+                  <i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span>
+                  </MenuItem>
+                  </Link>
                   <hr/> 
                   <MenuItem><Link to="/staking"><i class="fab fa-stack-exchange"></i><span>Staking</span></Link></MenuItem>
                   <hr/> 
