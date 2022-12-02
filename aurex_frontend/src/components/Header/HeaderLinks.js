@@ -157,49 +157,55 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                   </MenuItem>
                   </Link>
                   <hr/> 
-                  <Link to="/launchpad">
-                  <MenuItem>
-                  <i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span>
-                  </MenuItem>
-                  </Link>
+
+                  <Link to="/launchpad"><MenuItem><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></MenuItem></Link>
                   <hr/> 
-                  <MenuItem><Link to="/staking"><i class="fab fa-stack-exchange"></i><span>Staking</span></Link></MenuItem>
+                  <Link to="/staking"><MenuItem><i class="fab fa-stack-exchange"></i><span>Staking</span></MenuItem></Link>
                   <hr/> 
-                  <MenuItem>
-                    <Link to="/security"><i className="fa fa-lock" aria-hidden="true"></i><span>Security</span></Link>
-                  </MenuItem>
+                  <Link to="/security"><MenuItem>
+                    <i className="fa fa-lock" aria-hidden="true"></i><span>Security</span>
+                  </MenuItem></Link>
                   
                   <hr/> 
+                  <Link to="/setting">
                   <MenuItem>
-                    <Link to="/setting"><i className="fa fa-cog" aria-hidden="true"></i><span>Settings</span></Link>
+                    <i className="fa fa-cog" aria-hidden="true"></i><span>Settings</span>
                   </MenuItem>
+                  </Link>
                  
                   <hr/> 
+                  <Link to="/orders">
                   <MenuItem>
-                    <Link to="/orders"><i className="fa fa-list" aria-hidden="true"></i><span>Orders</span></Link>
+                    <i className="fa fa-list" aria-hidden="true"></i><span>Orders</span>
                   </MenuItem>
+                  </Link>
                   {/* <hr/> 
                   <MenuItem>
                     <Link to="/referral"><i className="fa fa-users" aria-hidden="true"></i><span>Referral</span></Link>
                   </MenuItem> */}
                   <hr/> 
                   {/* <MenuItem><Link to="/notification">Notifications</Link></MenuItem> */}
-                  <MenuItem>
-                    <Link to="/history"><i className="far fa-clock"></i><span>History</span></Link>
+                  <Link to="/history"><MenuItem>
+                    <i className="far fa-clock"></i><span>History</span>
                   </MenuItem>
+                  </Link>
                   <hr/> 
+                  <Link to="/support-ticket">
                   <MenuItem>
-                    <Link to="/support-ticket"><i className="fa fa-question-circle" aria-hidden="true"></i><span>Support</span></Link>
+                    <i className="fa fa-question-circle" aria-hidden="true"></i><span>Support</span>
                   </MenuItem>
+                  </Link>
                   {/* <MenuItem>
                     <Link to="/orders">Orders</Link>
                   </MenuItem> */}
                   {/* <MenuItem><Link to="/api-management">API Management</Link></MenuItem> */}
+                  <Link to="#" onClick={() => logout(history, dispatch)}>
                   <MenuItem>
-                    <Link to="#" onClick={() => logout(history, dispatch)}>
+                   
                     <i className="fas fa-sign-out-alt"></i> <span> Logout</span>
-                    </Link>
+                  
                   </MenuItem>
+                  </Link>
                 </Menu>
               </li>
           </ListItem>

@@ -29751,6 +29751,12 @@ width: 40px;
   margin-bottom: 0px;
     margin-top: 0px;
  }
+ .regGroupInput i{color: #21b77a !important;}
+ .afterlogin_hr li
+ {
+  padding-top: 7px !important;
+  padding-bottom: 7px !important;
+ }
  #profile_menu .MuiPopover-paper ul li {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -30080,18 +30086,13 @@ top: -6px;
   padding-bottom: 5px !important;
 }
 
-.noti_parent_po
-{
-  position: relative;
-}
 
-.noti_child_po
-{
-  position: fixed;
-  right:35px;
-    top:62px;
-    min-width: 250px !important;
-}
+
+
+
+
+
+
 .notiification_link_for_mob
 {
   margin-top: 10px;
@@ -30121,4 +30122,18 @@ top: -6px;
   {
     display: block !important;
   }
+}
+
+
+.noti_parent_po
+{
+  position: relative !important;
+}
+.noti_child_po
+{
+  position: fixed !important;
+  top:62px;
+  right:35px;
+  min-width:250px !important;
+
 }

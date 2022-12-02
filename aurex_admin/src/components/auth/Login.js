@@ -209,7 +209,7 @@ class Login extends Component {
                                     </button>
                                 </p>
                                 <p className="grey-text text-darken-1 d-flex align-items-center justify-content-between block_mob">
-                                    Don't have an account? <Link to="/forgot" className="pl-sm-2">Forgot Password?</Link>
+                                        <Link to="/forgot" className="pl-sm-2">Forgot Password?</Link>
                                 </p>
 
 

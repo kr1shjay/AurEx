@@ -80,7 +80,7 @@ class Forgot extends Component {
                                     </button>
                                 </p>
                                 <p className="grey-text text-darken-1 d-flex align-items-center justify-content-between block_mob">
-                                    Back to Login <Link to="/login">Login</Link>
+                                     <Link to="/login">Login</Link>
                                 </p>
                             </form>
                         </div>
