@@ -304,7 +304,7 @@ class LaunchpadUpdateModal extends React.Component {
                             <div className="col-md-3">
                                 <label htmlFor="tokenname">Token</label>
                             </div>
-                            <div className="col-md-7">
+                            <div className="col-md-9">
                                 <Select
                                     value={tokenOption && tokenOption.length > 0 ? tokenOption.filter((el) => {
                                         if (el.value == currencyId) {
@@ -317,9 +317,10 @@ class LaunchpadUpdateModal extends React.Component {
                                 />
                                 <span className="text-danger">{errors.currencyId}</span>
                             </div>
-                            <div className="col-md-2">
+                            <div className="col-md-12 py-3 text-right">
                                 <Link to={'/currency'} className="link_new_green">Add Currency</Link>
                             </div>
+                           
                         </div>
 
                         <div className="row mt-2">

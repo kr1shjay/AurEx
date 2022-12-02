@@ -375,7 +375,7 @@ input,.form-control,.container input
 }
 label
 {
-  color:#6f6f6f !important;
+  color:#d1d1d1 !important;
 }
 .btn-primary
 {
@@ -570,7 +570,7 @@ th.sortable
 .sidebar_whole
 {
     position: fixed;
-    z-index: 99;
+    z-index: 1;
     min-height: 100vh;
     background: #1a1b1c;
     /* overflow-y: scroll; */

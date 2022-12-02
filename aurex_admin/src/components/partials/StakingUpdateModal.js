@@ -384,7 +384,7 @@ class StakingUpdateModal extends React.Component {
                       <div className="col-md-3">
                         <label htmlFor="minimum">Period {key + 1}</label>
                       </div>
-                      <div className="box row col-md-9">
+                      <div className="box row col-md-9 align-items-center">
                         <div className="col-md-3">
                           <input
                             name="days"
@@ -455,7 +455,7 @@ class StakingUpdateModal extends React.Component {
                     <div className="col-md-3">
                       <label htmlFor="minimum">Period 1</label>
                     </div>
-                    <div className="box row col-md-9">
+                    <div className="box row col-md-9 align-items-center">
                       <div className="col-md-3">
                         <input
                           name="days"

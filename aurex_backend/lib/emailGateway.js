@@ -7,12 +7,12 @@ import { set, get } from '../controllers/redis.controller'
 
 //import package
 import nodemailer from 'nodemailer';
-const SibApiV3Sdk = require('sib-api-v3-sdk');
-let defaultClient = SibApiV3Sdk.ApiClient.instance;
-let apiKey = defaultClient.authentications['api-key'];
-apiKey.apiKey = SendinBlue.apiKey;
-let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+ const SibApiV3Sdk = require('sib-api-v3-sdk');
+// let defaultClient = SibApiV3Sdk.ApiClient.instance;
+// let apiKey = defaultClient.authentications['api-key'];
+// apiKey.apiKey = SendinBlue.apiKey;
+// let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+// let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
 
 // export const sendEmail = async (to, content) => {

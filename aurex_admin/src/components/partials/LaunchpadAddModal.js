@@ -277,7 +277,7 @@ class LaunchpadAddModal extends React.Component {
                             <div className="col-md-3">
                                 <label htmlFor="tokenname">Token</label>
                             </div>
-                            <div className="col-md-7">
+                            <div className="col-md-9">
                                 <Select
                                     value={tokenOption && tokenOption.length > 0 ? tokenOption.filter((el) => {
                                         if (el.value == currencyId) {
@@ -290,9 +290,10 @@ class LaunchpadAddModal extends React.Component {
                                 />
                                 <span className="text-danger">{errors.currencyId}</span>
                             </div>
-                            <div className="col-md-2">
-                                <Link to={'/currency'}>Add Currency</Link>
+                            <div className="col-md-12 text-right py-3">
+                                <Link to={'/currency'} className="link_green_add">Add Currency</Link>
                             </div>
+                          
                         </div>
 
 
@@ -322,7 +323,7 @@ class LaunchpadAddModal extends React.Component {
                             <div className="col-md-3">
                                 <label htmlFor="price">Launch Price</label>
                             </div>
-                            <div className="col-md-4">
+                            <div className="col-md-9">
                                 <input
                                     name="launchPrice"
                                     type="text"
@@ -336,10 +337,14 @@ class LaunchpadAddModal extends React.Component {
                                 <span className="text-danger">{errors.launchPrice}</span>
                             </div>
 
-                            <div className="col-md-2">
+                           
+                        </div>
+
+                        <div className="row mt-2">
+                        <div className="col-md-3">
                                 <label htmlFor="price">Launch Coin</label>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-9">
                                 <Select
                                     value={fiatCurOption && fiatCurOption.length > 0 ? fiatCurOption.filter((el) => {
                                         if (el.value == launchCoin) {
@@ -348,6 +353,7 @@ class LaunchpadAddModal extends React.Component {
                                     }) : []}
                                     options={fiatCurOption}
                                     onChange={this.handleLaunchCoin}
+                                    styles={this.styles} className="border_blue_select basic-multi-select"
                                 />
                                 <span className="text-danger">{errors.launchCoin}</span>
                             </div>
@@ -403,8 +409,8 @@ class LaunchpadAddModal extends React.Component {
                                     isMulti
                                     options={currencyOption}
                                     onChange={this.handleAvalCoin}
-                                    className="basic-multi-select"
                                     classNamePrefix="select"
+                                    styles={this.styles} className="border_blue_select basic-multi-select"
                                 />
                                 <span className="text-danger">{errors.availableCoin}</span>
                             </div>
