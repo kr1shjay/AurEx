@@ -570,7 +570,7 @@ th.sortable
 .sidebar_whole
 {
     position: fixed;
-    z-index: 99;
+    z-index: 1;
     min-height: 100vh;
     background: #1a1b1c;
     /* overflow-y: scroll; */

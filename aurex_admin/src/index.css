@@ -112,3 +112,17 @@ footer {
 {
   color: #fff !important;
 }
+.navbar_mobile_menu
+{
+  position: fixed;
+  right: 15px;
+}
+
+.navbar_mobile_menu .settings_head_menu 
+{
+left:unset !important;
+right: 0px !important;
+position: absolute !important;
+z-index: 2;
+border: 1px solid #413f3f;
+}

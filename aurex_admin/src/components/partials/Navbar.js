@@ -30,14 +30,12 @@ class Navbar extends Component {
                     <a className="navbar-brand" href="/dashboard" > 
                         <img src={adminLogo} className="img-fluid" alt="" />
                     </a>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse"
+                    {/* <button className="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                             aria-label="Toggle navigation">
                         <FontAwesomeIcon icon={faList}/>
-                    </button>
-
-                    <div className="collapse navbar-collapse" id="navbarNavDropdown">
-                        <ul className="navbar-nav ml-auto">
+                    </button> */}
+                    <ul className="navbar-nav navbar_mobile_menu">
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="settings"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,14 +58,17 @@ class Navbar extends Component {
                                        Google 2FA
                                      </Link>
 
+                                     <a className="nav-link" href="/login"  onClick={this.onLogoutClick}>Logout ({user.name}) <FontAwesomeIcon icon={faSignOutAlt} /> </a>
+
                                 
 
                                 </div>
                             </li>
-                            <li className="nav-item active">
-                                <a className="nav-link" href="/login"  onClick={this.onLogoutClick}>Logout ({user.name}) <FontAwesomeIcon icon={faSignOutAlt} /> </a>
-                            </li>
+                           
                         </ul>
+
+                    <div className="collapse navbar-collapse" id="navbarNavDropdown">
+                     
                     </div>
                 </nav>
             </div>
