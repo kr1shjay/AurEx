@@ -399,3 +399,26 @@ export const orderBookDetail = (dispatch, data) => {
     })
     return true
 }
+
+// for subscribe 
+export const newsLetter = async (data)=>{
+    try{
+       let respData= await axios({
+        'method': 'post',
+        'url':'/api/newsLetter/subscribe',
+         data
+       })
+       return {
+        status: 'success',
+        loading: false,
+        message: respData.data.message,
+    }
+    }catch(err){
+        handleResp(err, 'error')
+        return {
+            status: 'failed',
+            loading: false,
+            message: err.response.data.message
+        }
+    }
+}

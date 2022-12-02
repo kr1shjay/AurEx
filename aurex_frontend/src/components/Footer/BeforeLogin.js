@@ -13,8 +13,9 @@ import styles from "assets/jss/material-kit-react/components/footerStyle.js";
 
 // import action
 import { getLanguage } from '../../actions/commonAction';
-
+import {newsLetter} from '../../actions/spotTradeAction'
 // import lib
+import { toastAlert } from '../../lib/toastAlert';
 import { capitalize } from '../../lib/stringCase';
 import { setLang, getLang } from '../../lib/localStorage';
 import isEmpty from "../../lib/isEmpty";
@@ -39,7 +40,7 @@ export default function BeforeLogin(props) {
   // state
   const [langOption, setLangOption] = useState([])
   const [language, setLanguage] = useState('')
-
+  const [letter,setLetter]=useState({})
   // redux-state
   const { isAuth } = useSelector(state => state.auth);
   const socialMedia = useSelector(state => state.socialMedia);
@@ -51,6 +52,21 @@ export default function BeforeLogin(props) {
     setLanguage(value)
     setLang(value)
     i18n.changeLanguage(value);
+  }
+
+  const onInputchage=(e)=>{
+    setLetter({...letter,[e.target.name]:e.target.value})
+  }
+
+  const OnSubmit =async (e)=>{
+   var res =await newsLetter(letter)
+   if (res.status="success"){
+    toastAlert('success', res.message, 'newLetter')
+   }
+   else{
+    toastAlert('error',res.message, 'newsLetter')
+   }
+   
   }
 
   const fetchLanguage = async () => {
@@ -98,9 +114,9 @@ export default function BeforeLogin(props) {
                 <div className="form-group form_grp_newsletr mt-3">
                       <div className="input-group">
                         
-                        <input type="email" className="form-control" placeholder="Mail Id" />
+                        <input type="email" className="form-control" placeholder="Mail Id" name="email" onChange={(e)=>{onInputchage(e)}}/>
                         <div className="input-group-append">
-                        <button className="btn btn_green_su" href="/">Submit</button>
+                        <button className="btn btn_green_su" href="/" onClick={(e)=>{OnSubmit(e)}}>Submit</button>
                         </div>
                       </div>
                     </div>
