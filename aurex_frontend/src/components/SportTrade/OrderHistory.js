@@ -102,7 +102,7 @@ const OrderHistory = () => {
                 }
             })
         }
-    }, [tradePair, isAuth])
+    }, [tradePair, isAuth,socketContext.socket])
 
     return (
         <div className="table-responsive">

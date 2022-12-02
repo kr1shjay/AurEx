@@ -131,7 +131,7 @@ const CryptoWithdraw = (props) => {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{t("WITHDRAW_FIAT_DEPOSIT")}</Modal.Title>
+        <Modal.Title>{t("WITHDRAW CRYPTO")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <GridContainer>
@@ -159,7 +159,7 @@ const CryptoWithdraw = (props) => {
               <div class="seacr_box_s">
                 <input
                   type="text"
-                  name=""
+                  // name=""
                   name="receiverAddress"
                   value={receiverAddress}
                   onChange={handleChange}

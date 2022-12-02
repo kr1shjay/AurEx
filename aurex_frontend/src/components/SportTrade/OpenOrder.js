@@ -109,7 +109,7 @@ const OpenOrder = (props) => {
                 }
             })
         }
-    }, [tradePair])
+    }, [tradePair,socketContext.socket])
 
     return (
         <div className="table-responsive">

@@ -32,7 +32,7 @@ const SpotPage = (props) => {
     socketContext.socket.on('updateTradeAsset', (result) => {
       updateTradeAsset(dispatch, result)
     })
-  }, [])
+  }, [socketContext.socket])
 
   return (
     <div className="dashboard_container page_wrap">
