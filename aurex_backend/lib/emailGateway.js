@@ -35,7 +35,7 @@ let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
   //  }
 //}
 
-export const sendMail = async (to, content) => {
+export const sendEmail = async (to, content) => {
     const { subject, template } = content;
 SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = SendinBlue.apiKey;
 // SendinBlue.apiKey
