@@ -5,7 +5,8 @@ import { Button } from "@material-ui/core";
 import browser from 'browser-detect';
 import Checkbox from 'rc-checkbox';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useHistory,Link } from 'react-router-dom';
+import clsx from 'classnames';
 
 // import action
 import { getGeoInfoData, login } from '../../actions/users';
@@ -21,7 +22,8 @@ const initialFormValue = {
     'formType': '',
     'password': '',
     'twoFACode': '',
-    'remember': false
+    'remember': false,
+    'showPassword': false
 }
 
 
@@ -38,7 +40,7 @@ const EmailForm = () => {
     const [loginHistory, setLoginHistory] = useState({});
     const [showTwoFA, setShowTowFA] = useState(false)
 
-    const { email, password, formType, remember, twoFACode } = formValue;
+    const { email, password, formType, showPassword,remember, twoFACode } = formValue;
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -170,6 +172,7 @@ const EmailForm = () => {
                     placeholder={t('EMAIL_PLACEHOLDER')}
                     name="email"
                     value={email}
+                    autoComplete="off"
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
@@ -178,8 +181,9 @@ const EmailForm = () => {
                    </div> 
             <div className="form-group">
                 <span className="login_label">{t('PASSWORD')}</span>
+                <div className="input-group regGroupInput mt-2">
                 <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     className="form-control mt-2"
                     placeholder={t('PASSWORD_PLACEHOLDER')}
                     name="password"
@@ -187,6 +191,17 @@ const EmailForm = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
+                <div className="input-group-append">
+                        <Link onClick={(e) => {
+                            e.preventDefault();
+                            setFormValue((el => {
+                                return { ...el, ...{ showPassword: !el.showPassword } }
+                            }))
+                        }}>
+                            <i className={clsx("fa", { "fa-eye": showPassword }, { "fa-eye-slash": !showPassword })} aria-hidden="true"></i>
+                        </Link>
+                </div>
+                </div>
                 {toched.password && validateError.password && <p className="error-message">{t(validateError.password)}</p>}
                 {/* <span style={{ color: 'red' }}>{validateError && validateError.password}</span>   */}
             </div>

@@ -92,8 +92,8 @@ const CompletedList = (props) => {
                                        <div className='finish_col_boundary'>
                                         <img
                                             src=
-                                            // {currency.image}
-                                            {bannerimg1}
+                                             {currency && currency.image? currency.image : bannerimg1}
+                                            //{bannerimg1}
                                             alt="Banner"
                                             className="img-fluid"
                                         />
@@ -160,14 +160,14 @@ const CompletedList = (props) => {
                                         </div>
                                         </div>
 
-                                        <div className="text-right mb-2 mt-2">
+                                        {/* <div className="text-right mb-2 mt-2">
                                             <Button
                                                 className="btn btn-green-sm"
                                                 onClick={() => history.push('/launchpad-details/' + item._id)}
                                             >
                                                 View
                                             </Button>
-                                        </div>
+                                        </div> */}
                                             </div>
                                         </div>
                                       

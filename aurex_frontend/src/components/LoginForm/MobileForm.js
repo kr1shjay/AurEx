@@ -5,9 +5,10 @@ import { Button } from "@material-ui/core";
 import browser from 'browser-detect';
 import Checkbox from 'rc-checkbox';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useHistory,Link } from 'react-router-dom';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
+import clsx from 'classnames';
 
 
 // import action
@@ -44,7 +45,7 @@ const MobileForm = () => {
     const [optStatus, setOtpStatus] = useState(false)
     const [buttonName, setButtonName] = useState(false)
 
-    const { phoneCode, phoneNo, otp, formType, password, remember, twoFACode } = formValue;
+    const { phoneCode, phoneNo, otp, formType,showPassword, password, remember, twoFACode } = formValue;
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -240,8 +241,9 @@ const MobileForm = () => {
             </div>
             <div className="form-group">
                 <span className="login_label">{t('PASSWORD')}</span>
+                <div className="input-group regGroupInput mt-2">
                 <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     className="form-control mt-2"
                     placeholder={t('PASSWORD_PLACEHOLDER')}
                     name="password"
@@ -249,6 +251,17 @@ const MobileForm = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
+                <div className="input-group-append">
+                        <Link onClick={(e) => {
+                            e.preventDefault();
+                            setFormValue((el => {
+                                return { ...el, ...{ showPassword: !el.showPassword } }
+                            }))
+                        }}>
+                            <i className={clsx("fa", { "fa-eye": showPassword }, { "fa-eye-slash": !showPassword })} aria-hidden="true"></i>
+                        </Link>
+                </div>
+                </div>
                 {toched.password && validateError.password && <p className="error-message">{t(validateError.password)}</p>}
             </div>
 

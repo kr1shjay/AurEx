@@ -31,6 +31,7 @@ export default function HeaderLinks(props) {
 
   // state
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElNoti, setAnchorElNoti] = React.useState(null);
 
   // redux state
   const themeData = useSelector((state) => state.theme);
@@ -50,6 +51,20 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
     setAnchorEl(null);
   };
 
+
+  const handleClickNotification = async (event,val) => {
+    if(val=="readall")
+    {
+      let { staus, message } = await readNotification();
+    }
+    setAnchorElNoti(event.currentTarget);
+  };
+
+  
+  const handleCloseNotification = () => {
+    setAnchorElNoti(null);
+  };
+  
   const readAllMsg = async () => {
     let { staus, message } = await readNotification();
     noticePopup(dispatch, false);
@@ -106,7 +121,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
               </li>
             }
 
-            {isAuth && (
+            {/* {isAuth && (
               <li>
                 {unread && unread.length > 0 ? (
                   <span className="notify_count">
@@ -176,6 +191,89 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                   </div>
                 </div>
               </li>
+            )} */}
+
+{isAuth && (
+              <>
+              <li className="noti_parent_po notiification_link_for_web">
+                {unread && unread.length > 0 ? (
+                  <span className="notify_count">
+                    {unread && unread.length}
+                  </span>
+                ) : null}
+                {isOpen == false ? (
+                  // <Button
+                  //   class="btn btnNotification"
+                  //   type="button"
+                  //   data-toggle="collapse"
+                  //   data-target="#notificationDropdown"
+                  //   onClick={closeBox}
+                  //   aria-expanded="false"
+                  //   aria-controls="notificationDropdown"
+                  // >
+                  <Button
+                  aria-controls="notificationDropdown"
+                  aria-haspopup="true"
+                  onClick={handleClickNotification}
+                >
+                    <i className="fas fa-bell"></i>
+                  </Button>
+                ) : (
+                  <Button
+                  aria-controls="notificationDropdown"
+                  aria-haspopup="true"
+                  onClick={handleClickNotification("readall")}
+                >
+                    <i className="fas fa-bell"></i>
+                  </Button>
+                )}
+                <Menu
+                  id="notificationDropdown"
+                  className="afterlogin_hr"
+                  anchorEl={anchorElNoti}
+                  keepMounted
+                  open={Boolean(anchorElNoti)}
+                  onClose={handleCloseNotification}
+                >
+                  <div className="notificationDropdown noti_child_po">
+                    {!isEmpty(unread) && unread.length > 0 ? (
+                      <>
+                        <ul>
+                          {unread &&
+                            unread.length > 0 &&
+                            unread.map((item) => {
+                              return (
+                                <li>
+                                  <p>
+                                    <TimeAgo date={new Date(item.createdAt)}>
+                                      {({ value }) => value}
+                                    </TimeAgo>
+                                  </p>
+                                  <h5>{item.description}</h5>
+                                </li>
+                              );
+                            })}
+                        </ul>
+                      </>
+                    ) : (
+                      <>
+                        <ul>
+                          <li>
+                            <h5>No more unread Notifications ...</h5>
+                          </li>
+                        </ul>
+                      </>
+                    )}
+
+                    <p className="text-center pb-3 pt-2">
+                      <Link to="/notification">All Notifications</Link>
+                    </p>
+                  </div>
+                  </Menu>
+              </li>
+
+              <li className="notiification_link_for_mob"><a href="/notification">Notifications</a></li>
+              </>
             )}
 
             {isAuth && (
@@ -207,49 +305,60 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
 <p className="second mb-0 mx-3">{email}</p></div> </div>
                   </MenuItem></Link>
                                 
-                   <MenuItem>
-                    <Link to="/profile"><i className="fa fa-user" aria-hidden="true"></i><span>Profile</span></Link>
-                  </MenuItem>
-                  <hr/> 
-                  <MenuItem><Link to="/launchpad"><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></Link></MenuItem>
-                  <hr/> 
-                  <MenuItem><Link to="/staking"><i class="fab fa-stack-exchange"></i><span>Staking</span></Link></MenuItem>
-                  <hr/> 
+                  <Link to="/profile">        
                   <MenuItem>
-                    <Link to="/security"><i className="fa fa-lock" aria-hidden="true"></i><span>Security</span></Link>
+                    <i className="fa fa-user" aria-hidden="true"></i><span>Profile</span>
                   </MenuItem>
+                  </Link>
+                  <hr/> 
+                  <Link to="/launchpad"><MenuItem><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></MenuItem></Link>
+                  <hr/> 
+                  <Link to="/staking"><MenuItem><i class="fab fa-stack-exchange"></i><span>Staking</span></MenuItem></Link>
+                  <hr/> 
+                  <Link to="/security"><MenuItem>
+                    <i className="fa fa-lock" aria-hidden="true"></i><span>Security</span>
+                  </MenuItem></Link>
                   
                   <hr/> 
+                  <Link to="/setting">
                   <MenuItem>
-                    <Link to="/setting"><i className="fa fa-cog" aria-hidden="true"></i><span>Settings</span></Link>
+                    <i className="fa fa-cog" aria-hidden="true"></i><span>Settings</span>
                   </MenuItem>
+                  </Link>
                  
                   <hr/> 
+                  <Link to="/orders">
                   <MenuItem>
-                    <Link to="/orders"><i className="fa fa-list" aria-hidden="true"></i><span>Orders</span></Link>
+                    <i className="fa fa-list" aria-hidden="true"></i><span>Orders</span>
                   </MenuItem>
+                  </Link>
                   {/* <hr/> 
                   <MenuItem>
                     <Link to="/referral"><i className="fa fa-users" aria-hidden="true"></i><span>Referral</span></Link>
                   </MenuItem> */}
                   <hr/> 
                   {/* <MenuItem><Link to="/notification">Notifications</Link></MenuItem> */}
-                  <MenuItem>
-                    <Link to="/history"><i className="far fa-clock"></i><span>History</span></Link>
+                  <Link to="/history"><MenuItem>
+                    <i className="far fa-clock"></i><span>History</span>
                   </MenuItem>
+                  </Link>
                   <hr/> 
+                  <Link to="/support-ticket">
                   <MenuItem>
-                    <Link to="/support-ticket"><i className="fa fa-question-circle" aria-hidden="true"></i><span>Support</span></Link>
+                    <i className="fa fa-question-circle" aria-hidden="true"></i><span>Support</span>
                   </MenuItem>
+                  </Link>
                   {/* <MenuItem>
                     <Link to="/orders">Orders</Link>
                   </MenuItem> */}
                   {/* <MenuItem><Link to="/api-management">API Management</Link></MenuItem> */}
+                  <Link to="#" onClick={() => logout(history, dispatch)}>
                   <MenuItem>
-                    <Link to="#" onClick={() => logout(history, dispatch)}>
+                   
                     <i className="fas fa-sign-out-alt"></i> <span> Logout</span>
-                    </Link>
+                  
                   </MenuItem>
+                  </Link>
                 </Menu>
               </li>
             )}

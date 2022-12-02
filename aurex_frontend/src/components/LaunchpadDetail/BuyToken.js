@@ -140,13 +140,16 @@ const BuyToken = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+       // && parseFloat(quantity).toFixed(3) <= parseFloat(0) ? parseFloat(quantity).toFixed(8) : parseFloat(quantity).toFixed(3)
+       var quan = parseFloat(quantity).toFixed(3)
+       
         try {
             let reqData = {
-                'quantity': quantity,
+                'quantity': quan,
                 'currencyId': asset._id,
                 'launchId': data._id
             }
+            console.log("reqdata----->",reqData)
             const validateError = validation({
                 ...reqData,
                 'price': price,
@@ -168,6 +171,7 @@ const BuyToken = (props) => {
                 calculation(data.launchPrice, data.minAmount, data.availableCoin[0], 'price')
                 updateWallet(dispatch, result.wallet, 'launchpad')
                 addListPurchase(dispatch, result.purchaseToken)
+                buyShow(false)
             } else {
                 toastAlert('error', t(message))
             }
@@ -256,8 +260,8 @@ const BuyToken = (props) => {
                         className="form-control"
                         placeholder="0.00"
                         name="quantity"
-                        value={quantity && parseFloat(quantity).toFixed(3) <= parseFloat(0) ? parseFloat(quantity).toFixed(8) : parseFloat(quantity).toFixed(3)}
-                        onChange={handleChange}
+                        value={quantity}
+                        onChange={(e)=>{handleChange(e)}}
                     />
                     <div className="input-group-append"> <span className="input-group-text">{data.coin}</span></div>
                 </div>

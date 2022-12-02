@@ -340,7 +340,7 @@ const OrderPlaceModalLocked = (props) => {
         </div>
 
         <div className="d-flex justify-content-between mt-4 pb-4 btn_div_sm_font">
-<button type="button" className="btn btn-bordered-secondary w-100 mt-3 mr-3">Cancel</button>
+<button type="button" onClick={handleClose} className="btn btn-bordered-secondary w-100 mt-3 mr-3">Cancel</button>
 {/* <button type="button" className="btn btn-primary w-100 mt-3" disabled={loader} onClick={handleFormSubmit}>{t('CONFIRM')}</button> */}
 </div>
     </div>
