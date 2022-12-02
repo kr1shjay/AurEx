@@ -1070,7 +1070,7 @@ pre code {
 @media (min-width: 768px) {
   .modal_secnd_sec_border
   {
-    border-left:1px solid #242827;
+    border-left:1px solid #59615f;
   }
   .container {
     max-width: 720px;
@@ -19821,7 +19821,7 @@ footer a:hover {
 }
 
 .contact_form .form-control {
-  border: 1px solid #242827 !important;
+  border: 1px solid #59615f !important;
   background: transparent !important;
   color: #fff;
   min-height: 52px;
@@ -21793,10 +21793,10 @@ nav.place_order_nav_tabs {
 }
 
 .input-group.regGroupInput {
-  border-right: 1px solid #242827;
-  border-bottom: 1px solid #242827;
-  border-top: 1px solid #242827;
-  border-left: 1px solid #242827;
+  border-right: 1px solid #59615f;
+  border-bottom: 1px solid #59615f;
+  border-top: 1px solid #59615f;
+  border-left: 1px solid #59615f;
   border-radius: 5px;
   box-shadow: none;
 }
@@ -23622,7 +23622,7 @@ span.msg_admin {
 }
 
 .contact_form .form-control {
-  border: 1px solid #242827 !important;
+  border: 1px solid #59615f !important;
   background: transparent !important;
   color: #fff;
   min-height: 52px;
@@ -23944,7 +23944,7 @@ input:checked+.slider:before {
 .seacr_box_s input {
   /* height: fit-content; */
   padding: 6px 13px;
-  border: 1px solid #242827 !important;
+  border: 1px solid #59615f !important;
   border-radius: 8px;
   margin-bottom: 6px;
   width: 100%;
@@ -24194,7 +24194,7 @@ img.marketIcon {
 
 .select_lable_>div {
   width: 100%;
-  border: 1px solid #242827;
+  border: 1px solid #59615f;
   border-radius: 6px;
   padding-left: 8px;
   font-size: 14px;
@@ -25808,7 +25808,7 @@ top: 40px !important;
 
 .light_theme .tradePages .contact_form .form-control {
   background: transparent !important;
-  border: 1px solid #242827 !important;
+  border: 1px solid #59615f !important;
   border-left: 0px !important;
   border-right: 0px !important;
   text-align: left !important;
@@ -25819,7 +25819,7 @@ top: 40px !important;
 .light_theme .input-group .btnType1 {
   background: transparent !important;
   color: #fff !important;
-  border: 1px solid #242827;
+  border: 1px solid #59615f;
 }
 
 .light_theme .contact_form label {
@@ -25849,7 +25849,7 @@ top: 40px !important;
 
 .light_theme .settingsSelect .MuiInput-underline {
   background: transparent;
-  border: 1px solid #242827;
+  border: 1px solid #59615f;
   color: #fff;
   height: 52px;
   border-radius: 8px;
@@ -25863,7 +25863,7 @@ top: 40px !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #242827;
+  border-bottom: 1px solid #59615f;
   padding-bottom: 15px;
 }
 
@@ -25906,7 +25906,7 @@ top: 40px !important;
 
 .light_theme .login_container .form-control {
   color: #fff;
-  border: 1px solid #242827;
+  border: 1px solid #59615f;
   box-shadow: none;
   background: #1a1b1c;
 }
@@ -26087,7 +26087,7 @@ top: 40px !important;
 }
 
 .light_theme .tableHead {
-  border-bottom: 1px solid #282b33;
+  border-bottom: 1px solid #282b33 !important;
 }
 
 .light_theme .radioGroup .MuiTypography-root {
@@ -26401,7 +26401,7 @@ top: 40px !important;
 
 .light_theme .custom-file-label {
   background: transparent !important;
-  border: 1px solid #242827 !important;
+  border: 1px solid #59615f !important;
   height: 52px !important;
   display: flex !important;
     align-items: center!important;
@@ -26851,7 +26851,7 @@ top: 40px !important;
 }
 
 .light_theme .contacy_s textarea,.light_theme .contacy_s input {
-  border: 1px solid #242827 !important;
+  border: 1px solid #59615f !important;
   background: transparent;
   color: #fff;
   min-height: 52px;
@@ -27046,7 +27046,7 @@ a:hover {
 
 .login_container .react-tel-input .form-control {
   font-size: 16px;
-  border: 1px solid #242827;
+  border: 1px solid #59615f;
   height: 52px;
   border-radius: 7px;
   width: 100%;
@@ -27062,7 +27062,7 @@ a:hover {
 }
 
 .react-tel-input .flag-dropdown {
-  border: 1px solid #242827 !important;
+  border: 1px solid #59615f !important;
   background-color: #1a1b1c !important;
   border-radius: 8px 0 0 8px !important;
 }
@@ -27117,7 +27117,7 @@ button.otp_btn {
   z-index: 999;
   height: 50px;
   background: #21b77a;
-  border: 1px solid #242827;
+  border: 1px solid #59615f;
   transition: 0.2s all;
 }
 
@@ -29342,7 +29342,7 @@ font-size: 14px !important;
 }
 .form_append_grey .input-group-text
 {
-  border: 1px solid #242827 !important;
+  border: 1px solid #59615f !important;
   border-radius: 0px 8px 8px 0px !important;
 }
 .btnGroupPercent .btn
@@ -29590,7 +29590,7 @@ background: transparent !important;
 }
 .input_modal_new_amount
 {
-  border: 1px solid #242827 !important;
+  border: 1px solid #59615f !important;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -30090,6 +30090,7 @@ top: -6px;
   position: fixed;
   right:35px;
     top:62px;
+    min-width: 250px !important;
 }
 .notiification_link_for_mob
 {
