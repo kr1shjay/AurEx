@@ -367,7 +367,7 @@ input::placeholder {
 input,.form-control,.container input
 {
   background-color: transparent !important;
-  border-color: #242827  !important;
+  border-color: #59615f !important;
   border-radius: 8px !important;
   color:#787272 !important;
   box-shadow: 0 0 0 0rem #fff !important;
@@ -870,9 +870,9 @@ margin-bottom: 30px !important;
 .custom-select
 {
     background-color: #1a1b1c !important;
-    background: #1a1b1c !important;
+    /* background: #1a1b1c !important; */
 
-    border-color: #242827  !important;
+    border-color: #59615f  !important;
     border-radius: 8px !important;
     color:#787272 !important;
     box-shadow: 0 0 0 0rem #fff !important;
@@ -888,7 +888,7 @@ input[type="file"] {
 .custom-file-upload {
     background-color: transparent !important;
     border: 1px solid #ced4da;
-    border-color: #242827 !important;
+    border-color: #59615f !important;
     border-radius: 8px !important;
     color: #787272 !important;
     box-shadow: 0 0 0 0rem #fff !important;
