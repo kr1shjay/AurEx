@@ -104,3 +104,11 @@ footer {
  outline: -webkit-focus-ring-color auto 0px !important;
 
 }
+.link_green_add
+{
+  color: #02c076 !important;
+}
+.link_green_add:hover
+{
+  color: #fff !important;
+}
