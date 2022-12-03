@@ -18,6 +18,7 @@ import isEmpty from '../lib/isEmpty';
  * BODY : email
 */
 export const newSubscribe = async (req, res) => {
+    console.log("req",req.body)
     try {
         let reqBody = req.body;
         let checkDoc = await NewsLetter.findOne({ 'email': reqBody.email })
