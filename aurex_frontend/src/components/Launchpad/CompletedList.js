@@ -90,13 +90,27 @@ const CompletedList = (props) => {
                                     <div className='row'>
                                                 <div className='col-12 col-lg-4 mb-3 mb-lg-0 finish_col'>
                                        <div className='finish_col_boundary'>
+                                       {currency && currency.image ? (
                                         <img
+                                            src=
+                                             {currency.image}
+                                            //{bannerimg1}
+                                            alt="Banner"
+                                            className="img-fluid"
+                                        />):(<img
+                                            src=
+                                             //{currency && currency.image? currency.image : bannerimg1}
+                                            {bannerimg1}
+                                            alt="Banner"
+                                            className="img-fluid"
+                                        />)}
+                                        {/* <img
                                             src=
                                              {currency && currency.image? currency.image : bannerimg1}
                                             //{bannerimg1}
                                             alt="Banner"
                                             className="img-fluid"
-                                        />
+                                        /> */}
                                         </div>
                                         <span className='badge_finish'>
                                             <span className='check_round'><i class="fa fa-check"></i></span>
