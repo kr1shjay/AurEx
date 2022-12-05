@@ -534,8 +534,8 @@ class LaunchpadUpdateModal extends React.Component {
                                     showTimeSelect
                                     timeFormat="HH:mm"
                                     dateFormat="MMMM d, yyyy h:mm aa"
+                                    minDate={new Date()}
                                 />
-
                                 <span className="text-danger">{errors.startTimeStamp}</span>
                             </div>
                         </div>
@@ -558,6 +558,7 @@ class LaunchpadUpdateModal extends React.Component {
                                     showTimeSelect
                                     timeFormat="HH:mm"
                                     dateFormat="MMMM d, yyyy h:mm aa"
+                                    minDate={new Date()}
                                 />
                                 <span className="text-danger">{errors.endTimeStamp}</span>
                             </div>

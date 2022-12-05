@@ -108,13 +108,27 @@ const ActiveList = (props) => {
                                             <div className='row'>
                                                 <div className='col-12 col-lg-4 mb-3 mb-lg-0'>
                                                 <div className='finish_col_boundary'>
-                                                <img
+                                                    {currency && currency.image ? (
+                                                        <img
+                                                         src=
+                                                            {currency.image}
+                                                            //{bannerimg1}
+                                                            alt="Banner"
+                                                            className="img-fluid"
+                                                            />) : (<img
+                                                            src=
+                                                            //{currency && currency.image? currency.image : bannerimg1}
+                                                            {bannerimg1}
+                                                            alt="Banner"
+                                                            className="img-fluid"
+                                                        />)}
+                                                {/* <img
                                                 src=
                                                  {currency.image}
                                                // {bannerimg1}
                                                 alt="Banner"
                                                 className="img-fluid"
-                                            />
+                                            /> */}
                                             </div>
                                                 </div>
                                                 <div className='col-12 col-lg-8'>
