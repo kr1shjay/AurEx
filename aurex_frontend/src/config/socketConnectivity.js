@@ -5,6 +5,9 @@ import io from 'socket.io-client';
 import config from './index';
 
 const socket = io(config.SOCKET_URL);
+socket.on('connect', function() {
+    console.log('Client connected');
+});
 
 const createSocketUser = (userId) => {
     socket.emit('CREATEROOM', userId)
