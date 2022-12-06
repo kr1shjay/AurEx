@@ -278,6 +278,11 @@ class LaunchpadUpdateModal extends React.Component {
         } catch (err) {
         }
     };
+    filterPassedTime (time){
+        const currentDate = new Date();
+        const selectedDate = new Date(time);
+        return currentDate.getTime() < selectedDate.getTime()
+    };
 
     render() {
         const { currencyId, availableCoin, whitePaper, launchPrice, launchCoin, discount, minAmount, availableSupply, maxSupply, industry, website, startTimeStamp, endTimeStamp, telegram, twitter, facebook, youtube, linkedIn, content } = this.state.formValue
@@ -535,6 +540,7 @@ class LaunchpadUpdateModal extends React.Component {
                                     timeFormat="HH:mm"
                                     dateFormat="MMMM d, yyyy h:mm aa"
                                     minDate={new Date()}
+                                    filterTime={this.filterPassedTime}
                                 />
                                 <span className="text-danger">{errors.startTimeStamp}</span>
                             </div>
@@ -559,6 +565,7 @@ class LaunchpadUpdateModal extends React.Component {
                                     timeFormat="HH:mm"
                                     dateFormat="MMMM d, yyyy h:mm aa"
                                     minDate={new Date()}
+                                    filterTime={this.filterPassedTime}
                                 />
                                 <span className="text-danger">{errors.endTimeStamp}</span>
                             </div>

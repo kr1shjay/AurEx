@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import Cancelmodal from './CancelOrderModal'
 // import action
 import {
     orderCancel
@@ -20,6 +21,7 @@ const CancelOrder = (props) => {
     const { orderData } = props;
     // state
     const [loader, setLoader] = useState(false)
+    const [showModal,setShow]=useState(false)
 
     // function
     const cancelOrder = async (stakeId) => {
@@ -38,14 +40,17 @@ const CancelOrder = (props) => {
     }
 
     return (
+        <>
+        {showModal && <Cancelmodal  stakeId={orderData._id} onSumbit={cancelOrder} onDismiss={()=>setShow(false)}/>}
         <button
             className="btn btn-outline text-uppercase py-1 ml-2"
-            onClick={() => cancelOrder(orderData._id)}
+            onClick={() => setShow(true)}
             disabled={loader}
         >
             {loader && <i class="fas fa-spinner fa-spin"></i>}
             {t('CANCEL')}
         </button >
+        </>
     )
 }
 
