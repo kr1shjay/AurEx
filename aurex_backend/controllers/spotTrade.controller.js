@@ -25349,9 +25349,10 @@ export const getOpenOrderSocket = async (userId, pairId) => {
 
         let result = {
             pairId,
+            handelcount:count.length,
             count: data.length,
             'currentPage': 1,
-            'nextPage': count > data.length,
+            'nextPage': count.length > data.length,
             'limit': 10,
             data
         }

@@ -341,6 +341,11 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                 <Link to="/dashboard">Dashboard</Link>
               </li>
             )}
+            {isAuth && (
+              <li>
+                <Link to="/spot">Market</Link>
+              </li>
+            )}
             {/*{
               isAuth && <li>
                 <Link to="/p2p">P2P</Link>

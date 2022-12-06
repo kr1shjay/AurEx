@@ -34,7 +34,6 @@ const OpenOrder = (props) => {
     const { t, i18n } = useTranslation();
     // props
     const { handleCount } = props
-
     // state
     const [loader, setLoader] = useState(true)
     const [orderData, setOrderData] = useState(initialData)
@@ -71,7 +70,7 @@ const OpenOrder = (props) => {
     }
 
     const fetchMoreData = () => {
-        if (data.length == count) {
+        if (data.length == orderData.handelcount) {
             setOrderData({
                 ...orderData,
                 ...{ 'nextPage': false }
@@ -103,9 +102,10 @@ const OpenOrder = (props) => {
                         'nextPage': result.nextPage,
                         'limit': result.limit,
                         'count': result.count,
+                        'handelcount':result.handelcount,
                         'data': result.data,
                     })
-                    handleCount(result.count)
+                    handleCount(result.handelcount)
                 }
             })
         }
@@ -161,7 +161,8 @@ const OpenOrder = (props) => {
                     </tbody>
                 </table>
             </Scrollbars>
-            {/* <button className="btn btn_green_su" onClick={fetchMoreData}>Load more</button> */}
+            {orderData.nextPage?<button className="btn btn_green_su" onClick={fetchMoreData}>Load more</button>:<></>}
+            
         </div>
     )
 }
