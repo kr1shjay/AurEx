@@ -243,7 +243,7 @@ const OrderPlaceModalLocked = (props) => {
   };
 
   const onClick_Days = (duration) => {
-   
+    
     setintrest_per(duration.APY);
     setintrest(toFixed(interestByDays(1000, duration.APY, 365), 4));
     setdurationdays(duration.days);
@@ -285,7 +285,7 @@ const OrderPlaceModalLocked = (props) => {
         {/* <button type="button" class="btn btn-secondary">30 Days</button>
         <button type="button" class="btn btn-secondary ">60 Days</button>
         <button type="button" class="btn btn-secondary">90 Days</button> */}
-        { durationloop(record.periodList)}
+        {duration_days ? durationloop(record.periodList):durationloop(record.periodList)}
 
       </div>
             {/* <p>{!isEmpty(durationdays) ? durationdays : record.periodList && record.periodList[0].days}</p> */}

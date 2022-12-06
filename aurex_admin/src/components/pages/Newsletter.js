@@ -76,7 +76,7 @@ class Newsletter extends Component {
     componentDidMount() {
         this.fetchSubscribed()
     };
-
+    
     async fetchSubscribed() {
         try {
             const { status, result } = await allSubscribed()
@@ -112,6 +112,9 @@ class Newsletter extends Component {
             this.setState({ errors: {} })
         }
     }
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+     }
 
     handleSubmit = async e => {
         e.preventDefault();
@@ -125,8 +128,9 @@ class Newsletter extends Component {
             const { status, loading, message, errors } = await sendNews(reqData);
             this.setState({ "loader": loading })
             if (status == 'success') {
-                toastAlert('success', message, 'newsLetter');
                 this.setState({ formValue: initialFormValue });
+                toastAlert('success', message, 'newsLetter');
+                await this.sleep(3000)
                 window.location.reload()
             } else {
                 if (!isEmpty(errors)) {
@@ -196,7 +200,8 @@ class Newsletter extends Component {
                                 <button
                                     form="send-email"
                                     type="submit"
-                                    className="btn btn-primary">
+                                    className="btn btn-primary"
+                                    onClick={this.handleSubmit}>
                                     {loader && <i className="fas fa-spinner fa-spin"></i>}
                                     Send
                                 </button>
