@@ -510,6 +510,7 @@ class LaunchpadAddModal extends React.Component {
                                     }}
                                     showTimeSelect
                                     timeFormat="HH:mm"
+                                    timeIntervals={1}
                                     dateFormat="MMMM d, yyyy h:mm aa"
                                     minDate={new Date()}
                                     filterTime={this.filterPassedTime}
@@ -535,6 +536,7 @@ class LaunchpadAddModal extends React.Component {
                                     }}
                                     showTimeSelect
                                     timeFormat="HH:mm"
+                                    timeIntervals={1}
                                     dateFormat="MMMM d, yyyy h:mm aa"
                                     minDate={new Date()}
                                     filterTime={this.filterPassedTime}
