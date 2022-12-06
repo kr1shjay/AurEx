@@ -538,6 +538,7 @@ class LaunchpadUpdateModal extends React.Component {
                                     }}
                                     showTimeSelect
                                     timeFormat="HH:mm"
+                                    timeIntervals={1}
                                     dateFormat="MMMM d, yyyy h:mm aa"
                                     minDate={new Date()}
                                     filterTime={this.filterPassedTime}
@@ -562,6 +563,7 @@ class LaunchpadUpdateModal extends React.Component {
                                         this.setState({ formValue: formData });
                                     }}
                                     showTimeSelect
+                                    timeIntervals={1}
                                     timeFormat="HH:mm"
                                     dateFormat="MMMM d, yyyy h:mm aa"
                                     minDate={new Date()}
