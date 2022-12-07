@@ -214,9 +214,9 @@ const OrderPlaceModalLocked = (props) => {
         if (index == array.length - 1) {
           arr.push(
             <button
-              className={clsx("btn btn-secondary", { "active": isActive })}
-              onClick={() => {
-                onClick_Days(duration);
+              className={clsx("btn btn-secondary btn_active", { "active": isActive })}
+              onClick={(e) => {
+                onClick_Days(duration,e);
               }}
             >
               {" "}
@@ -226,9 +226,9 @@ const OrderPlaceModalLocked = (props) => {
         } else {
           arr.push(
             <button
-              className={clsx("btn btn-secondary", { "active": isActive })}
-              onClick={() => {
-                onClick_Days(duration);
+              className={clsx("btn btn-secondary btn_active", { "active": isActive })}
+              onClick={(e) => {
+                onClick_Days(duration,e);
               }}
             >
               {" "}
@@ -242,11 +242,17 @@ const OrderPlaceModalLocked = (props) => {
     }
   };
 
-  const onClick_Days = (duration) => {
+  const onClick_Days = (duration,e) => {
     
     setintrest_per(duration.APY);
     setintrest(toFixed(interestByDays(1000, duration.APY, 365), 4));
     setdurationdays(duration.days);
+    var btn = document.getElementsByClassName("btn_active");
+    for(var b=0;b<btn.length;b++)
+    {
+      btn[b].classList.remove("active");
+    }
+    e.target.classList.add("active");
   };
 
   return (
