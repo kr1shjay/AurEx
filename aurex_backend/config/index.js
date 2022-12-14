@@ -202,18 +202,18 @@ if (process.env.NODE_ENV === "production") {
 } else if (process.env.NODE_ENV === "demo") {
   console.log("\x1b[35m%s\x1b[0m", `Set Demo Config`);
 
-  const API_URL = "https://cluxapi.wealwin.com";
-  const PORT = 3506;
+  const API_URL = "https://aurex.maticz.com/api";
+  const PORT = 9360;
   key = {
-    SITE_NAME: "CluxChange",
+    SITE_NAME: "Aurexchange",
     secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
     cryptoSecretKey: "1234567812345678",
     DATABASE_URL:
-      "mongodb://cluxdb:Fvdhcdcedhf6wed34sxdz@172.105.40.100:10730/cluxdb",
+      "mongodb://XMxnWnAlra:LLtgjmidvw@127.0.0.1:27017/CluxChange",
     RUN_CRON: true,
     PORT: PORT,
-    FRONT_URL: "https://clux.wealwin.com",
-    ADMIN_URL: "https://clux.wealwin.com/admin",
+    FRONT_URL: "https://aurex.maticz.com",
+    ADMIN_URL: "https://aurex.maticz.com/admin",
     SERVER_URL: `${API_URL}`,
     IMAGE_URL: `${API_URL}`,
     RECAPTCHA_SECRET_KEY: "6LeHezUfAAAAABKS-mUfSrqlHD9jBQbmevozwzgr",
@@ -223,10 +223,10 @@ if (process.env.NODE_ENV === "production") {
 
     //Sms Gateway
     smsGateway: {
-      TWILIO_ACCOUT_SID: "AC4d78592207e69542cefd5388ea3993b8",
-      TWILIO_AUTH_TOKEN: "c8d4b4d1b00406e5a906d0275d52a1b4",
-      TWILIO_PHONE_NUMBER: "+12055390747",
-      TWILIO_SERVICE_SID: "VA62d3e1146360cde9289bb8c26e098d1d",
+      TWILIO_ACCOUT_SID: "AC7654c3f84cd47fcd7f24498864a90b57",
+      TWILIO_AUTH_TOKEN: "6edafaafac25137753acfa2f75593aba",
+      TWILIO_PHONE_NUMBER: "+16402306943",
+      TWILIO_SERVICE_SID: "VA0458e76ca85dddadfddcf5acad39709d",
     },
     // SENDIN_BLUE_ADDRESS: {
     //     USER_NAME: "support",

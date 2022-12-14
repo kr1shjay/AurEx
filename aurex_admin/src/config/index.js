@@ -20,7 +20,7 @@ if (process.env.REACT_APP_MODE === "production") {
 
     key = {
         secretOrKey: "FxUum76z",
-        Recaptchakey: "6LfbZAsjAAAAAKqTafoVOsaOttEX8EwGPneUc-Yn", //local
+        Recaptchakey: "6Lc0jA4jAAAAADmNtnnGw7Px86Pscz2sgpavPIcn", //local
         API_URL: 'https://aurex.maticz.com/api',
         FRONT_URL: 'https://aurex.maticz.com',
         ADMIN_URL: 'https://aurex.maticz.com/admin',

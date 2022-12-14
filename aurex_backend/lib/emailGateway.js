@@ -4,10 +4,10 @@ import config from '../config';
 import smtpConfig from '../config/smtpConfig.json'
 import SendinBlue from '../config/sendinBlue.json'
 import { set, get } from '../controllers/redis.controller'
+import nodemailer from 'nodemailer';
 
 //import package
-import nodemailer from 'nodemailer';
- const SibApiV3Sdk = require('sib-api-v3-sdk');
+// const SibApiV3Sdk = require('sib-api-v3-sdk');
 // let defaultClient = SibApiV3Sdk.ApiClient.instance;
 // let apiKey = defaultClient.authentications['api-key'];
 // apiKey.apiKey = SendinBlue.apiKey;
@@ -35,22 +35,36 @@ import nodemailer from 'nodemailer';
   //  }
 //}
 
-export const sendEmail = async (to, content) => {
+  // else if (Type.mailType == 'nodeMailer') {
+  //     const { subject, template } = content;
+  export const sendEmail = async (to, content) => {
     const { subject, template } = content;
-SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = SendinBlue.apiKey;
+       let transporter = nodemailer.createTransport(smtpConfig.nodemailer);
+      let info = await transporter.sendEmail({
+           from: smtpConfig.fromMail,
+           to,
+           subject,
+           html: template
+       });
+      console.log("Message sent: %s", info.messageId);
+   }
+
+//export const sendEmail = async (to, content) => {
+//    const { subject, template } = content;
+//SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = SendinBlue.apiKey;
 // SendinBlue.apiKey
-new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(
-  {
-    'subject': subject,
-    'sender' : {'email':SendinBlue.email, 'name': SendinBlue.name},
-    'replyTo' : {'email': SendinBlue.email, 'name':SendinBlue.name},
-    'to' : [{'name': to, 'email': to}],
-    'htmlContent' : template,
-    'params' : {'bodyMessage':'subject'}
-  }
-).then(function(data) {
-  console.log("New Mail sent :",data);
-}, function(error) {
-  console.error(error);
-});
-}
+//new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(
+  //{
+  //  'subject': subject,
+  //  'sender' : {'email':SendinBlue.email, 'name': SendinBlue.name},
+  //  'replyTo' : {'email': SendinBlue.email, 'name':SendinBlue.name},
+  //  'to' : [{'name': to, 'email': to}],
+  //  'htmlContent' : template,
+  //  'params' : {'bodyMessage':'subject'}
+ // }
+//).then(function(data) {
+//  console.log("New Mail sent :",data);
+//}, function(error) {
+//  console.error(error);
+//});
+//}
