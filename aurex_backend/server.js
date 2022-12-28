@@ -87,10 +87,10 @@ app.get('/testAPI', (req, res) => {
 })
 
 
-if (myip == '128.199.24.190') {
+if (myip == '139.162.66.242') {
   const options = {
-    key: fs.readFileSync('/etc/ssl/bitbaazi/start.bitbaazi.com.key'),
-    cert: fs.readFileSync('/etc/ssl/bitbaazi/start.bitbaazi.com.crt')
+    key: fs.readFileSync('/var/www/sslkeys/aurexchange_com.key'),
+    cert: fs.readFileSync('/var/www/sslkeys/aurexchange_com.csr')
   };
   var server = https.createServer(options, app);
 }

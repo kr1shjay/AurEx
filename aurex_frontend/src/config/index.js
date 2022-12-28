@@ -1,5 +1,5 @@
 let key = {};
-
+//empty string
 if (process.env.REACT_APP_MODE === "production") {
     console.log("Set Production Config")
     const API_URL = 'https://api.aurexchange.com';
@@ -7,8 +7,8 @@ if (process.env.REACT_APP_MODE === "production") {
         secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
         CRYPTO_SECRET_KEY: "1234567812345678",
         RECAPTCHA_SITE_KEY: "6LfCM7kgAAAAAK8DAXuDJsqm3alreybJ2TKpPaU3", //local
-        API_URL: 'https://api.aurexchange.com/',
-        FRONT_URL: 'https://aurexchange.com/',
+        API_URL: 'https://api.aurexchange.com',
+        FRONT_URL: 'https://aurexchange.com',
         ADMIN_URL: 'https://contorls.aurexchange.com',
         SOCKET_URL: 'https://api.aurexchange.com/',
         getGeoInfo: "https://ipapi.co/json/",

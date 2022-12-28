@@ -115,7 +115,7 @@ const OrderBook = forwardRef((props, ref) => {
             <div className="tableHead mb-2">
                 <h4>Order Book <small>({tradePair && tradePair.firstCurrencySymbol}/{tradePair && tradePair.secondCurrencySymbol})</small></h4>
                 <div className="inputGroup">
-                    <a href={() => false} className="ml-0 zoomIcon" data-toggle="collapse" href="#settingsOrderBook"><i className="bi bi-gear-fill"></i></a>
+                    <a className="ml-0 zoomIcon" data-toggle="collapse" href="#settingsOrderBook"><i className="bi bi-gear-fill"></i></a>
                     <div className="collapse" id="settingsOrderBook">
                         <div className="card card-body px-2 py-2">
                             <div className="inputGroup">

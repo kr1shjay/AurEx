@@ -68,7 +68,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://aurex.maticz.com/admin",
+  "homepage": "/",
   "eslintConfig": {
     "extends": "react-app"
   },
