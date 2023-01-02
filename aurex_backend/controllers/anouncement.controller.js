@@ -1,4 +1,5 @@
-
+import multer from "multer";
+import path from "path"
 // import model
 import {
     Anouncement
@@ -6,6 +7,54 @@ import {
 
 // import lib
 import { nowDateInUTC } from '../lib/dateHelper'
+// import config
+import config from "../config";
+// import lib
+import imageFilter from "../lib/imageFilter";
+import isEmpty from "../lib/isEmpty"
+
+const anouncementStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, config.IMAGE.ACCOUMENT_PATH);
+      console.log("config.IMAGE.CURRENCY_PATH ---", config.IMAGE.ACCOUMENT_PATH);
+    },
+    // By default, multer removes file extensions so let's add them back
+    filename: function (req, file, cb) {
+      cb(null, "accoumnet-" + Date.now() + path.extname(file.originalname));
+    },
+  });
+  
+  let anouncementupload = multer({
+    storage: anouncementStorage,
+    onError: function (err, next) {
+      next(err);
+    },
+    fileFilter: imageFilter,
+    //limits: { fileSize: config.IMAGE.CURRENCY_SIZE },
+  }).fields([{ name: "image", maxCount: 1 }]);
+  
+  export const Anouncementupload = (req, res, next) => {
+    anouncementupload(req, res, function (err) {
+      if (!isEmpty(req.validationError)) {
+        return res.status(400).json({
+          success: false,
+          errors: {
+            [req.validationError.fieldname]: req.validationError.messages,
+          },
+        });
+      } else if (err instanceof multer.MulterError) {
+        return res
+          .status(400)
+          .json({ success: false, errors: { [err.field]: "TOO_LARGE" } });
+      } else if (err) {
+        console.log("error",err)
+        return res
+          .status(500)
+          .json({ success: false, message: "SOMETHING_WRONG" });
+      }
+      return next();
+    });
+  };
 
 
 /** 
@@ -16,12 +65,16 @@ import { nowDateInUTC } from '../lib/dateHelper'
 */
 export const anouncementAdd = async (req, res) => {
     let reqBody = req.body;
+    let reqFile = req.files
+    console.log("reqFile",reqFile)
     let newDoc = new Anouncement({
         'content': reqBody.content,
-        'endDateTime': reqBody.endDateTime
+        'endDateTime': reqBody.endDateTime,
+        'image':reqFile.image[0].filename
     })
     newDoc.save((err, data) => {
         if (err) {
+            console.log("err",err)
             return res.status(500).json({ 'success': false, 'message': "Something went wrong" })
         }
         return res.status(200).json({ 'success': true, 'message': "Successfully added" })
@@ -34,11 +87,31 @@ export const anouncementAdd = async (req, res) => {
  * URL: /api/announcement
 */
 export const getAnnouncement = (req, res) => {
+  console.log("Anouncement")
     let dateTime = nowDateInUTC();
     Anouncement.find({ 'endDateTime': { "$gt": dateTime } }, { 'content': 1 }, { 'sort': { '_id': -1 }, "limit": 1 }, (err, data) => {
         if (err) {
             return res.status(500).json({ 'success': false, 'message': "Something went wrong" })
         }
+        console.log("Anouncement",data)
+        return res.status(200).json({ 'success': true, 'message': "Successfully added", 'result': data })
+    })
+}
+
+/** 
+ * Get All Announcement
+ * METHOD: GET
+ * URL: /api/getannouncement
+*/
+
+export const getAnnouncementContent = (req, res) => {
+  console.log("Anouncement")
+    let dateTime = nowDateInUTC();
+    Anouncement.find({}, (err, data) => {
+        if (err) {
+            return res.status(500).json({ 'success': false, 'message': "Something went wrong" })
+        }
+        console.log("Anouncement",data)
         return res.status(200).json({ 'success': true, 'message': "Successfully added", 'result': data })
     })
 }

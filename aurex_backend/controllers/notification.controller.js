@@ -49,6 +49,7 @@ const FetchUnReadNotice = async (id) => {
 
         let NoticeData = await Notification.find({ userId: id, isRead: false }).select({ 'description': 1, 'createdAt': 1 })
         if (!isEmpty(NoticeData)) {
+            console.log(NoticeData,"NoticeData")
             return NoticeData
         } else {
             return []
@@ -79,12 +80,14 @@ export const readNotification = async (req, res) => {
     try {
         // let checkUser = await Notification.find({ userId: req.user.id, isRead: false })
         // if (!isEmpty(checkUser)) {
+            console.log("updateNotify")
         let array = []
         let Data = {
             isRead: true
         }
         let updateNotify = await Notification.updateMany({ userId: req.user.id, isRead: false }, { $set: Data }, { new: true })
         if (!isEmpty(updateNotify)) {
+            console.log("updateNotify",updateNotify)
             socketEmitOne('notice', array, req.user.id)
             return res.status(200).json({ 'success': true })
         } else {

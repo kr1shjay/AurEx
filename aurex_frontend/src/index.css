@@ -28827,6 +28827,10 @@ line-height: 1.5 !important;
 {
   margin-left: auto;
   margin-right: auto;
+  min-height: 140px;
+  max-height: 140px;
+  overflow: hidden;
+  object-fit: cover;
 }
 /* .rc-checkbox .rc-checkbox-inner {
   background-color: red;
@@ -29957,6 +29961,24 @@ width: 40px;
   justify-content: center;
   padding: 1px;
   min-height: 220px;
+}
+.banner_carousel_modal
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  min-height: 135px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  max-height: 135px;
+  overflow: hidden;
+  box-shadow: 0 0 0px #c4b5b57d !important;
+  background: #272728;
+  max-width: 240px;
+  min-width: 240px;
 }
 .banner_carousel_boundary {
   display: flex;

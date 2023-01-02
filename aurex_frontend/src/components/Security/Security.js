@@ -16,11 +16,16 @@ const Security = () => {
     const [activeTab, setActiveTab] = useState('2FA')
 
     // function
+    // useEffect(() => {
+    //     if (query && query.url) {
+    //         setActiveTab(query.url)
+    //     }
+    // }, [query])
     useEffect(() => {
         if (query && query.url) {
             setActiveTab(query.url)
         }
-    }, [query])
+    }, [])
 
     return (
         <div className="table_p2p_section inprofile cion_table_sectio">

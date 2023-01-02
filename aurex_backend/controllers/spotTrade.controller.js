@@ -24387,7 +24387,7 @@ export const tradeMatching = async (newOrder, orderData, count = 0, pairData) =>
                         }),
                         "isMaker": sellMaker,
                         "status": "filled",
-                        "Type": "buy",
+                        "Type": "sell",
                         "createdAt": new Date(),
                         "orderValue": sellQuantity * execPrice,  // sellQuantity * sellOrderData.price,
                     }

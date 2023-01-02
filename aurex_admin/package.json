@@ -61,13 +61,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start_demo": "REACT_APP_MODE=demo react-scripts start",
     "livestart": "REACT_APP_MODE=production react-scripts start",
     "build": "REACT_APP_MODE=production GENERATE_SOURCEMAP=false react-scripts build",
     "build_demo": "REACT_APP_MODE=demo GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "homepage": "http://45.79.133.95/admin",
+  "homepage": "/",
   "eslintConfig": {
     "extends": "react-app"
   },

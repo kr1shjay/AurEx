@@ -12,6 +12,10 @@ import Profileicon from "../../assets/images/circle_card_section.png"
 // import action
 import { logout } from "../../actions/users";
 import { setTradeTheme, setTheme } from "../../actions/commonAction";
+// import {
+//   SET_UNREAD_NOTICE,
+//   UPDATE_NOTICE_POPUP
+// } from '../constant';
 import {
   readNotification,
   FetchunReadNotice,
@@ -64,6 +68,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
   const handleCloseNotification = () => {
     setAnchorElNoti(null);
   };
+
 
 
 
@@ -160,7 +165,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                   <Button
                   aria-controls="notificationDropdown"
                   aria-haspopup="true"
-                  onClick={handleClickNotification("readall")}
+                  onClick={()=>{handleClickNotification("readall")}}
                 >
                     <i className="fas fa-bell"></i>
                   </Button>
@@ -193,6 +198,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                               );
                             })}
                         </ul>
+                        <button onClick={()=>{readAllMsg()}} >mark as read </button>
                       </>
                     ) : (
                       <>

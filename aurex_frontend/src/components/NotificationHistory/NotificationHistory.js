@@ -53,6 +53,7 @@ const NotificationHistory = () => {
   return (
     <div className="table-responsive">
       <DataTable className="history_table" noHeader columns={table_columns} data={data} pagination={true} paginationPerPage="5" paginationRowsPerPageOptions={[5, 10, 15, 20]} />
+      {/* <button onClick={()=>{}}>Mark As Read </button> */}
     </div>
   )
 }

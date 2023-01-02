@@ -298,7 +298,7 @@ const fetchCmsData = async () => {
             <img src={require("../assets/images/img_shield.png")} alt="Security" className="img-fluid" />
             </div>
             <div className="btn_desc_sec">
-              <p className="sec_title_crate">Multi-Platform App Support</p>
+              <p className="sec_title_crate">Multi-Platform Web Support</p>
               <p className="sec_desc_create">Buy and trade all your favorite tokens on AUREX App effortlessly, anytime and anywhere.</p>
             </div>
            </div>

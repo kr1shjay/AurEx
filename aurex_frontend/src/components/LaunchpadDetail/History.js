@@ -66,10 +66,10 @@ const History = (props) => {
                                     <tr>
                                         <td>{dateTimeFormat(item.createdAt, 'YYYY-MM-DD HH:mm')}</td>
                                         <td>{item.sendCoin}</td>
-                                        <td>{item && item.price && toFixed(item.price, decimalETH != '' ? decimalETH : 0)}</td>
+                                        <td>{item && item.price && toFixed(item.price, decimalETH != (''||undefined) ? decimalETH : 8)}</td>
                                         <td>{item.quantity}</td>
                                         <td>{item.discount}</td>
-                                        <td>{item.total && toFixed(item.total, decimalETH != '' ? decimalETH : 0)}</td>
+                                        <td>{item.total && toFixed(item.total, decimalETH != (''||undefined) ? decimalETH : 8)}</td>
                                     </tr>
                                 )
                             })

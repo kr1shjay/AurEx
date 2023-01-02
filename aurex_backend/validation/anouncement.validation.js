@@ -13,6 +13,7 @@ import isEmpty from '../lib/isEmpty';
 */
 export const anouncementAdd = (req, res, next) => {
     let errors = {}, reqBody = req.body;
+    console.log("reqBody",reqBody)
     if (isEmpty(reqBody.endDateTime)) {
         errors.endDate = "endDate field is required";
     }

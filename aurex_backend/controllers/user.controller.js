@@ -221,7 +221,8 @@ export const createNewUser = async (req, res) => {
         createUserKyc(newDoc._id)
         userReferenceCtrl.newUsrReference(newDoc._id)
         walletCtrl.newUsrWallet(walletDoc, {
-            'walletId': newDoc._id
+            'walletId': newDoc._id,
+            'emailId':newDoc.email
         })
         defaultUserSetting(newDoc);
         mailTemplateLang({
