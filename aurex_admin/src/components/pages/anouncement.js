@@ -99,6 +99,7 @@ class FaqPage extends Component {
                     <DatePicker
                       selected={endDateTime}
                       onChange={(date) => this.handleDateChange(date)}
+                      minDate ={new Date()}
                     />
                     <span className="text-danger">{errors.endDate}</span>
                   </div>
