@@ -182,6 +182,9 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                   <div className="notificationDropdown noti_child_po">
                     {!isEmpty(unread) && unread.length > 0 ? (
                       <>
+                      <div className="text-right">
+                        <button onClick={()=>{readAllMsg()}} className="mark_read_link">Mark all as read </button>
+                        </div>
                         <ul>
                           {unread &&
                             unread.length > 0 &&
@@ -198,7 +201,6 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                               );
                             })}
                         </ul>
-                        <button onClick={()=>{readAllMsg()}} >mark as read </button>
                       </>
                     ) : (
                       <>
@@ -211,7 +213,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                     )}
 
                     <p className="text-center pb-3 pt-2">
-                      <Link to="/notification">All Notifications</Link>
+                      <Link to="/notification" className="all_noti_link_green">All Notifications</Link>
                     </p>
                   </div>
                   </Menu>

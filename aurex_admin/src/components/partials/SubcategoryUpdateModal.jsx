@@ -42,7 +42,7 @@ class CategoryUpdateModal extends React.Component {
 		  height: '52px',
 		  padding: '0 6px',
 		  backgroundColor: "#1a1b1c",
-		  borderColor: '#242827',
+		  borderColor: '#59615f',
 		borderRadius: 8,
 		borderStyle: 'solid',
 		borderWidth: '1px'

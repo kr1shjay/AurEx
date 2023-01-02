@@ -151,7 +151,9 @@ class Changepassword extends Component {
                                         <label htmlFor="name">Old Password</label>
                                     </div>
                                     <div className="col-md-6">
-                                        <input
+
+                                    <div class="input-group input_grp_width">
+                                    <input
                                             onChange={this.handleChange}
                                             name='oldPassword'
                                             value={oldPassword}
@@ -160,7 +162,16 @@ class Changepassword extends Component {
                                             className={classnames("form-control", {
                                                 invalid: validErr.oldPassword
                                             })} />
-                                        <span className="text-danger">{validErr.oldPassword}</span>
+                                                    <div className="input-group-append">
+                                                        <span className="input-group-text" id="basic-addon2">
+                                                        <i className="fa fa-eye cur_pointer_icon"></i>
+                                                        </span>
+                                                    </div>
+                                                    </div>
+
+                                                    <span className="text-danger">{validErr.oldPassword}</span>
+
+                                      
                                     </div>
                                 </div>
 
@@ -169,6 +180,7 @@ class Changepassword extends Component {
                                         <label htmlFor="password">New Password</label>
                                     </div>
                                     <div className="col-md-6">
+                                    <div class="input-group input_grp_width">
                                         <input
                                             onChange={this.handleChange}
                                             name='newPassword'
@@ -178,7 +190,13 @@ class Changepassword extends Component {
                                             className={classnames("form-control", {
                                                 invalid: validErr.newPassword
                                             })} />
-                                        <span className="text-danger">{validErr.newPassword}</span>
+                                            <div className="input-group-append">
+                                                        <span className="input-group-text" id="basic-addon2">
+                                                        <i className="fa fa-eye cur_pointer_icon"></i>
+                                                        </span>
+                                                    </div>
+                                       </div>
+                                       <span className="text-danger">{validErr.newPassword}</span>
                                     </div>
                                 </div>
 
@@ -187,6 +205,7 @@ class Changepassword extends Component {
                                         <label htmlFor="password2">Confirm Password</label>
                                     </div>
                                     <div className="col-md-6">
+                                    <div class="input-group input_grp_width">
                                         <input
                                             onChange={this.handleChange}
                                             name='confirmPassword'
@@ -197,7 +216,14 @@ class Changepassword extends Component {
                                             className={classnames("form-control", {
                                                 invalid: validErr.confirmPassword
                                             })} />
-                                        <span className="text-danger">{validErr.confirmPassword}</span>
+                                            <div className="input-group-append">
+                                                        <span className="input-group-text" id="basic-addon2">
+                                                        <i className="fa fa-eye cur_pointer_icon"></i>
+                                                        </span>
+                                                    </div>
+                                       
+                                    </div>
+                                    <span className="text-danger">{validErr.confirmPassword}</span>
                                     </div>
                                 </div>
                             </form>

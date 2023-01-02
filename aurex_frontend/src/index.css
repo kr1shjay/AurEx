@@ -30159,3 +30159,24 @@ top: -6px;
   min-width:250px !important;
 
 }
+
+.light_theme .MuiMenu-list a.all_noti_link_green,.mark_read_link
+{
+  color: #22b87b !important;
+  font-size: 14px !important;
+  cursor: pointer;
+}
+.light_theme .MuiMenu-list a.all_noti_link_green:hover,.mark_read_link:hover
+{
+  color: #fff !important;
+
+}
+.mark_read_link
+{
+  background-color: transparent !important;
+  text-align: right !important;
+  border:none !important;
+  margin-top: 5px !important;
+  font-style: italic;
+  margin-right: 5px !important;
+}
