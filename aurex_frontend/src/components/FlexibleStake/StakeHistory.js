@@ -71,7 +71,7 @@ const StakeHistory = () => {
             sortable: false,
             cell: (record) => {
                 if (filter && ((filter.type != 'subscription') && (filter.type != 'redemption'))) {
-                    return toFixed(record.interestEarned,8)
+                    return record.interestEarned
                 }
 
             }
