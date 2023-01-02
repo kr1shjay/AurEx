@@ -94,7 +94,8 @@ const FiatWallet = () => {
                                             <img src={curData && curData.image} alt="logo" className="img-fluid" />
                                             <span>{item.coin}</span>
                                         </div>
-                                        <p>{toFixedDown(item.spotBal,curData.decimal)}</p>
+                                        {/* <p>{toFixedDown(item.spotBal,curData.decimal)}</p> */}
+                                        <p>{toFixed(item.spotBal,curData.decimal)}</p>
                                     </div>
                                     <div className="button_lst_section">
                                     { curData.depositStatus ==  "On" &&

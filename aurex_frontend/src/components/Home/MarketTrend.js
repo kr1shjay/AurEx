@@ -6,13 +6,15 @@ import { Button } from "@material-ui/core";
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom'
 import Tabletabs from './Tabletabs'
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
+import {Modal} from 'react-bootstrap'
 
 // import context
 import SocketContext from '../Context/SocketContext';
 
 // import action
 import { getMarketTrend, getCmsData } from '../../actions/homeAction'
+import { getAncontent } from '../../actions/commonAction';
 import { toFixed } from '../../lib/roundOf'
 
 import Ticker from 'react-ticker'
@@ -25,6 +27,8 @@ import "slick-carousel/slick/slick-theme.css";
 // import config
 import config from "../../config/index.js"
 
+import AnnouncementModal from './AnnouncementModal';
+
 const MarketTrend = () => {
     const { t, i18n } = useTranslation();
     const history = useHistory();
@@ -32,7 +36,7 @@ const MarketTrend = () => {
 
     var settings = {
         dots: true,
-        infinite: true,
+        infinite: false,
         arrows: false,
         speed: 500,
         slidesToShow: 4,
@@ -75,6 +79,10 @@ const MarketTrend = () => {
     const [pairData, setPairData] = useState([])
     const [cmsData, setCmsData] = useState({})
     const [newsData, setNewsData] = useState([])
+    const [anncData,setAnncData]=useState([])
+
+    const [isShowAd, setIsShowAd] = useState(false);
+    const [index,setIndex]=useState(0)
 
 
 
@@ -112,9 +120,18 @@ const MarketTrend = () => {
             <p style={{ visibility: "hidden" }}>Placeholder</p>
         );
     }
+    const fetchAnnouncemet = async()=>{
+        const {status,loading,result}=await getAncontent()
+        console.log("getANNC",result)
+        if(status==="success"){
+            setAnncData(result)
+        }  
+    }
+    
     useEffect(() => {
         fetchMarketTrend();
         fetchCmsData();
+        fetchAnnouncemet();
         socketContext.socket.on('marketPrice', (result) => {
             setPairData((el) => {
                 let pairList = [];
@@ -139,6 +156,7 @@ const MarketTrend = () => {
     }, [])
 
     return (
+        <>
         <div className="coinTable pb-5 anounce_bg">
             <div className="container">
                 <div className="row">
@@ -156,49 +174,27 @@ const MarketTrend = () => {
                             </div>
                       
                         </div>
-
+                        {isShowAd && <AnnouncementModal index={index} anncData={anncData} onDismiss={()=>setIsShowAd(false)}/> }       
                         <div className="mt-4 mb-3 slider_home" data-aos="fade-up" data-aos-duration="1000">
+
                             <Slider {...settings}>
-                                {/* {newsData && newsData.map((item, i) => {
-                                    return (
-                                        <div>
-                                            <img src={`${config.API_URL}/images/cms/${item}`} alt="Banner" className="img-fluid" />
-                                        </div>
-
-                                    )
-                                })
-
-                                } */}
-                                <div>
+                               
+                                {anncData && anncData.length > 0 ? (
+                                    anncData.map((val,index)=>(
+                                    <div onClick={()=>{setIsShowAd(true);
+                                        setIndex(index)}}
+                                    >
                                     <div className='banner_carousel_boundary'>
-                                    <img src={require("../../assets/images/banner_img_01.png")} alt="Banner" className="img-fluid" />
+                                    <img src={`${config.API_URL}/images/anouncement/${val.image}`} alt="Banner" className="img-fluid" />
                                     </div>
-                                </div>
-                                <div>
-                                <div className='banner_carousel_boundary'>
-                                    <img src={require("../../assets/images/banner_img_02.png")} alt="Banner" className="img-fluid" />
-                                </div>
-                                </div>
-                                <div>
-                                <div className='banner_carousel_boundary'>
-                                    <img src={require("../../assets/images/banner_img_01.png")} alt="Banner" className="img-fluid" />
-                                </div>
-                                </div>
-                                <div>
-                                <div className='banner_carousel_boundary'>
-                                    <img src={require("../../assets/images/banner_img_02.png")} alt="Banner" className="img-fluid" />
-                                </div>
-                                </div>
-                                <div>
-                                <div className='banner_carousel_boundary'>
-                                    <img src={require("../../assets/images/banner_img_01.png")} alt="Banner" className="img-fluid" />
-                                </div>
-                                </div>
-                                <div>
-                                <div className='banner_carousel_boundary'>
-                                    <img src={require("../../assets/images/banner_img_02.png")} alt="Banner" className="img-fluid" />
-                                </div>
-                                </div>
+                                    </div>
+                                    ))
+                                    
+                                ):(<div><p>No recodrs found</p></div>)}
+                                
+                            
+                                
+                            
                             </Slider>
                         </div>
 
@@ -221,8 +217,50 @@ const MarketTrend = () => {
                         </div>
                     </div>
                 </div>
+
+
+                {/* <Button
+                               
+                                    if (isAuth) {
+                                        setStakeData({
+                                            'isModalOpen': true,
+                                            'record': el
+                                        })
+                                    } else {
+                                        history.push('/login')
+                                    }
+                                }}
+                            >{t('STAKE_NOW')}</Button> */}
+               
             </div>
         </div>
+{/* {isShowAd?<Modal
+show={isShowAd}
+onClick={()=>setIsShowAd(false)}
+backdrop="static"
+keyboard={false}
+size="lg"
+centered
+>
+<Modal.Header closeButton>
+    <Modal.Title>
+        Announcement
+    </Modal.Title>
+</Modal.Header>
+<Modal.Body>
+<div className='banner_carousel_modal'>
+<img src={require("../../assets/images/banner_img_02.png")} alt="Banner" className="img-fluid" />
+</div>
+<p className='text-white mt-3'>Lorem ipsum us simply dumy text</p>
+<p>
+    <b>End Date:</b>
+    <span>12 Jan 2022 12:00:00 AM</span>
+</p>
+  
+</Modal.Body>
+</Modal>:""} */}
+
+</>
     )
 }
 

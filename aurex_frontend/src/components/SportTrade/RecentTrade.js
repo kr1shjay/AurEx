@@ -32,6 +32,7 @@ const RecentTrade = (props) => {
     const fetchRecentTrade = async (pairId) => {
         try {
             const { status, loading, result } = await getRecentTrade(pairId);
+            console.log("recenttrade",result)
             if (status === 'success') {
                 setTradeData(result)
                 fetchRecentTradeWs(result)

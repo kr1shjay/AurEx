@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 // import action
 import { getStakeHistory } from '../../actions/stakingAction';
+import { toFixed } from 'lib/roundOf';
 
 //lib
 import { momentFormat } from 'lib/dateTimeHelper';
@@ -70,7 +71,7 @@ const StakeHistory = () => {
             sortable: false,
             cell: (record) => {
                 if (filter && ((filter.type != 'subscription') && (filter.type != 'redemption'))) {
-                    return record.interestEarned
+                    return toFixed(record.interestEarned,8)
                 }
 
             }

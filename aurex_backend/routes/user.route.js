@@ -210,7 +210,8 @@ router.route('/historyFilter').get(passportAuth, commonCtrl.historyFilter)
 router.route('/contact').post(contactUsValid.newContactValid, contactCtrl.newContact)
 
 // Announcement
-router.route('/announcement').get(passportAuth, anouncementCtrl.getAnnouncement)
+router.route('/announcement').get(anouncementCtrl.getAnnouncement)
+router.route('/getannouncement').get(anouncementCtrl.getAnnouncementContent)
 
 // CMS 
 router.route('/cms/:identifier').get(cmsCtrl.getCMSPage)

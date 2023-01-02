@@ -40,7 +40,7 @@ import nodemailer from 'nodemailer';
   export const sendEmail = async (to, content) => {
     const { subject, template } = content;
        let transporter = nodemailer.createTransport(smtpConfig.nodemailer);
-      let info = await transporter.sendEmail({
+      let info = await transporter.sendMail({
            from: smtpConfig.fromMail,
            to,
            subject,

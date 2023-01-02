@@ -29,11 +29,11 @@ var coinPayment = new coinpayments({
 
 export const createAddress = async (currencySymbol, emailId, ipnUrl) => {
     console.log('currencySymbol',currencySymbol)
-    console.log('emailId', emailId)
+    console.log('emailId 1', emailId)
     console.log('ipnUrl', ipnUrl)
     try {
-        emailId = 'GM-' + emailId;
-        ipnUrl = config.SERVER_URL + ipnUrl;
+        //emailId = emailId;
+      //  ipnUrl = config.IPN_URL;
         let respData = await coinPayment.getCallbackAddress({ currency: currencySymbol, label: emailId, ipn_url: ipnUrl });
         console.log("-----respData", respData)
         return {

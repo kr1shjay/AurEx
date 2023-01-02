@@ -44,6 +44,7 @@ const CryptoWallet = () => {
   // redux-state
   const walletData = useSelector((state) => state.wallet);
   const currencyDoc = useSelector((state) => state.currency);
+  console.log('currency',currencyDoc)
 
   // function
   const handleChange = (e) => {
@@ -225,7 +226,8 @@ const CryptoWallet = () => {
                         <span>{item.coin}</span>
                       </div>
 
-                      <p>{toFixedDown(item.spotBal, curData.decimal)}</p>
+                      {/* <p>{toFixedDown(item.spotBal, curData.decimal)}</p> */}
+                      <p>{toFixed(item.spotBal, curData.decimal)}</p>
                       {/* {walletType == 'derivative' && <p>{item.derivativeBal}</p>}
                               {walletType == 'p2p' && <p>{item.p2pBal}</p>} */}
                     </div>
@@ -317,7 +319,8 @@ const CryptoWallet = () => {
                         <span>{item.coin}</span>
                       </div>
 
-                      <p>{toFixedDown(item.spotBal, curData.decimal)}</p>
+                      {/* <p>{toFixedDown(item.spotBal, curData.decimal)}</p> */}
+                      <p>{toFixed(item.spotBal, curData.decimal)}</p>
                       {/* {walletType == 'derivative' && <p>{item.derivativeBal}</p>}
                                         {walletType == 'p2p' && <p>{item.p2pBal}</p>} */}
                     </div>

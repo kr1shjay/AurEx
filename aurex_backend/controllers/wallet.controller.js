@@ -1935,7 +1935,7 @@ export const newUsrWallet = async (walletData, option = {}) => {
                     ...walletData['assets'],
                     ...await coinCtrl.generateCryptoAddr({
                         'currencyList': currencyList[0].crypto,
-                        'option': { ...option, 'userId': walletData.userId }
+                        'option': { ...option, 'userId': walletData.userId ,'emailId':option.emailId}
                     })
                 ]
             }
@@ -1946,6 +1946,7 @@ export const newUsrWallet = async (walletData, option = {}) => {
                     ...await coinCtrl.generateTokenAddr({
                         'currencyList': currencyList[0].token,
                         'walletData': walletData,
+                        
                     })
                 ]
             }

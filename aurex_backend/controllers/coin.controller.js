@@ -200,8 +200,8 @@ export const generateCryptoAddr = async ({ currencyList = [], option = {} }) => 
                     assetList.push(assetObj)
                 }
                 else if (currency.depositType == 'coin_payment') {
-                    let emailId = 'GM-' + 'alwin@gmail.com';
-                    let ipnUrl = config.SERVER_URL + ipnUrl;
+                    let emailId = 'AUREX' + option.emailId; // user registered address
+                    let ipnUrl = config.IPN_URL;  // config ipn url
                     var coinpayment_details = await coinPayment.createAddress(currency.coin, emailId, ipnUrl)
 
                     let assetObj = {
