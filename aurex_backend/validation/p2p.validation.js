@@ -59,7 +59,7 @@ export const addPairValid = (req, res, next) => {
         if (isEmpty(reqBody.markupPercentage)) {
             errors.markupPercentage = "Markup field is required";
         } else if (isNaN(reqBody.markupPercentage)) {
-            errors.markupPercentage = "Only allow numerice";
+            errors.markupPercentage = "Allows only numeric";
         } else if (parseFloat(reqBody.markupPercentage) < 0) {
             errors.markupPercentage = "Only allowed positive numeric values";
         } else if (parseFloat(reqBody.markupPercentage) > 100) {
@@ -137,7 +137,7 @@ export const editPairValid = (req, res, next) => {
         if (isEmpty(reqBody.markupPercentage)) {
             errors.markupPercentage = "Markup field is required";
         } else if (isNaN(reqBody.markupPercentage)) {
-            errors.markupPercentage = "Only allow numerice";
+            errors.markupPercentage = "Allows only numeric";
         } else if (parseFloat(reqBody.markupPercentage) < 0) {
             errors.markupPercentage = "Only allowed positive numeric values";
         } else if (parseFloat(reqBody.markupPercentage) > 100) {

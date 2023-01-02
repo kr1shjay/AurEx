@@ -16,7 +16,7 @@ export const priceCNVUpdateValid = (req, res, next) => {
     if (isEmpty(reqBody.convertPrice)) {
         errors.convertPrice = "convertPrice field is required";
     } else if (isNaN(reqBody.convertPrice)) {
-        errors.convertPrice = "Only allow numerice";
+        errors.convertPrice = "Allows only numeric";
     }else if( reqBody.convertPrice <= 0){
         errors.convertPrice = 'invalid value'
     }

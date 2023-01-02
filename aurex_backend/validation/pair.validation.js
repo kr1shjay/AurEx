@@ -22,7 +22,7 @@ export const addSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.firstFloatDigit)) {
         errors.firstFloatDigit = "baseCurrency floatDigit field is required";
     } else if (isNaN(reqBody.firstFloatDigit)) {
-        errors.firstFloatDigit = "Only allow numerice";
+        errors.firstFloatDigit = "Allows only numeric";
     } else if (reqBody.firstFloatDigit <= 0) {
         errors.firstFloatDigit = "invalid value";
     }
@@ -38,7 +38,7 @@ export const addSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.secondFloatDigit)) {
         errors.secondFloatDigit = "quoteCurrency floatDigit field is required";
     } else if (isNaN(reqBody.secondFloatDigit)) {
-        errors.secondFloatDigit = "Only allow numerice";
+        errors.secondFloatDigit = "Allows only numeric";
     }
     else if (reqBody.secondFloatDigit <= 0) {
         errors.secondFloatDigit = "invalid value";
@@ -46,7 +46,7 @@ export const addSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.markPrice)) {
         errors.markPrice = "markPrice field is required";
     } else if (isNaN(reqBody.taker_fees)) {
-        errors.markPrice = "Only allow numerice";
+        errors.markPrice = "Allows only numeric";
     }
     else if (reqBody.markPrice <= 0) {
         errors.markPrice = "invalid value";
@@ -55,7 +55,7 @@ export const addSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.minPricePercentage)) {
         errors.minPricePercentage = "minPricePercentage field is required";
     } else if (isNaN(reqBody.minPricePercentage)) {
-        errors.minPricePercentage = "Only allow numerice";
+        errors.minPricePercentage = "Allows only numeric";
     } else if (reqBody.minPricePercentage <= 0) {
         errors.minPricePercentage = "invalid value";
     }
@@ -64,7 +64,7 @@ export const addSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.maxPricePercentage)) {
         errors.maxPricePercentage = "maxPricePercentage field is required";
     } else if (isNaN(reqBody.maxPricePercentage)) {
-        errors.maxPricePercentage = "Only allow numerice";
+        errors.maxPricePercentage = "Allows only numeric";
     } else if (reqBody.maxPricePercentage <= 0) {
         errors.maxPricePercentage = "invalid value";
     } else if (reqBody.maxPricePercentage < reqBody.minPricePercentage) {
@@ -74,7 +74,7 @@ export const addSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.maxQuantity)) {
         errors.maxQuantity = "maxQuantity field is required";
     } else if (isNaN(reqBody.maxQuantity)) {
-        errors.maxQuantity = "Only allow numerice";
+        errors.maxQuantity = "Allows only numeric";
     } else if (reqBody.maxQuantity <= 0) {
         errors.maxQuantity = "invalid value";
     } else if (parseFloat(reqBody.maxQuantity) < parseFloat(reqBody.minQuantity)) {
@@ -84,7 +84,7 @@ export const addSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.minQuantity)) {
         errors.minQuantity = "minQuantity field is required";
     } else if (isNaN(reqBody.minQuantity)) {
-        errors.minQuantity = "Only allow numerice";
+        errors.minQuantity = "Allows only numeric";
     } else if (reqBody.minQuantity <= 0) {
         errors.minQuantity = "invalid value";
     }
@@ -92,7 +92,7 @@ export const addSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.maker_rebate)) {
         errors.maker_rebate = "maker_rebate field is required";
     } else if (isNaN(reqBody.maker_rebate)) {
-        errors.maker_rebate = "Only allow numerice";
+        errors.maker_rebate = "Allows only numeric";
     } else if (reqBody.maker_rebate <= 0) {
         errors.maker_rebate = "invalid value";
     }
@@ -101,7 +101,7 @@ export const addSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.taker_fees)) {
         errors.taker_fees = "taker_fees field is required";
     } else if (isNaN(reqBody.taker_fees)) {
-        errors.taker_fees = "Only allow numerice";
+        errors.taker_fees = "Allows only numeric";
     } else if (reqBody.taker_fees <= 0) {
         errors.taker_fees = "invalid value";
     }
@@ -118,7 +118,7 @@ export const addSpotPairValid = (req, res, next) => {
         if (isEmpty(reqBody.markupPercentage)) {
             errors.markupPercentage = "markupPercentage field is required";
         } else if (isNaN(reqBody.markupPercentage)) {
-            errors.markupPercentage = "Only allow numerice";
+            errors.markupPercentage = "Allows only numeric";
         } else if (reqBody.markupPercentage <= 0) {
             errors.markupPercentage = "invalid value";
         }
@@ -156,7 +156,7 @@ export const editSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.firstFloatDigit)) {
         errors.firstFloatDigit = "baseCurrency floatDigit field is required";
     } else if (isNaN(reqBody.firstFloatDigit)) {
-        errors.firstFloatDigit = "Only allow numerice";
+        errors.firstFloatDigit = "Allows only numeric";
     } else if (reqBody.firstFloatDigit <= 0) {
         errors.firstFloatDigit = "invalid value";
     }
@@ -172,7 +172,7 @@ export const editSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.secondFloatDigit)) {
         errors.secondFloatDigit = "quoteCurrency floatDigit field is required";
     } else if (isNaN(reqBody.secondFloatDigit)) {
-        errors.secondFloatDigit = "Only allow numerice";
+        errors.secondFloatDigit = "Allows only numeric";
     } else if (reqBody.secondFloatDigit <= 0) {
         errors.secondFloatDigit = "invalid value";
     }
@@ -180,7 +180,7 @@ export const editSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.minPricePercentage)) {
         errors.minPricePercentage = "minPricePercentage field is required";
     } else if (isNaN(reqBody.minPricePercentage)) {
-        errors.minPricePercentage = "Only allow numerice";
+        errors.minPricePercentage = "Allows only numeric";
     } else if (reqBody.minPricePercentage <= 0) {
         errors.minPricePercentage = "invalid value";
     }
@@ -189,7 +189,7 @@ export const editSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.maxPricePercentage)) {
         errors.maxPricePercentage = "maxPricePercentage field is required";
     } else if (isNaN(reqBody.maxPricePercentage)) {
-        errors.maxPricePercentage = "Only allow numerice";
+        errors.maxPricePercentage = "Allows only numeric";
     } else if (reqBody.maxPricePercentage <= 0) {
         errors.maxPricePercentage = "invalid value";
     } else if (reqBody.maxPricePercentage < reqBody.minPricePercentage) {
@@ -199,7 +199,7 @@ export const editSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.markPrice)) {
         errors.markPrice = "markPrice field is required";
     } else if (isNaN(reqBody.taker_fees)) {
-        errors.markPrice = "Only allow numerice";
+        errors.markPrice = "Allows only numeric";
     } else if (reqBody.markPrice <= 0) {
         errors.markPrice = "invalid value";
     }
@@ -207,7 +207,7 @@ export const editSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.maxQuantity)) {
         errors.maxQuantity = "maxQuantity field is required";
     } else if (isNaN(reqBody.maxQuantity)) {
-        errors.maxQuantity = "Only allow numerice";
+        errors.maxQuantity = "Allows only numeric";
     } else if (reqBody.maxQuantity <= 0) {
         errors.maxQuantity = "invalid value";
     } else if (parseFloat(reqBody.maxQuantity) < parseFloat(reqBody.minQuantity)) {
@@ -218,7 +218,7 @@ export const editSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.minQuantity)) {
         errors.minQuantity = "minQuantity field is required";
     } else if (isNaN(reqBody.minQuantity)) {
-        errors.minQuantity = "Only allow numerice";
+        errors.minQuantity = "Allows only numeric";
     } else if (reqBody.minQuantity <= 0) {
         errors.minQuantity = "invalid value";
     }
@@ -227,7 +227,7 @@ export const editSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.maker_rebate)) {
         errors.maker_rebate = "maker_rebate field is required";
     } else if (isNaN(reqBody.maker_rebate)) {
-        errors.maker_rebate = "Only allow numerice";
+        errors.maker_rebate = "Allows only numeric";
     } else if (reqBody.maker_rebate <= 0) {
         errors.maker_rebate = "invalid value";
     }
@@ -237,7 +237,7 @@ export const editSpotPairValid = (req, res, next) => {
     if (isEmpty(reqBody.taker_fees)) {
         errors.taker_fees = "taker_fees field is required";
     } else if (isNaN(reqBody.taker_fees)) {
-        errors.taker_fees = "Only allow numerice";
+        errors.taker_fees = "Allows only numeric";
     } else if (reqBody.taker_fees <= 0) {
         errors.taker_fees = "invalid value";
     }
@@ -253,7 +253,7 @@ export const editSpotPairValid = (req, res, next) => {
         if (isEmpty(reqBody.markupPercentage)) {
             errors.markupPercentage = "markupPercentage field is required";
         } else if (isNaN(reqBody.markupPercentage)) {
-            errors.markupPercentage = "Only allow numerice";
+            errors.markupPercentage = "Allows only numeric";
         } else if (reqBody.markupPercentage <= 0) {
             errors.markupPercentage = "invalid value";
         }
