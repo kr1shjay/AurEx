@@ -103,13 +103,13 @@ const FaqPage = () => {
                     {
                       data && data.length > 0 && data.map((item, key) => {
                         return (
-                          <GridItem key={key} xs={12} sm={12} md={12} lg={6}>
+                          <GridItem key={key} xs={12} sm={12} md={12} lg={12}>
 
                             <section className="faq_sec p-0">
                               <div className="container">
                                 <div className="row justify-content-center">
                                   <div className="col-lg-12 pb-0">
-                                    <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+                                    <div class="accordion md-accordion accordion_padings" id="accordionEx" role="tablist" aria-multiselectable="true">
                                       <h4>{item.categoryName}</h4>
                                       <Accordion className="mt-4">
                                         {

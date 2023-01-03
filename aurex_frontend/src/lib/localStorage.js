@@ -18,7 +18,7 @@ export const setTheme = async (theme) => {
     if (theme == 'dark') {
         document.body.classList.add('light_theme');
     } else {
-        document.body.classList.remove('light_theme');
+        document.body.classList.add('light_theme');
     }
     localStorage.setItem('theme', theme);
     return theme
@@ -36,7 +36,7 @@ export const changeTheme = (theme) => {
     if (theme == 'dark') {
         document.body.classList.add('light_theme');
     } else if (theme == 'light') {
-        document.body.classList.remove('light_theme');
+        document.body.classList.add('light_theme');
     }
     return true;
 }
@@ -46,7 +46,7 @@ export const setTradeTheme = async (theme) => {
     if (theme == 'dark') {
         document.body.classList.add('light_theme');
     } else if (theme == 'light') {
-        document.body.classList.remove('light_theme');
+        document.body.classList.add('light_theme');
     }
     return true;
 }
@@ -55,7 +55,7 @@ export const changeTradeTheme = (theme) => {
     if (theme == 'dark') {
         document.body.classList.add('light_theme');
     } else if (theme == 'light') {
-        document.body.classList.remove('light_theme');
+        document.body.classList.add('light_theme');
     }
     return true;
 }

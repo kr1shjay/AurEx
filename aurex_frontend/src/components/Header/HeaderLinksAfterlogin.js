@@ -1,6 +1,6 @@
 // import package
 import React, { useContext, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import { Hidden, Button, Menu, MenuItem } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouteMatch } from "react-router-dom";
@@ -46,17 +46,22 @@ export default function HeaderLinks(props) {
 const accountData = useSelector(state => state.account);
 const { firstName, lastName, email, blockNo, address, state, city, postalCode, country } = accountData;
 
-  // function
+  // function'
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClickNotification = async (event,val) => {
+    // alert(1);
     if(val=="readall")
     {
       let { staus, message } = await readNotification();
     }
     setAnchorElNoti(event.currentTarget);
+    // document.getElementsByTagName("body")[0].style.overflow ="auto";
+    document.getElementsByTagName("body")[0].classList.add("padi_over_body");
+
+
   };
 
   
@@ -67,6 +72,9 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
 
   const handleCloseNotification = () => {
     setAnchorElNoti(null);
+    document.getElementsByTagName("body")[0].style.overflow ="auto";
+    document.getElementsByTagName("body")[0].style.paddingRight ="0px";
+
   };
 
 
@@ -110,29 +118,29 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
           <ul className="list-iline">
             {isAuth && (
               <li>
-                <Link to="/dashboard">{t("DASHBOARD")}</Link>
+                <NavLink to="/dashboard">{t("DASHBOARD")}</NavLink>
               </li>
             )}
             {
               <li>
-                <Link to="/spot">{t("MARKET")}</Link>
+                <NavLink to="/spot">{t("MARKET")}</NavLink>
               </li>
             }
             {isAuth && (
               <li>
-                <Link to="/wallet">{t("WALLET")}</Link>
+                <NavLink to="/wallet">{t("WALLET")}</NavLink>
                 {/* <Link to="/walletnew">Wallet</Link> */}
               </li>
             )}
             {isAuth && (
               <li>
-                <Link to="/launchpad">Launchpad</Link>
+                <NavLink to="/launchpad">Launchpad</NavLink>
                 {/* <Link to="/walletnew">Wallet</Link> */}
               </li>
             )}
             {
               isAuth && <li>
-                <Link to="/staking">{t('STAKING')}</Link>
+                <NavLink to="/staking">{t('STAKING')}</NavLink>
               </li>
             }
 
@@ -247,54 +255,54 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                    <Link to="/profile"><MenuItem className="px-2">
+                    <NavLink to="/profile"><MenuItem className="px-2">
                     <div className="d-flex afterlogin_profile"><div><img src={Profileicon}  alt="profileicon"/> </div><div><p className="mx-3 mb-0 first">{`${firstName} ${lastName}`}</p>
 <p className="second mb-0 mx-3">{email}</p></div> </div>
-                  </MenuItem></Link>
+                  </MenuItem></NavLink>
                                 
-                  <Link to="/profile">        
+                  <NavLink to="/profile">        
                   <MenuItem>
                     <i className="fa fa-user" aria-hidden="true"></i><span>Profile</span>
                   </MenuItem>
-                  </Link>
+                  </NavLink>
                   <hr/> 
-                  <Link to="/launchpad"><MenuItem><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></MenuItem></Link>
+                  <NavLink to="/launchpad"><MenuItem><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></MenuItem></NavLink>
                   <hr/> 
-                  <Link to="/staking"><MenuItem><i class="fab fa-stack-exchange"></i><span>Staking</span></MenuItem></Link>
+                  <NavLink to="/staking"><MenuItem><i class="fab fa-stack-exchange"></i><span>Staking</span></MenuItem></NavLink>
                   <hr/> 
-                  <Link to="/security"><MenuItem>
+                  <NavLink to="/security"><MenuItem>
                     <i className="fa fa-lock" aria-hidden="true"></i><span>Security</span>
-                  </MenuItem></Link>
+                  </MenuItem></NavLink>
                   
                   <hr/> 
-                  <Link to="/setting">
+                  <NavLink to="/setting">
                   <MenuItem>
                     <i className="fa fa-cog" aria-hidden="true"></i><span>Settings</span>
                   </MenuItem>
-                  </Link>
+                  </NavLink>
                  
                   <hr/> 
-                  <Link to="/orders">
+                  <NavLink to="/orders">
                   <MenuItem>
                     <i className="fa fa-list" aria-hidden="true"></i><span>Orders</span>
                   </MenuItem>
-                  </Link>
+                  </NavLink>
                   {/* <hr/> 
                   <MenuItem>
                     <Link to="/referral"><i className="fa fa-users" aria-hidden="true"></i><span>Referral</span></Link>
                   </MenuItem> */}
                   <hr/> 
                   {/* <MenuItem><Link to="/notification">Notifications</Link></MenuItem> */}
-                  <Link to="/history"><MenuItem>
+                  <NavLink to="/history"><MenuItem>
                     <i className="far fa-clock"></i><span>History</span>
                   </MenuItem>
-                  </Link>
+                  </NavLink>
                   <hr/> 
-                  <Link to="/support-ticket">
+                  <NavLink to="/support-ticket">
                   <MenuItem>
                     <i className="fa fa-question-circle" aria-hidden="true"></i><span>Support</span>
                   </MenuItem>
-                  </Link>
+                  </NavLink>
                   {/* <MenuItem>
                     <Link to="/orders">Orders</Link>
                   </MenuItem> */}
@@ -338,7 +346,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
             } */}
 
             <li>
-              <Link to="/spot">Spot</Link>
+              <NavLink to="/spot">Spot</NavLink>
             </li>
             {/*<li>
               <Link to="/derivative">Derivative</Link>
@@ -346,12 +354,12 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
 
             {isAuth && (
               <li>
-                <Link to="/dashboard">Dashboard</Link>
+                <NavLink to="/dashboard">Dashboard</NavLink>
               </li>
             )}
             {isAuth && (
               <li>
-                <Link to="/spot">Market</Link>
+                <NavLink to="/spot">Market</NavLink>
               </li>
             )}
             {/*{
@@ -361,7 +369,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
             }*/}
             {isAuth && (
               <li>
-                <Link to="/wallet">Wallet</Link>
+                <NavLink to="/wallet">Wallet</NavLink>
                 {/* <Link to="/walletnew">Wallet</Link> */}
               </li>
             )}
@@ -369,24 +377,24 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
            
             {isAuth && (
               <li>
-                <Link to="/notification">Notifications</Link>
+                <NavLink to="/notification">Notifications</NavLink>
               </li>
             )}
 
             {isAuth && (
               <li>
-                <Link to="/profile">Profile</Link>
+                <NavLink to="/profile">Profile</NavLink>
               </li>
             )}
               {
               isAuth && <li>
-                <Link to="/launchpad">Launchpad</Link>
+                <NavLink to="/launchpad">Launchpad</NavLink>
               </li>
             }
              {
               isAuth && 
               <li>
-                <Link to="/staking">Staking</Link>
+                <NavLink to="/staking">Staking</NavLink>
               </li>
             }
           
@@ -398,37 +406,37 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
 
             {isAuth && (
               <li>
-                <Link to="/security">Security</Link>
+                <NavLink to="/security">Security</NavLink>
               </li>
             )}
 
             {isAuth && (
               <li>
-                <Link to="setting">Settings</Link>
+                <NavLink to="setting">Settings</NavLink>
               </li>
             )}
 
             {isAuth && (
               <li>
-                <Link to="/support-ticket">Support</Link>
+                <NavLink to="/support-ticket">Support</NavLink>
               </li>
             )}
 
             {isAuth && (
               <li>
-                <Link to="/referral">Referral</Link>
+                <NavLink to="/referral">Referral</NavLink>
               </li>
             )}
 
             {isAuth && (
               <li>
-                <Link to="/history">History</Link>
+                <NavLink to="/history">History</NavLink>
               </li>
             )}
 
             {isAuth && (
               <li>
-                <Link to="/orders">Orders</Link>
+                <NavLink to="/orders">Orders</NavLink>
               </li>
             )}
 

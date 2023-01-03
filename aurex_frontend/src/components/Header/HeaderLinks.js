@@ -1,6 +1,6 @@
 // import package
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from "@material-ui/core/styles";
 import { List, ListItem, Select, Hidden } from "@material-ui/core";
@@ -107,19 +107,19 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
         
          {
          <ListItem className={classes.listItem}>
-          <Link to="/spot" color="transparent" className="nav-link">{t('MARKET')}</Link>
+          <NavLink to="/spot" color="transparent" className="nav-link">{t('MARKET')}</NavLink>
         </ListItem>
          
         }
          <ListItem className={classes.listItem}>
-          <Link to="/launchpad" color="transparent" className="nav-link">Launchpad</Link>
+          <NavLink to="/launchpad" color="transparent" className="nav-link">Launchpad</NavLink>
         </ListItem>
         <ListItem className={classes.listItem}>
-            <Link to="/staking" color="transparent" className="nav-link">Staking</Link>
+            <NavLink to="/staking" color="transparent" className="nav-link">Staking</NavLink>
           </ListItem>
         {
           isAuth && <ListItem className={classes.listItem}>
-            <Link to="/wallet" color="transparent" className="nav-link">Wallet</Link>
+            <NavLink to="/wallet" color="transparent" className="nav-link">Wallet</NavLink>
           </ListItem>
         }
         {
@@ -147,54 +147,54 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                    <Link to="/profile"><MenuItem className="px-2">
+                    <NavLink to="/profile"><MenuItem className="px-2">
                     <div className="d-flex afterlogin_profile"><div><img src={Profileicon}  alt="profileicon"/> </div><div><p className="mx-3 mb-0 first">{`${firstName} ${lastName}`}</p>
                   <p className="second mb-0 mx-3">{email}</p></div> </div>
-                  </MenuItem></Link>
-                  <Link to="/profile">        
+                  </MenuItem></NavLink>
+                  <NavLink to="/profile">        
                   <MenuItem>
                     <i className="fa fa-user" aria-hidden="true"></i><span>Profile</span>
                   </MenuItem>
-                  </Link>
+                  </NavLink>
                   <hr/> 
 
-                  <Link to="/launchpad"><MenuItem><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></MenuItem></Link>
+                  <NavLink to="/launchpad"><MenuItem><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></MenuItem></NavLink>
                   <hr/> 
-                  <Link to="/staking"><MenuItem><i class="fab fa-stack-exchange"></i><span>Staking</span></MenuItem></Link>
+                  <NavLink to="/staking"><MenuItem><i class="fab fa-stack-exchange"></i><span>Staking</span></MenuItem></NavLink>
                   <hr/> 
-                  <Link to="/security"><MenuItem>
+                  <NavLink to="/security"><MenuItem>
                     <i className="fa fa-lock" aria-hidden="true"></i><span>Security</span>
-                  </MenuItem></Link>
+                  </MenuItem></NavLink>
                   
                   <hr/> 
-                  <Link to="/setting">
+                  <NavLink to="/setting">
                   <MenuItem>
                     <i className="fa fa-cog" aria-hidden="true"></i><span>Settings</span>
                   </MenuItem>
-                  </Link>
+                  </NavLink>
                  
                   <hr/> 
-                  <Link to="/orders">
+                  <NavLink to="/orders">
                   <MenuItem>
                     <i className="fa fa-list" aria-hidden="true"></i><span>Orders</span>
                   </MenuItem>
-                  </Link>
+                  </NavLink>
                   {/* <hr/> 
                   <MenuItem>
                     <Link to="/referral"><i className="fa fa-users" aria-hidden="true"></i><span>Referral</span></Link>
                   </MenuItem> */}
                   <hr/> 
                   {/* <MenuItem><Link to="/notification">Notifications</Link></MenuItem> */}
-                  <Link to="/history"><MenuItem>
+                  <NavLink to="/history"><MenuItem>
                     <i className="far fa-clock"></i><span>History</span>
                   </MenuItem>
-                  </Link>
+                  </NavLink>
                   <hr/> 
-                  <Link to="/support-ticket">
+                  <NavLink to="/support-ticket">
                   <MenuItem>
                     <i className="fa fa-question-circle" aria-hidden="true"></i><span>Support</span>
                   </MenuItem>
-                  </Link>
+                  </NavLink>
                   {/* <MenuItem>
                     <Link to="/orders">Orders</Link>
                   </MenuItem> */}
@@ -212,13 +212,13 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
         }
         {
           !isAuth && <ListItem className={classes.listItem}>
-            <Link to="/login" color="transparent" className="nav-link home_menu_btn1">{t('LOGIN')}</Link>
+            <NavLink to="/login" color="transparent" className="nav-link home_menu_btn1">{t('LOGIN')}</NavLink>
           </ListItem>
         }
 
         {
           !isAuth && <ListItem className={classes.listItem}>
-            <Link to="/register" color="transparent" className="nav-link home_menu_btn">{t('REGISTER')}</Link>
+            <NavLink to="/register" color="transparent" className="nav-link home_menu_btn">{t('REGISTER')}</NavLink>
           </ListItem>
         }
 
@@ -255,20 +255,20 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
 
 {isAuth && (
               <li>
-                <Link to="/wallet" color="transparent">Wallet</Link>
+                <NavLink to="/wallet" color="transparent">Wallet</NavLink>
               </li>
             )}
               <li>
-                 <Link to="/spot" color="transparent" >{t('MARKET')}</Link>
+                 <NavLink to="/spot" color="transparent" >{t('MARKET')}</NavLink>
               </li>
               {!isAuth && (
               <li>
-                  <Link to="/login" color="transparent" className="nav-link home_menu_btn1">{t('LOGIN')}</Link>
+                  <NavLink to="/login" color="transparent" className="nav-link home_menu_btn1">{t('LOGIN')}</NavLink>
               </li>
             )}
              {!isAuth && (
               <li>
-                 <Link to="/register" color="transparent" className="nav-link home_menu_btn">{t('REGISTER')}</Link>
+                 <NavLink to="/register" color="transparent" className="nav-link home_menu_btn">{t('REGISTER')}</NavLink>
               </li>
             )}
 
@@ -288,18 +288,18 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
 
             {isAuth && (
               <li>
-                <Link to="/profile">Profile</Link>
+                <NavLink to="/profile">Profile</NavLink>
               </li>
             )}
              {
               isAuth && <li>
-                <Link to="/launchpad">Launchpad</Link>
+                <NavLink to="/launchpad">Launchpad</NavLink>
               </li>
             }
              {
               isAuth && 
               <li>
-                <Link to="/staking">Staking</Link>
+                <NavLink to="/staking">Staking</NavLink>
               </li>
             }
            
@@ -311,37 +311,37 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
 
             {isAuth && (
               <li>
-                <Link to="/security">Security</Link>
+                <NavLink to="/security">Security</NavLink>
               </li>
             )}
 
             {isAuth && (
               <li>
-                <Link to="setting">Settings</Link>
+                <NavLink to="setting">Settings</NavLink>
               </li>
             )}
 
             {isAuth && (
               <li>
-                <Link to="/support-ticket">Support</Link>
+                <NavLink to="/support-ticket">Support</NavLink>
               </li>
             )}
 
             {isAuth && (
               <li>
-                <Link to="/referral">Referral</Link>
+                <NavLink to="/referral">Referral</NavLink>
               </li>
             )}
 
             {isAuth && (
               <li>
-                <Link to="/history">History</Link>
+                <NavLink to="/history">History</NavLink>
               </li>
             )}
 
             {isAuth && (
               <li>
-                <Link to="/orders">Orders</Link>
+                <NavLink to="/orders">Orders</NavLink>
               </li>
             )}
 

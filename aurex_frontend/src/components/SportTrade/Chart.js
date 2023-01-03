@@ -64,6 +64,7 @@ const Chart = (props) => {
             delete widgetOptions.toolbar_bg;
             delete widgetOptions.overrides;
         }
+        console.log("thtme",theme);
 
         const tvWidget = new widget(widgetOptions);
 
@@ -95,9 +96,9 @@ const Chart = (props) => {
         if (!isEmpty(tradePair)) {
             if(!sectionNum || tradePair.sectionNum == sectionNum) {
                 let symbol = tradePair.firstCurrencySymbol + tradePair.secondCurrencySymbol;
-                let themeValue = 'White';
+                let themeValue = 'Dark';
                 if (themeData == 'light') {
-                    themeValue = 'White'
+                    themeValue = 'Dark'
                 } else if (themeData == 'dark') {
                     themeValue = 'Dark'
                 }

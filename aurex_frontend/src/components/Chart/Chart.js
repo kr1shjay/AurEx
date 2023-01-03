@@ -93,7 +93,7 @@ const Chart = (props) => {
             let themeValue = 'Dark';
 
             if (themeData == 'light') {
-                themeValue = 'White'
+                themeValue = 'Dark'
             } else if (themeData == 'dark') {
                 themeValue = 'Dark'
             }

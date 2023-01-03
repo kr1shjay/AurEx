@@ -19926,9 +19926,10 @@ color:#fff !important;
 }
 
 .dash_table th {
-  color: #787878;
+  color: #eee;
   font-weight: normal;
   border: none !important;
+  font-size:14px;
 }
 
 .dash_table th,
@@ -22946,7 +22947,7 @@ nav.place_order_nav_tabs {
 }
 
 .color_green {
-  color: #11b800 !important;
+  color: #21b77a !important;
 }
 
 .color_red {
@@ -23062,7 +23063,7 @@ nav.place_order_nav_tabs {
 }
 
 .text_grreni {
-  color: #11b800;
+  color: #21b77a;
 }
 
 .text_reeed {
@@ -23172,7 +23173,7 @@ nav.place_order_nav_tabs {
 }
 
 #buyModalCenterTitle.modal-title {
-  color: #11b800;
+  color: #21b77a;
 }
 
 .model_content_table {
@@ -23231,10 +23232,10 @@ nav.place_order_nav_tabs {
 
 .buy_button button {
   width: 100%;
-  background: #11b800;
+  background: #21b77a;
   margin: 12px auto;
   padding: 9px;
-  border: 1px solid #11b800;
+  border: 1px solid #21b77a;
   color: #fff;
   font-weight: 600;
   letter-spacing: 0.3px;
@@ -23244,10 +23245,10 @@ nav.place_order_nav_tabs {
 .buy_button button:hover {
   width: 100%;
   background: #fff;
-  border: 1px solid #11b800;
+  border: 1px solid #21b77a;
   margin: 12px auto;
   padding: 9px;
-  color: #11b800;
+  color: #21b77a;
   font-weight: 600;
   letter-spacing: 0.3px;
   margin-top: 19px;
@@ -23796,7 +23797,7 @@ label {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 21px;
+  /* padding: 21px; */
 }
 
 .statking_title h3 {
@@ -24325,7 +24326,7 @@ h4.profileDetailView1 small {
 
 .button_clas_wallert .data_inside>div>span {
   margin: 0px 10px;
-  color: #11b800;
+  color: #21b77a;
 }
 
 .button_clas_wallert .data_inside>div>span.color_red {
@@ -25806,7 +25807,10 @@ top: 40px !important;
   color: #fff;
 }
 
-.light_theme .tradePages .contact_form .form-control {
+.light_theme .tradePages .contact_form .form-control,
+.light_theme .tradePages .contact_form .form-control:hover,
+.light_theme .tradePages .contact_form .form-control:focus,
+.light_theme .tradePages .contact_form .form-control:focus-visible {
   background: transparent !important;
   border: 1px solid #59615f !important;
   border-left: 0px !important;
@@ -30179,4 +30183,55 @@ top: -6px;
   margin-top: 5px !important;
   font-style: italic;
   margin-right: 5px !important;
+}
+
+.accordion_padings .card-header
+{
+padding-top: 0px !important;
+padding-bottom: 0px !important;
+
+}
+body.padi_over_body .page_wrap header,.page_wrap header
+{
+  padding-right: 0px !important;
+} 
+ body.padi_over_body
+{
+  overflow: unset !important;
+  padding-right: unset !important;
+}
+.form-check input
+{
+  cursor: pointer;
+}
+.dashboard_login a.active, .light_theme .dashboard_login a.active
+{
+  color: #21b77a !important;
+}
+
+#profile_menu a.active li {
+  background-color: #193e2f;
+}
+.light_theme .stakingHistoryTable div.min_height_select,.light_theme .stakingHistoryTable div.min_height_select div
+{
+background: unset !important;
+}
+table .btn.btn-primary
+{
+  height: 40px !important;
+  font-size: 14px !important;
+}
+.tradeFulltabbedTable .table td
+{
+  vertical-align: middle;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+  background-color: transparent !important;
+  background: transparent !important;
+
+    /* -webkit-box-shadow: 0 0 0 30px white inset !important; */
 }

@@ -91,9 +91,9 @@ const Notification = () => {
           />
 
           <div className="settingsContent userPages">
-            <div className="container-fluid">
+            <div className="container">
               <div className="p2p_card p2p_card1 border-none min-h-auto">
-                <div className="container-fluid">
+                <div className="container">
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={12} lg={12}>
                       <h3 className="dash_title login_title_8">Notifications</h3>

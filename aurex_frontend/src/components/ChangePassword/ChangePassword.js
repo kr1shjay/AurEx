@@ -14,6 +14,9 @@ import validation from './validation';
 import isEmpty from '../../lib/isEmpty';
 import { toastAlert } from '../../lib/toastAlert';
 
+import { Link } from "react-router-dom";
+import clsx from 'classnames';
+
 const initialFormValue = {
     'oldPassword': '',
     'password': '',
@@ -27,6 +30,11 @@ const ChangePassword = () => {
     const [formValue, setFormValue] = useState(initialFormValue);
     const [validateError, setValidateError] = useState({});
     const [loader, setLoader] = useState();
+    const [showPassword,setShowPassword] = useState(false)
+    const [shownewpassword,setShownewPassword] = useState(false)
+    const [showConfirmpassword,setShowconfirmPassword] = useState(false)
+
+    
 
     const { oldPassword, password, confirmPassword } = formValue;
 
@@ -85,11 +93,18 @@ const ChangePassword = () => {
                                 <GridItem xs={12} sm={12} md={6} lg={6}>
                                     <div className="form-group">
                                         <label>{t("CURRENT_PASSWORD")}</label>
+                                        <div className="input-group regGroupInput mt-2">
                                         <input type="password" className="form-control"
                                             name="oldPassword"
                                             value={oldPassword}
                                             onChange={handleChange}
                                         />
+                                        <div className="input-group-append">
+                                        <Link onClick={()=>{setShowPassword(!showPassword)}}>
+                                        <i className={clsx("fa", { "fa-eye": showPassword }, { "fa-eye-slash": !showPassword })} aria-hidden="true"></i>
+                                        </Link>
+                                        </div>
+                                        </div>
                                         {
                                             validateError.oldPassword && <p className="error-message">{t(validateError.oldPassword)}</p>
                                         }
@@ -100,11 +115,20 @@ const ChangePassword = () => {
                                 <GridItem xs={12} sm={12} md={6} lg={6}>
                                     <div className="form-group">
                                         <label>{t("NEW_PASSWORD")}</label>
+                                        <div className="input-group regGroupInput mt-2">
+
+
                                         <input type="password" className="form-control"
                                             name="password"
                                             value={password}
                                             onChange={handleChange}
                                         />
+                                         <div className="input-group-append">
+                                        <Link onClick={()=>{setShownewPassword(!shownewpassword)}}>
+                                        <i className={clsx("fa", { "fa-eye": shownewpassword }, { "fa-eye-slash": !shownewpassword })} aria-hidden="true"></i>
+                                        </Link>
+                                        </div>
+                                        </div>
                                         {
                                             validateError.password && <p className="error-message">{t(validateError.password)}</p>
                                         }
@@ -113,11 +137,20 @@ const ChangePassword = () => {
                                 <GridItem xs={12} sm={12} md={6} lg={6}>
                                     <div className="form-group">
                                         <label>{t('CONFIRM_PASSWORD')}</label>
+                                        <div className="input-group regGroupInput mt-2">
+
+
                                         <input type="password" className="form-control"
                                             name="confirmPassword"
                                             value={confirmPassword}
                                             onChange={handleChange}
                                         />
+                                        <div className="input-group-append">
+                                        <Link onClick={()=>{setShowconfirmPassword(!showConfirmpassword)}}>
+                                        <i className={clsx("fa", { "fa-eye": showConfirmpassword }, { "fa-eye-slash": !showConfirmpassword })} aria-hidden="true"></i>
+                                        </Link>
+                                        </div>
+                                        </div>
                                         {
                                             validateError.confirmPassword && <p className="error-message">{t(validateError.confirmPassword)}</p>
                                         }
