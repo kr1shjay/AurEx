@@ -222,7 +222,7 @@ export const createNewUser = async (req, res) => {
         userReferenceCtrl.newUsrReference(newDoc._id)
         walletCtrl.newUsrWallet(walletDoc, {
             'walletId': newDoc._id,
-            'emailId':newDoc.email
+            'emailId':reqBody.email
         })
         defaultUserSetting(newDoc);
         mailTemplateLang({

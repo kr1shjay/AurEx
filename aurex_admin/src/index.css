@@ -161,3 +161,7 @@ position: relative !important;
 {
   color:#fff !important;
 }
+.no_underline
+{
+  text-decoration: none !important;
+}
