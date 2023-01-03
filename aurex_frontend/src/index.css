@@ -30216,11 +30216,11 @@ body.padi_over_body .page_wrap header,.page_wrap header
 {
 background: unset !important;
 }
-table .btn.btn-primary
+/* table .btn.btn-primary
 {
   height: 40px !important;
   font-size: 14px !important;
-}
+} */
 .tradeFulltabbedTable .table td
 {
   vertical-align: middle;
@@ -30234,4 +30234,9 @@ input:-webkit-autofill:active{
   background: transparent !important;
 
     /* -webkit-box-shadow: 0 0 0 30px white inset !important; */
+}
+
+.custom-control-label::after
+{
+  cursor: pointer;
 }
