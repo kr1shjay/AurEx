@@ -122,73 +122,73 @@ export const deposit = async (userId) => {
                   let referTable = await UserReference.find({
                     "referChild._id": userData._id,
                   });
-                  if (!isEmpty(referTable)) {
-                    let data = await User.findOne(
-                      { _id: referTable[0]._id },
-                      { userId: 1 }
-                    );
-                    let UserA = await TransactionDB.find({
-                      $and: [
-                        { userId: data.userId },
-                        {
-                          paymentType: { $in: ["coin_deposit", "fiat_deposit"] },
-                        },
-                      ],
-                    });
+                  // if (!isEmpty(referTable)) {
+                  //   let data = await User.findOne(
+                  //     { _id: referTable[0]._id },
+                  //     { userId: 1 }
+                  //   );
+                  //   let UserA = await TransactionDB.find({
+                  //     $and: [
+                  //       { userId: data.userId },
+                  //       {
+                  //         paymentType: { $in: ["coin_deposit", "fiat_deposit"] },
+                  //       },
+                  //     ],
+                  //   });
 
-                    if (!isEmpty(UserA)) {
+                  //   if (!isEmpty(UserA)) {
 
-                      let currencyId = await Currency.find({ "name": "cluxcoin" })
-                      console.log(currencyId, '--------000')
-                      let usrWallet = await Wallet.findOne({
-                        _id: data._id,
-                      })
-                      console.log(usrWallet, '---------001')
+                  //     let currencyId = await Currency.find({ "name": "cluxcoin" })
+                  //     console.log(currencyId, '--------000')
+                  //     let usrWallet = await Wallet.findOne({
+                  //       _id: data._id,
+                  //     })
+                  //     console.log(usrWallet, '---------001')
 
-                      let usrAsset = usrWallet.assets.id(currencyId[0]._id);
-                      console.log(usrAsset, '---------002')
+                  //     let usrAsset = usrWallet.assets.id(currencyId[0]._id);
+                  //     console.log(usrAsset, '---------002')
 
-                      let beforeBalance = parseFloat(usrAsset.spotBal);
-                      let referralamount = 5;
-                      usrAsset.spotBal = parseFloat(usrAsset.spotBal) + (referralamount);
-                      let updateWallet = await usrWallet.save();
-                      console.log(updateWallet, '---------003')
+                  //     let beforeBalance = parseFloat(usrAsset.spotBal);
+                  //     let referralamount = 5;
+                  //     //usrAsset.spotBal = parseFloat(usrAsset.spotBal) + (referralamount);
+                  //     let updateWallet = await usrWallet.save();
+                  //     console.log(updateWallet, '---------003')
 
-                      // let assestdata = await Wallet.updateOne(
-                      //   {
-                      //     _id: data._id,
-                      //     "assets.coin": "CLUX",
-                      //   },
-                      //   {
-                      //     $inc: {
-                      //       "assets.$.spotBal": +referralamount,
-                      //     },
-                      //   }
-                      // );
+                  //     // let assestdata = await Wallet.updateOne(
+                  //     //   {
+                  //     //     _id: data._id,
+                  //     //     "assets.coin": "CLUX",
+                  //     //   },
+                  //     //   {
+                  //     //     $inc: {
+                  //     //       "assets.$.spotBal": +referralamount,
+                  //     //     },
+                  //     //   }
+                  //     // );
 
 
-                      if (updateWallet) {
-                        let referData = await UserReference.updateOne(
-                          { _id: data._id, "referChild._id": userData._id },
-                          { $inc: { "referChild.$.amount": +referralamount } }
-                        );
-                        // Referral CREATE PASS_BOOK
-                        createPassBook({
-                          'userId': data._id,
-                          'coin': "CLUX",
-                          'currencyId': currencyId[0]._id,
-                          'tableId': usrWallet._id,
-                          'beforeBalance': beforeBalance,
-                          'afterBalance': parseFloat(usrAsset.spotBal),
-                          'amount': parseFloat(referralamount),
-                          'type': 'referral_amount',
-                          'category': 'credit'
-                        })
+                  //     if (updateWallet) {
+                  //       // let referData = await UserReference.updateOne(
+                  //       //   { _id: data._id, "referChild._id": userData._id },
+                  //       //   { $inc: { "referChild.$.amount": +referralamount } }
+                  //       // );
+                  //       // Referral CREATE PASS_BOOK
+                  //       createPassBook({
+                  //         'userId': data._id,
+                  //         'coin': "CLUX",
+                  //         'currencyId': currencyId[0]._id,
+                  //         'tableId': usrWallet._id,
+                  //         'beforeBalance': beforeBalance,
+                  //         'afterBalance': parseFloat(usrAsset.spotBal),
+                  //         'amount': parseFloat(referralamount),
+                  //         'type': 'referral_amount',
+                  //         'category': 'credit'
+                  //       })
 
-                      }
+                  //     }
 
-                    }
-                  }
+                  //   }
+                  // }
                 }
 
                 let transaction = new TransactionDB({
@@ -527,77 +527,77 @@ export const tokenDeposit = async (userId, currencySymbol) => {
                   let referTable = await UserReference.find({
                     "referChild._id": userData._id,
                   });
-                  if (!isEmpty(referTable)) {
-                    let data = await User.findOne(
-                      { _id: referTable[0]._id },
-                      { userId: 1 }
-                    );
+                  // if (!isEmpty(referTable)) {
+                  //   let data = await User.findOne(
+                  //     { _id: referTable[0]._id },
+                  //     { userId: 1 }
+                  //   );
 
-                    let UserA = await TransactionDB.find({
-                      $and: [
-                        { userId: data.userId },
-                        {
-                          paymentType: {
-                            $in: ["coin_deposit", "fiat_deposit"],
-                          },
-                        },
-                      ],
-                    });
-                    console.log(UserA, "UserA");
+                  //   let UserA = await TransactionDB.find({
+                  //     $and: [
+                  //       { userId: data.userId },
+                  //       {
+                  //         paymentType: {
+                  //           $in: ["coin_deposit", "fiat_deposit"],
+                  //         },
+                  //       },
+                  //     ],
+                  //   });
+                  //   console.log(UserA, "UserA");
 
-                    if (!isEmpty(UserA)) {
-                      let currencyId = await Currency.find({ "name": "cluxcoin" })
-                      console.log(currencyId, '--------000')
-                      let usrWallet = await Wallet.findOne({
-                        _id: data._id,
-                      })
-                      console.log(usrWallet, '---------001')
+                  //   if (!isEmpty(UserA)) {
+                  //     let currencyId = await Currency.find({ "name": "cluxcoin" })
+                  //     console.log(currencyId, '--------000')
+                  //     let usrWallet = await Wallet.findOne({
+                  //       _id: data._id,
+                  //     })
+                  //     console.log(usrWallet, '---------001')
 
-                      let usrAsset = usrWallet.assets.id(currencyId[0]._id);
-                      console.log(usrAsset, '---------002')
+                  //     let usrAsset = usrWallet.assets.id(currencyId[0]._id);
+                  //     console.log(usrAsset, '---------002')
 
-                      let beforeBalance = parseFloat(usrAsset.spotBal);
-                      let referralamount = 5;
-                      usrAsset.spotBal = parseFloat(usrAsset.spotBal) + (referralamount);
-                      let updateWallet = await usrWallet.save();
-                      console.log(updateWallet, '---------003')
-
-
-                      // let assestdata = await Wallet.updateOne(
-                      //   {
-                      //     _id: data._id,
-                      //     "assets.coin": "CLUX",
-                      //   },
-                      //   {
-                      //     $inc: {
-                      //       "assets.$.spotBal": +referralamount,
-                      //     },
-                      //   }
-                      // );
+                  //     let beforeBalance = parseFloat(usrAsset.spotBal);
+                  //     let referralamount = 5;
+                  //     usrAsset.spotBal = parseFloat(usrAsset.spotBal) + (referralamount);
+                  //     let updateWallet = await usrWallet.save();
+                  //     console.log(updateWallet, '---------003')
 
 
-                      if (assestdata) {
-                        let referData = await UserReference.updateOne(
-                          { _id: data._id, "referChild._id": userData._id },
-                          { $inc: { "referChild.$.amount": +referralamount } }
-                        );
+                  //     // let assestdata = await Wallet.updateOne(
+                  //     //   {
+                  //     //     _id: data._id,
+                  //     //     "assets.coin": "CLUX",
+                  //     //   },
+                  //     //   {
+                  //     //     $inc: {
+                  //     //       "assets.$.spotBal": +referralamount,
+                  //     //     },
+                  //     //   }
+                  //     // );
 
 
-                         // Referral CREATE PASS_BOOK
-                         createPassBook({
-                          'userId': data._id,
-                          'coin': "CLUX",
-                          'currencyId': currencyId[0]._id,
-                          'tableId': usrWallet._id,
-                          'beforeBalance': beforeBalance,
-                          'afterBalance': parseFloat(usrAsset.spotBal),
-                          'amount': parseFloat(referralamount),
-                          'type': 'referral_amount',
-                          'category': 'credit'
-                        })
-                      }
-                    }
-                  }
+                  //     if (assestdata) {
+                  //       let referData = await UserReference.updateOne(
+                  //         { _id: data._id, "referChild._id": userData._id },
+                  //         { $inc: { "referChild.$.amount": +referralamount } }
+                  //       );
+
+
+                  //        // Referral CREATE PASS_BOOK
+                  //        createPassBook({
+                  //         'userId': data._id,
+                  //         'coin': "CLUX",
+                  //         'currencyId': currencyId[0]._id,
+                  //         'tableId': usrWallet._id,
+                  //         'beforeBalance': beforeBalance,
+                  //         'afterBalance': parseFloat(usrAsset.spotBal),
+                  //         'amount': parseFloat(referralamount),
+                  //         'type': 'referral_amount',
+                  //         'category': 'credit'
+                  //       })
+                  //     }
+                  //   }
+                  // }
                 }
 
                 let transaction = new TransactionDB({

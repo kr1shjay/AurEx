@@ -245,12 +245,14 @@ export const totalCount = async (req, res) => {
         let contactCount = await ContactUs.countDocuments({ softDelete: false })
         let supportCount = await SupportTicket.countDocuments({})
         let transCount = await Transaction.countDocuments({ paymentType: "coin_withdraw", status: "pending"})
+        let depositCount =await Transaction.countDocuments({ paymentType: "fiat_deposit", status: "pending"})
         let totalCount = {
             userCount : userCount,
             kycCount : kycCount,
             contactCount : contactCount,
             supportCount : supportCount,
-            transCount : transCount
+            transCount : transCount,
+            depositCount:depositCount
         }
         return res.status(200).json({ status: 'success', totalCount })
     } catch (err) {

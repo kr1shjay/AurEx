@@ -94,7 +94,8 @@ const ChangePassword = () => {
                                     <div className="form-group">
                                         <label>{t("CURRENT_PASSWORD")}</label>
                                         <div className="input-group regGroupInput mt-2">
-                                        <input type="password" className="form-control"
+                                        <input type={showPassword ? "text" : "password"} 
+                                        className="form-control"
                                             name="oldPassword"
                                             value={oldPassword}
                                             onChange={handleChange}
@@ -118,7 +119,7 @@ const ChangePassword = () => {
                                         <div className="input-group regGroupInput mt-2">
 
 
-                                        <input type="password" className="form-control"
+                                        <input type={shownewpassword ? "text" : "password"} className="form-control"
                                             name="password"
                                             value={password}
                                             onChange={handleChange}
@@ -140,7 +141,7 @@ const ChangePassword = () => {
                                         <div className="input-group regGroupInput mt-2">
 
 
-                                        <input type="password" className="form-control"
+                                        <input type={showConfirmpassword ? "text" : "password"} className="form-control"
                                             name="confirmPassword"
                                             value={confirmPassword}
                                             onChange={handleChange}

@@ -18,6 +18,7 @@ import { fiatValidation } from './validation'
 import { toastAlert } from "../../lib/toastAlert";
 import { precentConvetPrice } from '../../lib/calculation';
 import { encryptObject } from '../../lib/cryptoJS'
+import {toFixed} from '../../lib/roundOf'
 
 const initialFormValue = {
     'currencyId': '',
@@ -195,7 +196,7 @@ const FiatWithdraw = (props) => {
                         </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={12} lg={6}>
-                        <label>{t('FINAL_WITHDRAW_AMOUNT')}</label>
+                        <label>{t('FINAL_WITHDRAW_AMOUNT_WITH_FEE')}</label>
                         <div className="form-group  ">
                             <div class="seacr_box_s">
                                 <input type="text" placeholder=""
@@ -236,7 +237,7 @@ const FiatWithdraw = (props) => {
                     <div className="notes_section">
                         <p>{t('NOTES')}</p>
                         <ul>
-                            <li>1. {t('MIN_WITHDRAW_LIMIT')} {currency && currency.minimumWithdraw}</li>
+                            <li>1. {t('MIN_WITHDRAW_LIMIT')} {currency && toFixed(currency.minimumWithdraw,8)}</li>
                             <li>2. {t('WITHDRAW_TIME_TAKE')}</li>
                         </ul>
                     </div>

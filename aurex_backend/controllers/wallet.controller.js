@@ -1400,14 +1400,15 @@ export const WithdrawCancel = async (req, res) => {
         return res.status(500).json({ "success": false, 'message': 'Error on server' })
     }
 }
-
+//problem in the auto withdraw
 autoWithdraw.start();
 export const AutoWithdraw = async () => {
     try {
         let TransactionData = await Transaction.aggregate([
             {
                 "$match": {
-                    status: "pending"
+                    status: "pending",
+                    paymentType : "coin_withdraw"
                 }
             },
             {

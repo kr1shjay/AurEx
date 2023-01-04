@@ -18,10 +18,12 @@ import { NavLink } from 'react-router-dom';
 // import action
 import { getLanguage, getAllCMSPage } from '../actions/commonAction';
 import { getCmsData } from '../actions/homeAction';
+import { getAncontent } from '../actions/commonAction';
 
 // import lib
 import isEmpty from "../lib/isEmpty";
 import { useTranslation } from 'react-i18next';
+import { setAccountData } from "actions/users";
 const dashboardRoutes = [];
 
 // Scroll to Top
@@ -50,6 +52,7 @@ const HomePage = () => {
   const language = useSelector(state => state.language)
 
   const [tickerclose, setTickerclose] = useState(false);
+  const [anncData,setAnncData]=useState([])
 
   // const closeTicker = () =>
   // {
@@ -86,7 +89,13 @@ const HomePage = () => {
 
 
 
-
+  const fetchAnnouncemet = async()=>{
+    const {status,loading,result}=await getAncontent()
+    console.log("getANNC",result)
+    if(status==="success"){
+        setAnncData(result)
+    }  
+}
 
 const fetchCmsData = async () => {
         try {
@@ -112,6 +121,7 @@ const fetchCmsData = async () => {
   useEffect(() => {
     fetchCmsPage()
     fetchCmsData()
+    fetchAnnouncemet()
   }, [])
   return (
     <div className={tickerclose?"page_wrap home_page_header_banner without_ticker_banner":"page_wrap home_page_header_banner"}>
@@ -120,14 +130,12 @@ const fetchCmsData = async () => {
       <div className="banner_running_ticker">
         <i className="fas fa-bullhorn"></i>
         <Ticker>
-            {({ index }) => (
+            {({index}) => (
                 <>
-                    <p>The zero maker fee promotion for spot trading is ongoing! Trade now to enjoy zero maker fees! 
-                      {/* <Link to="/" className="newsticker_morelink">More</Link> */}
+                    <p>{anncData && anncData.length >0 && anncData[anncData.length-1].content}
                       </p>
                     <img src="www.my-image-source.com/" alt="" />
-                </>
-            )}
+                </>)}
         </Ticker>
         <span className="close_icon_ticker" onClick={()=>setTickerclose(true)}><i className="fas fa-times"></i></span>
 

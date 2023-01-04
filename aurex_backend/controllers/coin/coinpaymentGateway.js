@@ -1,6 +1,7 @@
 // import package
 import coinpayments from 'coinpayments';
 import qs from 'querystring'
+import fs from 'fs'
 
 // import config
 import config from '../../config';
@@ -10,7 +11,9 @@ import { balMoveToBNBTask } from '../../config/cron';
 import {
     Currency,
     Transaction,
-    Assets
+    Assets,
+    Wallet,
+    User
 } from '../../models';
 
 // import controller
@@ -164,17 +167,20 @@ export const depositwebhook = async (req, res) => {
     write_log(JSON.stringify(req.headers))
     try {
         let reqBody = req.body;
+        console.log("Rwque : ",reqBody)
         if (reqBody.status >= '100') {
 
-            let currencyData = await Currency.findOne({ 'currencySymbol': reqBody.currency })
+            let currencyData = await Currency.findOne({ 'symbol': reqBody.currency })
 
             if (!currencyData) {
                 return res.status(400).json({ 'success': false, 'messages': "Invalid currency" })
             }
 
+            // findOne({ assets: { $elemMatch: { _id: ObjectId("63a97d329b330bcc5ebf67e0") , address: "36kdopUXemzyGPb2tWxFYmMT8oCWBqKXBW" , destTag: '' } }})
+
             let findAsset = {
-                'currency': currencyData._id,
-                'currencyAddress': reqBody.address
+                '_id': currencyData._id,
+                'address': reqBody.address
             }
 
             if (currencyData.currencySymbol == 'XRP') {
@@ -182,12 +188,15 @@ export const depositwebhook = async (req, res) => {
             }
 
             // let userAssetData = await Assets.findOne(findAsset).populate({ path: "userId" })
-            let usrWallet = await Wallet.findOne(findAsset);
+            let usrWallet = await Wallet.findOne({ assets: { $elemMatch: findAsset }})
+            let userAssetData = await Wallet.findOne({ assets: { $elemMatch: findAsset }}).populate({ path: "_id" })
+          
+        //    let userId = await User.findOne({ userId: usrWallet.userId });
             let userWalletData = usrWallet.assets.id(currencyData._id);
             if (!userWalletData) {
                 return res.status(400).json({ 'success': false, 'messages': "Invalid assets" })
             }
-
+            
             // if (userAssetData && !userAssetData.userId) {
             //     return res.status(400).json({ 'success': false, 'messages': "Invalid user data" })
             // }
@@ -197,22 +206,26 @@ export const depositwebhook = async (req, res) => {
             if (trxnData) {
                 return res.status(400).json({ 'success': false, 'messages': "Already payment exists" })
             }
-
+            console.log("user Wallet :",trxnData)
             let transactions = new Transaction();
-            transactions["userId"] = usrWallet.userId._id;
+            transactions["userId"] = usrWallet.userId;
             transactions["currencyId"] = currencyData._id;
-            transactions["currencySymbol"] = currencyData.currencySymbol;
-            transactions["toaddress"] = reqBody.address;
+            transactions["coin"] = reqBody.currency;
+            transactions["toAddress"] = reqBody.address;
             transactions["amount"] = reqBody.amount;
             transactions["actualAmount"] = reqBody.amount;
             transactions["txid"] = reqBody.txn_id;
             transactions["status"] = 'completed';
             transactions["paymentType"] = 'coin_deposit';
+            transactions["commissionFee"] = reqBody.fee;
 
             let trxData = await transactions.save();
 
+            
+
             let beforeBalance = parseFloat(userWalletData.spotBal);
             userWalletData.spotBal = parseFloat(userWalletData.spotBal) + parseFloat(reqBody.amount)
+            console.log("User Wallet  Data : ",userWalletData)
             await usrWallet.save();
 
             // CREATE PASS_BOOK
@@ -234,7 +247,7 @@ export const depositwebhook = async (req, res) => {
             // )
 
             let content = {
-                'email': userAssetData.userId.email,
+                'email': userAssetData._id.email,
                 'date': new Date(),
                 'amount': parseFloat(reqBody.amount).toFixed(8),
                 'transactionId': reqBody.txn_id,
@@ -242,9 +255,9 @@ export const depositwebhook = async (req, res) => {
             };
 
             mailTemplateLang({
-                'userId': userAssetData.userId._id,
+                'userId': userAssetData._id._id,
                 'identifier': 'User_deposit',
-                'toEmail': userAssetData.userId.email,
+                'toEmail': userAssetData._id.email,
                 content
             })
 
@@ -252,6 +265,7 @@ export const depositwebhook = async (req, res) => {
         }
         return res.status(400).json({ 'success': true, 'messages': "Payment status pending" })
     } catch (err) {
+        console.log("Error  : ",err)
         return res.status(500).json({ 'success': false, 'messages': "Error on server" })
     }
 }
