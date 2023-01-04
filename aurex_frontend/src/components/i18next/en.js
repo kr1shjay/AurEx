@@ -197,7 +197,7 @@ export default {
     "ADDRESS_DOCUMENT_DESCRIPTION3": "Approved utility bill electricity bill, gas bill, landline phone, internet bill. Mobile phone bill NOT accepted. ",
     "ADDRESS_DOCUMENT_DESCRIPTION4": "Utility Bill (Approved utility bills: electricity bill, gas bill, landline phone, internet bill). Mobile phone not accepted.",
     "ADDRESS_DOCUMENT_DESCRIPTION5": "If you want to change your Address document please contact our",
-    "ADDRESS_DOCUMENT_VERIFIED": "Your proof of address has been submited",
+    "ADDRESS_DOCUMENT_VERIFIED": "Your proof of address has been submitted",
     "DRIVING_LICENSE": "Driving License",
     "UTILITY_BILL": "Utility Bill",
     "BANK_STATEMENT": "Bank statement",

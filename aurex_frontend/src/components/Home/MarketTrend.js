@@ -28,6 +28,7 @@ import "slick-carousel/slick/slick-theme.css";
 import config from "../../config/index.js"
 
 import AnnouncementModal from './AnnouncementModal';
+import AnnouncementListModal from './AnnouncementListModal'
 
 const MarketTrend = () => {
     const { t, i18n } = useTranslation();
@@ -80,7 +81,7 @@ const MarketTrend = () => {
     const [cmsData, setCmsData] = useState({})
     const [newsData, setNewsData] = useState([])
     const [anncData,setAnncData]=useState([])
-
+    const [isShowAdlist,setShowList]=useState(false)
     const [isShowAd, setIsShowAd] = useState(false);
     const [index,setIndex]=useState(0)
 
@@ -165,15 +166,15 @@ const MarketTrend = () => {
                         <div className='notices_wrapper'>
                         <div class="notices_tag">Announcement</div>
                         <div className='notice_sec d-flex justify-content-between align-items-center'>
-                         <Link to="/" className='link_blk'>Announcement on revising XEN Crypto (XEN) Deposit to Earn Event</Link>
-                         <Link to="/" className='d-flex align-items-center link_grn'>More 
+                         <Link to="/" className='link_blk' onClick={()=>setShowList(true)}>{anncData && anncData[anncData.length-1] && anncData[anncData.length-1].content}</Link>
+                         <Link to="/" className='d-flex align-items-center link_grn' onClick={()=>setShowList(true)}>More 
                          <i class="fa fa-arrow-right pl-2"></i>
                      
                          </Link>
                             </div>
                             </div>
-                      
                         </div>
+                        {isShowAdlist && <AnnouncementListModal anncData={anncData} onDismiss={()=>setShowList(false)} />}
                         {isShowAd && <AnnouncementModal index={index} anncData={anncData} onDismiss={()=>setIsShowAd(false)}/> }       
                         <div className="mt-4 mb-3 slider_home" data-aos="fade-up" data-aos-duration="1000">
 

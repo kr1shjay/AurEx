@@ -185,8 +185,9 @@ const FiatWithdraw = (props) => {
                                 />
                                 <i class="">{assetData && assetData.coin}</i>
                             </div>
+                            {validateError.amount && <p className="error-message">{t(validateError.amount)}</p>}
                         </div>
-                        {validateError.amount && <p className="error-message">{t(validateError.amount)}</p>}
+                        
                     </GridItem>
                     <GridItem xs={12} sm={12} md={12} lg={12}>
                         <div className="wallwt_balance">
@@ -203,8 +204,9 @@ const FiatWithdraw = (props) => {
                                 />
                                 <i class="">{assetData && assetData.coin}</i>
                             </div>
+                            {validateError.finalAmount && <p className="error-message">{t(validateError.finalAmount)}</p>}
                         </div>
-                        {validateError.finalAmount && <p className="error-message">{t(validateError.finalAmount)}</p>}
+                        
                     </GridItem>
                     <GridItem xs={12} sm={12} md={12} lg={6}>
                         <label>{t('ENTER2FA_CODE')}</label>
@@ -217,8 +219,9 @@ const FiatWithdraw = (props) => {
                                     onChange={handleChange}
                                 />
                             </div>
+                            {validateError.twoFACode && <p className="error-message">{t(validateError.twoFACode)}</p>}
                         </div>
-                        {validateError.twoFACode && <p className="error-message">{t(validateError.twoFACode)}</p>}
+                        
                     </GridItem>
                     <div className="submit_btn w-100 mx-3">
                         <Button className="w-100"

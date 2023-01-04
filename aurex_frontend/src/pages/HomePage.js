@@ -244,9 +244,9 @@ const fetchCmsData = async () => {
                 <div className="feature_text mt-4">
                   <img src={require("../assets/images/icon_future.png")} alt="Fast Crypto Listing" className="img-fluid" />
                   <h5 className="mt-0">Low Trading Fee</h5>
-                  <p className="heading-text px-lg-0">
+                  {/* <p className="heading-text px-lg-0">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </p>
+                  </p> */}
                   <div className='btn_more_div text-center'>
               <Link to="/spot">Learn More <i className='fas fa-arrow-right'></i></Link>
           </div>
@@ -262,9 +262,9 @@ const fetchCmsData = async () => {
                 <div className="feature_text mt-4">
                   <img src={require("../assets/images/icon_leveraged.png")} alt="Crypto Variety" className="img-fluid" />
                   <h5 className="mt-0">Secured Trades</h5>
-                  <p className="heading-text px-lg-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </p>
+                  {/* <p className="heading-text px-lg-0">
+                  //Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </p> */}
                   <div className='btn_more_div text-center'>
               <Link to="/spot">Learn More <i className='fas fa-arrow-right'></i></Link>
           </div>

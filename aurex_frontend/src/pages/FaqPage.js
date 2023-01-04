@@ -28,6 +28,9 @@ const CardItem = (props) => {
   const { categorykey, eventKey, data } = props;
   // state
   const [activeKey, setActiveKey] = useState('')
+  useEffect(()=>{
+    document.title = "Faq"
+  },[])
 
   return (
     <Card>

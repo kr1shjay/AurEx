@@ -30240,3 +30240,19 @@ input:-webkit-autofill:active{
 {
   cursor: pointer;
 }
+.bane_car_margin
+{
+margin-left:unset !important;
+margin-right:unset !important;
+}
+.hr_grey
+{
+  border-color:#3e3737 !important;
+}
+@media only screen and (max-width:767px)
+{
+  .mob_res_block_md
+  {
+    display:block !important;
+  }
+}

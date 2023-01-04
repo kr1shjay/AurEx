@@ -8,6 +8,11 @@ import GridItem from "components/Grid/GridItem.js";
 import Footer from "components/Footer/Footer.js";
 import ContactUs from '../components/ContactUs'
 
+
+// import action
+import { getCMSPage } from '../actions/commonAction';
+import { useState } from "react";
+
 const dashboardRoutes = [];
 
 function ScrollToTopOnMount() {
@@ -17,6 +22,20 @@ function ScrollToTopOnMount() {
   return null;
 }
 const ContactPage = (props) => {
+  const[content,setContent]=useState()
+  const fetchCmsPage = async () => {
+    try {
+      const { status, loading, result } = await getCMSPage('contact_us');
+      if (status == 'success') {
+        setContent(result.content)
+        document.title = result.title;
+      }
+    } catch (err) { }
+  }
+
+  useEffect(() => {
+    fetchCmsPage()
+  }, [])
 
   return (
     <div className="dashboard_container page_wrap">
@@ -38,7 +57,7 @@ const ContactPage = (props) => {
             <div className="container-fluid">
               <GridContainer className="justify-content-center">
                 <GridItem xs={12} sm={12} md={12} lg={10}>
-                  <ContactUs />
+                  <ContactUs content= {content}/>
                 </GridItem>
               </GridContainer>
             </div>
