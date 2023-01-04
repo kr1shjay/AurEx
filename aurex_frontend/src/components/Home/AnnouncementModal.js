@@ -3,6 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import config from "../../config/index.js"
+import { momentFormat } from "../../lib/dateTimeHelper"
 
 const AnnouncementModal = (props)=>{
 console.log(props,"props")
@@ -28,9 +29,9 @@ centered
 <p className='text-white mt-3'>{props.anncData[props.index].content}</p>
 <p>
     <b>End Date:</b>
-    <span>{props.anncData[props.index].endDateTime}</span>
+     <span>{momentFormat(props.anncData[props.index].endDateTime,"YYYY-MM-DD")}</span>
 </p>
-<button type="button" class="btn btn-bordered-secondary w-100 mt-3 mr-3"  onClick={()=>props.onDismiss()}>Cancel</button>
+<button type="button" class="btn btn-bordered-secondary w-100 mt-3 mr-3"  onClick={()=>props.onDismiss()}>Close</button>
 
 </Modal.Body>
 </Modal>

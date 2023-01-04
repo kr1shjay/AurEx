@@ -52,6 +52,13 @@ const ProofForm = () => {
 
     const handleFile = async (e) => {
         const { name, files } = e.target;
+        let fileSize = files[0].size
+        let filesize = Math.round(( fileSize/ 1024));
+        const maxsize = 9*1024
+        if(filesize > maxsize  ){
+            setValidateError({...validateError,...{[name]:"image size is large"}})
+            return false
+        }
         let formData = { ...formValue, ...{ [name]: files[0] } }
         setFormValue(formData)
         if (!isEmpty(validateError)) {
@@ -124,7 +131,7 @@ const ProofForm = () => {
                 <GridItem xs={12} sm={12} md={6} lg={6}>
                     <div className="form-group">
                         <label>{t("SELECTED_ID_NUMBER")}</label>
-                        <input type="number" className="form-control"
+                        <input type="text" className="form-control"
                             name="proofNumber"
                             value={proofNumber}
                             onChange={handleChange}

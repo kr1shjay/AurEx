@@ -22,7 +22,7 @@ const initialFormValue = {
     'message': '',
 }
 
-const ContactUs = () => {
+const ContactUs = (props) => {
     const { t, i18n } = useTranslation();
 
     // state
@@ -76,7 +76,7 @@ const ContactUs = () => {
     return (
         <div className="p2p_card min-h-auto">
             <h3 className="login_title_8">{t('CONTACT_US')}</h3>
-            <p className="p_conat_page">{t('CONTACT_PARAGRAPH_1')}</p>
+            <div dangerouslySetInnerHTML={{ '__html': props.content }} />
             <GridItem xs={12} sm={12} md={12} lg={12}>
                 <GridContainer className="contact_form px-0">
                     <GridItem xs={12} sm={12} md={6} lg={4}>
