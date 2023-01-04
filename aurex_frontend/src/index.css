@@ -1051,6 +1051,8 @@ pre code {
 .pre-scrollable {
   max-height: 340px;
   overflow-y: scroll;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .container {
@@ -2331,6 +2333,8 @@ pre code {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+    scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
   }
 
   .table-responsive-sm>.table-bordered {
@@ -2345,6 +2349,8 @@ pre code {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+    scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
   }
 
   .table-responsive-md>.table-bordered {
@@ -2359,6 +2365,8 @@ pre code {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+    scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
   }
 
   .table-responsive-lg>.table-bordered {
@@ -2373,6 +2381,8 @@ pre code {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+    scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
   }
 
   .table-responsive-xl>.table-bordered {
@@ -2386,6 +2396,8 @@ pre code {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .table-responsive>.table-bordered {
@@ -5924,6 +5936,8 @@ button.close {
 .modal-open .modal {
   overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .modal-dialog {
@@ -9629,6 +9643,8 @@ button:focus {
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .bmd-layout-header {
@@ -9655,6 +9671,8 @@ button:focus {
   -webkit-overflow-scrolling: touch;
   transition-duration: 0.2s;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .bmd-layout-spacer {
@@ -16217,6 +16235,8 @@ h2.title {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   transition-duration: 0.2s;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .bmd-layout-drawer>* {
@@ -18679,6 +18699,8 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
     animation: none;
     opacity: 1;
     overflow-y: scroll;
+    scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
   }
 
   .navbar.navbar-transparent .navbar-toggler .navbar-toggler-icon {
@@ -21744,6 +21766,8 @@ nav.place_order_nav_tabs {
   border: 0;
   height: 200px;
   overflow-y: auto;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .notificationDropdown p a {
@@ -24349,6 +24373,8 @@ h4.profileDetailView1 small {
 .tradeFulltabbedTable nav {
   display: block;
   overflow-x: auto;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 .bor_bottom_s {
   padding: 20px 0px;
@@ -28623,6 +28649,10 @@ min-height: 410px !important;
 
 @media only screen and (max-width:575px)
 {
+  .submit_btn.w70_i
+  {
+margin-top: 10px !important;
+  }
   .nav_item_count
   {
     margin-top: 10px !important;
@@ -29853,9 +29883,13 @@ width: 40px;
   }
   .home_page_menu .light_theme .mobile_nav {
   overflow-y: auto !important;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 .light_theme .mobile_nav {
   overflow-y: auto;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 
@@ -30231,6 +30265,7 @@ table .btn,.rdt_Table .btn
 {
   height: 35px !important;
   font-size: 14px !important;
+  line-height: 20px !important;
 }
 .tradeFulltabbedTable .table td
 {
@@ -30289,4 +30324,11 @@ margin-right:unset !important;
   height: 35px !important;
   min-height: 35px !important;
 
+}
+
+
+.light_theme .stakingHistoryTable div, .light_theme .cion_table_sectio div
+{
+  scrollbar-color: #21b77a #1a1b1c;
+scrollbar-width: thin;
 }
