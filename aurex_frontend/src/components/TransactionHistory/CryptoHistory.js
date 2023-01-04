@@ -142,7 +142,7 @@ const CryptoHistory = (props) => {
     return (
         <div className="dashboard_box stakingHistoryTable">
             <div className="newUsersFilter contact_form settingsSelect mb-0 historyPageFilter">
-                <div className="newsSelectGroup">
+                <div className="newsSelectGroup input_minw_selc">
                     <label>{t('FILTER_BY')}</label>
                     <Select
                         value={type}

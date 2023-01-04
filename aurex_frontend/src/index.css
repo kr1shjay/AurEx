@@ -22299,12 +22299,12 @@ nav.place_order_nav_tabs {
 
 .submit_btn button {
   width: 100%;
-    height: 52px;
+    height: 35px;
     background: #21b77a;
     border: 1px solid #21b77a;
     border-radius: 5px;
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     text-transform: capitalize !important;
     line-height: 15px;
@@ -24194,6 +24194,16 @@ img.marketIcon {
 }
 
 .select_lable_>div {
+  width: 100%;
+  border: 1px solid #59615f;
+  border-radius: 6px;
+  padding-left: 8px;
+  font-size: 14px;
+  height: 35px;
+}
+
+.select_lable_.select_lable_new_wi>div
+{
   width: 100%;
   border: 1px solid #59615f;
   border-radius: 6px;
@@ -30216,9 +30226,10 @@ body.padi_over_body .page_wrap header,.page_wrap header
 {
 background: unset !important;
 }
-table .btn.btn-primary,.rdt_Table .btn.btn-primary
+table .btn.btn-primary,.rdt_Table .btn.btn-primary,
+table .btn,.rdt_Table .btn
 {
-  height: 40px !important;
+  height: 35px !important;
   font-size: 14px !important;
 }
 .tradeFulltabbedTable .table td
@@ -30271,4 +30282,11 @@ margin-right:unset !important;
 .active_pair td
 {
   background-color: #090909 !important;
+}
+.settingsSelect .input_minw_selc .MuiInput-underline,
+.settingsSelect .tableSearchBox .form-control
+{
+  height: 35px !important;
+  min-height: 35px !important;
+
 }
