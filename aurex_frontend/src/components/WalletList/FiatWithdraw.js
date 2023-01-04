@@ -152,7 +152,7 @@ const FiatWithdraw = (props) => {
 
                 <GridContainer>
                     <GridItem xs={12} sm={12} md={6} lg={6}>
-                        <div class="form-group select_lable_">
+                        <div class="form-group select_lable_ select_lable_new_wi">
                             <label>
                             {t("WITHDRAW_ACCOUNT")}
                                 {/* <Link to={'/profile'}>+ {t("ADD_BANK")}</Link> */}

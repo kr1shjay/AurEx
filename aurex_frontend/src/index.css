@@ -1051,6 +1051,8 @@ pre code {
 .pre-scrollable {
   max-height: 340px;
   overflow-y: scroll;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .container {
@@ -2331,6 +2333,8 @@ pre code {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+    scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
   }
 
   .table-responsive-sm>.table-bordered {
@@ -2345,6 +2349,8 @@ pre code {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+    scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
   }
 
   .table-responsive-md>.table-bordered {
@@ -2359,6 +2365,8 @@ pre code {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+    scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
   }
 
   .table-responsive-lg>.table-bordered {
@@ -2373,6 +2381,8 @@ pre code {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+    scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
   }
 
   .table-responsive-xl>.table-bordered {
@@ -2386,6 +2396,8 @@ pre code {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .table-responsive>.table-bordered {
@@ -5924,6 +5936,8 @@ button.close {
 .modal-open .modal {
   overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .modal-dialog {
@@ -9629,6 +9643,8 @@ button:focus {
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .bmd-layout-header {
@@ -9655,6 +9671,8 @@ button:focus {
   -webkit-overflow-scrolling: touch;
   transition-duration: 0.2s;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .bmd-layout-spacer {
@@ -16217,6 +16235,8 @@ h2.title {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   transition-duration: 0.2s;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .bmd-layout-drawer>* {
@@ -18679,6 +18699,8 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
     animation: none;
     opacity: 1;
     overflow-y: scroll;
+    scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
   }
 
   .navbar.navbar-transparent .navbar-toggler .navbar-toggler-icon {
@@ -20241,7 +20263,7 @@ button.btn.btn-outline:active {
 .dashHistoryTable tr td {
   border-top: 0;
   padding: 5px 15px;
-  color: #5a5a5a;
+  color: #cac6c6;
   white-space: nowrap;
 }
 
@@ -21744,6 +21766,8 @@ nav.place_order_nav_tabs {
   border: 0;
   height: 200px;
   overflow-y: auto;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 .notificationDropdown p a {
@@ -22299,12 +22323,12 @@ nav.place_order_nav_tabs {
 
 .submit_btn button {
   width: 100%;
-    height: 52px;
+    height: 35px;
     background: #21b77a;
     border: 1px solid #21b77a;
     border-radius: 5px;
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     text-transform: capitalize !important;
     line-height: 15px;
@@ -24199,6 +24223,16 @@ img.marketIcon {
   border-radius: 6px;
   padding-left: 8px;
   font-size: 14px;
+  height: 35px;
+}
+
+.select_lable_.select_lable_new_wi>div
+{
+  width: 100%;
+  border: 1px solid #59615f;
+  border-radius: 6px;
+  padding-left: 8px;
+  font-size: 14px;
   height: 52px;
 }
 
@@ -24339,6 +24373,8 @@ h4.profileDetailView1 small {
 .tradeFulltabbedTable nav {
   display: block;
   overflow-x: auto;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 .bor_bottom_s {
   padding: 20px 0px;
@@ -28613,6 +28649,10 @@ min-height: 410px !important;
 
 @media only screen and (max-width:575px)
 {
+  .submit_btn.w70_i
+  {
+margin-top: 10px !important;
+  }
   .nav_item_count
   {
     margin-top: 10px !important;
@@ -29843,9 +29883,13 @@ width: 40px;
   }
   .home_page_menu .light_theme .mobile_nav {
   overflow-y: auto !important;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 .light_theme .mobile_nav {
   overflow-y: auto;
+  scrollbar-color: #21b77a #1a1b1c;
+    scrollbar-width: thin;
 }
 
 
@@ -30216,11 +30260,13 @@ body.padi_over_body .page_wrap header,.page_wrap header
 {
 background: unset !important;
 }
-/* table .btn.btn-primary
+table .btn.btn-primary,.rdt_Table .btn.btn-primary,
+table .btn,.rdt_Table .btn
 {
-  height: 40px !important;
+  height: 35px !important;
   font-size: 14px !important;
-} */
+  line-height: 20px !important;
+}
 .tradeFulltabbedTable .table td
 {
   vertical-align: middle;
@@ -30255,4 +30301,34 @@ margin-right:unset !important;
   {
     display:block !important;
   }
+}
+.no_mar_data
+{
+  text-align: center;
+    font-size: 14px;
+    line-height: 24px;
+    max-width: 100%;
+    color: #000;
+    font-weight: 600 !important;
+    text-transform: capitalize;
+
+}
+
+.active_pair td
+{
+  background-color: #090909 !important;
+}
+.settingsSelect .input_minw_selc .MuiInput-underline,
+.settingsSelect .tableSearchBox .form-control
+{
+  height: 35px !important;
+  min-height: 35px !important;
+
+}
+
+
+.light_theme .stakingHistoryTable div, .light_theme .cion_table_sectio div
+{
+  scrollbar-color: #21b77a #1a1b1c;
+scrollbar-width: thin;
 }
