@@ -210,6 +210,7 @@ const MarketTrend = () => {
                                 <div className="row">
                                     <div className="col-lg-12">
                                         <div className="table-responsive bg_white_res">
+                                            
                                             <Tabletabs pairList={pairData} />
                                         </div>
                                     </div>

@@ -20241,7 +20241,7 @@ button.btn.btn-outline:active {
 .dashHistoryTable tr td {
   border-top: 0;
   padding: 5px 15px;
-  color: #5a5a5a;
+  color: #cac6c6;
   white-space: nowrap;
 }
 
@@ -30216,11 +30216,11 @@ body.padi_over_body .page_wrap header,.page_wrap header
 {
 background: unset !important;
 }
-/* table .btn.btn-primary
+table .btn.btn-primary,.rdt_Table .btn.btn-primary
 {
   height: 40px !important;
   font-size: 14px !important;
-} */
+}
 .tradeFulltabbedTable .table td
 {
   vertical-align: middle;
@@ -30255,4 +30255,20 @@ margin-right:unset !important;
   {
     display:block !important;
   }
+}
+.no_mar_data
+{
+  text-align: center;
+    font-size: 14px;
+    line-height: 24px;
+    max-width: 100%;
+    color: #000;
+    font-weight: 600 !important;
+    text-transform: capitalize;
+
+}
+
+.active_pair td
+{
+  background-color: #090909 !important;
 }
