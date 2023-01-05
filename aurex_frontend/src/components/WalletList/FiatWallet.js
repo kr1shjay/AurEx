@@ -77,7 +77,7 @@ const FiatWallet = () => {
             />
             <div className="d-flex justify-content-between">
                 <h3 className="login_title_8">{t("FIAT_WALLET")}</h3>
-                 <div className="seacr_box_s">
+                 <div className="seacr_box_s searc_right_pad_new">
                     <input type="text" placeholder={t("FIND_COIN")}  onChange={onSearch}/>
                     <i class="fas fa-search"></i>
                 </div> 

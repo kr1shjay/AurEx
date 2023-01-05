@@ -133,7 +133,7 @@ const FiatDeposit = (props) => {
                     <GridItem xs={12} sm={12} md={12} lg={6}>
                         <label>{t('AMOUNT')}</label>
                         <div className="form-group  ">
-                            <div class="seacr_box_s">
+                            <div class="seacr_box_s padd_right_input">
                                 <input type="text" placeholder=""
                                     name="amount"
                                     value={amount}

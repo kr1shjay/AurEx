@@ -151,8 +151,8 @@ const FiatWithdraw = (props) => {
             <Modal.Body>
 
                 <GridContainer>
-                    <GridItem xs={12} sm={12} md={6} lg={6}>
-                        <div class="form-group select_lable_ select_lable_new_wi">
+                    <GridItem xs={12} sm={12} md={12} lg={6}>
+                        <div class="form-group select_lable_ select_lable_new_wi mx-0">
                             <label>
                             {t("WITHDRAW_ACCOUNT")}
                                 {/* <Link to={'/profile'}>+ {t("ADD_BANK")}</Link> */}
@@ -178,7 +178,7 @@ const FiatWithdraw = (props) => {
                     <GridItem xs={12} sm={12} md={12} lg={6}>
                         <label>{t('AMOUNT')}</label>
                         <div className="form-group  ">
-                            <div class="seacr_box_s">
+                            <div class="seacr_box_s padd_right_input">
                                 <input type="text" placeholder=""
                                     name='amount'
                                     value={amount}
@@ -198,7 +198,7 @@ const FiatWithdraw = (props) => {
                     <GridItem xs={12} sm={12} md={12} lg={6}>
                         <label>{t('FINAL_WITHDRAW_AMOUNT_WITH_FEE')}</label>
                         <div className="form-group  ">
-                            <div class="seacr_box_s">
+                            <div class="seacr_box_s padd_right_input">
                                 <input type="text" placeholder=""
                                     value={finalAmount}
                                     disabled

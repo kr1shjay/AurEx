@@ -236,6 +236,7 @@ export default {
     "FIAT_WITHDRAW_DESCRIPTION1": "Retrait minimal",
     "FIAT_WITHDRAW_DESCRIPTION2": "Le retrait prendra 24 à 48 heures en raison du réseau bancaire / des jours fériés",
     "FINAL_WITHDRAW_AMOUNT": "Montant du retrait final",
+    "FINAL_WITHDRAW_AMOUNT_WITH_FEE" : "Withdraw Amount with Fee",
     "WALLET_BALANCE": "Solde du portefeuille",
     "ENTER2FA_CODE": "Entrez le code 2FA",
     "WALLET_TRANSFER": "Transfert de portefeuille",

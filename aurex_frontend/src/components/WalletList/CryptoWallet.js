@@ -164,7 +164,7 @@ const CryptoWallet = () => {
           </div>
 
           {
-            <div className="seacr_box_s">
+            <div className="seacr_box_s searc_right_pad_new">
               <input
                 type="text"
                 placeholder={t("FIND_COIN")}
