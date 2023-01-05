@@ -19,7 +19,7 @@ export const fiatValidation = (value, t) => {
     } else if (value.amount <= 0) {
         errors.amount = "Please Enter Valid Amount"
     } else if (value.minimumWithdraw > value.amount) {
-        errors.amount = t("MINIMUM_WITHDRAW", { "AMOUNT": value.minimumWithdraw, "COIN": value.coin })
+        errors.amount = t(`MINIMUM WITHDRAW ${value.minimumWithdraw}`, { "AMOUNT": value.minimumWithdraw, "COIN": value.coin })
     }
 
     if (!isEmpty(value.amount) && !isNaN(value.amount) && value.finalAmount > value.spotBal) {
@@ -81,7 +81,7 @@ export const coinValidation = (value, t) => {
     } else if (isNaN(value.amount)) {
         errors.amount = "ALLOW_NUMERIC"
     } else if (value.minimumWithdraw > value.amount) {
-        errors.amount = t("MINIMUM_WITHDRAW", { "AMOUNT": value.minimumWithdraw, "COIN": value.coin })
+        errors.amount = t(`MINIMUM WITHDRAW ${value.minimumWithdraw}`, { "AMOUNT": value.minimumWithdraw, "COIN": value.coin })
     } else if (value.amount <= 0) {
         errors.amount = "Pleae Enter Valid Amount"
     }

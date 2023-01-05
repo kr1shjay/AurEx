@@ -180,6 +180,7 @@ class Withdraw extends Component {
             const { status, loading, result } = await getWithdrawList(reqData);
             this.setState({ "loader": loading })
             if (status == 'success') {
+                console.log("count: result.count",result.count)
                 this.setState({ "count": result.count, 'records': result.data })
             }
         } catch (err) { }
@@ -352,7 +353,7 @@ class Withdraw extends Component {
                             )}
                             <ReactDatatable className="table table-bordered table-striped user_management_table"
                                 config={this.config}
-                                records={records}
+                                records={this.state.records}
                                 columns={this.columns}
                                 dynamic={true}
                                 total_record={count}

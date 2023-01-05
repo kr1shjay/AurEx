@@ -89,7 +89,7 @@ class FaqPage extends Component {
 
           <div id="page-content-wrapper">
             <div className="container-fluid">
-              <h3 className="mt-2 text-secondary">Anouncement</h3>
+              <h3 className="mt-2 text-secondary">Announcement</h3>
               <form noValidate onSubmit={this.handleSubmit} enctype= "multipart/form-data">
                 <div className="row mt-2">
                   <div className="col-md-3">
@@ -100,6 +100,9 @@ class FaqPage extends Component {
                       selected={endDateTime}
                       onChange={(date) => this.handleDateChange(date)}
                       minDate ={new Date()}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                     />
                     <span className="text-danger">{errors.endDate}</span>
                   </div>

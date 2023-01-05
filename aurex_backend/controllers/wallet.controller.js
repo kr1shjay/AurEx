@@ -136,7 +136,7 @@ export const updateHideZeroStatus = async (req, res) => {
 
         const updateData = await wallet.findOneAndUpdate({ "_id": ObjectId(req.user.id) }, { hideZeroStatus: reqBody.hideZeroStatus }, { new: true },)
 
-        return res.status(200).json({ 'success': true, message: "Hidezero updated successfully" })
+        return res.status(200).json({ 'success': true, message: "zero balance asstes hide  successfully" })
 
     } catch (err) {
         console.log("errrrrrrrrrrrrrrrrrr", err)
@@ -1144,7 +1144,7 @@ export const getDepositList = async (req, res) => {
 
             let result = {
                 pdfData: data,
-                count: count.length
+                count: count
             }
             return res.status(200).json({ "success": true, result })
         } else {
@@ -1166,7 +1166,7 @@ export const getDepositList = async (req, res) => {
 
             let result = {
                 data,
-                count: count.length
+                count: count
             }
 
             return res.status(200).json({ "success": true, result })
@@ -1247,7 +1247,7 @@ export const getWithdrawList = async (req, res) => {
 
             let result = {
                 PdfData: data,
-                count: count.length
+                count: count
             }
             return res.status(200).json({ "success": true, result })
         } else {
@@ -1268,10 +1268,10 @@ export const getWithdrawList = async (req, res) => {
                 "paymentType": 1,
                 "createdAt": 1
             }).sort({ "createdAt": -1 }).skip(pagination.skip).limit(pagination.limit);
-
+            console.log("count: count.length", count)
             let result = {
                 data,
-                count: count.length
+                count: count
             }
             return res.status(200).json({ "success": true, result })
         }

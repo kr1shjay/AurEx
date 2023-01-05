@@ -542,6 +542,9 @@ class LaunchpadUpdateModal extends React.Component {
                                     dateFormat="MMMM d, yyyy h:mm aa"
                                     minDate={new Date()}
                                     filterTime={this.filterPassedTime}
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                      }}
                                 />
                                 <span className="text-danger">{errors.startTimeStamp}</span>
                             </div>
@@ -568,6 +571,9 @@ class LaunchpadUpdateModal extends React.Component {
                                     dateFormat="MMMM d, yyyy h:mm aa"
                                     minDate={new Date()}
                                     filterTime={this.filterPassedTime}
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                      }}
                                 />
                                 <span className="text-danger">{errors.endTimeStamp}</span>
                             </div>

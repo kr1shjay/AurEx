@@ -258,7 +258,7 @@ class StakingUpdateModal extends React.Component {
                       currencyOption.map((item, key) => {
                         return (
                           <option key={key} value={item._id}>
-                            {item.currencySymbol}
+                            {item.symbol}
                           </option>
                         );
                       })}

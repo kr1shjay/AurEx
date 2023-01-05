@@ -164,7 +164,7 @@ class Users extends Component {
                             }}
                             style={{ marginRight: '5px' }}>
                             {/* <i className="fa fa-wallet"></i> */}
-                            <i className="fa fa-edit"></i>
+                            <i className="fa fa-eye"></i>
 
                         </button>
                     )

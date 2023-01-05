@@ -65,7 +65,7 @@ const RecentTrade = (props) => {
             </div>
             <div className="tradeTableTitle row w-100 mx-auto">
                 <span className="col-4">{t('PRICE')}({tradePair && tradePair.secondCurrencySymbol})</span>
-                <span className="col-4 text-right text-right">{t('AMOUNT')}({tradePair && tradePair.firstCurrencySymbol})</span>
+                <span className="col-4 text-right text-center">{t('AMOUNT')}({tradePair && tradePair.firstCurrencySymbol})</span>
                 <span className="col-4 text-right text-right">{t('TIME')}</span>
             </div>
 
@@ -84,7 +84,7 @@ const RecentTrade = (props) => {
                                 >
                                     {currencyFormat(toFixed(item.price, tradePair.secondFloatDigit))}
                                 </span>
-                                <span className="col-4 text-right">{item.filledQuantity}</span>
+                                <span className="col-4 text-center">{item.filledQuantity}</span>
                                 <span className="col-4 text-right">{time}</span>
                             </div>
                         )

@@ -63,7 +63,7 @@ class WithDrawHist extends Component {
                     last: "Last"
                 }
             },
-            show_length_menu: false,
+            show_length_menu:false,
             show_filter: false,
             show_pagination: false,
             show_info: false,
@@ -78,7 +78,7 @@ class WithDrawHist extends Component {
 
     render() {
         const { record } = this.props;
-        console.log("🚀 ~ file: DashboardWithdrawHistory.js ~ line 81 ~ WithDrawHist ~ render ~ record", record)
+        //console.log("🚀 ~ file: DashboardWithdrawHistory.js ~ line 81 ~ WithDrawHist ~ render ~ record", record)
 
         return (
             <div>

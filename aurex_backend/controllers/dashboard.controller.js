@@ -180,6 +180,7 @@ export const getDashBal = async (req, res) => {
         const siteSetting = await SiteSetting.findOne({}, { "userDashboard": 1 });
         if (siteSetting) {
             let currencyId = siteSetting.userDashboard.map(item => item.currencyId)
+            console.log("currencyId-siteSetting",currencyId)
             if (currencyId && currencyId.length > 0) {
                 let userAsset = await Wallet.aggregate([
                     {

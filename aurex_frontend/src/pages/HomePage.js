@@ -96,7 +96,7 @@ const HomePage = () => {
         setAnncData(result)
     }  
 }
-
+anncData && console.log("anncData",anncData)
 const fetchCmsData = async () => {
         try {
             let reqData = {
@@ -129,14 +129,19 @@ const fetchCmsData = async () => {
       <div className={tickerclose?"upper_slider d-none":"upper_slider"}>
       <div className="banner_running_ticker">
         <i className="fas fa-bullhorn"></i>
-        <Ticker>
+        {anncData && anncData.length>0 && 
+        
+       <Ticker>
             {({index}) => (
                 <>
-                    <p>{anncData && anncData.length >0 && anncData[anncData.length-1].content}
-                      </p>
-                    <img src="www.my-image-source.com/" alt="" />
+                {/* <p>hi </p> */}
+                {anncData && anncData.length >0 ? <p>{anncData && anncData.length >0 && anncData[anncData.length-1].content}
+                      </p> : <p></p> }
+                    
+                    {/* <img src="www.my-image-source.com/" alt="" /> */}
                 </>)}
-        </Ticker>
+        </Ticker> 
+}
         <span className="close_icon_ticker" onClick={()=>setTickerclose(true)}><i className="fas fa-times"></i></span>
 
     </div>
@@ -307,7 +312,7 @@ const fetchCmsData = async () => {
             </div>
             <div className="btn_desc_sec">
               <p className="sec_title_crate">Multi-Platform Web Support</p>
-              <p className="sec_desc_create">Buy and trade all your favorite tokens on AUREX App effortlessly, anytime and anywhere.</p>
+              <p className="sec_desc_create">Buy and trade all your favorite tokens on AUREX web effortlessly, anytime and anywhere.</p>
             </div>
            </div>
            <div className="sec_flex mb-0" data-aos="fade-up">

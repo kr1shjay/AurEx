@@ -26254,8 +26254,7 @@ export const recentTrade = async (pairId) => {
                 }
             },
             { "$unwind": "$filled" },
-            { "$sort": { 'filled.createdAt': -1 } },
-            { "$limit": 20 },
+            // { "$sort": { 'filled.createdAt': -1 } },
             {
                 "$group": {
                     "_id": {
@@ -26271,6 +26270,7 @@ export const recentTrade = async (pairId) => {
                 }
             },
             { "$sort": { 'createdAt': -1 } },
+            { "$limit": 20 },
             {
                 "$project": {
                     "_id": 0

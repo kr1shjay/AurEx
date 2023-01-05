@@ -63,6 +63,7 @@ const BalanceChart = (props) => {
                     isDefault = false
                 }
             })
+            console.log("balance chart array",arr)
             if (!isDefault) {
                 setDataPts(arr)
             }
