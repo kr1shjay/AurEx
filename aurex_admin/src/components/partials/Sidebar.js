@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect} from "react-redux";
 import { logoutUser } from "../../actions/authActions";
-import { Link } from "react-router-dom";
+import { Link,NavLink } from "react-router-dom";
 import { faList } from "@fortawesome/free-solid-svg-icons/faList";
 import { Scrollbars } from 'react-custom-scrollbars';
 import store from '../../store'
@@ -104,9 +104,9 @@ const Sidebar = () => {
                                                                         return(
                                                                             <>
                                                              <div id={items && items.id} class="collapse sidebar-submenu">
-                                                                 <Link to={items&&items.path } class="list-group-item list-group-item-action">
+                                                                 <NavLink to={items&&items.path } class="list-group-item list-group-item-action">
                                                                      <span class="menu-collapsed">{items &&items.name}</span>
-                                                                 </Link>
+                                                                 </NavLink>
                                                              </div>
                                                                             </>
                                                                         )
@@ -114,7 +114,7 @@ const Sidebar = () => {
                                                                 })
                                                             }
                                                        </> :
-                                                  <Link to={item.path} className="list-group-item list-group-item-action">{item.name}</Link>
+                                                  <NavLink to={item.path} className="list-group-item list-group-item-action">{item.name}</NavLink>
                                     
 
                                                         }
