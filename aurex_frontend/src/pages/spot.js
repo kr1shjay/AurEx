@@ -50,7 +50,7 @@ const SpotPage = (props) => {
               color: "dark",
             }}
             {...rest} />
-          <div className="settingsContent userPages tradePages">
+          <div className="settingsContent userPages tradePages spot_trade_space">
             <SpotTrade />
           </div>
         </div>

@@ -250,6 +250,7 @@ export default {
     "FIAT_WITHDRAW_DESCRIPTION1": "Minimal Withdraw",
     "FIAT_WITHDRAW_DESCRIPTION2": "Withdraw will take 24-48 hrs due to bank network / holidays",
     "FINAL_WITHDRAW_AMOUNT": "Final Withdraw Amount",
+    "FINAL_WITHDRAW_AMOUNT_WITH_FEE" : "Withdraw Amount with Fee",
     "WALLET_BALANCE": "Wallet Balance ",
     "ENTER2FA_CODE": "Enter 2FA Code",
     "WALLET_TRANSFER": "Wallet Transfer",

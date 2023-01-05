@@ -30316,7 +30316,7 @@ margin-right:unset !important;
 
 .active_pair td
 {
-  background-color: #090909 !important;
+  background-color: #032820 !important;
 }
 .settingsSelect .input_minw_selc .MuiInput-underline,
 .settingsSelect .tableSearchBox .form-control
@@ -30327,8 +30327,28 @@ margin-right:unset !important;
 }
 
 
-.light_theme .stakingHistoryTable div, .light_theme .cion_table_sectio div
+.light_theme .stakingHistoryTable div, .light_theme .cion_table_sectio div,#root,html,body
 {
   scrollbar-color: #21b77a #1a1b1c;
 scrollbar-width: thin;
+}
+.tradePages.spot_trade_space
+{
+  overflow-x: hidden !important;
+}
+.padd_right_input input
+{
+  padding-right: 45px !important;
+}
+.input_box-flex input
+{
+  cursor: pointer;
+}
+.searc_right_pad_new input
+{
+  padding-right: 40px !important;
+}
+.seacr_box_s.searc_right_pad_new i
+{
+top:11px !important;
 }
