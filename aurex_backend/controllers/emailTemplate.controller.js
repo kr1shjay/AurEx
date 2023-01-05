@@ -246,7 +246,7 @@ export const mailTemplate = async (identifier, toEmail, content, langCode = '') 
                     .replace("##templateInfo_name##", "Valid User")
                     .replace("##AMOUNT##", content.amount)
                     .replace("##CURRENCY##", content.currency)
-                    .replace("##TXID##", content.tranactionId)
+                    .replace("##TXID##", content.transactionId)
                     .replace("##message##", content.message)
                     .replace("##DATE##", content.date)
                 break;
