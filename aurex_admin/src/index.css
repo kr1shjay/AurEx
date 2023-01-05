@@ -165,3 +165,9 @@ position: relative !important;
 {
   text-decoration: none !important;
 }
+.list-group-item.active,.list-group-item[aria-current="page"]
+{
+  border-color: transparent !important;
+  color: #02c076 !important;
+
+}
