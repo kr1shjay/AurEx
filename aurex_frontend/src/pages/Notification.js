@@ -13,6 +13,7 @@ import NotificationHistory from "components/NotificationHistory/NotificationHist
 
 // import action
 import { getAllFaq } from '../actions/commonAction'
+import NewNotification from "./NewNotification";
 
 const dashboardRoutes = [];
 
@@ -22,7 +23,6 @@ function ScrollToTopOnMount() {
   }, []);
   return null;
 }
-
 
 const CardItem = (props) => {
   // props
@@ -100,8 +100,11 @@ const Notification = () => {
                     </GridItem>
 
                   </GridContainer>
-                  <GridContainer className="new_faq_img_sectio mt-3">                    
-                    <NotificationHistory />
+                  <GridContainer className="new_faq_img_sectio mt-3 notify-table">    
+                    <GridItem xs={12} sm={10} md={7} lg={12} className="m-auto">          
+                      {/* <NotificationHistory /> */}
+                      <NewNotification />
+                    </GridItem>      
                   </GridContainer>                  
                 </div>
               </div>

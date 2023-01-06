@@ -5,7 +5,9 @@ body {
   overflow-x: hidden;
   color: #41423d;
 }
-
+:root{
+  --themeclr: #2db281
+}
 .card {
   font-size: .875rem;
 }
@@ -30352,3 +30354,62 @@ scrollbar-width: thin;
 {
 top:11px !important;
 }
+.notify-table .rdt_TableCell div {
+  white-space: break-spaces !important;
+}
+.newnotify li {
+  list-style-type: none;
+  padding: 0 5px;
+  padding-top: 6px;
+  margin-bottom: 10px;
+  border-left: 5px solid var(--themeclr);
+}
+.unread button {
+  color: var(--themeclr) !important;
+}
+li.unread .lighttxt {
+  color: white;
+}
+.newnotify li.read{
+  border-color: gray;
+}
+.newnotify li svg {
+  width: 13px;
+  margin-right: 3px;
+}
+.newnotify li.unread svg {
+  fill: var(--themeclr)
+}
+.newnotify li.read svg {
+  fill: #999999
+}
+.newnotify span.stat {
+  background: red;
+  height: 10px;
+  border-radius: 50%;
+  width: 10px;
+  margin-top: 6px;
+  display: none;
+}
+.newnotify li:nth-child(odd) {
+  background: #212121;
+}
+.newnotify li:nth-child(even) {
+  background: #313131;
+}
+.f-12{
+  font-size: 12px;
+}
+.f-14{
+  font-size: 14px;
+}
+.shrink-0{
+  flex-shrink: 0;
+}
+.text-capital {
+  text-transform: capitalize;
+}
+.graytxt{
+ color: #a9a9a9 !important
+}
+
