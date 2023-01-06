@@ -61,11 +61,11 @@ export const createWithdrawal = async ({
     destTag
 }) => {
     try {
+        console.log("createWithdrawal 1 : ", parseFloat(amount),address,currencySymbol)
         let respData = await coinPayment.createWithdrawal({
             'amount': parseFloat(amount),
             address,
-            'currency': currencySymbol,
-            'dest_tag': destTag
+            'currency': currencySymbol
         });
 
         return {
@@ -73,6 +73,7 @@ export const createWithdrawal = async ({
             data: respData
         }
     } catch (err) {
+        console.log("Error > > > > > >  : ",err)
         return {
             status: false,
             message: err.toString()

@@ -706,7 +706,7 @@ class CurrencyUpdateModal extends React.Component {
                     custom
                   >
                     <option value={"active"}>Active</option>
-                    <option value={"deactive"}>Deactive</option>
+                    <option value={"Inactive"}>Inactive</option>
                   </Form.Control>
 
                   <span className="text-danger">{errors.type}</span>

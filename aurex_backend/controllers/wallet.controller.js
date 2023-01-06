@@ -1323,7 +1323,7 @@ export const coinWithdrawApprove = async (req, res) => {
             let content = {
                 'amount': trxData.actualAmount,
                 'currency': trxData.coin,
-                'tranactionId': reqParam.transactionId,
+                'transactionId': reqParam.transactionId,
                 'date': new Date(),
             };
 
@@ -1447,7 +1447,7 @@ export const AutoWithdraw = async () => {
                     let content = {
                         'amount': item.actualAmount,
                         'currency': item.coin,
-                        'tranactionId': '-',
+                        'transactionId': '-',
                         'message': "Your Withdraw Cancelled Because Timed Out",
                         'date': new Date(),
                     };
@@ -1533,7 +1533,7 @@ export const WithdrawApprove = async (req, res) => {
             let content = {
                 'amount': trxData.actualAmount,
                 'currency': trxData.coin,
-                'tranactionId': withdrawData.trxId,
+                'transactionId': withdrawData.trxId,
                 'message': "Your Withdraw Successfully Completed",
                 'date': new Date(),
             };
@@ -1663,7 +1663,7 @@ export const fiatWithdrawApprove = async (req, res) => {
             let content = {
                 'amount': trxData.actualAmount,
                 'currency': trxData.coin,
-                'tranactionId': reqParam.transactionId,
+                'transactionId': reqParam.transactionId,
                 'date': new Date(),
             };
 
@@ -1737,7 +1737,7 @@ export const fiatWithdrawReject = async (req, res) => {
         //    let content = {
         //         'amount': trxData.actualAmount,
         //         'currency': trxData.coin,
-        //         'tranactionId': reqParam.transactionId,
+        //         'transactionId': reqParam.transactionId,
         //         'date': new Date(),
         //     };
 
@@ -1832,7 +1832,7 @@ export const fiatDepositApprove = async (req, res) => {
         let content = {
             'amount': reqBody.amount,
             'currency': transactionData.coin,
-            'tranactionId': reqBody.transactionId,
+            'transactionId': reqBody.transactionId,
             'date': new Date(),
         };
 

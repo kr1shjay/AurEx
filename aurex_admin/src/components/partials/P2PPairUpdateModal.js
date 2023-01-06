@@ -19,7 +19,7 @@ const initialFormValue = {
     "fetchMarkPrice": 'local',
     "markupPercentage": '',
     "payment": [],
-    "status": "active", //active ,deactive
+    "status": "active", //active ,Inactive
 }
 
 class PairAddModal extends React.Component {
@@ -348,7 +348,7 @@ class PairAddModal extends React.Component {
                                         onChange={this.handleChange}
                                     >
                                         <option value={'active'}>{"Active"}</option>
-                                        <option value={'deactive'}>{"Deactive"}</option>
+                                        <option value={'Inactive'}>{"Inactive"}</option>
                                     </Form.Control>
                                 </div>
                             </div>

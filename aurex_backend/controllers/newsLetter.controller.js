@@ -24,6 +24,8 @@ export const newSubscribe = async (req, res) => {
         let checkDoc = await NewsLetter.findOne({ 'email': reqBody.email })
         if (checkDoc) {
             return res.status(400).json({ 'status': false, 'message':  'Email already Subscribed'  })
+        }else if(reqBody.email==""||reqBody.email==null ||reqBody.email==undefined){
+            return res.status(400).json({ 'status': false, 'message':  'Email must not be empty'})
         }
         let newDoc = new NewsLetter({
             'email': reqBody.email

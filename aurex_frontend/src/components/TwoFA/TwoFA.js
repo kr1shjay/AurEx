@@ -138,7 +138,7 @@ const TwoFA = () => {
                     <h4 className="profileDetailView1">{t("TWO_FA")} <small>{t("STATUS")} - <span
                         className={clsx(
                             { "greenText": secretData && secretData.twoFaStatus == 'enabled' },
-                            { "textRed": secretData && secretData.twoFaStatus == 'disable' },
+                            { "textRed": secretData && secretData.twoFaStatus == 'disabled' },
                         )}
                     >{secretData && t(twoFAStatus(secretData.twoFaStatus, 'status'))}</span></small></h4>
                     <div className="twoFAForm">

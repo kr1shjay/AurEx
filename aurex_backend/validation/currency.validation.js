@@ -191,7 +191,7 @@ export const editValid = (req, res, next) => {
 
     if (isEmpty(reqBody.status)) {
         errors.status = "Invalid";
-    } else if (!['active', 'deactive'].includes(reqBody.status)) {
+    } else if (!['active', 'Inactive'].includes(reqBody.status)) {
         errors.status = "Invalid";
     }
 

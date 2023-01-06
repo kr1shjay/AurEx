@@ -506,7 +506,7 @@ export const orderPlace = async (req, res) => {
         }
 
         if (checkStake.status != 'active') {
-            return res.status(400).json({ 'success': false, 'message': "Deactive" })
+            return res.status(400).json({ 'success': false, 'message': "Inactive" })
         }
 
         let usrWallet = await Wallet.findOne({ "userId": req.user.userId })
@@ -1153,7 +1153,7 @@ export const orderPlaceLocked = async (req, res) => {
         }
 
         if (checkStake.status != "active") {
-            return res.status(400).json({ success: false, message: "Deactive" });
+            return res.status(400).json({ success: false, message: "Inactive" });
         }
 
         if (checkStake.minimumAmount > reqBody.price) {

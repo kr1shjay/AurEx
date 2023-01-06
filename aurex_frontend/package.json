@@ -60,7 +60,8 @@
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.1.2",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.0",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@babel/cli": "7.10.1",

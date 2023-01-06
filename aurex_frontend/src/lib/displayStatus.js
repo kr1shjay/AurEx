@@ -52,7 +52,7 @@ export const twoFAStatus = (type, callFrom) => {
     } else if (type == 'disabled' && callFrom == 'status') {
         return "DISABLED"
     } else if (type == 'enabled' && callFrom == 'button') {
-        return "DISABLED"
+        return "DISABLE"
     } else if (type == 'disabled' && callFrom == 'button') {
         return "ENABLE"
     } else {

@@ -93,7 +93,7 @@ const BalanceChart = (props) => {
                             return (
                                 <li>
                                     <label><i className="fas fa-square-full" style={{ color: item.colorCode }}></i> {item.coin}</label>
-                                    <span>{item.derivativeBal + item.spotBal + item.p2pBal}</span>
+                                    <span>{(item.derivativeBal + item.spotBal + item.p2pBal).toLocaleString("en-US")}</span>
                                 </li>
                             )
                         })

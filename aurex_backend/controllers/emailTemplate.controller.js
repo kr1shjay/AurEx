@@ -224,7 +224,7 @@ export const mailTemplate = async (identifier, toEmail, content, langCode = '') 
                 /** 
                  * ##AMOUNT## --> amount
                  * ##CURRENCY## --> currency
-                 * ##TXID## --> tranactionId
+                 * ##TXID## --> transactionId
                  * ##DATE## --> date
                 */
                 mailContent['template'] = mailContent['template']
@@ -239,7 +239,7 @@ export const mailTemplate = async (identifier, toEmail, content, langCode = '') 
                 /** 
                  * ##AMOUNT## --> amount
                  * ##CURRENCY## --> currency
-                 * ##TXID## --> tranactionId
+                 * ##TXID## --> transactionId
                  * ##DATE## --> date
                 */
                 mailContent['template'] = mailContent['template']

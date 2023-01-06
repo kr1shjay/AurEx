@@ -408,15 +408,16 @@ export const newsLetter = async (data)=>{
         'url':'/api/newsLetter/subscribe',
          data
        })
+       console.log(respData.data.status,"respData.data.status")
        return {
-        status: 'success',
+        status: respData.data.status,
         loading: false,
         message: respData.data.message,
     }
     }catch(err){
         handleResp(err, 'error')
         return {
-            status: 'failed',
+            status: false,
             loading: false,
             message: err.response.data.message
         }

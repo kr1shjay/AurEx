@@ -60,7 +60,7 @@ export default function BeforeLogin(props) {
 
   const OnSubmit =async (e)=>{
    var res =await newsLetter(letter)
-   if (res.status="success"){
+   if (res.status){
     toastAlert('success', res.message, 'newLetter')
    }
    else{

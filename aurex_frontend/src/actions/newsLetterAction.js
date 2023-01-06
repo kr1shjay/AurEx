@@ -8,10 +8,11 @@ export const subscribe = async (reqData) => {
             'method': 'post',
             'data': reqData
         })
+        
         return {
             status: "success",
             loading: false,
-            message: respData.data.message
+            message:respData.data.message
         }
     } catch (err) {
         handleResp(err, 'error')

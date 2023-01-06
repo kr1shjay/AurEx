@@ -10,7 +10,7 @@ let SupportCategorySchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['active', 'deactive'],
+        enum: ['active', 'Inactive'],
         default: 'active'
     }
 }, {

@@ -176,7 +176,7 @@ class FaqUpdateModal extends React.Component {
                                         onChange={this.handleChange}
                                     >
                                         <option value={'active'}>Active</option>
-                                        <option value={'deactive'}>Deactive</option>
+                                        <option value={'Inactive'}>Inactive</option>
                                     </Form.Control>
                                     {/* <span className="text-danger">{errors.name}</span> */}
                                 </div>

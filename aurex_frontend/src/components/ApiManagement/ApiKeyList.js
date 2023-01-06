@@ -68,7 +68,7 @@ const ApiKeyList = forwardRef((props, ref) => {
                             !loader && record && record.length > 0 && record.map((item, key) => {
                                 return (
                                     <tr>
-                                        <td><i className={clsx({ "fas fa-check text-success": item.status == 'active' }, { "fas fa-times text-red": item.status == 'deactive' })}></i></td>
+                                        <td><i className={clsx({ "fas fa-check text-success": item.status == 'active' }, { "fas fa-times text-red": item.status == 'Inactive' })}></i></td>
 
                                         <td>{item.name}</td>
                                         <td>{item._id}</td>

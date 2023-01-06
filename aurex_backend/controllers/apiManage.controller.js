@@ -99,11 +99,11 @@ export const changeStatus = async (req, res) => {
         }
 
         if (keyDoc.status == 'active') {
-            keyDoc.status = 'deactive'
+            keyDoc.status = 'Inactive'
             await keyDoc.save();
             let data = await getKeys(req.user.id)
             return res.status(200).json({ 'status': true, 'message': "The API key was successfully disabled.", 'result': data });
-        } else if (keyDoc.status == 'deactive') {
+        } else if (keyDoc.status == 'Inactive') {
             keyDoc.status = 'active'
             await keyDoc.save();
             let data = await getKeys(req.user.id)
