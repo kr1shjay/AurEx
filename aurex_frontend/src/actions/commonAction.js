@@ -392,3 +392,4 @@ export const newContact = async (data) => {
         }
     }
 }
+

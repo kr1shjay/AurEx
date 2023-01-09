@@ -1,7 +1,7 @@
 let key = {};
 //empty string
 if (process.env.REACT_APP_MODE === "production") {
-    console.log("Set Production Config")
+    console.log("Set the Production Config")
     const API_URL = 'https://api.aurexchange.com';
     key = {
         secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",

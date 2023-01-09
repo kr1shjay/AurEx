@@ -1729,4 +1729,14 @@ export const getAllTrade = async (req, res) => {
     }
 }
 
-
+export const checkEmail = async(req,res)=>{
+    try{
+        console.log(req.user,"chechEmail")
+        var detail=await User.findOne({_id:req.user.id})
+        return res.status(200).json({ 'success': true, result: detail })
+    }catch(err){
+        console.log(err,"chechEmail")
+        return res.status(500).json({ 'success': false, message: 'error on server' })
+    }
+  
+} 

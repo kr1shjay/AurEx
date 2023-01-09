@@ -15,7 +15,7 @@ const table_columns = [
   {
     name: 'Date',
     selector: 'createdAt',
-    width: '180px',
+    // width: '180px',
     cell: (record) => {
       return momentFormat(record.createdAt, 'YYYY-MM-DD HH:mm')
     }

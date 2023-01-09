@@ -21,7 +21,7 @@ import {
   gethideZeroStatus,
   updateHideZeroStatus,
 } from "../../actions/walletAction";
-
+import { checkEmail } from "../../actions/walletAction";
 //import lib
 
 import { toastAlert } from "../../lib/toastAlert";
@@ -329,12 +329,23 @@ const CryptoWallet = () => {
                         <div className="Subscribe">
                           <Button
                             className="btn-primary"
-                            onClick={() => {
-                              setModal({
-                                type: "deposit",
-                                assetData: item,
-                                currency: curData,
-                              });
+                            onClick={async() => {
+                              const emailvlaid = await checkEmail();
+                              if (emailvlaid.email) {
+                                setModal({
+                                  type: "deposit",
+                                  assetData: item,
+                                  currency: curData,
+                                });
+                              }
+                              else {
+                                toastAlert("error", "Please submit email details", "email");
+                              }
+                              // setModal({
+                              //   type: "deposit",
+                              //   assetData: item,
+                              //   currency: curData,
+                              // });
                             }}
                           >
                             {t("DEPOSIT")}

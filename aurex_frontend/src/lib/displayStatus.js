@@ -73,7 +73,7 @@ export const documentType = (status) => {
     switch (status) {
         case 'license': return "DRIVING_LICENSE";
         case 'pan': return "PANCARD";
-        case 'aadhar': return "AADHAR_CARD";
+        case 'citizenship': return "CITIZEN_SHIP";
         case 'gas': return "GAS_BILL";
         default: return ""
     }

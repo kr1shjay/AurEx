@@ -25,6 +25,18 @@ export const newNotification = async (doc) => {
     }
 }
 
+export const NewNotification = async (req,res) => {
+    try {
+        let newDoc = new Notification(doc)
+        await newDoc.save();
+        let data = await FetchUnReadNotice(newDoc.userId)
+        socketEmitOne('notice', data, newDoc.userId)
+        return true
+    } catch (err) {
+        return false
+    }
+}
+
 /** 
  * Get Notification
  * userId,Title , description,isRead
@@ -33,7 +45,7 @@ export const newNotification = async (doc) => {
 export const getNotification = async (req, res) => {
 
     try {
-        let allNotify = await Notification.find({ userId: req.user.id }).select({ 'description': 1, 'createdAt': 1 }).sort({ createdAt: -1 })
+        let allNotify = await Notification.find({ userId: req.user.id }).select({ 'description': 1, 'createdAt': 1,'isRead':1}).sort({ createdAt: -1 })
         if (!isEmpty(allNotify)) {
             return res.status(200).json({ 'success': true, result: allNotify })
         } else {
@@ -88,13 +100,36 @@ export const readNotification = async (req, res) => {
         let updateNotify = await Notification.updateMany({ userId: req.user.id, isRead: false }, { $set: Data }, { new: true })
         if (!isEmpty(updateNotify)) {
             console.log("updateNotify",updateNotify)
+            let allNotify = await Notification.find({ userId: req.user.id }).select({ 'description': 1, 'createdAt': 1,'isRead':1}).sort({ createdAt: -1 })
             socketEmitOne('notice', array, req.user.id)
+            socketEmitOne('read',allNotify,req.user.id)
             return res.status(200).json({ 'success': true })
         } else {
             return res.status(400).json({ 'success': false, message: 'Error' })
         }
         // }
 
+    } catch (err) {
+        return res.status(500).json({ 'success': false, message: 'something went wrong' })
+    }
+}
+
+export const readsingelNotification = async ( req,res)=>{
+    try {
+        let Data = {
+            isRead: true
+        }
+        let updateNotify = await Notification.updateMany({ userId: req.user.id, isRead: false, _id:req.body.id }, { $set: Data }, { new: true })
+        if (!isEmpty(updateNotify)) {
+            console.log("updateNotify",updateNotify)
+            let allNotify = await Notification.find({ userId: req.user.id }).select({ 'description': 1, 'createdAt': 1,'isRead':1}).sort({ createdAt: -1 })
+            let array  = await Notification.find({ userId: req.user.id ,isRead:false}).select({ 'description': 1, 'createdAt': 1,}).sort({ createdAt: -1 })
+            socketEmitOne('read',allNotify,req.user.id)
+            socketEmitOne('notice', array, req.user.id)
+            return res.status(200).json({ 'success': true })
+        } else {
+            return res.status(400).json({ 'success': false, message: 'Error' })
+        }
     } catch (err) {
         return res.status(500).json({ 'success': false, message: 'something went wrong' })
     }

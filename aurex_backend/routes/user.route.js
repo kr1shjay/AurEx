@@ -135,6 +135,8 @@ router.route('/Statistic').get(passportAuth, userCtrl.getAllTrade)
 router.route('/get-notification').get(passportAuth, NotificationCtrl.getNotification)
 router.route('/unread-notice').get(passportAuth, NotificationCtrl.unReadNotice)
 router.route('/read-notification').put(passportAuth, NotificationCtrl.readNotification)
+router.route('/readsingel-notification').put(passportAuth, NotificationCtrl.readsingelNotification)
+router.route('/create-notification').post(passportAuth, NotificationCtrl.NewNotification)
 
 // Spot Trade
 router.route('/spot/allPairs').get(passportAuth, spotTradeCtrl.allPairs)
@@ -261,5 +263,6 @@ router.route("/newsLetter/subscribe").post(newsLetterCtrl.newSubscribe);
 router.route('/depositwebhook').post(coinpaymentCtrl.verifySign, coinpaymentCtrl.depositwebhook)
 router.route('/getMySpotHistory').post(passportAuth, spotTradeCtrl.getMySpotHistory);
 router.route('/getFilledOrderHistory').post(passportAuth, spotTradeCtrl.getFilledOrderHistory);
-
+//chechemail
+router.route('/checkEmail').post(passportAuth,userCtrl.checkEmail)
 export default router;

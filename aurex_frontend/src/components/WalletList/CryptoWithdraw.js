@@ -97,7 +97,16 @@ const CryptoWithdraw = (props) => {
       finalAmount,
       spotBal: assetData.spotBal,
     };
-
+ let newDoc ={
+    "title" : "withdraw request",
+    "description" : "withdraw request send Successfully",
+    "isRead" : false,
+    "trxId" : "",
+    "currencySymbol" : "",
+    "amount" : 0,
+    "paymentType" : "coin_deposit",
+    "status" : "new",
+ }
     let validationError = coinValidation(reqData, t);
     console.log(validationError,'------------101')
     if (!isEmpty(validationError)) {

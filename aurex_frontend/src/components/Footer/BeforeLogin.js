@@ -20,7 +20,9 @@ import { capitalize } from '../../lib/stringCase';
 import { setLang, getLang } from '../../lib/localStorage';
 import isEmpty from "../../lib/isEmpty";
 const useStyles = makeStyles(styles);
-
+// const initialFormValue = {
+//   'email': '',
+//   'formType': 'email',}
 export default function BeforeLogin(props) {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
@@ -40,6 +42,7 @@ export default function BeforeLogin(props) {
   // state
   const [langOption, setLangOption] = useState([])
   const [language, setLanguage] = useState('')
+  //const [validateError, setValidateError] = useState({});
   const [letter,setLetter]=useState({})
   // redux-state
   const { isAuth } = useSelector(state => state.auth);
@@ -54,19 +57,39 @@ export default function BeforeLogin(props) {
     i18n.changeLanguage(value);
   }
 
+  const emailValidation = (value) => {
+    console.log(value,"emailValidation")
+    let errors = {};
+    let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/;
+
+    if (isEmpty(value.email)) {
+      //setValidateError({...validateError,'email' : "REQUIRED"})
+     return errors = "email required"
+    } else if (!(emailRegex.test(value.email))) {
+      //setValidateError({...validateError,'email': "invalid email"})
+     return errors ="invalid email"
+    }
+  }
   const onInputchage=(e)=>{
     setLetter({...letter,[e.target.name]:e.target.value})
   }
 
   const OnSubmit =async (e)=>{
-   var res =await newsLetter(letter)
-   if (res.status){
-    toastAlert('success', res.message, 'newLetter')
-   }
-   else{
-    toastAlert('error',res.message, 'newsLetter')
-   }
-   
+    e.preventDefault()
+   var validateError =await  emailValidation(letter)
+   console.log(validateError,"validateError")
+    if (isEmpty(validateError)) {
+      var res = await newsLetter(letter)
+      if (res.status) {
+        toastAlert('success', res.message, 'newLetter')
+      }
+      else {
+        toastAlert('error', res.message, 'newsLetter')
+      }
+    }
+    else{
+      toastAlert('error', validateError, 'newsLetter')
+    }  
   }
 
   const fetchLanguage = async () => {
@@ -114,7 +137,7 @@ export default function BeforeLogin(props) {
                 <div className="form-group form_grp_newsletr mt-3">
                       <div className="input-group">
                         
-                        <input type="email" className="form-control" placeholder="Mail Id" name="email" onChange={(e)=>{onInputchage(e)}}/>
+                        <input type="email" autoComplete="off" className="form-control" placeholder="Mail Id" name="email" onChange={(e)=>{onInputchage(e)}}/>
                         <div className="input-group-append">
                         <button className="btn btn_green_su" href="/" onClick={(e)=>{OnSubmit(e)}}>Submit</button>
                         </div>

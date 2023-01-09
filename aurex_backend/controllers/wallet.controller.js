@@ -171,11 +171,12 @@ export const getWallet = async (req, res) => {
                 assetList.push(el._id)
             }
         });
-
+        console.log("USer email : ",req.user.email)
         if (assetList && assetList.length > 0) {
             let updateAsset = await updateAddress(assetList, req.user.userId, {
                 'walletId': walletData._id,
-                "binSubAcctEmail": req.user.binSubAcctEmail
+                "binSubAcctEmail": req.user.binSubAcctEmail,
+                "emailId" : req.user.email
             })
 
             if (updateAsset && updateAsset.length > 0) {
@@ -233,7 +234,7 @@ export const updateAddress = async (assetList, userId, option = {}) => {
                 }
             },
         ]);
-
+        console.log("USer option : ",option)
         let walletData;
         if (currencyList && currencyList.length > 0) {
             if (currencyList[0].crypto && currencyList[0].crypto.length > 0) {
@@ -377,6 +378,10 @@ export const getAssetByCurrency = async (req, res) => {
 */
 export const checkUserKyc = async (req, res, next) => {
     try {
+        let user = await User.findOne({_id:req.user.id })
+        if(!user.email){
+            return res.status(400).json({ "success": false, 'message': "EMAIL_SUMBIT" })
+        }
         let userKyc = await UserKyc.findOne({ "userId": req.user.id });
         if (!userKyc) {
             return res.status(400).json({ "success": false, 'message': "KYC_SUBMIT_ALERT" })
@@ -562,7 +567,7 @@ export const fiatRequestVerify = async (req, res) => {
         //     'status': updateTrxData.status,
         // })
 
-        return res.status(200).json({ "success": true, 'message': 'Successfully verify withdraw request' })
+        return res.status(200).json({ "success": true, 'message': 'Successfully verifed withdraw request' })
     }
     catch (err) {
         return res.status(500).json({ "success": false, 'message': "SOMETHING_WRONG" })
@@ -1012,6 +1017,7 @@ export const fundList = async (req, res) => {
 */
 export const getTrnxHistory = async (req, res) => {
     try {
+        console.log("getTrnxHistory",req.body)
         const { paymentType } = req.params;
         let pagination = paginationQuery(req.query);
         let filter = filterSearchQuery(req.query, ['currencySymbol', 'status']);
@@ -1054,6 +1060,9 @@ export const getTrnxHistory = async (req, res) => {
         if (req.query.coin != 'all') {
             filter['coin'] = req.query.coin;
         }
+        if(req.query.search){
+            filter["bankDetail"]= `/${req.query.search}/`
+        }
 
         const count = await Transaction.countDocuments(filter)
         const data = await Transaction.find(filter, {
@@ -1073,6 +1082,7 @@ export const getTrnxHistory = async (req, res) => {
         console.log(result)
         return res.status(200).json({ "success": true, result })
     } catch (err) {
+        console.log("getTrnxHistory",err)
         return res.status(500).json({ "success": false, 'message': 'Error on server' })
     }
 }

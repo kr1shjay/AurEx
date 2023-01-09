@@ -120,7 +120,7 @@ const ProofForm = () => {
                             onChange={handleChange}
                         >
                             <MenuItem value={'passport'}>{t("PASSPORT")}</MenuItem>
-                            <MenuItem value={'aadhar_card'}>{t("AADHAR_CARD")}</MenuItem>
+                            <MenuItem value={'citizenship'}>{t("CITIZEN_SHIP")}</MenuItem>
                             <MenuItem value={'driving_license'}>{t("DRIVING_LICENSE")}</MenuItem>
                         </Select>
                         {

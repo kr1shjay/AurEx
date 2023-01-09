@@ -24227,7 +24227,7 @@ export const marketProcess = async (newOrder) => {
             'tableId': updateOrder._id
         })
 
-        await getOrderBookSocket(pairData._id)
+        await getOrderBookSocket(newOrder.pairId)
 
         return false;
     } catch (err) {
@@ -25049,10 +25049,12 @@ export const getOrderBook = async (req, res) => {
 */
 export const getOrderBookSocket = async (pairId) => {
     try {
+        console.log("getOrderBookSocket",pairId)
         let result = await orderBookData({
             'pairId': pairId
         })
         result['pairId'] = pairId;
+        console.log("getOrderBookSocket",result)
         socketEmitAll('orderBook', result)
         return true
     } catch (err) {
@@ -25150,6 +25152,7 @@ export const orderBookData = async ({ pairId }) => {
 */
 export const getOpenOrder = async (req, res) => {
     try {
+        console.log("getOpenOrder",req.body)
         let pagination = paginationQuery(req.query);
 
         let count = await SpotTrade.countDocuments({

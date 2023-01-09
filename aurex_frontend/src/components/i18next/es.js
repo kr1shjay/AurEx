@@ -198,7 +198,7 @@ export default {
     "PASSPORT": "Pasaporte",
     "PANCARD": "Tarjeta de la cacerola",
     "GAS_BILL": "Factura del gas",
-    "AADHAR_CARD": "Tarjeta Aadhar",
+    "CITIZEN_SHIP": "Tarjeta Aadhar",
     "TOO_LARGE": "Demasiado grande",
     "INVALID_IMAGE": "Seleccione un formato válido",
     "IDENTITY_DOC_UPLOAD_SUCCESS": "Documento de identidad actualizado con éxito",
