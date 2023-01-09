@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 // import action
 import { getStakeHistory } from '../../actions/stakingAction';
 import { toFixed } from 'lib/roundOf';
-
+import {Dropdown} from 'react-bootstrap'
 //lib
 import { momentFormat } from 'lib/dateTimeHelper';
 
@@ -152,7 +152,30 @@ const StakeHistory = () => {
             <div className="newUsersFilter contact_form settingsSelect mb-0">
                 <div className="newsSelectGroup">
                     <label className='mb-0'>{t('FILTER_BY')}</label>
-                    <Select
+                    <Dropdown className="themeselect">
+      <Dropdown.Toggle variant="link" id="dropdown-basic" className="marginSpace min_height_select"
+                        value={coin}
+                        name="coin"
+                        onChange={handleChange}>
+       {t('ALL')}
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu className='small'>
+      {
+                            currencyData && currencyData.length > 0 && currencyData.map((item, key) => {
+                                if (item.type == 'crypto' || item.type == 'token') {
+                                    return (
+                                       
+                                          <Dropdown.Item  value={item.coin} key={key} onClick={(e) => alert(e.target.value)}> {item.coin} </Dropdown.Item>
+                                    )
+                                }
+                            })
+                        }
+      
+ 
+      </Dropdown.Menu>
+    </Dropdown>
+                    {/* <Select
                         className="marginSpace min_height_select"
                         value={coin}
                         name="coin"
@@ -170,8 +193,22 @@ const StakeHistory = () => {
                                 }
                             })
                         }
-                    </Select>
-                    <Select
+                    </Select> */}
+                                 <Dropdown className="themeselect">
+      <Dropdown.Toggle variant="link" id="dropdown-basic" className="marginSpace min_height_select"
+                        value={type}
+                        name="coin"
+                        onChange={handleChange}>
+      {t('SUBSCRIPTION')}
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item> {t('SUBSCRIPTION')} </Dropdown.Item>
+        <Dropdown.Item> {t('REDEMPTION')} </Dropdown.Item>
+        <Dropdown.Item> {t('INTEREST')} </Dropdown.Item>
+    </Dropdown.Menu>
+    </Dropdown>
+                    {/* <Select
                         className="marginSpace min_height_select"
                         value={type}
                         name="type"
@@ -180,7 +217,7 @@ const StakeHistory = () => {
                         <MenuItem value={'subscription'}>{t('SUBSCRIPTION')}</MenuItem>
                         <MenuItem value={'redemption'}>{t('REDEMPTION')}</MenuItem>
                         <MenuItem value={'interest'}>{t('INTEREST')}</MenuItem>
-                    </Select>
+                    </Select> */}
                 </div>
                 <div className="newsSelectGroup">
                     {/* <button className="btn btn-outline text-uppercase py-1 m-0">Download PDF</button> */}

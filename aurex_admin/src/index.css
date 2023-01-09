@@ -169,5 +169,11 @@ position: relative !important;
 {
   border-color: transparent !important;
   color: #02c076 !important;
-
+}
+.sidebar_whole .sidebar-submenu a {
+  background-color: #242424 !important;
+}
+.sidebar_whole .sidebar-submenu a:hover{
+  background-color: #02c076 !important;
+  color: #fff !important;
 }

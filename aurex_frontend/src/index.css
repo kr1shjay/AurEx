@@ -29678,6 +29678,7 @@ background: transparent !important;
   padding-bottom: 15px;
 }
 .summary_flow .row::before {
+  display: none;
   content: "";
   border-left: 1px solid #175a3f;
   width: 100%;
@@ -29699,6 +29700,7 @@ content:none !important;
 }
 .summary_flow .row.row_initiate::after
 {
+  display: none;
   content: "";
   position: absolute;
   width: 10px;
@@ -30246,6 +30248,10 @@ body.padi_over_body .page_wrap header,.page_wrap header
   overflow: unset !important;
   padding-right: unset !important;
 }
+body.padi_over_body.modal-open{
+  overflow-y:hidden !important ;
+
+}
 .form-check input
 {
   cursor: pointer;
@@ -30412,4 +30418,40 @@ li.unread .lighttxt {
 .graytxt{
  color: #a9a9a9 !important
 }
+.themeselect button {
+  background: #1a1b1c;
+  padding: 6px 10px;
+  border-radius: 9px;
+  border: 1px solid #59615f;
+  color: #eee !important;
+  text-transform: capitalize;
+  font-size: 14px;
+}
+.themeselect button:focus {
+  background: transparent !important;
+}
+.themeselect > div.small {
+  height: 200px;
+  overflow: scroll;
+}
+.themeselect .dropdown-menu a {
+  color: #fff !important;
 
+  min-width: 46px;
+  justify-content: center;
+  padding: 5px;
+}
+.themeselect .dropdown-menu.small{
+  max-width: 50px;
+  min-width: 129px;
+}
+.themeselect .dropdown-menu{
+  transform: translate(15px, 55px) !important;
+  background-color: #090909 !important;
+}
+
+
+.themeselect .dropdown-menu a:hover{
+  background-color: var(--themeclr);
+  color: var(--themeclr);
+}
