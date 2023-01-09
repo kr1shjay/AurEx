@@ -61,8 +61,7 @@ const StakeHistory = () => {
     })
     const { t, i18n } = useTranslation();
     const { currentPage, nextPage, limit, count, data } = orderData
-
-    // console.log(data,"orderData");
+    
     // function
     const fetchHistory = async (reqData) => {
         try {
