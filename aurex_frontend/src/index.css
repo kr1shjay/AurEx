@@ -30468,3 +30468,6 @@ li.unread .lighttxt {
   position: relative;
   z-index: unset !important;
 }
+.thumb-vertical {
+  background: #02c076 !important;
+}

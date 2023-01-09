@@ -26,7 +26,7 @@ const SubscribeStake = () => {
         <div className="dashboard_box">
             {/* <h5 className="dash_subtitle">Current Subscription</h5> */}
             <div className="stakingSubscription stakingSubscription_bg_trans">
-                <Scrollbars style={{ width: "100%", height: 250 }}>
+                <Scrollbars style={{ width: "100%", height: 250 }} renderThumbVertical={props => <div {...props} className="thumb-vertical"/>}>
                     <ul>
                         {
                             !loader && data && data.length > 0 && data.map((item, key) => {
