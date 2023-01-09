@@ -71,7 +71,7 @@ class Newsletter extends Component {
 		singleValue: (provided, state) => ({
 		  ...provided,
 		  color: "#fff"
-		})
+		}),
 	  };
     componentDidMount() {
         this.fetchSubscribed()

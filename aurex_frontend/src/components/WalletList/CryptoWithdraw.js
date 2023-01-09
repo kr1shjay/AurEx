@@ -139,7 +139,7 @@ const CryptoWithdraw = (props) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show={show} onHide={handleClose} centered backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>{t("WITHDRAW CRYPTO")}</Modal.Title>
       </Modal.Header>

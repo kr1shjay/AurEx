@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
 import DataTable from 'react-data-table-component';
-import { Select, MenuItem } from '@material-ui/core';
+import { Select, MenuItem ,FormControl} from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 // import action
 import { getTrnxHistory } from '../../actions/walletAction'
@@ -163,16 +163,17 @@ const FiatHistory = (props) => {
             <div className="newUsersFilter contact_form settingsSelect mb-0 historyPageFilter">
                 <div className="newsSelectGroup input_minw_selc">
                     <label>{t('FILTER_BY')}</label>
-                    <Select
-                        value={type}
-                        name="type"
-                        onChange={handleChange}
-                    >
-                        <MenuItem value={'all'}>{t('ALL')}</MenuItem>
-                        <MenuItem value={'fiat_withdraw'}>{t('WITHDRAW')}</MenuItem>
-                        <MenuItem value={'fiat_deposit'}>{t('DEPOSIT')}</MenuItem>
-                        {/*<MenuItem value={'fiat_transfer'}>{t('TRANSFER')}</MenuItem>*/}
-                    </Select>
+                    <FormControl>
+                        <Select
+                            value={type}
+                            name="type"
+                            onChange={handleChange} >
+                            <MenuItem value={'all'}>{t('ALL')}</MenuItem>
+                            <MenuItem value={'fiat_withdraw'}>{t('WITHDRAW')}</MenuItem>
+                            <MenuItem value={'fiat_deposit'}>{t('DEPOSIT')}</MenuItem>
+                            {/*<MenuItem value={'fiat_transfer'}>{t('TRANSFER')}</MenuItem>*/}
+                        </Select>
+                    </FormControl>
                     <Select
                         className="marginSpace"
                         value={coin}

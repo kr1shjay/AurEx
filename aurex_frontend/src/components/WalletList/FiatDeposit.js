@@ -107,6 +107,8 @@ const FiatDeposit = (props) => {
             show={show}
             onHide={handleClose}
             centered
+            backdrop="static"
+            
         >
             <Modal.Header closeButton>
                 <Modal.Title>{t('FIAT_DEPOSIT')}</Modal.Title>

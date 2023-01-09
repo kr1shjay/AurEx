@@ -1,4 +1,5 @@
 // import package
+import CancelModal from "components/Modal/CancelModal";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -9,6 +10,8 @@ import { cancelOrder } from "../../actions/spotTradeAction";
 import { toastAlert } from "../../lib/toastAlert";
 
 const CancelOrder = (props) => {
+   const [cancel, buyCancel] = useState(true);
+
     const { t, i18n } = useTranslation();
 
     // state
@@ -36,15 +39,18 @@ const CancelOrder = (props) => {
     };
 
     return (
-        <button
+       <> 
+       {cancel && <CancelModal onDismiss={() => buyCancel(false)} />}
+       <button
             type="button"
             onClick={handleCancelOrder}
             className="btn btn-primary text-uppercase py-2"
             disabled={loader}
         >
+            
             {loader && <i className="fas fa-spinner fa-spin"></i>}
             {t("CANCEL")}
-        </button>
+        </button></>
     );
 };
 
