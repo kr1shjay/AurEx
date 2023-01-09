@@ -144,6 +144,7 @@ const FiatWithdraw = (props) => {
             show={show}
             onHide={handleClose}
             centered
+            backdrop="static"
         >
             <Modal.Header closeButton>
                 <Modal.Title>{t('WITHDRAW_FIAT')}</Modal.Title>

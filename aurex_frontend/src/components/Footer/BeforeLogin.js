@@ -116,7 +116,7 @@ export default function BeforeLogin(props) {
                         
                         <input type="email" className="form-control" placeholder="Mail Id" name="email" onChange={(e)=>{onInputchage(e)}}/>
                         <div className="input-group-append">
-                        <button className="btn btn_green_su" href="/" onClick={(e)=>{OnSubmit(e)}}>Submit</button>
+                        <button className="btn btn_green_su btn_green_su_news" href="/" onClick={(e)=>{OnSubmit(e)}}>Submit</button>
                         </div>
                       </div>
                     </div>

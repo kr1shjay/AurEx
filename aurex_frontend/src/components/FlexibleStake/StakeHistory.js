@@ -31,6 +31,9 @@ const StakeHistory = () => {
 
     const { coin, type } = filter
 
+    const [filtercoin, setFiltercoin] = useState("All");
+    const [filtertype, setFiltertype] = useState("Subscription");
+
     // redux
     const currencyData = useSelector(state => state.currency)
 
@@ -154,19 +157,19 @@ const StakeHistory = () => {
                     <label className='mb-0'>{t('FILTER_BY')}</label>
                     <Dropdown className="themeselect">
       <Dropdown.Toggle variant="link" id="dropdown-basic" className="marginSpace min_height_select"
-                        value={coin}
+                        value={filtercoin}
                         name="coin"
                         onChange={handleChange}>
-       {t('ALL')}
+       {!filtercoin?t('ALL'):filtercoin}
       </Dropdown.Toggle>
 
-      <Dropdown.Menu className='small'>
+      <Dropdown.Menu className='small menu_not_scroll_dd'>
       {
                             currencyData && currencyData.length > 0 && currencyData.map((item, key) => {
                                 if (item.type == 'crypto' || item.type == 'token') {
                                     return (
                                        
-                                          <Dropdown.Item  value={item.coin} key={key} onClick={(e) => alert(e.target.value)}> {item.coin} </Dropdown.Item>
+                                          <Dropdown.Item  value={item.coin} key={key} onClick={(e) => setFiltercoin(e.target.getAttribute("value"))}> {item.coin} </Dropdown.Item>
                                     )
                                 }
                             })
@@ -195,17 +198,17 @@ const StakeHistory = () => {
                         }
                     </Select> */}
                                  <Dropdown className="themeselect">
-      <Dropdown.Toggle variant="link" id="dropdown-basic" className="marginSpace min_height_select"
+      <Dropdown.Toggle variant="link" id="dropdown-basic1" className="marginSpace min_height_select"
                         value={type}
                         name="coin"
                         onChange={handleChange}>
-      {t('SUBSCRIPTION')}
+                             {!filtertype?t('Subscription'):filtertype}
       </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        <Dropdown.Item> {t('SUBSCRIPTION')} </Dropdown.Item>
-        <Dropdown.Item> {t('REDEMPTION')} </Dropdown.Item>
-        <Dropdown.Item> {t('INTEREST')} </Dropdown.Item>
+      <Dropdown.Menu className='menu_not_scroll_dd'>
+        <Dropdown.Item onClick={(e) => setFiltertype('Subscription')}> {t('Subscription')} </Dropdown.Item>
+        <Dropdown.Item onClick={(e) => setFiltertype('Redemption')}> {t('Redemption')} </Dropdown.Item>
+        <Dropdown.Item onClick={(e) => setFiltertype('Interest')}> {t('Interest')} </Dropdown.Item>
     </Dropdown.Menu>
     </Dropdown>
                     {/* <Select

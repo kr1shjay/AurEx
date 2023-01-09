@@ -277,6 +277,35 @@ class Users extends Component {
     }
 
     componentDidMount() {
+        // alert(1)
+
+//         const timer = setTimeout(() => {
+//             const menuitems= document.getElementsByClassName("collapse");
+            
+    
+//         const itempaent = document.getElementsByClassName("list_grp_active");
+//         for(var j=0;j<itempaent.length;j++)
+//         {
+//             if(itempaent[j].getAttribute("href") == "#submenu1")
+//             {
+//                 console.log("134")
+//                 this.setAttribute("aria-expanded","true");
+//             }
+//         }
+//  for(var i=0;i<menuitems.length;i++)
+//         {
+//             console.log(menuitems[i].getAttribute("activeattr"),"menuitemsdf");
+//             if(menuitems[i].getAttribute("activeattr") == "submenu1")
+//             {
+//                 this.classList.add("show");
+//             }
+          
+//         }
+
+//           }, 2000);
+//           return () => clearTimeout(timer);
+
+       
         const { page, limit } = this.state;
         let reqData = {
             page,
@@ -374,7 +403,7 @@ class Users extends Component {
                     record={userId}
                 />
                 <div className="d-flex" id="wrapper">
-                    <Sidebar />
+                    <Sidebar/>
                     <UserAddModal />
                     <UserUpdateModal record={this.state.currentRecord} />
 

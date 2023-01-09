@@ -144,6 +144,9 @@ form .col-md-9 .custom-file-upload
 .border_blue_select .select__value-container
 {
 border-color: #59615f !important;
+/* min-height: 52px !important;
+max-height: 100% !important;
+height: unset !important; */
 }
 
 .container .form_cekc_show .rc-checkbox [type=checkbox]
@@ -165,7 +168,8 @@ position: relative !important;
 {
   text-decoration: none !important;
 }
-.list-group-item.active,.list-group-item[aria-current="page"]
+.list-group-item.active,.list-group-item[aria-current="page"],
+.list-group-item:hover
 {
   border-color: transparent !important;
   color: #02c076 !important;
@@ -176,4 +180,11 @@ position: relative !important;
 .sidebar_whole .sidebar-submenu a:hover{
   background-color: #02c076 !important;
   color: #fff !important;
+}
+.thumb-vertical {
+  background: #02c076 !important;
+}
+.select__value-container
+{
+  padding-right: 40px !important;
 }

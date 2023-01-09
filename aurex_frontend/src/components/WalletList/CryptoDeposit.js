@@ -27,7 +27,7 @@ const CryptoDeposit = (props) => {
   // console.log(currency, "currency");
 
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show={show} onHide={handleClose} centered backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>Crypto Deposit</Modal.Title>
       </Modal.Header>

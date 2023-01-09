@@ -341,7 +341,8 @@ template {
 
 .error-message {
   color: red;
-  font-size: 14px;
+  font-size: 12px !important;
+  word-break: break-word;
 }
 
 .loader {
@@ -1088,6 +1089,7 @@ pre code {
 }
 
 @media (min-width: 1200px) {
+  
   .container {
     max-width: 1140px;
   }
@@ -29674,7 +29676,7 @@ background: transparent !important;
 .summary_flow .row
 {
   position: relative;
-  padding-left: 15px;
+  /* padding-left: 15px; */
   padding-bottom: 15px;
 }
 .summary_flow .row::before {
@@ -30454,4 +30456,15 @@ li.unread .lighttxt {
 .themeselect .dropdown-menu a:hover{
   background-color: var(--themeclr);
   color: var(--themeclr);
+}
+
+.menu_not_scroll_dd
+{
+  transform: translate(15px, 55px) !important;
+  top:10px !important;
+}
+.input-group-append .btn.btn_green_su_news.btn_green_su
+{
+  position: relative;
+  z-index: unset !important;
 }

@@ -19,7 +19,7 @@ import { SingleAdmin } from '../../actions/admin'
 const initialFormValue = {
     'show' : (window.innerWidth > 991) ? true : false
  }
-const Sidebar = () => {
+const Sidebar = (props) => {
     
     // state 
     const [ formValue, setFormValue ] = useState(initialFormValue);
@@ -33,6 +33,7 @@ const Sidebar = () => {
         e.preventDefault();
         // this.props.logoutUser();
     };
+
 
     // componentDidMount() {
     //     window.addEventListener("resize", this.changestate);
@@ -60,7 +61,7 @@ const Sidebar = () => {
                 <div className="border-right sidebar_whole" >
 
                     <div className="list-group list-group-flush">
-                        <Scrollbars style={{ width: 250, height: "88.5vh" }} >
+                        <Scrollbars style={{ width: 250, height: "88.5vh" }}  renderThumbVertical={props => <div {...props} className="thumb-vertical"/>}>
                                     <div>
                                       
                                       {
@@ -83,7 +84,7 @@ const Sidebar = () => {
                                                         {
                                                             item && item.childItem  ?
                                                             <>
-                                                                 <a href={item && item.href}  data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                                 <a href={item && item.href}  data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start list_grp_active">
                                                              <div class="d-flex w-100 justyfy-content-start align-items-center">
                                                              <span class="menu-collapsed">{item && item.header}</span>
                                                                  {
