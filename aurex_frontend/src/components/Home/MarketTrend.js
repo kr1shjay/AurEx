@@ -92,6 +92,7 @@ const MarketTrend = () => {
         try {
             const { status, loading, result } = await getMarketTrend();
             if (status == 'success') {
+                console.log("markettrend",result)
                 setPairData(result)
             }
         } catch (err) { }

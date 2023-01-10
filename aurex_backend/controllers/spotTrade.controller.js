@@ -22815,7 +22815,7 @@ export const cancelOrder = async (req, res) => {
 
         let orderData = await SpotTrade.findOne({ '_id': req.params.orderId, 'userId': req.user.id });
         if (!orderData) {
-            return res.status(400).json({ 'status': false, 'message': "NO_ORDER" });
+            return res.status(400).json({ 'status': false, 'message': "There is no order" });
         }
 
         if (['open', 'pending', 'conditional'].includes(orderData.status)) {
@@ -23195,7 +23195,7 @@ export const marketOrderPlace = async (req, res) => {
             ])
 
             if ((spotOrder && spotOrder.length == 0) || (spotOrder[0].orderBook && spotOrder[0].orderBook.length == 0)) {
-                return res.status(400).json({ 'status': false, 'message': "NO_ORDER" });
+                return res.status(400).json({ 'status': false, 'message': "There is no order" });
             }
             // orderPrice = spotOrder[0].orderBook[0]._id
             
@@ -24215,6 +24215,7 @@ export const marketProcess = async (newOrder) => {
 
         // console.log("----updateOrder", updateOrder)
 
+        await getOpenOrderSocket(newOrder.userId,newOrder.pairId)
         await getOrderHistorySocket(newOrder.userId, newOrder.pairId)
         await getTradeHistorySocket(newOrder.userId, newOrder.pairId)
 

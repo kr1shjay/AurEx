@@ -31,7 +31,7 @@ const StakeHistory = () => {
 
     const { coin, type } = filter
 
-    const [filtercoin, setFiltercoin] = useState("All");
+    const [filtercoin, setFiltercoin] = useState("");
     const [filtertype, setFiltertype] = useState("Subscription");
 
     // redux
@@ -93,6 +93,11 @@ const StakeHistory = () => {
 
     ];
 
+    const change =()=>{
+        console.log("change",filter)
+        fetchHistory(filter)
+    }
+
 
 
     // function
@@ -140,14 +145,15 @@ const StakeHistory = () => {
         let filterData = {
             ...filter,
             [name]: value
-        }
+        }    
         setFilter(filterData)
+        console.log("handleChange",filterData)
         fetchHistory(filterData)
     }
 
     useEffect(() => {
         fetchHistory(filter)
-    }, [])
+    }, [filtercoin,filtertype])
     // alert(filter)
     return (
 
@@ -169,7 +175,12 @@ const StakeHistory = () => {
                                 if (item.type == 'crypto' || item.type == 'token') {
                                     return (
                                        
-                                          <Dropdown.Item  value={item.coin} key={key} onClick={(e) => setFiltercoin(e.target.getAttribute("value"))}> {item.coin} </Dropdown.Item>
+                                          <Dropdown.Item  value={item.coin} key={key} 
+                                          onClick={async(e) =>{ 
+                                            setFiltercoin(e.target.getAttribute("value"));
+                                            let filterData= {...filter,['coin']: e.target.getAttribute("value")};
+                                            setFilter(filterData);
+                                        }}> {item.coin} </Dropdown.Item>
                                     )
                                 }
                             })
@@ -206,9 +217,21 @@ const StakeHistory = () => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu className='menu_not_scroll_dd'>
-        <Dropdown.Item onClick={(e) => setFiltertype('Subscription')}> {t('Subscription')} </Dropdown.Item>
-        <Dropdown.Item onClick={(e) => setFiltertype('Redemption')}> {t('Redemption')} </Dropdown.Item>
-        <Dropdown.Item onClick={(e) => setFiltertype('Interest')}> {t('Interest')} </Dropdown.Item>
+        <Dropdown.Item onClick={(e) =>{ 
+        setFiltertype('Subscription');
+        let filterData= {...filter,['type']:'subscription' };
+        setFilter(filterData);
+    }}> {t('Subscription')} </Dropdown.Item>
+        <Dropdown.Item onClick={(e) => {
+        setFiltertype('Redemption');
+        let filterData= {...filter,['type']:'redemption' };
+        setFilter(filterData);
+    }}> {t('Redemption')} </Dropdown.Item>
+        <Dropdown.Item onClick={(e) => {
+        setFiltertype('Interest');
+        let filterData= {...filter,['type']:'interest'};
+        setFilter(filterData);
+    }}> {t('Interest')} </Dropdown.Item>
     </Dropdown.Menu>
     </Dropdown>
                     {/* <Select

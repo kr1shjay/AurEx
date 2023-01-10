@@ -163,6 +163,7 @@ const CreateTicket = (props) => {
                                 }
                             </label>
                         </div>
+                        <p>jpg,jpeg,png,pdf allowed</p>
                         {
                             validateError.attachment && <p className="error-message">{t(validateError.attachment)}</p>
                         }

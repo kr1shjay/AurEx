@@ -18,6 +18,7 @@ const dashboardRoutes = [];
 function ScrollToTopOnMount() {
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title="AUREX"
   }, []);
   return null;
 }

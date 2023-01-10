@@ -55,6 +55,11 @@ const MobileForm = () => {
     const handleChange = (e) => {
         e.preventDefault();
         const { name, value } = e.target;
+        if(name="otp"){
+            if (!(value == '' || (/^[0-9\b]+$/.test(value) && value.length <= 6))) {
+                return
+            }
+        }
         let formData = { ...formValue, ...{ [name]: value } }
         setFormValue(formData)
         setValidateError(validation(formData,t))

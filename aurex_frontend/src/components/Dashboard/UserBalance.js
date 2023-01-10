@@ -105,7 +105,7 @@ const UserBalance = () => {
             <div className="Subscribe pb-3">
                 <Button onClick={() => history.push('/wallet')}>{t("DEPOSIT")}</Button>
                 <Button onClick={() => history.push('/wallet')} className="ml-1">{t("WITHDRAW")}</Button>
-                <Button onClick={() => history.push('/spot')} className="ml-1">TRADE</Button>
+                <Button onClick={() => history.push('/spot')} className="ml-1">Trade</Button>
                 {/*<Button onClick={() => history.push('/wallet')} className="ml-1">{t("TRANSFER")}</Button>*/}
             </div>
         </div>

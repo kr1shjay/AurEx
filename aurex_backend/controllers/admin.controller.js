@@ -627,7 +627,7 @@ export const sendMail = async (req, res) => {
                 content
             })
             if (!isEmpty(mailTemplateLang)) {
-                return res.status(200).json({ status: true, message: 'OTP successfully send to your email' })
+                return res.status(200).json({ status: true, message: 'OTP successfully sent  to your email' })
             } else {
                 return res.status(400).json({ status: false, message: 'Failed' })
             }

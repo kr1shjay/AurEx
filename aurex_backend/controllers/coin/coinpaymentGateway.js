@@ -184,7 +184,7 @@ export const depositwebhook = async (req, res) => {
                 'address': reqBody.address
             }
 
-            if (currencyData.currencySymbol == 'XRP') {
+            if (currencyData.symbol == 'XRP') {
                 findAsset['destTag'] = reqBody.dest_tag;
             }
 
@@ -207,7 +207,7 @@ export const depositwebhook = async (req, res) => {
             if (trxnData) {
                 return res.status(400).json({ 'success': false, 'messages': "Already payment exists" })
             }
-            console.log("user Wallet :",trxnData)
+            console.log("user Wallet : data : tx : ",trxnData)
             let transactions = new Transaction();
             transactions["userId"] = usrWallet.userId;
             transactions["currencyId"] = currencyData._id;
@@ -219,6 +219,9 @@ export const depositwebhook = async (req, res) => {
             transactions["status"] = 'completed';
             transactions["paymentType"] = 'coin_deposit';
             transactions["commissionFee"] = reqBody.fee;
+            if (currencyData.symbol == 'XRP') {
+                transactions["destTag"] = reqBody.dest_tag;
+            }
 
             let trxData = await transactions.save();
 

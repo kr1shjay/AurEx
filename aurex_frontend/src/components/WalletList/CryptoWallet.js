@@ -236,12 +236,24 @@ const CryptoWallet = () => {
                         <div className="Subscribe">
                           <Button
                             className="btn-primary"
-                            onClick={() => {
-                              setModal({
-                                type: "deposit",
-                                assetData: item,
-                                currency: curData,
-                              });
+                            onClick={async() => {
+                              console.log("check-email")
+                              const emailvlaid = await checkEmail();
+                              if (emailvlaid.email) {
+                                setModal({
+                                  type: "deposit",
+                                  assetData: item,
+                                  currency: curData,
+                                });
+                              }
+                              else {
+                                toastAlert("error", "Please submit email details", "email");
+                              }
+                              // setModal({
+                              //   type: "deposit",
+                              //   assetData: item,
+                              //   currency: curData,
+                              // });
                             }}
                           >
                             {t("DEPOSIT")}
@@ -330,6 +342,7 @@ const CryptoWallet = () => {
                           <Button
                             className="btn-primary"
                             onClick={async() => {
+                              console.log("check-email")
                               const emailvlaid = await checkEmail();
                               if (emailvlaid.email) {
                                 setModal({

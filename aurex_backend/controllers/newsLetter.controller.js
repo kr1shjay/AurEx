@@ -75,14 +75,14 @@ export const sendNews = async (req, res) => {
                     'message': message,
                     // 'date': datetime.getFullYear() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getDate()
                 }
-                mailTemplateLang({
+                await mailTemplateLang({
                     'identifier': 'newsletter_send',
                     'toEmail': item,
                     content
                 })
             }
         }
-        return res.status(200).json({ 'status': true, 'message': "Sent newsletter mails sucessfully. Refreshing data..." });
+        return res.status(200).json({ 'status': true, 'message': "Sent newsletter mails successfully. Refreshing data..." });
     } catch (err) {
         console.log("🚀 ~ file: newsLetter.controller.js ~ line 84 ~ sendNews ~ err", err)
         return res.status(500).json({ 'status': false, 'message': 'Error on server' })

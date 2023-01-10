@@ -39,6 +39,7 @@ const ProfilePage = (props) => {
 
   useEffect(() => {
     getKycDetail(dispatch)
+    document.title="AUREX"
   }, [])
 
   return (

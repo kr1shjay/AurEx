@@ -161,6 +161,11 @@ export const getWallet = async (req, res) => {
             "assets.p2pBal": 1
         })
 
+        var userInfo = await User.findOne({
+            '_id': req.user.id
+        })
+        console.log("User Info : ",userInfo)
+
         if (!walletData) {
             return res.status(400).json({ 'success': false })
         }
@@ -171,12 +176,12 @@ export const getWallet = async (req, res) => {
                 assetList.push(el._id)
             }
         });
-        console.log("USer email : ",req.user.email)
+        console.log("USer email : ",req.user.email ? req.user.email : userInfo.phoneNo)
         if (assetList && assetList.length > 0) {
             let updateAsset = await updateAddress(assetList, req.user.userId, {
                 'walletId': walletData._id,
                 "binSubAcctEmail": req.user.binSubAcctEmail,
-                "emailId" : req.user.email
+                "emailId" : req.user.email ? req.user.email : userInfo.phoneNo
             })
 
             if (updateAsset && updateAsset.length > 0) {
@@ -186,6 +191,7 @@ export const getWallet = async (req, res) => {
         return res.status(200).json({ 'success': true, 'messages': "successfully", 'result': usrAsset, })
     }
     catch (err) {
+        console.log("User data : ",err)
         return res.status(500).json({ 'success': false })
     }
 }
@@ -383,6 +389,9 @@ export const checkUserKyc = async (req, res, next) => {
             return res.status(400).json({ "success": false, 'message': "EMAIL_SUMBIT" })
         }
         let userKyc = await UserKyc.findOne({ "userId": req.user.id });
+        if(!user.email){
+            return res.status(400).json({ "success": false, 'message': "EMAIL_SUMBIT" })
+        }
         if (!userKyc) {
             return res.status(400).json({ "success": false, 'message': "KYC_SUBMIT_ALERT" })
         }
@@ -1017,7 +1026,6 @@ export const fundList = async (req, res) => {
 */
 export const getTrnxHistory = async (req, res) => {
     try {
-        console.log("getTrnxHistory",req.body)
         const { paymentType } = req.params;
         let pagination = paginationQuery(req.query);
         let filter = filterSearchQuery(req.query, ['currencySymbol', 'status']);
@@ -1060,9 +1068,6 @@ export const getTrnxHistory = async (req, res) => {
         if (req.query.coin != 'all') {
             filter['coin'] = req.query.coin;
         }
-        if(req.query.search){
-            filter["bankDetail"]= `/${req.query.search}/`
-        }
 
         const count = await Transaction.countDocuments(filter)
         const data = await Transaction.find(filter, {
@@ -1082,7 +1087,6 @@ export const getTrnxHistory = async (req, res) => {
         console.log(result)
         return res.status(200).json({ "success": true, result })
     } catch (err) {
-        console.log("getTrnxHistory",err)
         return res.status(500).json({ "success": false, 'message': 'Error on server' })
     }
 }

@@ -40,6 +40,7 @@ let dispatch = useDispatch()
     socketContext.socket.on('read',(data)=>{
       setData(data)
     })
+    document.title="AUREX"
   }, [socketContext])
     return(
     <>

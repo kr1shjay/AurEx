@@ -142,7 +142,7 @@ const OrderPlaceModalLocked = (props) => {
       price,
       type,
       isTerms,
-      duration_days: !isEmpty(durationdays) ? durationdays : record.periodList && record.periodList[0].days
+      duration_days: duration_days ? duration_days : record.periodList && record.periodList[0].days
     }
     let validationError = validation(reqData);
     if (!isEmpty(validationError)) {
@@ -378,7 +378,7 @@ const OrderPlaceModalLocked = (props) => {
                     <p className='mb-0 tetx_white_sm_amount'>Interest Period</p>
                 </div>
                 <div className='col-6'>
-                    <p className='mb-0 tetx_grey_sm_amount'>{duration_days} days</p>
+                    <p className='mb-0 tetx_grey_sm_amount'>{duration_days || (record.periodList && record.periodList[0].days)} days</p>
                 </div>
             </div>
             <div className='row'>

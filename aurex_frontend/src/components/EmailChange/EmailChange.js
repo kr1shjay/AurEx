@@ -55,7 +55,6 @@ const EmailChange = () => {
                 setLoader(false)
                 return
             }
-
             let { status, loading, error, message } = await editEmail(reqData);
             setLoader(loading);
             if (status == "success") {
@@ -85,7 +84,9 @@ const EmailChange = () => {
 
     return (
         <GridItem xs={12} sm={12} md={4} lg={4}>
-            <div className="form-group">
+            {formValue && formValue.newEmail ? (
+                <>
+                <div className="form-group">
                 <label>{t("EMAIL_CHANGE_PLACEHOLDER")}<span class="textRed">*</span></label>
                 <input
                     type="text"
@@ -108,6 +109,35 @@ const EmailChange = () => {
                     {t("CHANGE_EMAIL")}
                 </button>
             </div>
+            </>
+            ):(<>
+             <div className="form-group">
+                <label>Enter email<span class="textRed">*</span></label>
+                <input
+                    type="text"
+                    name="newEmail"
+                    value={newEmail}
+                    onChange={handleChange}
+                    className="form-control"
+                />
+                {
+                    validateError.newEmail && <p className="error-message mt-3">{t(validateError.newEmail)}</p>
+                }
+            </div>
+            <div className="form-group green-button">
+                <button
+                    type="button" className="btn btn-primary text-uppercase py-2 my-0"
+                    onClick={handleFormSubmit}
+                    disabled={loader}
+                >
+                    {loader && <i class="fas fa-spinner fa-spin"></i>}
+                    Set Email
+                </button>
+            </div>
+            </>)
+
+            }
+            
         </GridItem>
     )
 }

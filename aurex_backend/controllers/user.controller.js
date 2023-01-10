@@ -1449,39 +1449,76 @@ export const getUserBalanceList = async (req, res) => {
 export const editEmail = async (req, res) => {
     try {
         let reqBody = req.body;
-        let checkUser = await User.findOne({ "email": reqBody.newEmail })
-        // let checkUser = await User.findOne({ "email": reqBody.newEmail, "_id": { "$ne": req.user.id } })
-        if (checkUser) {
-            return res.status(400).json({ "success": false, 'errors': { 'newEmail': "Email already exists" } })
-        }
-
-        let encryptToken = encryptString(req.user.id, true)
-        let userData = await User.findOneAndUpdate(
-            {
-                "_id": req.user.id
-            },
-            {
-                "newEmail": reqBody.newEmail,
-                "newEmailToken": encryptToken
-            },
-            {
-                "new": true
+        let Details = await User.findOne({_id:req.user.id})
+        if(!Details.email){
+            let checkUser = await User.findOne({ "email": reqBody.newEmail })
+            // let checkUser = await User.findOne({ "email": reqBody.newEmail, "_id": { "$ne": req.user.id } })
+            if (checkUser) {
+                return res.status(400).json({ "success": false, 'errors': { 'newEmail': "Email already exists" } })
             }
-        )
-        let content = {
-            'confirmMailUrl': `${config.FRONT_URL}/verify-old-email/${encryptToken}`,
-            'date': new Date()
-        };
-        mailTemplateLang({
-            'userId': userData._id,
-            'identifier': 'change_register_email',
-            'toEmail': userData.email,
-            content
-        })
-
-        return res.status(200).json({ "success": true, "message": "Verification link sent to your old email address." })
+            let encryptToken = encryptString(req.user.id, true)
+            let userData = await User.findOneAndUpdate(
+                {
+                    "_id": req.user.id
+                },
+                {
+                    "email": reqBody.newEmail,
+                    "mailToken": encryptToken
+                },
+                {
+                    "new": true
+                }
+            )
+            let content = {
+                'email': reqBody.newEmail,
+                'confirmMailUrl': `${config.FRONT_URL}/email-verification/${encryptToken}`,
+                'date': Details.createdAt
+            };
+            mailTemplateLang({
+                'userId': req.user.id,
+                'identifier': 'activate_register_user',
+                'toEmail': reqBody.newEmail,
+                content
+            })
+            return res.status(200).json({ "success": true, "message": "Verification link sent to your email address." })
+        }
+        else{
+            let checkUser = await User.findOne({ "email": reqBody.newEmail })
+            // let checkUser = await User.findOne({ "email": reqBody.newEmail, "_id": { "$ne": req.user.id } })
+            if (checkUser) {
+                return res.status(400).json({ "success": false, 'errors': { 'newEmail': "Email already exists" } })
+            }
+    
+            let encryptToken = encryptString(req.user.id, true)
+            let userData = await User.findOneAndUpdate(
+                {
+                    "_id": req.user.id
+                },
+                {
+                    "newEmail": reqBody.newEmail,
+                    "newEmailToken": encryptToken
+                },
+                {
+                    "new": true
+                }
+            )
+            let content = {
+                'confirmMailUrl': `${config.FRONT_URL}/verify-old-email/${encryptToken}`,
+                'date': new Date()
+            };
+            mailTemplateLang({
+                'userId': userData._id,
+                'identifier': 'change_register_email',
+                'toEmail': userData.email,
+                content
+            })
+    
+            return res.status(200).json({ "success": true, "message": "Verification link sent to your old email address." })
+        }
+        
     }
     catch (err) {
+        console.log("editEmail",err)
         return res.status(500).json({ "success": false, 'message': "Error on server" })
     }
 }

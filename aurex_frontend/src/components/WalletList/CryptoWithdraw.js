@@ -141,7 +141,7 @@ const CryptoWithdraw = (props) => {
   return (
     <Modal show={show} onHide={handleClose} centered backdrop="static">
       <Modal.Header closeButton>
-        <Modal.Title>{t("WITHDRAW CRYPTO")}</Modal.Title>
+        <Modal.Title>Withdraw Crypto</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <GridContainer>
@@ -199,7 +199,7 @@ const CryptoWithdraw = (props) => {
                 <input
                   type="text"
                   placeholder=""
-                  value={finalAmount}
+                  value={toFixed(finalAmount,8)}
                   disabled
                 />
                 <i class="">{assetData.coin}</i>

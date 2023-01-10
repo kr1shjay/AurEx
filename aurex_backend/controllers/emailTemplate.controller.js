@@ -55,7 +55,8 @@ export const mailTemplateLang = async ({
         //     let getLang = await Language.findOne({ "isPrimary": true })
         //     mailTemplate(identifier, toEmail, content, getLang.code)
         // }
-        mailTemplate(identifier, toEmail, content, 'en')
+        console.log("mailTemplateLang",content)
+        await mailTemplate(identifier, toEmail, content, 'en')
     } catch (err) {
     }
 }
@@ -103,7 +104,6 @@ export const mailTemplate = async (identifier, toEmail, content, langCode = '') 
             .replace('##TWITER_LOGO##', config.SERVER_URL + '/emailimages/twiter.png')
             .replace('##FB_LOGO##', config.SERVER_URL + '/emailimages/facbook.png')
             .replace('##LINKED_IN_LOGO##', config.SERVER_URL + '/emailimages/telegaram.png');
-
 
 
         switch (identifier) {
@@ -255,6 +255,7 @@ export const mailTemplate = async (identifier, toEmail, content, langCode = '') 
                 /** 
                  * ##message##
                 */
+                //  console.log("Email template 2 : ",mailContent['template'])
                 mailContent['template'] = mailContent['template']
                     .replace("##templateInfo_name##", "Valid User")
                     .replace("#AdminReplay#", content.message);
@@ -300,7 +301,6 @@ export const mailTemplate = async (identifier, toEmail, content, langCode = '') 
                     .replace("##rly##", content.notice);
                 break;
         }
-
         sendEmail(toEmail, mailContent)
         return true
         // return res.status(200).json({ "success": true, 'messages': "Mail sent successfully" })
