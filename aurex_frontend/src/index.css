@@ -30475,3 +30475,24 @@ li.unread .lighttxt {
 .thumb-vertical {
   background: #02c076 !important;
 }
+.light_theme .stakingHistoryTable div.bg_unset_blk,.light_theme .stakingHistoryTable div.bg_unset_blk div
+{
+  background: unset !important;
+}
+.min_height_select_dropdwn .dropdown-menu 
+{
+  height: unset !important;
+  max-height: 150px !important;
+  text-align: left !important;
+
+}
+
+.min_height_select_dropdwn .dropdown-toggle
+{
+  min-width: 100px !important;
+  text-align: left !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
