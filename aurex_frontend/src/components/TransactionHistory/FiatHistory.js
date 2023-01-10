@@ -155,7 +155,7 @@ const FiatHistory = (props) => {
                 <div className="newsSelectGroup input_minw_selc">
                     <label>{t('FILTER_BY')}</label>
 
-                    <Dropdown className="themeselect min_height_select_dropdwn">
+                    {/* <Dropdown className="themeselect min_height_select_dropdwn">
       <Dropdown.Toggle variant="link" id="dropdown-basic1" className="marginSpace min_height_select"
                         value={type}
                         name="coin"
@@ -169,17 +169,17 @@ const FiatHistory = (props) => {
         <Dropdown.Item onClick={(e) => setFiltertype('Deposit')}> {t('DEPOSIT')} </Dropdown.Item>
     </Dropdown.Menu>
     </Dropdown>
-                  
-                     {/* <Select className='bg_unset_blk'
+                   */}
+                     <Select className='bg_unset_blk'
                             value={type}
                             name="type"
                             onChange={handleChange} >
                             <MenuItem value={'all'}>{t('ALL')}</MenuItem>
                             <MenuItem value={'fiat_withdraw'}>{t('WITHDRAW')}</MenuItem>
                             <MenuItem value={'fiat_deposit'}>{t('DEPOSIT')}</MenuItem>
-                        </Select>  */}
+                        </Select> 
                     
-                    {/* <Select
+                    <Select
                         className="marginSpace bg_unset_blk"
                         value={coin}
                         name="coin"
@@ -197,9 +197,9 @@ const FiatHistory = (props) => {
                                 }
                             })
                         }
-                    </Select> */}
+                    </Select>
 
-                    <Dropdown className="themeselect min_height_select_dropdwn">
+                    {/* <Dropdown className="themeselect min_height_select_dropdwn">
       <Dropdown.Toggle variant="link" id="dropdown-basic" className="marginSpace min_height_select"
                         value={filtercoin}
                         name="coin"
@@ -226,7 +226,7 @@ const FiatHistory = (props) => {
       
  
       </Dropdown.Menu>
-    </Dropdown>
+    </Dropdown> */}
 
 
                     <div className="tableSearchBox">

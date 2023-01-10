@@ -1,6 +1,6 @@
 body {
   font-size: 14px;
-  background: #fff;
+  background: #050505;
   font-family: 'Open Sans', sans-serif !important;
   overflow-x: hidden;
   color: #41423d;
@@ -29867,7 +29867,7 @@ width: 40px;
   width: 250px;
 }
   #profile_menu .MuiPopover-paper {
-    top: 255px !important;
+    top: 315px !important;
     left: unset !important;
     right: 5px;
 }
