@@ -49,6 +49,8 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
   // function'
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    document.getElementsByTagName("body")[0].classList.add("padi_over_body");
+
   };
 
   const handleClickNotification = async (event,val) => {
@@ -67,13 +69,17 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
   
   const handleClose = () => {
     setAnchorEl(null);
+    document.getElementsByTagName("body")[0].classList.remove("padi_over_body");
+
   };
 
 
   const handleCloseNotification = () => {
     setAnchorElNoti(null);
-    document.getElementsByTagName("body")[0].style.overflow ="auto";
-    document.getElementsByTagName("body")[0].style.paddingRight ="0px";
+    document.getElementsByTagName("body")[0].classList.remove("padi_over_body");
+
+    // document.getElementsByTagName("body")[0].style.overflow ="auto";
+    // document.getElementsByTagName("body")[0].style.paddingRight ="0px";
 
   };
 

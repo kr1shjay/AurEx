@@ -23,11 +23,12 @@ const SubscribeStake = () => {
         getOrderList(dispatch)
     }, [])
     return (
-        <div className="dashboard_box">
+        <div className="dashboard_box px-mpob-zero">
             {/* <h5 className="dash_subtitle">Current Subscription</h5> */}
             <div className="stakingSubscription stakingSubscription_bg_trans">
-                <Scrollbars style={{ width: "100%", height: 250 }}>
-                    <ul>
+                <div className='overflow_subsc_auto'>
+              
+                <ul>
                         {
                             !loader && data && data.length > 0 && data.map((item, key) => {
                                 return (
@@ -61,7 +62,8 @@ const SubscribeStake = () => {
                             loader && <li className='text-center justify-content-center'>{t('LOADING')}</li>
                         }
                     </ul>
-                </Scrollbars>
+                </div>
+            
             </div>
         </div>
     )

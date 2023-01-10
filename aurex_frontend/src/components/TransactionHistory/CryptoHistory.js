@@ -11,6 +11,7 @@ import { getTrnxHistory } from '../../actions/walletAction'
 import isEmpty from '../../lib/isEmpty';
 import { transactionStatus } from '../../lib/displayStatus';
 import { dateTimeFormat } from '../../lib/dateTimeHelper'
+import {Dropdown} from 'react-bootstrap'
 
 const columns = [
     {
@@ -69,6 +70,10 @@ const CryptoHistory = (props) => {
     const [filteredItems,setFilterItems]=useState([])
 
     const { coin, type, search } = filter
+
+    
+  const [filtercoin, setFiltercoin] = useState("All");
+  const [filtertype, setFiltertype] = useState("All");
 
     // function
     const fetchHistory = async (reqQuery) => {
@@ -161,8 +166,22 @@ const CryptoHistory = (props) => {
                         <MenuItem value={'all'}>{t('ALL')}</MenuItem>
                         <MenuItem value={'withdraw'}>{t('WITHDRAW')}</MenuItem>
                         <MenuItem value={'deposit'}>{t('DEPOSIT')}</MenuItem>
-                        {/*<MenuItem value={'transfer'}>{t('TRANSFER')}</MenuItem>*/}
                     </Select>
+
+{/* <Dropdown className="themeselect min_height_select_dropdwn">
+      <Dropdown.Toggle variant="link" id="dropdown-basic1" className="marginSpace min_height_select"
+                        value={type}
+                        name="coin"
+                        onChange={handleChange}>
+                             {!filtertype?t('ALL'):filtertype}
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu className='menu_not_scroll_dd'>
+        <Dropdown.Item onClick={(e) => setFiltertype('All')}> {t('ALL')} </Dropdown.Item>
+        <Dropdown.Item onClick={(e) => setFiltertype('Withdraw')}> {t('WITHDRAW')} </Dropdown.Item>
+        <Dropdown.Item onClick={(e) => setFiltertype('Deposit')}> {t('DEPOSIT')} </Dropdown.Item>
+    </Dropdown.Menu>
+    </Dropdown> */}
                     <Select
                         className="marginSpace"
                         value={coin}
@@ -182,6 +201,38 @@ const CryptoHistory = (props) => {
                             })
                         }
                     </Select>
+
+                    
+{/* <Dropdown className="themeselect min_height_select_dropdwn">
+      <Dropdown.Toggle variant="link" id="dropdown-basic" className="marginSpace min_height_select"
+                        value={filtercoin}
+                        name="coin"
+                        onChange={handleChange}>
+       {!filtercoin?t('ALL'):filtercoin}
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu className='small menu_not_scroll_dd'>
+
+      {
+                            currencyOption && currencyOption.length > 0 && currencyOption.map((item, key) => {
+                                if (item.type == 'crypto' || item.type == 'token') {
+                                    return (
+                                        
+
+<Dropdown.Item  value={item.coin} key={key} onClick={(e) => setFiltercoin(e.target.getAttribute("value"))}> {item.coin} </Dropdown.Item>
+                                    )
+                                }
+                            })
+                        }
+
+
+   
+      
+ 
+      </Dropdown.Menu>
+    </Dropdown> */}
+
+
                     <div className="tableSearchBox">
                         <div class="input-group">
                             <input

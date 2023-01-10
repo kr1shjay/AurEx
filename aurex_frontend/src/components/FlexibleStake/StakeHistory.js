@@ -161,7 +161,7 @@ const StakeHistory = () => {
             <div className="newUsersFilter contact_form settingsSelect mb-0">
                 <div className="newsSelectGroup">
                     <label className='mb-0'>{t('FILTER_BY')}</label>
-                    <Dropdown className="themeselect">
+                    {/* <Dropdown className="themeselect">
       <Dropdown.Toggle variant="link" id="dropdown-basic" className="marginSpace min_height_select"
                         value={filtercoin}
                         name="coin"
@@ -188,8 +188,8 @@ const StakeHistory = () => {
       
  
       </Dropdown.Menu>
-    </Dropdown>
-                    {/* <Select
+    </Dropdown> */}
+                    <Select
                         className="marginSpace min_height_select"
                         value={coin}
                         name="coin"
@@ -207,8 +207,8 @@ const StakeHistory = () => {
                                 }
                             })
                         }
-                    </Select> */}
-                                 <Dropdown className="themeselect">
+                    </Select>
+                                 {/* <Dropdown className="themeselect">
       <Dropdown.Toggle variant="link" id="dropdown-basic1" className="marginSpace min_height_select"
                         value={type}
                         name="coin"
@@ -233,8 +233,8 @@ const StakeHistory = () => {
         setFilter(filterData);
     }}> {t('Interest')} </Dropdown.Item>
     </Dropdown.Menu>
-    </Dropdown>
-                    {/* <Select
+    </Dropdown> */}
+                    <Select
                         className="marginSpace min_height_select"
                         value={type}
                         name="type"
@@ -243,7 +243,7 @@ const StakeHistory = () => {
                         <MenuItem value={'subscription'}>{t('SUBSCRIPTION')}</MenuItem>
                         <MenuItem value={'redemption'}>{t('REDEMPTION')}</MenuItem>
                         <MenuItem value={'interest'}>{t('INTEREST')}</MenuItem>
-                    </Select> */}
+                    </Select>
                 </div>
                 <div className="newsSelectGroup">
                     {/* <button className="btn btn-outline text-uppercase py-1 m-0">Download PDF</button> */}
