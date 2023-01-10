@@ -28657,6 +28657,11 @@ min-height: 410px !important;
 
 @media only screen and (max-width:575px)
 {
+  .px-mpob-zero
+  {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
   .submit_btn.w70_i
   {
 margin-top: 10px !important;
@@ -30495,4 +30500,15 @@ li.unread .lighttxt {
   align-items: center;
   justify-content: space-between;
 
+}
+.overflow_subsc_auto
+{
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-color: #21b77a #1a1b1c;
+  scrollbar-width: thin;
+}
+.stakingSubscription ul
+{
+  padding-right: 20px;
 }
