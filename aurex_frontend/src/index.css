@@ -30024,6 +30024,10 @@ width: 40px;
   justify-content: center;
   padding: 1px;
   min-height: 220px;
+  max-height: 220px;
+  overflow: hidden;
+  object-fit: contain;
+
 }
 .banner_carousel_modal
 {
@@ -30049,6 +30053,9 @@ width: 40px;
     justify-content: center;
     padding: 6px;
     min-height: 135px;
+    max-height: 135px;
+    overflow: hidden;
+    object-fit: contain;
     max-width: 95%;
     margin-left: auto;
     margin-right: auto;

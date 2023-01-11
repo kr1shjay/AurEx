@@ -62,7 +62,7 @@ const CancelModal = (props) => {
         
        
         <p className='text-white mt-3 f-14'>
-          Are you sure you want to cancell the order?</p>
+          Are you sure you want to cancel the order?</p>
         
           <div className="d-flex justify-content-between mt-4 pb-4">
           

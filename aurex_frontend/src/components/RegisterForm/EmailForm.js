@@ -80,7 +80,7 @@ const EmailForm = () => {
 
         let reCaptcha = await handleReCaptcha()
         if (isEmpty(reCaptcha)) {
-            toastAlert('error', 'Invalid ReCaptcha', 'signup', 'TOP_CENTER');
+            toastAlert('error', 'Invalid ReCaptcha', 'signup', 'TOP_RIGHT');
             return
         }
 
@@ -101,12 +101,12 @@ const EmailForm = () => {
         // setReCaptcha('')
         if (status == 'success') {
             setFormValue(initialFormValue)
-            toastAlert('success', message, 'signup', 'TOP_CENTER');
+            toastAlert('success', message, 'signup', 'TOP_RIGHT');
         } else {
             if (error) {
                 setValidateError(error);
             }
-            toastAlert('error', message, 'signup', 'TOP_CENTER');
+            toastAlert('error', message, 'signup', 'TOP_RIGHT');
         }
     }
 

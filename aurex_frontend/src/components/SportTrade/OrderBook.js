@@ -224,7 +224,7 @@ const OrderBook = forwardRef((props, ref) => {
                                         data-toggle="tooltip"
                                         data-placement="right"
                                         data-html="true"
-                                        title="<b>Avg.Price:</b> = 7,138.75<br /><b>Sum BTC:</b> 1.302019<br /><b>Sum USDT:</b> 14,279.6600000">
+                                        title="order price">
                                         <span
                                             className={clsx({ "col-4": showTotal }, { "col-6": !showTotal }, 'greenText')}
                                             onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.secondFloatDigit) }) }}

@@ -51,7 +51,7 @@ let dispatch = useDispatch()
             {data && data.length > 0 ? (
                 <>
                 {data.map((val,index)=>(
-                    <li className= {val.isRead ?'read' :'unread'}>
+                    <li className= {val.isRead ?'read' :'unread'} onClick={(e)=>{readMess(val._id)}}>
                     <div className='d-flex align-items-center pl-sm-2'>
                         <span className='stat mr-2 shrink-0'></span>
                         <div>

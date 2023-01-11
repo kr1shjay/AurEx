@@ -7,6 +7,9 @@ import CanvasChart from '../CanvasChart';
 // // import action
 // import { getDashBal } from '../../actions/dashboardAction';
 
+//import lib
+import { toFixed } from 'lib/roundOf';
+
 const initialFormValue = [{
     'label': 'currency',
     'y': 100,
@@ -93,7 +96,7 @@ const BalanceChart = (props) => {
                             return (
                                 <li>
                                     <label><i className="fas fa-square-full" style={{ color: item.colorCode }}></i> {item.coin}</label>
-                                    <span>{(item.derivativeBal + item.spotBal + item.p2pBal).toLocaleString("en-US")}</span>
+                                    <span>{toFixed((item.derivativeBal + item.spotBal + item.p2pBal),8)}</span>
                                 </li>
                             )
                         })

@@ -327,11 +327,11 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
               </li>
             )}
 
-            {isAuth && (
+            {/* {isAuth && (
               <li>
                 <NavLink to="/referral">Referral</NavLink>
               </li>
-            )}
+            )} */}
 
             {isAuth && (
               <li>

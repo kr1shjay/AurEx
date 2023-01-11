@@ -50,6 +50,9 @@ const FiatWallet = () => {
         if(arrayData && arrayData.length >0){
             setOriginal(arrayData)
         }
+        else{
+            setOriginal(arrayData);
+        }
         if(isEmpty(value)){
             setOriginal(filterData)
         }

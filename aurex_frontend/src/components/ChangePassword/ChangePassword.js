@@ -70,12 +70,12 @@ const ChangePassword = () => {
             setLoader(loading)
             if (status == "success") {
                 setFormValue(initialFormValue)
-                toastAlert('success', t(message), 'changePassword', 'TOP_CENTER');
+                toastAlert('success', t(message), 'changePassword', 'TOP_RIGHT');
             } else {
                 if (error) {
                     setValidateError(error);
                 } else if (message) {
-                    toastAlert('error', t(message), 'changePassword', 'TOP_CENTER');
+                    toastAlert('error', t(message), 'changePassword', 'TOP_RIGHT');
                 }
             }
         }

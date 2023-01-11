@@ -36,7 +36,7 @@ if (process.env.REACT_APP_MODE === "production") {
             APP_STORE: "https://apps.apple.com/us/app/google-authenticator/id388497605",
         }
     };
-}
+ }
 
 
 export default {

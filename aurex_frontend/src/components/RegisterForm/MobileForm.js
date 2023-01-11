@@ -88,7 +88,7 @@ const MobileForm = () => {
 
         let reCaptcha = await handleReCaptcha()
         if (isEmpty(reCaptcha)) {
-            toastAlert('error', 'Invalid ReCaptcha', 'signup', 'TOP_CENTER');
+            toastAlert('error', 'Invalid ReCaptcha', 'signup', 'TOP_RIGHT');
             return
         }
 
@@ -111,12 +111,12 @@ const MobileForm = () => {
         // setReCaptcha('')
         if (status == 'success') {
             setFormValue(initialFormValue)
-            toastAlert('success', message, 'signup', 'TOP_CENTER');
+            toastAlert('success', message, 'signup', 'TOP_RIGHT');
         } else {
             if (error) {
                 setValidateError(error);
             }
-            toastAlert('error', message, 'signup', 'TOP_CENTER');
+            toastAlert('error', message, 'signup', 'TOP_RIGHT');
         }
     }
 
@@ -263,7 +263,7 @@ const MobileForm = () => {
                         </Link>
                     </div>
                 </div>
-                {toched.password && validateError.password && <p className="error-message">{validateError.password}</p>}
+                {toched.password && validateError.password && <p className="error-message">{t(validateError.password)}</p>}
             </div>
 
             <div className="form-group">
@@ -292,7 +292,7 @@ const MobileForm = () => {
                         </Link>
                     </div>
                 </div>
-                {toched.confirmPassword && validateError.confirmPassword && <p className="error-message">{validateError.confirmPassword}</p>}
+                {toched.confirmPassword && validateError.confirmPassword && <p className="error-message">{t(validateError.confirmPassword)}</p>}
             </div>
 
             {/* <div className="form-group">
