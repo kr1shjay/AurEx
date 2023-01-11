@@ -30512,3 +30512,10 @@ li.unread .lighttxt {
 {
   padding-right: 20px;
 }
+
+.stakingHistoryTable .rdt_TableBody .rdt_TableRow div p
+{
+  color: #cac6c6 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}

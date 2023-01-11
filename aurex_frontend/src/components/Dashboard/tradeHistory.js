@@ -304,12 +304,12 @@ const RecentTransaction = () => {
   //   show_length_menu: false,
   //   show_filter: false,
   //   show_pagination: true,
-  //   show_info: true,
+//   show_info: true,
   // };
 
 
   return (
-    <div className="table-responsive">
+    <div className="table-responsive stakingHistoryTable">
       <br />
       <span>
         {/* {data.length > 0 ? (
