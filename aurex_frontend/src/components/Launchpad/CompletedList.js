@@ -85,7 +85,7 @@ const CompletedList = (props) => {
                             if (currency) {
                                 return (
 
-                                    <GridItem md={12} sm={12} key={key}>
+                                    <GridItem md={12} sm={12} key={key} onClick={()=>{console.log(count); var Count = count-1; setCount(Count); setCompletedCnt(Count);}}>
                                     <div className="launchpad_card_view mt-4 wow fadeInUp">
                                     <div className='row'>
                                                 <div className='col-12 col-lg-4 mb-3 mb-lg-0 finish_col'>

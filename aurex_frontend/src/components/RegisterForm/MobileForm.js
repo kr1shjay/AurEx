@@ -55,11 +55,12 @@ const MobileForm = () => {
     const handleChange = (e) => {
         e.preventDefault();
         const { name, value } = e.target;
-        // if(name="otp"){
-        //     if (!(value == '' || (/^[0-9\b]+$/.test(value) && value.length <= 6))) {
-        //         return
-        //     }
-        // }
+        console.log(name,"name")
+        if(name=='otp'){
+            if (!(value == '' || (/^[0-9\b]+$/.test(value) && value.length <= 6))) {
+                return
+            }
+        }
         let formData = { ...formValue, ...{ [name]: value } }
         setFormValue(formData)
         setValidateError(validation(formData,t))
@@ -294,7 +295,7 @@ const MobileForm = () => {
                 {toched.confirmPassword && validateError.confirmPassword && <p className="error-message">{validateError.confirmPassword}</p>}
             </div>
 
-            <div className="form-group">
+            {/* <div className="form-group">
                 <span className="login_label">{t('REFERRAL_CODE')}</span>
                 <div className="input-group regGroupInput mt-2">
                     <input
@@ -307,7 +308,7 @@ const MobileForm = () => {
                     />
                 </div>
                 {validateError.referenceCode && <p className="error-message">{t(validateError.referenceCode)}</p>}
-            </div>
+            </div> */}
 
             <div className="form-group">
                 <div className="form-check d-flex">

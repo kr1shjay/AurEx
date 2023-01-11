@@ -177,12 +177,6 @@ if (process.env.NODE_ENV === "production") {
         adminAmtSentToUser: 10,
       },
     },
-    smsGateway: {
-      TWILIO_ACCOUT_SID: "AC7654c3f84cd47fcd7f24498864a90b57",
-      TWILIO_AUTH_TOKEN: "6edafaafac25137753acfa2f75593aba",
-      TWILIO_PHONE_NUMBER: "+16402306943",
-      TWILIO_SERVICE_SID: "VA0458e76ca85dddadfddcf5acad39709d",
-    },
     BINANCE_GATE_WAY: {
       // API_KEY: 'LohrjuucqdzFKCoNGm2Uku7aw9uaIh1jyVD5wAOxuZZP6uW4RBqbXCxdgiIB2GTr',
       API_KEY:
@@ -298,7 +292,12 @@ if (process.env.NODE_ENV === "production") {
       QR_IMAGE:
         "https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=",
     },
-
+    smsGateway: {
+      TWILIO_ACCOUT_SID: "AC7654c3f84cd47fcd7f24498864a90b57",
+      TWILIO_AUTH_TOKEN: "6edafaafac25137753acfa2f75593aba",
+      TWILIO_PHONE_NUMBER: "+16402306943",
+      TWILIO_SERVICE_SID: "VA0458e76ca85dddadfddcf5acad39709d",
+    },
     COIN_GATE_WAY: {
       BTC: {
         URL: "http://45.79.42.88:3000",

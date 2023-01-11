@@ -4,6 +4,7 @@ import isEmpty from '../../lib/isEmpty';
 const validation = value => {
     let errors = {};
     var letters = /^[A-Za-z]+$/;
+    var letters2 = /^[A-Za-z ]+$/;
     var numbers = /^[0-9]+$/;
     var imageFormat = /\.(jpg|JPG|jpeg|JPEG|png|PNG)$/;
 
@@ -14,7 +15,7 @@ const validation = value => {
     }
     if (isEmpty(value.lastName)) {
         errors.lastName = "REQUIRED"
-    } else if (!letters.test(value.lastName)) {
+    } else if (!letters2.test(value.lastName)) {
         errors.lastName = "LAST_NAME_ALPHABET"
     }
     if (isEmpty(value.blockNo)) {

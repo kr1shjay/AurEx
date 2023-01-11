@@ -225,7 +225,7 @@ const EmailForm = () => {
                 {toched.confirmPassword && validateError.confirmPassword && <p className="error-message">{t(validateError.confirmPassword)}</p>}
             </div>
 
-            <div className="form-group">
+            {/* <div className="form-group">
                 <span className="login_label">{t('REFERRAL_CODE')}</span>
                 <div className="input-group regGroupInput mt-2">
                     <input
@@ -238,7 +238,7 @@ const EmailForm = () => {
                     />
                 </div>
                 {validateError.referenceCode && <p className="error-message">{t(validateError.referenceCode)}</p>}
-            </div>
+            </div> */}
 
             <div className="form-group">
                 <div className="form-check d-flex">
