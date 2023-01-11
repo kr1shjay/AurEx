@@ -55,11 +55,11 @@ const MobileForm = () => {
     const handleChange = (e) => {
         e.preventDefault();
         const { name, value } = e.target;
-        if(name="otp"){
-            if (!(value == '' || (/^[0-9\b]+$/.test(value) && value.length <= 6))) {
-                return
-            }
-        }
+        // if(name="otp"){
+        //     if (!(value == '' || (/^[0-9\b]+$/.test(value) && value.length <= 6))) {
+        //         return
+        //     }
+        // }
         let formData = { ...formValue, ...{ [name]: value } }
         setFormValue(formData)
         setValidateError(validation(formData,t))
@@ -197,6 +197,7 @@ const MobileForm = () => {
                         placeholder={t('ENTER_MOBILE_NO')}
                         value={phoneCode + phoneNo}
                         onChange={handlePhoneNumber}
+                       autoComplete="new-password"
                         onBlur={handleBlurPhone}
                         specialLabel={false}
                         country={'in'}
@@ -226,6 +227,7 @@ const MobileForm = () => {
                         className="form-control"
                         placeholder={t('VERIFY_CODE')}
                         name="otp"
+                        autoComplete="new-password"
                         value={otp}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -245,6 +247,7 @@ const MobileForm = () => {
                         placeholder={t('ENTER_PASSWORD')}
                         name="password"
                         value={password}
+                        autoComplete="off"
                         onChange={handleChange}
                         onBlur={handleBlur}
                     />
@@ -271,6 +274,8 @@ const MobileForm = () => {
                         className="form-control"
                         placeholder={t('CONFIRM_PASSWORD')}
                         name="confirmPassword"
+                       autoComplete="new-password"
+                       data-attr="data"
                         value={confirmPassword}
                         onChange={handleChange}
                         onBlur={handleBlur}
