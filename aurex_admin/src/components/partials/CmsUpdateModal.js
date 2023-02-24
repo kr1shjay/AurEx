@@ -115,6 +115,7 @@ class CmsUpdateModal extends React.Component {
                     centered
                     scrollable={true}
                 >
+                    {console.log("hi i worked")}
                     <Modal.Header closeButton>
                         <h4 className="modal-title">Update Cms</h4>
                     </Modal.Header>

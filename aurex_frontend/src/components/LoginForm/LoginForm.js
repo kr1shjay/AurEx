@@ -37,6 +37,7 @@ const LoginForm = () => {
 
             }
             const { status, loading, result } = await getCmsData();
+            console.log("result",result)
             if (status == 'success') {
                 let loginArray = [];
                 result && result.map((item, i) =>{

@@ -15,6 +15,20 @@ if (process.env.REACT_APP_MODE === "production") {
     };
 
 } 
+else if (process.env.REACT_APP_MODE === "demo") {
+    console.log("Set Demo Config")
+    const API_URL = 'https://aurex.maticz.com/api';
+
+    key = {
+        secretOrKey: "FxUum76z",
+        Recaptchakey: "6Lc0jA4jAAAAADmNtnnGw7Px86Pscz2sgpavPIcn", //local
+        API_URL: 'https://aurex.maticz.com/api',
+        FRONT_URL: 'https://aurex.maticz.com',
+        ADMIN_URL: 'https://aurex.maticz.com/admin',
+        getGeoInfo: "https://ipapi.co/json/",
+    };
+
+}
 else {
     console.log("Set Development Config")
     const API_URL = 'http://localhost';
