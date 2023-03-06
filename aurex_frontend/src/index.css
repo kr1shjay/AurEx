@@ -28927,7 +28927,7 @@ border-left: none !important;
 {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
 }
 .form_grp_newsletr .input-group,.form_grp_newsletr input
@@ -30526,5 +30526,3 @@ li.unread .lighttxt {
   font-size: 14px !important;
   font-weight: 400 !important;
 }
-
-/* test */
