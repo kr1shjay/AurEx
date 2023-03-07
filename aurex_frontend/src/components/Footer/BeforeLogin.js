@@ -162,7 +162,7 @@ export default function BeforeLogin(props) {
             <p class="mt-2 cpy_txt">&copy; Copyright 2022 <NavLink to="/home">Aurex</NavLink> All rights reserved</p>
           </div>  
           <div className="footerMidd_right">
-            <h3>Social Media withus:</h3>
+            <h3>Social Media With Us:</h3>
             <ul className="socialLinks">
               <li><a href={socialMedia && socialMedia.twitterUrl} target="_blank"><i className="fab fa-twitter"></i></a></li>
               <li><a href={socialMedia && socialMedia.facebookLink} target="_blank"><i className="fab fa-facebook"></i></a></li>
