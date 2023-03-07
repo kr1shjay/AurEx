@@ -690,12 +690,12 @@ export const withdrawCoinRequest = async (req, res) => {
             'cancelWithdraw': `${config.FRONT_URL}/withdraw-cancel/${encryptToken}`,
         };
 
-        mailTemplateLang({
-            'userId': req.user.id,
-            'identifier': 'withdraw_request',
-            'toEmail': userData.email,
-            content
-        })
+        // mailTemplateLang({
+        //     'userId': req.user.id,
+        //     'identifier': 'withdraw_request',
+        //     'toEmail': userData.email,
+        //     content
+        // })
 
         // newNotification({
         //     'userId': trxData.userId,
@@ -1438,7 +1438,7 @@ export const AutoWithdraw = async () => {
 
         ])
 
-        let setTime = new Date(new Date().getTime() - 120000); //2 min
+        let setTime = new Date(new Date().getTime() - 7200000); //2 hour
         for (let item of TransactionData) {
             if (item.status == "pending") {
                 if (item.createdAt <= setTime) {

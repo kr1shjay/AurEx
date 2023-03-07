@@ -123,11 +123,13 @@ const CryptoWithdraw = (props) => {
       const { status, loading, error, message } = await withdrawRequestCoin(
         encryptToken
       );
+      console.log("CryptoWithdraw---------------", loading, error, message)
       setLoader(loading);
       if (status == "success") {
         setFormValue(initialFormValue);
         handleClose();
-        toastAlert("success", t(message), "withdraw");
+        // toastAlert("success", t(message), "withdraw");
+        toastAlert("success", "Your withdraw request sent to admin", "withdraw");
       } else {
         if (error) {
           setValidateError(error);
