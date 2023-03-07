@@ -18,7 +18,7 @@ let dispatch = useDispatch()
     }, [])
     return (
         <GridItem xs={12} sm={12} lg={12} xl={12}>
-            <FiatWallet />
+            {/* <FiatWallet /> */}
             <CryptoWallet />
         </GridItem>
     )

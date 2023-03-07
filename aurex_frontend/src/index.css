@@ -30526,3 +30526,29 @@ li.unread .lighttxt {
   font-size: 14px !important;
   font-weight: 400 !important;
 }
+
+.support_header_new h5
+{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin-top: 0px;
+}
+
+.support_header_new 
+{
+  background-color:#1a1b1c;
+}
+.btn-sm-close
+{
+  height:35px !important;
+}
+
+@media only screen and (max-width:575px)
+{
+  .support_header_new h5 span,.support_header_new h5 
+  {
+display: block !important;
+  }
+}

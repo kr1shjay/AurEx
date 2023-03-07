@@ -43,7 +43,6 @@ const TicketList = forwardRef((props, ref) => {
 
     return (
         <div className="supporTicketAccordian wow fadeIn">
-            <Accordion>
                 {
                     ticketList && ticketList.length > 0 && ticketList.map((item, key) => {
                         return (
@@ -57,7 +56,6 @@ const TicketList = forwardRef((props, ref) => {
                         )
                     })
                 }
-            </Accordion>
         </div>
     )
 })

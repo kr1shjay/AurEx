@@ -522,6 +522,7 @@ RequestProcessor.prototype._sendSymbolInfo = function (symbolName, response, tra
 };
 
 RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDateTimestamp, endDateTimestamp, resolution, response, tradeType) {
+	// console.log("_sendSymbolHistory",symbol, startDateTimestamp, endDateTimestamp, resolution, response, tradeType)
 	function sendResult(content) {
 		var header = Object.assign({}, defaultResponseHeader);
 		header["Content-Length"] = content.length;
@@ -628,7 +629,7 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 			timeType,
 			startDateTimestamp: startDateTimestamp
 		});
-
+		// console.log("tradeChart",tradeChart);
 	} else if (tradeType == 'perpetual') {
 		tradeChart = await perpetualChart({
 			pairName: pair,
@@ -793,6 +794,7 @@ RequestProcessor.prototype._sendFuturesmag = function (response) {
 };
 
 RequestProcessor.prototype.processRequest = function (action, query, response, tradeType) {
+	// console.log("RequestProcessor.prototype.processRequest",action, query, response, tradeType)
 	// try {
 	if (action === "/config") {
 		this._sendConfig(response);

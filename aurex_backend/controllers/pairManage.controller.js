@@ -12,7 +12,7 @@ import {
 // import controller
 import * as binanceCtrl from './binance.controller';
 import * as symbolDatabase from './chart/symbols_database';
-
+import {nodeBinanceAPI} from '../config/binance'
 // import lib
 import {
     paginationQuery,
@@ -28,7 +28,7 @@ import {
 export const addSpotPair = async (req, res) => {
     try {
         let reqBody = req.body;
-
+        let pairName = ""
         let firstCurrencyData = await Currency.findOne({ "_id": reqBody.firstCurrencyId });
         if (!firstCurrencyData) {
             return res.status(400).json({ "success": false, 'errors': { 'firstCurrencyId': "Invalid currency" } })
@@ -38,13 +38,19 @@ export const addSpotPair = async (req, res) => {
         if (!secondCurrencyData) {
             return res.status(400).json({ "success": false, 'errors': { 'secondCurrencyId': "Invalid currency" } })
         }
-
+        pairName = firstCurrencyData.coin+secondCurrencyData.coin
 
         let checkSpotPair = await SpotPair.findOne({ 'firstCurrencyId': reqBody.firstCurrencyId, 'secondCurrencyId': reqBody.secondCurrencyId })
         if (checkSpotPair) {
             return res.status(400).json({ "success": false, 'errors': { 'firstCurrencyId': "Currency pair is already exists" } })
         }
-
+        if (pairName) {
+            const checkPair = await nodeBinanceAPI.exchangeInfo();
+            const pairDetails = checkPair?.symbols.find(el => el.symbol == pairName)
+            if(pairDetails == undefined || null || {}){
+                return res.status(400).json({ "success": false, 'errors': { 'pairName': "Currency pair is not exists in binance" } })
+            }
+        }
         let newDoc = new SpotPair({
             'tikerRoot': `${firstCurrencyData.coin}${secondCurrencyData.coin}`,
             'firstCurrencyId': reqBody.firstCurrencyId,

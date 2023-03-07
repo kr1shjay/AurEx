@@ -10,7 +10,7 @@ import {
 } from '../../models';
 
 // import config
-import { nodeBinanceAPI } from '../../config/binance';
+import { nodeBinanceAPI,binanceApiNode } from '../../config/binance';
 
 import * as symbolsDatabase from './symbols_database';
 import { RequestProcessor } from './request-processor';
@@ -78,8 +78,10 @@ export const getMarketsData = (req, res) => {
  * URL : /api/chart/:config
 */
 export const getChartData = (req, res) => {
+    console.log("getChartData",req.url)
     let uri = url.parse(req.url, true);
     let action = uri.pathname;
+    console.log("getChartData",action)
     switch (action) {
         case '/chart/config':
             action = '/config';
@@ -127,16 +129,16 @@ export const getPerpetualChart = (req, res) => {
 
 
 export const chart = async ({ pairName, timeType,startDateTimestamp }) => {
+    // S
     try {
-        let pairList = getSymbol();
+        let pairList = await getSymbol();
         if (pairList && pairList.length > 0) {
             let pairData = pairList.find(el => el.name == pairName)
             if (pairData) {
-
                 if (pairData.botstatus == 'binance') {
                     // pairName = pairName.replace('USD', 'USDT')
                     return {
-                        "chartData": await nodeBinanceAPI.candlesticks(pairName, timeType),
+                        "chartData": await nodeBinanceAPI?.candlesticks(pairName, timeType),
                         "callBy": "binance"
                     }
                 }else if(pairData.botstatus=="wazirx"){

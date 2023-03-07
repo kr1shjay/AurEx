@@ -375,6 +375,7 @@ export const userLogin = async (req, res) => {
             }
 
         }
+
         if (checkUser.status != 'verified') {
             return res.status(400).json({ 'success': false, 'message': "Your account still not activated" });
         }
@@ -402,6 +403,7 @@ export const userLogin = async (req, res) => {
 
             }
         }
+        
         let tokenId = ObjectId()
         let payloadData = {
             "_id": checkUser._id,

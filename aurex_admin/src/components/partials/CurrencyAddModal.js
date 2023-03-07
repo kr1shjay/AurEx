@@ -262,7 +262,7 @@ class CurrencyAddModal extends React.Component {
                   >
                     <option value={'crypto'}>Crypto</option>
                     <option value={'token'}>Token</option>
-                    <option value={"fiat"}>Fiat</option>
+                    {/* <option value={"fiat"}>Fiat</option> */}
                   </Form.Control>
 
                   <span className="text-danger">{errors.type}</span>

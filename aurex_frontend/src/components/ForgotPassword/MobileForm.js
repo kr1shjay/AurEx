@@ -143,7 +143,7 @@ const MobileForm = () => {
                     // onBlur={handleBlur}
                     specialLabel={false}
                     // className="form-control"
-                    country={'in'}
+                    country={'us'}
                 />
                 {/* {toched.phoneCode && validateError.phoneCode && <p className="error-message">{validateError.phoneCode}</p>} */}
                 {validateError && validateError.phone && <p className="error-message">{validateError.phone}</p>}

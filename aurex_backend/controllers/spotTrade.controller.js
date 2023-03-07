@@ -23126,7 +23126,7 @@ export const marketOrderPlace = async (req, res) => {
     try {
         let reqBody = req.body;
 
-
+        console.log("marketOrderPlace ",reqBody)
         reqBody.quantity = parseFloat(reqBody.quantity)
         let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
 
@@ -23238,10 +23238,12 @@ export const marketOrderPlace = async (req, res) => {
                         orderPrice = item._id;
                         orderCost = orderCost + (item._id * needQty)
                         orderBookQuantity = orderBookQuantity + needQty;
+                        console.log("orderBookQuantity",orderBookQuantity,"orderCost",orderCost,"orderPrice",orderPrice)
                     } else {
                         orderPrice = item._id;
                         orderCost = orderCost + (item._id * (item.quantity - item.filledQuantity))
                         orderBookQuantity = orderBookQuantity + (item.quantity - item.filledQuantity);
+                        console.log("orderBookQuantity",orderBookQuantity,"orderCost",orderCost,"orderPrice",orderPrice)
                     }
                 } else {
                     break
@@ -23250,6 +23252,7 @@ export const marketOrderPlace = async (req, res) => {
             // orderValue = (reqBody.buyorsell == 'buy') ? orderPrice * reqBody.quantity : reqBody.quantity;
             // orderValue = (reqBody.buyorsell == 'buy') ? orderPrice : orderBookQuantity;
             orderValue = (reqBody.buyorsell == 'buy') ? orderCost : orderBookQuantity;
+            console.log("orderValue",orderValue)
         } else if (spotPairData.botstatus == "binance") {
             orderValue = (reqBody.buyorsell == 'buy') ? binanceCtrl.calculateMarkup(spotPairData.markPrice, spotPairData.markupPercentage, '+') * reqBody.quantity : reqBody.quantity;
             orderPrice = (reqBody.buyorsell == 'buy') ? binanceCtrl.calculateMarkup(spotPairData.markPrice, spotPairData.markupPercentage, '+') : spotPairData.markPrice;

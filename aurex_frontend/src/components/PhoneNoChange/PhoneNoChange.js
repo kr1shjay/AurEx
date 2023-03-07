@@ -16,7 +16,7 @@ import isEmpty from '../../lib/isEmpty';
 import validation from './validation';
 
 const initialFormValue = {
-    'newPhoneCode': '91',
+    'newPhoneCode': '1',
     'newPhoneNo': '',
     'otp': ''
 }
@@ -198,6 +198,7 @@ const PhoneNoChange = () => {
                 <label>{t("PHONE_NUMBER")}<span class="textRed">*</span></label>
                 <div class="input-group mb-3 otp_inp_grp">
                     <PhoneInput
+                        country='us'
                         placeholder={t("PHONE_NUMBER")}
                         value={newPhoneCode + newPhoneNo}
                         onChange={handlePhoneNumber}

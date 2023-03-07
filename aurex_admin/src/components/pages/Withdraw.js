@@ -12,12 +12,13 @@ import { getWithdrawList } from '../../actions/walletAction'
 
 // impport lib
 import { paymentType } from '../../lib/displayStatus'
-
+import {momentFormat} from "../../lib/dateTimeHelper"
 
 //import downloads
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { CSVLink } from "react-csv";
+import { compose } from "redux";
 
 
 class Withdraw extends Component {
@@ -29,7 +30,10 @@ class Withdraw extends Component {
                 text: "Created date",
                 className: "created_date",
                 align: "left",
-                sortable: true
+                sortable: true,
+                cell: record => {
+                    return momentFormat(record.createdAt, 'YYYY-MM-DD HH:mm')
+                }
             },
             {
                 key: "userId",

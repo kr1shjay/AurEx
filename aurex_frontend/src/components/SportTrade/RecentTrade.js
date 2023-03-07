@@ -58,6 +58,9 @@ const RecentTrade = (props) => {
         }
     }, [tradePair])
 
+    const z = (n) =>  {
+        return ('0' + n).slice(-2);
+      }
     return (
         <div className="tradeTableLeftSide darkBox recentTrades">
             <div className="tableHead">
@@ -74,7 +77,8 @@ const RecentTrade = (props) => {
                 {
                     tradeData && tradeData.length > 0 && tradeData.map((item, key) => {
                         let dataTime = new Date(item.createdAt);
-                        let time = dataTime.getHours() + ':' + dataTime.getMinutes() + ':' + dataTime.getSeconds();
+                        console.log("toUTCString",dataTime)
+                        let time = z(dataTime.getUTCHours()) + ':' + z(dataTime.getUTCMinutes()) + ':' + z(dataTime.getUTCSeconds());
 
                         return (
                             <div className="tradeTableBodyRow odd row mx-auto">

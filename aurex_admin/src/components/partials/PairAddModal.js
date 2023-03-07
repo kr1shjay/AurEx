@@ -64,13 +64,18 @@ class PairAddModal extends React.Component {
             const { fetchData } = this.props;
             let reqData = formValue;
             this.setState({ 'loader': true })
-            let { status, loading, result, error, message } = await addSpotPair(reqData);
+            let { status, loading, result, error, message,pairName } = await addSpotPair(reqData);
+            console.log("ERRRRRRRRRRRR",pairName);
             this.setState({ 'loader': loading })
             if (status == 'success') {
                 fetchData();
                 toastAlert('success', message, 'addTemplate');
                 this.handleClose()
             } else {
+                if(error.pairName == 'Currency pair is not exists in binance'){
+                    toastAlert('error', error.pairName); 
+                    // this.handleClose() 
+                }
                 if (error) {
                     this.setState({ errors: error })
                 }
