@@ -55,7 +55,7 @@ export const mailTemplateLang = async ({
         //     let getLang = await Language.findOne({ "isPrimary": true })
         //     mailTemplate(identifier, toEmail, content, getLang.code)
         // }
-        console.log("mailTemplateLang",content)
+        console.log("mailTemplateLang",content,identifier,toEmail)
         await mailTemplate(identifier, toEmail, content, 'en')
     } catch (err) {
     }
@@ -300,6 +300,22 @@ export const mailTemplate = async (identifier, toEmail, content, langCode = '') 
                     .replace("##DATE##", content.date)
                     .replace("##rly##", content.notice);
                 break;
+            case "new_support_ticket_user":
+                 /** 
+                 * ##message##
+                */
+               mailContent['template'] = mailContent['template']
+               .replace("##ID##", content.ticketId);
+               break;
+            case "support_ticket_reply":
+               /** 
+                 * ##message##
+                */ 
+               mailContent['template'] = mailContent['template']
+               .replace("##TICKETID##", content.ticketId)
+               .replace("##DATE##", content.date)
+               .replace("##MESSAGE##", content.message);
+               break;             
         }
         sendEmail(toEmail, mailContent)
         return true

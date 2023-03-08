@@ -219,6 +219,7 @@ export const createNewTicket = async (req, res) => {
         newDoc.tickerId = await IncCntObjId(newDoc._id)
         let ticketData = await newDoc.save();
         let usrData = await User.findOne({ "_id": req.user.id })
+        console.log("usrData",usrData);
         if (usrData) {
             let content = {
                 'ID': ticketData.tickerId,
@@ -465,11 +466,29 @@ export const replyMessage = (req, res) => {
             }
         },
         { "new": true },
-        (err, ticketData) => {
+        async(err, ticketData)  => {
             if (err) {
                 return res.status(500).json({ 'success': false, "message": "Something went wrong" })
             } else if (!ticketData) {
                 return res.status(400).json({ 'success': false, "message": "No record" })
+            }else {
+                let userData = await User.findOne({ "_id": reqBody.receiverId });
+                console.log("USERDATAS 1",userData);
+                if (userData) {
+                    let content = {
+                        'ticketId': reqBody.ticketId,
+                        'message': reqBody.message,
+                        'date': new Date().toUTCString(),
+                    };
+                    mailTemplateLang({
+                        'identifier': 'support_ticket_reply',
+                        'toEmail': userData?.email,
+                        content
+                    })
+                }else{
+                    console.log(userData,"UserDATA ERR");
+                    res.send("No user data found")
+                }
             }
 
             // ticketData = ticketData.toJSON();

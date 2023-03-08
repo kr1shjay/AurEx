@@ -61,6 +61,7 @@ class SupportReply extends React.Component {
     handleSubmit = async e => {
         e.preventDefault();
         const { formValue, records } = this.state
+        console.log("handleSubmit admin replay", formValue, records )
         this.setState({ 'loader': true })
 
         let reqData = {
