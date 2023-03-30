@@ -419,7 +419,7 @@ export const purchaseToken = async (req, res) => {
         let reqBody = req.body;
         let nowTime = getTimeStamp('current')
         reqBody.quantity = parseFloat(reqBody.quantity)
-
+        console.log(reqBody.currencyId,'purchaseToken1')
         let tokenData = await Launchpad.findOne({ "_id": reqBody.launchId });
         if (!tokenData) {
             return res.status(400).json({ 'success': false, 'message': "SOMETHING_WRONG" })

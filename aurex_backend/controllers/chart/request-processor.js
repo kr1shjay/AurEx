@@ -195,10 +195,11 @@ function convertabcdHistoryToUDFFormat(data, callBy) {
 				var formatDatex = formatDate(new Date(time).toISOString());
 				var fi = dateToYMD(formatDatex.datex);
 				result.t.push(parseDated(fi, formatDatex.timex) / 1000);
-				result.o.push(open);
-				result.h.push(high);
-				result.l.push(low);
-				result.c.push(close);
+				console.log(parseFloat(open).toFixed(2),parseFloat(high).toFixed(2),parseFloat(low).toFixed(2),parseFloat(close).toFixed(2),'data')
+				result.o.push(parseFloat(open).toFixed(2));
+				result.h.push(parseFloat(high).toFixed(2));
+				result.l.push(parseFloat(low).toFixed(2));
+				result.c.push(parseFloat(close).toFixed(2));
 				result.v.push(volume);
 			} else if (callBy == 'wazirx') {
 				let { time, open, high, low, close, volume, closeTime, assetVolume, trades, buyBaseVolume, buyAssetVolume, ignored } = row;
@@ -653,7 +654,7 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 
 	} else {
 		// res.json([]);
-		console.log("null");
+		console.log("null1");
 	}
 };
 

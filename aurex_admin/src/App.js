@@ -141,7 +141,7 @@ class App extends Component {
         return (
             <Provider store={store}>
                 <ToastContainer />
-                <Router basename={'/admin'}>
+                <Router basename={'/'}>
                     <div className="App">
                         <Switch>
                             <Switch>

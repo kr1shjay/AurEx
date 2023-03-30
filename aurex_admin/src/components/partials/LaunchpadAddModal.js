@@ -350,12 +350,12 @@ class LaunchpadAddModal extends React.Component {
                             </div>
                             <div className="col-md-9">
                                 <Select
-                                    value={fiatCurOption && fiatCurOption.length > 0 ? fiatCurOption.filter((el) => {
+                                    value={currencyOption && currencyOption.length > 0 ? currencyOption.filter((el) => {
                                         if (el.value == launchCoin) {
                                             return el;
                                         }
                                     }) : []}
-                                    options={fiatCurOption}
+                                    options={currencyOption}
                                     onChange={this.handleLaunchCoin}
                                     styles={this.styles} className="border_blue_select basic-multi-select"
                                 />

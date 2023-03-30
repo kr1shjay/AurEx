@@ -34,7 +34,7 @@ export default {
     "UPDATE_PASSWORD": "Update Login Password",
     "LOGIN": "Login",
     "ORDER_HISTORY": "Order History",
-    "DEFAULT_FIAT_CURRENCY": "Default Fiat Currency",
+    "DEFAULT_FIAT_CURRENCY": "Default Crypto Currency",
     "PAGE_AFTER_LOGIN": "Default Page After Login",
     "DEFAULT_LANGUAGE": "My Default Language",
     "REF_CODE_OPTION": "Referral Code (Optional)",

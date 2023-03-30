@@ -45,7 +45,6 @@ Thumbs.db
 *.app
 *.exe
 *.war
-
 # Large media files
 *.mp4
 *.tiff
@@ -53,4 +52,4 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
-
+*.zip

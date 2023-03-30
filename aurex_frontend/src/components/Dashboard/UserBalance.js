@@ -36,9 +36,11 @@ const UserBalance = () => {
 
             let estBal = 0;
             walletData.map(item => {
-                let currency = currencyData.find(el => el.coin == item.coin && el.type == 'fiat')
+                let currency = currencyData.find(el => el.coin == item.coin && el.type == 'crypto')
+                console.log('currency',currency)
                 if (currency) {
                     if (item.coin == userSetting.currencySymbol) {
+                        console.log( estBal + item.spotBal,'itemssssssssssss')
                         estBal = estBal + item.spotBal
                     } else {
                         let CNVPriceData = priceConversion.find(el => el.baseSymbol == reqData.firstCurrencySymbol && el.convertSymbol == item.coin)
@@ -65,7 +67,7 @@ const UserBalance = () => {
             
             console.log("estBalestBalestBal",estBal)
             
-            console.log("proiceconversionssssssssssssssssssssssss", priceConversion)
+            console.log("proiceconversionssssssssssssssssssssssss", priceConversion,userSetting.currencySymbol)
             priceConversion.find(el => 
                 {
                 //     console.log("aaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -82,7 +84,9 @@ const UserBalance = () => {
                 // el.baseSymbol == reqData.firstCurrencySymbol && el.convertSymbol == userSetting.currencySymbol
                 )
             let firPriceCNV = priceConversion.find(el => el.baseSymbol == reqData.firstCurrencySymbol && el.convertSymbol == userSetting.currencySymbol)
+            console.log(firPriceCNV,'firPriceCNV1')
             if (firPriceCNV) {
+                console.log(firPriceCNV,'firPriceCNV')
                 setTotalBals((estBal / firPriceCNV.convertPrice))
                 setEstLoader(false)
                 setBalLoader(false)

@@ -120,7 +120,7 @@ const CompletedList = (props) => {
                                         <div className='col-12 col-lg-8'>
                                         <div className='row mb-3'>
                                         <div className='col-12 col-lg-6 mb-3 mb-lg-0'>
-                                        <h4>{currency.coin}</h4>
+                                        <h4>{currency?.coin}</h4>
                                         <h6 className='text_green_sm'>{currency.name}</h6>
                                         </div>
                                         </div>
@@ -131,7 +131,8 @@ const CompletedList = (props) => {
                                             <p>{
                                                 item.availableCoin.map(function (currencyId) {
                                                     let currency = currencyData.find(el => el._id == currencyId);
-                                                    return currency.coin;
+                                                    console.log(currency,'Available Currency2')
+                                                    return currency?.coin;
                                                 }).join(', ')
                                             }</p>
                                         </div>
@@ -155,7 +156,8 @@ const CompletedList = (props) => {
                                             <p>{
                                                 item.availableCoin.map(function (currencyId) {
                                                     let currency = currencyData.find(el => el._id == currencyId);
-                                                    return currency.coin;
+                                                    console.log(currency,'Available Currency')
+                                                    return currency?.coin;
                                                 }).join(', ')
                                             }</p>
                                         </div>

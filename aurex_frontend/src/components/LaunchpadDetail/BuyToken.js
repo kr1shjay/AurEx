@@ -87,11 +87,12 @@ const BuyToken = (props) => {
     }
 
     const calculation = (price, quantity, coin, type = 'price') => {
-        console.log("calculation : ",priceConversion)
+        console.log("calculation : ",priceConversion,price, quantity, coin)
         if (type == 'price' && !isEmpty(priceConversion)) {
             let conversionData = priceConversion.find(el => el.baseSymbol == coin && el.convertSymbol == data.launchCoin);
             if (conversionData) {
                 price = price / conversionData.convertPrice
+                console.log(price,'price-1')
                 let formData = {
                     ...formValue,
                     "price": price,

@@ -47,7 +47,7 @@ export const addSpotPair = async (req, res) => {
         if (pairName) {
             const checkPair = await nodeBinanceAPI.exchangeInfo();
             const pairDetails = checkPair?.symbols.find(el => el.symbol == pairName)
-            if(pairDetails == undefined || null || {}){
+            if(pairDetails == undefined ||pairDetails ==  null || pairDetails == {}){
                 return res.status(400).json({ "success": false, 'errors': { 'pairName': "Currency pair is not exists in binance" } })
             }
         }
@@ -75,8 +75,7 @@ export const addSpotPair = async (req, res) => {
         if (addedDoc.botstatus == 'binance') {
             binanceCtrl.getSpotPair();
             binanceCtrl.spotOrderBookWS();
-            binanceCtrl.s
-            potTickerPriceWS();
+            binanceCtrl.spotTickerPriceWS();
         }
         
 

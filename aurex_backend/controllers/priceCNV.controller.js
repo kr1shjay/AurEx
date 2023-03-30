@@ -109,21 +109,23 @@ export const addPriceCNV = async (currencyData) => {
             }
             return true
         } else if (['crypto', 'token'].includes(currencyData.type)) {
-
+            await AddPriceconver()
             if (['USDT'].includes(currencyData.coin)) {
+                console.log('USDT')
                 return false
             }
 
             let currencyList = await Currency.find({
                 "type": {
-                    "$in": ['fiat']
+                    "$in": ['crypto','token']
                 }
             });
+            console.log(currencyList,'addPriceCNV')
 
             if (currencyList && currencyList.length > 0) {
 
                 let binancePrice = await binanceCtrl.marketPrice();
-
+                console.log(binancePrice,'binancePrice')
                 for (let item of currencyList) {
                     if (item.coin != currencyData.coin) {
                         let checkPrice = await PriceConversion.findOne({
@@ -146,10 +148,60 @@ export const addPriceCNV = async (currencyData) => {
         }
         return false
     } catch (err) {
+        console.log("errr",err)
         return false
     }
 }
-
+ export const AddPriceconver =async ()=>{
+    try{
+        let currencylist = await Currency.find({
+            "type": {
+            "$in": ['crypto','token']
+        }})
+        console.log(currencylist,'AddPriceconver')
+        for(let currencyData of currencylist ){
+            if (['crypto', 'token'].includes(currencyData.type)) {
+                if (['USDT'].includes(currencyData.coin)) {
+                    console.log('USDT')
+                    continue
+                }
+                console.log(currencyData,'AddPriceconver2')
+                let currencyList = await Currency.find({
+                    "type": {
+                        "$in": ['crypto','token']
+                    }
+                });
+                console.log(currencyList,'addPriceCNV')
+        
+                if (currencyList && currencyList.length > 0) {
+        
+                    let binancePrice = await binanceCtrl.marketPrice();
+                    
+                    for (let item of currencyList) {
+                        if (item.coin != currencyData.coin) {
+                            let checkPrice = await PriceConversion.findOne({
+                                'baseSymbol': currencyData.coin,
+                                'convertSymbol': item.coin,
+                            })
+                            console.log(binancePrice,'binancePrice')
+                            if (!checkPrice) {
+                                let newDoc = new PriceConversion({
+                                    'baseSymbol': currencyData.coin,
+                                    'convertSymbol': item.coin,
+                                    'convertPrice': !isEmpty(binancePrice) && binancePrice[currencyData.coin + replacePair(item.coin)] ? binancePrice[currencyData.coin + replacePair(item.coin)] : 1
+                                })
+                                await newDoc.save()
+                            }
+                        }
+                    }
+                }
+               continue
+            }
+        }
+ }catch(err){
+    console.log(err,'err-->')
+ }
+}
 export const getPriceCNVlist = async (req, res) => {
     try {
 

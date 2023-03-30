@@ -71,7 +71,7 @@ const Launchpaddetails = (props) => {
 
                             </div>
                             <div className='col-12 col-sm-6 col-md-3 text-center mb-3 mb-md-0'>
-                                <p className='text_green_val'>$ {totalBought.toFixed(3)}</p>
+                                <p className='text_green_val'> {totalBought.toFixed(3)}</p>
                                 <p className='text_sm_white mb-0'>Total Funds Raised</p>
 
                             </div>
@@ -81,7 +81,7 @@ const Launchpaddetails = (props) => {
 
                             </div>
                             <div className='col-12 col-sm-6 col-md-3 text-center mb-3 mb-md-0'>
-                                <p className='text_green_val'>$ {totalSold.toFixed(3)}</p>
+                                <p className='text_green_val'> {totalSold.toFixed(3)}</p>
                                 <p className='text_sm_white mb-0'>All-time Sold Launches</p>
 
                             </div>

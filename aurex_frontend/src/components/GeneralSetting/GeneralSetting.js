@@ -160,7 +160,7 @@ const GeneralSetting = () => {
                                     >
                                         {
                                             currencyOption && currencyOption.length > 0 && currencyOption.map((item, key) => {
-                                                if (item.type == 'fiat') {
+                                                if (item.type == 'crypto' && item.coin != 'BTC') {
                                                     return (
                                                         <MenuItem value={item.coin} key={key}>{item.coin}</MenuItem>
                                                     )

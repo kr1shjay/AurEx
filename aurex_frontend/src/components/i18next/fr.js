@@ -31,7 +31,7 @@ export default {
     "UPDATE_PASSWORD": "Mettre à jour le mot de passe de connexion",
     "LOGIN": "Connexion",
     "ORDER_HISTORY": "Historique des commandes",
-    "DEFAULT_FIAT_CURRENCY": "Devise Fiat par défaut",
+    "DEFAULT_FIAT_CURRENCY": "Devise Crypto par défaut",
     "PAGE_AFTER_LOGIN": "Page par défaut après la connexion",
     "DEFAULT_LANGUAGE": "Ma langue par défaut",
     "REF_CODE_OPTION": "Code de parrainage (facultatif)",
