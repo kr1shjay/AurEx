@@ -96,6 +96,7 @@ const OpenOrder = (props) => {
 
             // socket
             socketContext.socket.on('openOrder', (result) => {
+                console.log("result",result)
                 if (result.pairId == tradePair.pairId) {
                     setOrderData({
                         'currentPage': result.currentPage,
@@ -107,6 +108,7 @@ const OpenOrder = (props) => {
                     })
                     handleCount(result.handelcount)
                 }
+                
             })
         }
     }, [tradePair,socketContext.socket])

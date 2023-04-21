@@ -12,6 +12,7 @@ const ApiManagement = () => {
     // function
     const handleList = (data) => {
         listRef.current.listData(data)
+        console.log( listRef.current.listData(data),"keylist")
     }
 
     return (

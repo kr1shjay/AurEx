@@ -79,7 +79,9 @@ export const getMarketsData = (req, res) => {
 */
 export const getChartData = (req, res) => {
     let uri = url.parse(req.url, true);
+    console.log("chart",uri)
     let action = uri.pathname;
+    console.log("chartaction",action)
     switch (action) {
         case '/chart/config':
             action = '/config';
@@ -94,7 +96,10 @@ export const getChartData = (req, res) => {
             action = '/history';
             break;
     }
-
+    console.log("chartresponse",res)
+    // console.log("chartaction", action)
+    // console.log("chartquery", uri.query)
+   
     return requestProcessor.processRequest(action, uri.query, res, 'spot');
 }
 
@@ -105,8 +110,9 @@ export const getChartData = (req, res) => {
 */
 export const getPerpetualChart = (req, res) => {
     let uri = url.parse(req.url, true);
+    console.log("uri",uri)
     let action = uri.pathname;
-
+     
     switch (action) {
         case '/perpetual/chart/config':
             action = '/config';
@@ -458,7 +464,7 @@ async function chartData({ pairName, resol }) {
             },
         ])
 
-        // console.log("*************ssssssssssss*****",chartDoc)
+         console.log("*************ssssssssssss*****",chartDoc)
 
         return chartDoc
     } catch (e) {

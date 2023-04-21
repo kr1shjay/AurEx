@@ -130,6 +130,7 @@ exports.symbolInfo = function (symbolName, tradeType) {
 			var item = symbols[i];
 
 			if (item.name.toUpperCase() == symbol && (exchange.length === 0 || exchange == item.exchange.toUpperCase())) {
+				
 				return item;
 			}
 		}

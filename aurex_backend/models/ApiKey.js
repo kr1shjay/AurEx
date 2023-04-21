@@ -8,12 +8,13 @@ const ApiKeySchema = new Schema({
     keyId: {
         type: String,
         unique: true,
-        required: true
+        required: true,
+        ref: 'user'
     },
     userId: {
         type: ObjectId,
         required: true,
-        ref: 'users',
+        ref: 'user',
     },
     name: {
         type: String,
@@ -36,6 +37,18 @@ const ApiKeySchema = new Schema({
         type: String,
         enum: ['active', 'deactive'],
         default: 'active'
+    },
+    withdraw:{
+        type:Boolean,
+        default:false
+    },
+    deposit:{
+        type:Boolean,
+        default:false
+    },
+    trade:{
+        type:Boolean,
+        default:false
     },
 }, {
     timestamps: true

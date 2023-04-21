@@ -3,7 +3,8 @@ import {
     User,
     ApiKey
 } from '../models';
-
+import passport from 'passport';
+import {  usersAuth } from '../config/passport';
 // import lib
 import { randomByte } from '../lib/crypto';
 import isEmpty from '../lib/isEmpty';
@@ -11,6 +12,9 @@ import { IncCntObjId } from '../lib/generalFun';
 import { cnvtBoolean } from '../lib/stringCase';
 import { findBtwDates, nowDateInUTC } from '../lib/dateHelper';
 import { createHash } from '../lib/crypto'
+const jwt = require('jsonwebtoken');
+import config from '../config';
+import { decryptString } from '../lib/cryptoJS';
 
 /** 
  * Create API Management
@@ -19,14 +23,17 @@ import { createHash } from '../lib/crypto'
  * BODY : name, ipRestriction, ipList, password
 */
 export const newKey = async (req, res) => {
+    console.log("varana",req.body)
     try {
         let reqBody = req.body;
+        console.log("vanthutanreqBody",reqBody)
         reqBody.ipRestriction = cnvtBoolean(reqBody.ipRestriction)
         let userDoc = await User.findOne({ '_id': req.user.id })
-
+        
         if (!userDoc.authenticate(reqBody.password)) {
             return res.status(400).json({ 'success': false, 'errors': { 'password': "Password incorrect" } });
         }
+        
 
         let secretKey = await randomByte(32)
         if (isEmpty(secretKey)) {
@@ -54,6 +61,7 @@ export const newKey = async (req, res) => {
         }
         return res.status(200).json({ 'status': true, 'message': "Successfully created", result });
     } catch (err) {
+        console.log("newKey_newKey",err);
         return res.status(500).json({ 'status': false, 'message': "SOMETHING_WRONG" });
     }
 }
@@ -223,3 +231,68 @@ export const v1VerifySign = async (req, res, next) => {
 export const testKey = (req, res) => {
     return res.status(200).json({ 'message': "success" })
 }
+
+
+export const apikey= async(apikey,next,res)=>{
+    console.log("demochecking")
+    // let api_key = req.header("x-api-key");
+    // console.log("apiii",api_key)
+    let userDetails = await ApiKey.findOne({'secretKey':apikey}).populate({ path: "userId", select:"_id userId type email google2Fa status"});
+    console.log("usersss",userDetails)
+    if(userDetails && userDetails.userId){
+        let datas = {
+            id: userDetails.userId._id,
+            userId: userDetails.userId.userId,
+            type: userDetails.userId.type,
+            email: userDetails.userId.email,
+            google2Fa: userDetails.userId.google2Fa,
+            withdraw: userDetails.withdraw,
+            deposit: userDetails.deposit,
+            trade: userDetails.trade
+           
+        }
+        return next(null, datas);
+    }
+    else{
+      res.send("Key not found")
+    }
+}
+
+
+
+export const verifyToken = (req, res, next) => {
+    const token = req.header('Authorization').split('Bearer ').join('');
+
+    console.log("token",token)
+    try {
+        // var decrypt=decryptString(token,true);
+        // console.log("decrypt",decrypt,"priya")
+        var decrypt = jwt.decode(token);
+        console.log(decrypt);
+        const decoded = jwt.verify(token, config.cryptoSecretKey);
+        console.log(decoded,"decoded");
+    } catch (err) {
+        console.log("error",err)
+        return res.status(401).send("Invalid Token");
+    }
+    return next();
+}
+
+
+
+const passportAuth = passport.authenticate("usersAuth", { session: false });
+export const authorization = async(req,res,next)=>{
+    let api_key = req.header("x-api-key");
+    console.log("passport--->",api_key,api_key!== undefined)
+
+    if(api_key!==null && api_key!== undefined){
+        console.log("passport--->",api_key,api_key!== undefined)
+        await apikey(api_key,next,res)
+    }
+    else{
+        console.log("passport--->",api_key,api_key!== undefined)
+        usersAuth(passportAuth);
+    }
+}
+
+

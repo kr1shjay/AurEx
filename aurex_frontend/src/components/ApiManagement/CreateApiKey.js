@@ -24,7 +24,10 @@ const initialFormValue = {
     'name': '',
     'ipRestriction': false,
     'password': '',
-    'ipList': ''
+    'ipList': '',
+    'withdraw':false,
+    'deposit':false,
+    'trade':false
 }
 
 const CreateApiKey = (props) => {
@@ -39,7 +42,7 @@ const CreateApiKey = (props) => {
     const [validateError, setValidateError] = useState({});
     const [newRecord, setNewRecord] = useState({})
 
-    const { name, ipRestriction, password, ipList } = formValue;
+    const { name, ipRestriction, password, ipList, withdraw, deposit, trade } = formValue;
 
     // function
     const handleChange = (e) => {
@@ -171,6 +174,51 @@ const CreateApiKey = (props) => {
                             </div>
                         </div> */}
                             {/* <p className="noteText">Set to allow the creation and confirmation of withdrawals.</p> */}
+
+                            <div className="form-group">
+                                <label>{t('WITHDRAW')}</label>
+                                <input
+                                    type="checkbox"
+                                    className="form-control"
+                                    name="withdraw"
+                                    value={withdraw}
+                                    onChange={()=>setFormValue({...formValue,...{withdraw: !formValue}})}
+                                /> 
+                                {/* {
+                                    validateError.password && <p className="error-message">{t(validateError.password)}</p>
+                                } */}
+                             </div>
+
+                            <div className="form-group">
+                                <label>{t('DEPOSIT')}</label>
+                                <input
+                                    type="checkbox"
+                                    className="form-control"
+                                    name="deposit"
+                                    value={deposit}
+                                    onChange={()=>setFormValue({...formValue,...{deposit: !formValue}})}
+                                    
+                                /> 
+                                {/* {
+                                    validateError.password && <p className="error-message">{t(validateError.password)}</p>
+                                } */}
+                            </div> 
+
+                             <div className="form-group">
+                                <label>{t('TRADE')}</label>
+                                <input
+                                    type="checkbox"
+                                    className="form-control"
+                                    name="trade"
+                                    value={trade}
+                                    onChange={()=>setFormValue({...formValue,...{trade: !formValue}})}
+                                /> 
+                                {/* {
+                                    validateError.password && <p className="error-message">{t(validateError.password)}</p>
+                                } */}
+                             </div> 
+                            
+
                             <div className="form-group">
                                 <label>{t('PASSWORD')}</label>
                                 <input

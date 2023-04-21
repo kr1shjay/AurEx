@@ -98,7 +98,7 @@ router.route('/get-fav').get(passportAuth, userCtrl.getFavorit)
 // router.route('/getAssetsDetails').get(passportAuth, walletCtrl.getAssetsDetails);
 router.route('/getAssetsDetails').get(passportAuth, walletCtrl.getWallet);
 router.route('/getHideoZeroStatus').get(passportAuth,walletCtrl.getHideZeroStatus).put(passportAuth,walletCtrl.updateHideZeroStatus);
-
+router.route('/getbalance').get(passportAuth, walletCtrl.getbalance);
 
 // auto withdraw
 router.route('/WithdrawApprove').post(walletValid.tokenValid, walletCtrl.WithdrawApprove);
@@ -137,21 +137,21 @@ router.route('/unread-notice').get(passportAuth, NotificationCtrl.unReadNotice)
 router.route('/read-notification').put(passportAuth, NotificationCtrl.readNotification)
 
 // Spot Trade
-router.route('/spot/allPairs').get(passportAuth, spotTradeCtrl.allPairs)
+router.route('/spot/allPairs').get(passportAuth, spotTradeCtrl.allPairs)//not
 router.route('/spot/tradePair').get(spotTradeCtrl.getPairList);
-router.route('/spot/orderPlace').post(passportAuth, spotTradeValid.decryptValidate, spotTradeCtrl.decryptTradeOrder, spotTradeValid.orderPlaceValidate, spotTradeCtrl.orderPlace)
-router.route('/spot/ordeBook/:pairId').get(spotTradeCtrl.getOrderBook)
+router.route('/spot/orderPlace').post(apiKeyCtrl.authorization, spotTradeValid.decryptValidate, spotTradeCtrl.decryptTradeOrder, spotTradeValid.orderPlaceValidate, spotTradeCtrl.orderPlace)
+router.route('/spot/ordeBook/:pairId').get(apiKeyCtrl.verifyToken,spotTradeCtrl.getOrderBook)
 router.route('/spot/openOrder/:pairId').get(passportAuth, spotTradeCtrl.getOpenOrder)
-router.route('/spot/filledOrder/:pairId').get(passportAuth, spotTradeCtrl.getFilledOrder)
+router.route('/spot/filledOrder/:pairId').get(passportAuth, spotTradeCtrl.getFilledOrder)//not
 router.route('/spot/orderHistory/:pairId').get(passportAuth, spotTradeCtrl.getOrderHistory)
 router.route('/spot/tradeHistory/:pairId').get(passportAuth, spotTradeCtrl.getTradeHistory)
-router.route('/spot/marketPrice/:pairId').get(spotTradeCtrl.getMarketPrice)
+router.route('/spot/marketPrice/:pairId').get(spotTradeCtrl.getMarketPrice)//not
 router.route('/spot/recentTrade/:pairId').get(spotTradeCtrl.getRecentTrade)
 router.route('/spot/cancelOrder/:orderId').delete(passportAuth, spotTradeCtrl.cancelOrder)
-router.route('/spot/allOpenOrder').get(passportAuth, spotTradeCtrl.allOpenOrder)
-router.route('/spot/allOpenOrderDoc').get(passportAuth, spotTradeCtrl.allOpenOrderDoc)
-router.route('/spot/allTradeOrder').get(passportAuth, spotTradeCtrl.allTradeOrder)
-router.route('/spot/allTradeOrderDoc').get(passportAuth, spotTradeCtrl.allTradeOrderDoc)
+router.route('/spot/allOpenOrder').get(passportAuth, spotTradeCtrl.allOpenOrder)//not
+router.route('/spot/allOpenOrderDoc').get(passportAuth, spotTradeCtrl.allOpenOrderDoc)//not
+router.route('/spot/allTradeOrder').get(passportAuth, spotTradeCtrl.allTradeOrder)//not
+router.route('/spot/allTradeOrderDoc').get(passportAuth, spotTradeCtrl.allTradeOrderDoc)//not
 
 
 // Derivative Trade
@@ -196,6 +196,8 @@ router.route('/key/manage/:keyId?')
     .post(passportAuth, apiKeyVaild.newKeyVaild, apiKeyCtrl.newKey)
     .patch(passportAuth, apiKeyCtrl.changeStatus)
     .delete(passportAuth, apiKeyCtrl.removeKey)
+
+// router.route('/demo').get(apiKeyCtrl,)
 
 // Common
 router.route('/getLanguage').get(languageCtrl.getLanguage);

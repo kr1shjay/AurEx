@@ -47,6 +47,7 @@ const TradeHistory = () => {
         try {
             const { status, loading, result } = await getTradeHistory(reqData, pairId);
             setLoader(loading)
+            console.log('fetchTradeHistory',result.data)
             if (status == 'success') {
                 setOrderData((prev) => {
                     return {

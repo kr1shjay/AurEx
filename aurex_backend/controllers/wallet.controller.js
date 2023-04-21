@@ -34,6 +34,7 @@ import { paginationQuery, filterSearchQuery } from '../lib/adminHelpers';
 import { findBtwDates, getTimeStamp } from '../lib/dateHelper'
 import wallet from '../models/wallet';
 
+
 const ObjectId = mongoose.Types.ObjectId;
 
 /** 
@@ -188,6 +189,36 @@ export const getWallet = async (req, res) => {
         return res.status(500).json({ 'success': false })
     }
 }
+
+//walletbalance
+
+export const getbalance = async (req, res) => {
+    try {
+        let balancedata = await wallet.findOne({ "_id": req.user.id });
+        console.log("balance",balancedata)
+        if (!balancedata) {
+            return res.status(400).json({ 'success': true, 'messages': "USER_NOT_FOUND" })
+        }
+        let assetDoc = balancedata.assets.find((val)=>(val.coin == req.query.symbol));
+
+        console.log("assetDoc",assetDoc)
+        if (!assetDoc) {
+            return res.status(400).json({ 'success': true, 'messages': "NOT_FOUND" })
+        }
+        let result = {
+            "coin": assetDoc.coin,
+            "coinbal": assetDoc.spotBal
+        }
+        return res.status(200).json({ 'success': true, 'messages': "success", 'result': result })
+        }
+    catch (err) {
+        return res.status(500).json({ 'status': false, 'message': "Error occured" });
+    }
+}
+
+    
+
+
 /** 
  * Update Address for Existing User
 */

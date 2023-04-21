@@ -62,7 +62,7 @@ export const encryptString = (encryptValue, isSpecialCharacters = false) => {
             return replaceSpecialCharacter(ciphertext, 'encrypt')
         }
         return ciphertext
-    }
+    } 
     catch (err) {
         return ''
     }

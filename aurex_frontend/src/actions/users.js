@@ -120,6 +120,8 @@ export const login = async (data, dispatch) => {
       url: `/api/login`,
       data,
     });
+    console.log("respData",respData)
+    console.log("data",respData.data)
     if (respData.data.status == "TWO_FA") {
       return {
         status: "TWO_FA",

@@ -48,7 +48,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 
 // include passport stratagy
-require("./config/passport").usersAuth(passport)
+// require("./config/passport").usersAuth(passport)
 require("./config/passport").adminAuth(passport)
 
 app.use(express.static(__dirname + '/public'));

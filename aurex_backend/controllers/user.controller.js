@@ -316,6 +316,7 @@ export const checkDeposit = async (req, res) => {
 export const confirmMail = async (req, res) => {
     try {
         let reqBody = req.body;
+        console.log("userId",reqBody.userId)
         let userId = decryptString(reqBody.userId, true)
         let userData = await User.findOne({ "_id": userId });
         if (!userData) {

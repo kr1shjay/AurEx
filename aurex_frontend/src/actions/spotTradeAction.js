@@ -93,11 +93,14 @@ export const orderPlace = async (data) => {
             'url': `/api/spot/orderPlace`,
             data
         });
+        console.log("data",respData.data)
+        console.log(respData,"respData")
         return {
             status: 'success',
             loading: false,
             message: respData.data.message,
             result: respData.data.result,
+            
         }
     }
     catch (err) {
@@ -137,6 +140,7 @@ export const getOpenOrder = async (data, pairId) => {
             'url': `/api/spot/openOrder/${pairId}`,
             'params': data
         });
+        console.log("openorder",respData)
         return {
             status: 'success',
             loading: false,

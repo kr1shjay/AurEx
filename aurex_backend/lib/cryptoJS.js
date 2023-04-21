@@ -74,8 +74,10 @@ export const decryptString = (decryptValue, isSpecialCharacters = false) => {
             decryptValue = replaceSpecialCharacter(decryptValue, 'decrypt')
         }
 
-        let bytes = CryptoJS.AES.decrypt(decryptValue, config.cryptoSecretKey);
+        let bytes = CryptoJS.AES.decrypt(decryptValue.toString(), config.cryptoSecretKey);
+        console.log("bytes",bytes)
         let originalText = bytes.toString(CryptoJS.enc.Utf8);
+        console.log("originalText",originalText)
         return originalText
     }
     catch (err) {

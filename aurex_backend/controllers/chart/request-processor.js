@@ -225,7 +225,9 @@ function convertabcdHistoryToUDFFormat(data, callBy) {
 	} catch (error) {
 		return null;
 	}
+	console.log("resultudf",result)
 	return result;
+	
 }
 
 function convertYahooQuotesToUDFFormat(tickersMap, data) {
@@ -395,7 +397,9 @@ RequestProcessor.prototype._sendConfig = function (response) {
 	};
 
 	response.writeHead(200, defaultResponseHeader);
+	console.log("resheaderconfig",defaultResponseHeader)
 	response.write(JSON.stringify(config));
+	console.log("config",config)
 	response.end();
 };
 
@@ -517,6 +521,7 @@ RequestProcessor.prototype._sendSymbolInfo = function (symbolName, response, tra
 	var info = this._prepareSymbolInfo(symbolName, tradeType);
 
 	response.writeHead(200, defaultResponseHeader);
+	console.log("resheaderconfig",defaultResponseHeader)
 	response.write(JSON.stringify(info));
 	response.end();
 };
