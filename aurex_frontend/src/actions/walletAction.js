@@ -367,3 +367,13 @@ export const getTrnxHistory = async (params, query) => {
         }
     }
 }
+
+export const checkEmail =async()=>{
+    console.log("checkEmail action")
+    let respData = await axios({
+        'method': 'post',
+        'url': `/api/checkEmail`,
+    });
+    console.log(respData.data.result,"checkEmail")
+    return respData.data.result
+}

@@ -135,7 +135,7 @@ const CoinWithdraw = (props) => {
                 <GridItem xs={12} sm={12} md={6} lg={5}>
                     <div class="form-group">
                         <label>{t("WITHDRAW_ADDRESS")}</label>
-                        <input type="text" name="" className="form-control"
+                        <input type="text" className="form-control"
                             name='receiverAddress'
                             value={receiverAddress}
                             onChange={handleChange}

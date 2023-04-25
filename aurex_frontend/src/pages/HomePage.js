@@ -18,16 +18,19 @@ import { NavLink } from 'react-router-dom';
 // import action
 import { getLanguage, getAllCMSPage } from '../actions/commonAction';
 import { getCmsData } from '../actions/homeAction';
+import { getAncontent } from '../actions/commonAction';
 
 // import lib
 import isEmpty from "../lib/isEmpty";
 import { useTranslation } from 'react-i18next';
+import { setAccountData } from "actions/users";
 const dashboardRoutes = [];
 
 // Scroll to Top
 function ScrollToTopOnMount() {
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title="AUREX"
   }, []);
   return null;
 }
@@ -50,6 +53,7 @@ const HomePage = () => {
   const language = useSelector(state => state.language)
 
   const [tickerclose, setTickerclose] = useState(false);
+  const [anncData,setAnncData]=useState([])
 
   // const closeTicker = () =>
   // {
@@ -86,8 +90,14 @@ const HomePage = () => {
 
 
 
-
-
+  const fetchAnnouncemet = async()=>{
+    const {status,loading,result}=await getAncontent()
+    console.log("getANNC",result)
+    if(status==="success"){
+        setAnncData(result)
+    }  
+}
+anncData && console.log("anncData",anncData)
 const fetchCmsData = async () => {
         try {
             let reqData = {
@@ -112,6 +122,7 @@ const fetchCmsData = async () => {
   useEffect(() => {
     fetchCmsPage()
     fetchCmsData()
+    fetchAnnouncemet()
   }, [])
   return (
     <div className={tickerclose?"page_wrap home_page_header_banner without_ticker_banner":"page_wrap home_page_header_banner"}>
@@ -119,16 +130,19 @@ const fetchCmsData = async () => {
       <div className={tickerclose?"upper_slider d-none":"upper_slider"}>
       <div className="banner_running_ticker">
         <i className="fas fa-bullhorn"></i>
-        <Ticker>
-            {({ index }) => (
+        {anncData && anncData.length>0 && 
+        
+       <Ticker>
+            {({index}) => (
                 <>
-                    <p>The zero maker fee promotion for spot trading is ongoing! Trade now to enjoy zero maker fees! 
-                      {/* <Link to="/" className="newsticker_morelink">More</Link> */}
-                      </p>
-                    <img src="www.my-image-source.com/" alt="" />
-                </>
-            )}
-        </Ticker>
+                {/* <p>hi </p> */}
+                {anncData && anncData.length >0 ? <p>{anncData && anncData.length >0 && anncData[anncData.length-1].content}
+                      </p> : <p></p> }
+                    
+                    {/* <img src="www.my-image-source.com/" alt="" /> */}
+                </>)}
+        </Ticker> 
+}
         <span className="close_icon_ticker" onClick={()=>setTickerclose(true)}><i className="fas fa-times"></i></span>
 
     </div>
@@ -163,7 +177,7 @@ const fetchCmsData = async () => {
                   <img src={require("../assets/images/card_icon1.png")} alt="Secure Storage" className="img-fluid" />
                   <h5>Secure Storage</h5>
                   <p className="heading-text px-lg-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, m ipsum dolor sit amet.
+                  We support the crypto assets we are handling. We provide 24/7 real-time security monitoring for enhanced security.
                   </p>
                 </div>
               </div>
@@ -180,10 +194,10 @@ const fetchCmsData = async () => {
                 <div className="card-body pt-3 pb-0">
                 <div className="feature_list feature_list1 text-center">
                 <div className="feature_text mt-4">
-                  <img src={require("../assets/images/card_icon2.png")} alt="Fast Crypto Listing" className="img-fluid" />
-                  <h5>Fast Crypto Listing</h5>
+                  <img src={require("../assets/images/card_icon2.png")} alt="Optimized User Experience" className="img-fluid" />
+                  <h5>Optimized User Experience</h5>
                   <p className="heading-text px-lg-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, m ipsum dolor sit amet.
+                  We have created a streamlined buying and selling experience with low rates. We understand our user's needs and wants.
                   </p>
                 </div>
               </div>
@@ -195,10 +209,10 @@ const fetchCmsData = async () => {
                 <div className="card-body pt-3 pb-0">
                 <div className="feature_list feature_list1 text-center">
                 <div className="feature_text mt-4">
-                  <img src={require("../assets/images/card_icon3.png")} alt="Crypto Variety" className="img-fluid" />
-                  <h5>Crypto Variety</h5>
+                  <img src={require("../assets/images/card_icon3.png")} alt="Technical Stability" className="img-fluid" />
+                  <h5>Technical Stability</h5>
                   <p className="heading-text px-lg-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, m ipsum dolor sit amet.
+                  Industry-leading technology which is upgraded frequently ensures a stable trading environment.
                   </p>
                 </div>
               </div>
@@ -211,7 +225,7 @@ const fetchCmsData = async () => {
 
       <section className="whyUs pt-0 pb-3">
         <div className="container">
-          <h2 className="title1" data-aos="fade-up" data-aos-duration="1000">Discover Our Products</h2>
+          <h2 className="title1 mt-0" data-aos="fade-up" data-aos-duration="1000">Discover Our Products</h2>
           <h6 className="mb-0" data-aos="fade-up" data-aos-duration="1000">Trade a variety of products with AUREX based on your preferences.</h6>
           <div className="row row_why_choose pb-5">
             <div className="col-md-4 mb-4" data-aos="fade-up">
@@ -219,10 +233,10 @@ const fetchCmsData = async () => {
                 <div className="card-body py-0">
                 <div className="feature_list feature_list1 text-center">
                 <div className="feature_text mt-4">
-                  <img src={require("../assets/images/icon_spot.png")} alt="Secure Storage" className="img-fluid" />
+                  <img src={require("../assets/images/icon_spot.png")} alt="Spot" className="img-fluid" />
                   <h5 className="mt-0">Spot</h5>
                   <p className="heading-text px-lg-0">
-                  1,500+ crypto available for you to trade at the best rates.
+                 The Aurex exchange is fast, safe and secure, allowing you to conduct transactions of digital currencies at any time with peace of mind.
                   </p>
                   <div className='btn_more_div text-center'>
               <Link to="/spot">Learn More <i className='fas fa-arrow-right'></i></Link>
@@ -242,10 +256,10 @@ const fetchCmsData = async () => {
                 <div className="card-body py-0">
                 <div className="feature_list feature_list1 text-center">
                 <div className="feature_text mt-4">
-                  <img src={require("../assets/images/icon_future.png")} alt="Fast Crypto Listing" className="img-fluid" />
-                  <h5 className="mt-0">Low Trading Fee</h5>
+                  <img src={require("../assets/images/icon_future.png")} alt="Buy Crypto" className="img-fluid" />
+                  <h5 className="mt-0">Buy Crypto</h5>
                   <p className="heading-text px-lg-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                 Buy and sell a wide range of cryptocurrencies quickly & easily.
                   </p>
                   <div className='btn_more_div text-center'>
               <Link to="/spot">Learn More <i className='fas fa-arrow-right'></i></Link>
@@ -260,11 +274,10 @@ const fetchCmsData = async () => {
                 <div className="card-body py-0">
                 <div className="feature_list feature_list1 text-center">
                 <div className="feature_text mt-4">
-                  <img src={require("../assets/images/icon_leveraged.png")} alt="Crypto Variety" className="img-fluid" />
-                  <h5 className="mt-0">Secured Trades</h5>
+                  <img src={require("../assets/images/icon_leveraged.png")} alt="Earn" className="img-fluid" />
+                  <h5 className="mt-0">Earn</h5>
                   <p className="heading-text px-lg-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </p>
+               Invest and get some of the best rates in the industry - BTC, ETH, USDT and more. Stay turned for updates as we prepare new issues from here.</p>
                   <div className='btn_more_div text-center'>
               <Link to="/spot">Learn More <i className='fas fa-arrow-right'></i></Link>
           </div>
@@ -280,7 +293,7 @@ const fetchCmsData = async () => {
 
       <div className="create_sec_home whyUs pt-0">
       <div className="container">
-      <h2 className="title1" data-aos="fade-up" data-aos-duration="1000">Trade Anywhere with the AUREX</h2>
+      <h2 className="title1 mt-0" data-aos="fade-up" data-aos-duration="1000">Trade Anywhere with the AUREX</h2>
           <h6 className="mb-0" data-aos="fade-up" data-aos-duration="1000">Standard web application</h6>
         <div className="row row_order_rev mt-md-5 pt-4 pb-5">
         <div className="col-12 col-md-6 mt-4 mt-md-0 sec_left_centr">
@@ -298,8 +311,8 @@ const fetchCmsData = async () => {
             <img src={require("../assets/images/img_shield.png")} alt="Security" className="img-fluid" />
             </div>
             <div className="btn_desc_sec">
-              <p className="sec_title_crate">Multi-Platform App Support</p>
-              <p className="sec_desc_create">Buy and trade all your favorite tokens on AUREX App effortlessly, anytime and anywhere.</p>
+              <p className="sec_title_crate">Multi-Platform Web Support</p>
+              <p className="sec_desc_create">Buy and trade all your favorite tokens on AUREX web effortlessly, anytime and anywhere.</p>
             </div>
            </div>
            <div className="sec_flex mb-0" data-aos="fade-up">
@@ -307,8 +320,8 @@ const fetchCmsData = async () => {
             <img src={require("../assets/images/img_shield.png")} alt="Security" className="img-fluid" />
             </div>
             <div className="btn_desc_sec">
-              <p className="sec_title_crate">Lorem Ipsum</p>
-              <p className="sec_desc_create">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+              <p className="sec_title_crate">Constant Support</p>
+              <p className="sec_desc_create">Premium 24/7/365 support is available to customers worldwide.</p>
             </div>
            </div>
             </div>

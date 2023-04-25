@@ -34,7 +34,7 @@ const validation = value => {
     } else if (value.confirmPassword.length < 6) {
         errors.confirmPassword = "PASSWORD_MIN_MAX"
     } else if (!(isEmpty(value.confirmPassword)) && value.password != value.confirmPassword) {
-        errors.confirmPassword = "CONFIRM_PASSWORD_MISMATCH"
+        errors.confirmPassword = "Confirm password mismatch"
     }
     else if (!(passwordRegex.test(value.confirmPassword))) {
         errors.confirmPassword = "REGEX_PASSWORD"

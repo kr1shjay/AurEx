@@ -11,6 +11,7 @@ import { getTrnxHistory } from '../../actions/walletAction'
 import isEmpty from '../../lib/isEmpty';
 import { transactionStatus } from '../../lib/displayStatus';
 import { dateTimeFormat } from '../../lib/dateTimeHelper'
+import {Dropdown} from 'react-bootstrap'
 
 const columns = [
     {
@@ -65,7 +66,14 @@ const CryptoHistory = (props) => {
     })
     const [typingTimeout, setTypingTimeout] = useState(0)
 
+    const [isSearch,setSearch]=useState(false)
+    const [filteredItems,setFilterItems]=useState([])
+
     const { coin, type, search } = filter
+
+    
+  const [filtercoin, setFiltercoin] = useState("All");
+  const [filtertype, setFiltertype] = useState("All");
 
     // function
     const fetchHistory = async (reqQuery) => {
@@ -123,17 +131,23 @@ const CryptoHistory = (props) => {
         }
         setFilter(filterData)
         if (name == 'search') {
-            if (typingTimeout) {
-                clearTimeout(typingTimeout);
-            }
-            setTypingTimeout(setTimeout(function () {
-                fetchHistory(filterData)
-            }, 1000))
+            // if (typingTimeout) {
+            //     clearTimeout(typingTimeout);
+            // }
+            // setTypingTimeout(setTimeout(function () {
+            //     fetchHistory(filterData)
+            // }, 1000))
+            setSearch(true)
+            searchedValue(record.data,value)
         } else {
             fetchHistory(filterData)
         }
     }
-
+    const searchedValue = async(data,searchSymbol) => {
+        console.log("data",data)
+        const filteredData  = await data.filter(value => ((value.address)).includes(searchSymbol));
+        setFilterItems(filteredData) ;
+    }
 
     useEffect(() => {
         fetchHistory(filter)
@@ -142,7 +156,7 @@ const CryptoHistory = (props) => {
     return (
         <div className="dashboard_box stakingHistoryTable">
             <div className="newUsersFilter contact_form settingsSelect mb-0 historyPageFilter">
-                <div className="newsSelectGroup">
+                <div className="newsSelectGroup input_minw_selc">
                     <label>{t('FILTER_BY')}</label>
                     <Select
                         value={type}
@@ -152,8 +166,22 @@ const CryptoHistory = (props) => {
                         <MenuItem value={'all'}>{t('ALL')}</MenuItem>
                         <MenuItem value={'withdraw'}>{t('WITHDRAW')}</MenuItem>
                         <MenuItem value={'deposit'}>{t('DEPOSIT')}</MenuItem>
-                        {/*<MenuItem value={'transfer'}>{t('TRANSFER')}</MenuItem>*/}
                     </Select>
+
+{/* <Dropdown className="themeselect min_height_select_dropdwn">
+      <Dropdown.Toggle variant="link" id="dropdown-basic1" className="marginSpace min_height_select"
+                        value={type}
+                        name="coin"
+                        onChange={handleChange}>
+                             {!filtertype?t('ALL'):filtertype}
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu className='menu_not_scroll_dd'>
+        <Dropdown.Item onClick={(e) => setFiltertype('All')}> {t('ALL')} </Dropdown.Item>
+        <Dropdown.Item onClick={(e) => setFiltertype('Withdraw')}> {t('WITHDRAW')} </Dropdown.Item>
+        <Dropdown.Item onClick={(e) => setFiltertype('Deposit')}> {t('DEPOSIT')} </Dropdown.Item>
+    </Dropdown.Menu>
+    </Dropdown> */}
                     <Select
                         className="marginSpace"
                         value={coin}
@@ -173,6 +201,38 @@ const CryptoHistory = (props) => {
                             })
                         }
                     </Select>
+
+                    
+{/* <Dropdown className="themeselect min_height_select_dropdwn">
+      <Dropdown.Toggle variant="link" id="dropdown-basic" className="marginSpace min_height_select"
+                        value={filtercoin}
+                        name="coin"
+                        onChange={handleChange}>
+       {!filtercoin?t('ALL'):filtercoin}
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu className='small menu_not_scroll_dd'>
+
+      {
+                            currencyOption && currencyOption.length > 0 && currencyOption.map((item, key) => {
+                                if (item.type == 'crypto' || item.type == 'token') {
+                                    return (
+                                        
+
+<Dropdown.Item  value={item.coin} key={key} onClick={(e) => setFiltercoin(e.target.getAttribute("value"))}> {item.coin} </Dropdown.Item>
+                                    )
+                                }
+                            })
+                        }
+
+
+   
+      
+ 
+      </Dropdown.Menu>
+    </Dropdown> */}
+
+
                     <div className="tableSearchBox">
                         <div class="input-group">
                             <input
@@ -181,7 +241,7 @@ const CryptoHistory = (props) => {
                                 value={search}
                                 onChange={handleChange}
                                 class="form-control"
-                                placeholder="Search by Trans.Ref / Bank"
+                                placeholder="Search by Adderess"
                             />
                             <div class="input-group-append">
                                 <span class="btnType1"><i class="fas fa-search"></i></span>
@@ -193,7 +253,19 @@ const CryptoHistory = (props) => {
                     <button className="btn btn-outline text-uppercase py-1 m-0">Download PDF</button>
                 </div> */}
             </div>
-            <DataTable
+
+            {isSearch ? (<DataTable
+                columns={columns}
+                data={filteredItems}
+                paginationTotalRows={record.count}
+                noHeader
+                progressPending={loader}
+                pagination
+                paginationServer
+                onChangeRowsPerPage={handlePerRowsChange}
+                onChangePage={handlePageChange}
+            />):(
+                <DataTable
                 columns={columns}
                 data={record.data}
                 paginationTotalRows={record.count}
@@ -204,6 +276,8 @@ const CryptoHistory = (props) => {
                 onChangeRowsPerPage={handlePerRowsChange}
                 onChangePage={handlePageChange}
             />
+            )}
+           
         </div>
     )
 }

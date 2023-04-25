@@ -147,7 +147,7 @@ const OrderPlaceModal = (props) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title>
-                    Stake {record.coin}
+                    Flexible {record.coin}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

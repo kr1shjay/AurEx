@@ -242,7 +242,7 @@ const nav = [
     },
     {
         path: "/anouncement",
-        name: 'Anouncement',
+        name: 'Announcement',
         exact: true,
         sidemenu: true,
         type: "private"

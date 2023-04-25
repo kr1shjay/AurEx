@@ -180,6 +180,7 @@ export const getDashBal = async (req, res) => {
         const siteSetting = await SiteSetting.findOne({}, { "userDashboard": 1 });
         if (siteSetting) {
             let currencyId = siteSetting.userDashboard.map(item => item.currencyId)
+            console.log("currencyId-siteSetting",currencyId)
             if (currencyId && currencyId.length > 0) {
                 let userAsset = await Wallet.aggregate([
                     {
@@ -245,12 +246,14 @@ export const totalCount = async (req, res) => {
         let contactCount = await ContactUs.countDocuments({ softDelete: false })
         let supportCount = await SupportTicket.countDocuments({})
         let transCount = await Transaction.countDocuments({ paymentType: "coin_withdraw", status: "pending"})
+        let depositCount =await Transaction.countDocuments({ paymentType: "fiat_deposit", status: "pending"})
         let totalCount = {
             userCount : userCount,
             kycCount : kycCount,
             contactCount : contactCount,
             supportCount : supportCount,
-            transCount : transCount
+            transCount : transCount,
+            depositCount:depositCount
         }
         return res.status(200).json({ status: 'success', totalCount })
     } catch (err) {

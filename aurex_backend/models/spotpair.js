@@ -104,8 +104,8 @@ let spotPairsSchema = new Schema({
 	},
 	status: {  //a
 		type: String,
-		enum: ['active', 'deactive'],
-		default: "active",  //active, deactive
+		enum: ['active', 'Inactive'],
+		default: "active",  //active, Inactive
 	},
 }, {
 	timestamps: true

@@ -31,7 +31,7 @@ export const emailValidation = (value) => {
     if (isEmpty(value.confirmPassword)) {
         errors.confirmPassword = "REQUIRED"
     } else if (!(isEmpty(value.confirmPassword)) && value.password != value.confirmPassword) {
-        errors.confirmPassword = "CONFIRM_PASSWORD_MISMATCH"
+        errors.confirmPassword = "Confirm password mismatch"
     }
 
     // if (isEmpty(value.reCaptcha)) {
@@ -74,7 +74,7 @@ export const mobileValidation = (value) => {
     if (isEmpty(value.confirmPassword)) {
         errors.confirmPassword = "REQUIRED"
     } else if (!(isEmpty(value.confirmPassword)) && value.password != value.confirmPassword) {
-        errors.confirmPassword = "CONFIRM_PASSWORD_MISMATCH"
+        errors.confirmPassword = "Confirm password mismatch"
     }
 
     // if (!(value.isTerms == true)) {

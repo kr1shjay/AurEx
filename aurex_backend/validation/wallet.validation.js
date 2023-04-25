@@ -100,17 +100,24 @@ export const coinWithdrawValid = async (req, res, next) => {
  * BODY: token
 */
 export const tokenValid = (req, res, next) => {
-    let errors = {}, reqBody = req.body;
-
-    if (isEmpty(reqBody.token)) {
-        errors.token = "REQUIRED";
+    let api_key = req.header("x-api-key");
+    let authorization = req.header('Authorization');
+    if (api_key !== null && api_key !== undefined && authorization === undefined) {
+        return next();
     }
+    else {
+        let errors = {}, reqBody = req.body;
 
-    if (!isEmpty(errors)) {
-        return res.status(400).json({ "message": errors.token })
+        if (isEmpty(reqBody.token)) {
+            errors.token = "REQUIRED";
+        }
+
+        if (!isEmpty(errors)) {
+            return res.status(400).json({ "message": errors.token })
+        }
+
+        return next();
     }
-
-    return next();
 }
 
 /** 

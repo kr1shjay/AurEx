@@ -52,7 +52,7 @@ export const twoFAStatus = (type, callFrom) => {
     } else if (type == 'disabled' && callFrom == 'status') {
         return "DISABLED"
     } else if (type == 'enabled' && callFrom == 'button') {
-        return "DISABLED"
+        return "DISABLE"
     } else if (type == 'disabled' && callFrom == 'button') {
         return "ENABLE"
     } else {
@@ -73,7 +73,7 @@ export const documentType = (status) => {
     switch (status) {
         case 'license': return "DRIVING_LICENSE";
         case 'pan': return "PANCARD";
-        case 'aadhar': return "AADHAR_CARD";
+        case 'citizenship': return "CITIZEN_SHIP";
         case 'gas': return "GAS_BILL";
         default: return ""
     }

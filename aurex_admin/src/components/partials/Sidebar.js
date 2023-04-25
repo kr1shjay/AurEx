@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect} from "react-redux";
 import { logoutUser } from "../../actions/authActions";
-import { Link } from "react-router-dom";
+import { Link,NavLink } from "react-router-dom";
 import { faList } from "@fortawesome/free-solid-svg-icons/faList";
 import { Scrollbars } from 'react-custom-scrollbars';
 import store from '../../store'
@@ -19,7 +19,7 @@ import { SingleAdmin } from '../../actions/admin'
 const initialFormValue = {
     'show' : (window.innerWidth > 991) ? true : false
  }
-const Sidebar = () => {
+const Sidebar = (props) => {
     
     // state 
     const [ formValue, setFormValue ] = useState(initialFormValue);
@@ -33,6 +33,7 @@ const Sidebar = () => {
         e.preventDefault();
         // this.props.logoutUser();
     };
+
 
     // componentDidMount() {
     //     window.addEventListener("resize", this.changestate);
@@ -60,7 +61,7 @@ const Sidebar = () => {
                 <div className="border-right sidebar_whole" >
 
                     <div className="list-group list-group-flush">
-                        <Scrollbars style={{ width: 250, height: "88.5vh" }} >
+                        <Scrollbars style={{ width: 250, height: "88.5vh" }}  renderThumbVertical={props => <div {...props} className="thumb-vertical"/>}>
                                     <div>
                                       
                                       {
@@ -83,7 +84,7 @@ const Sidebar = () => {
                                                         {
                                                             item && item.childItem  ?
                                                             <>
-                                                                 <a href={item && item.href}  data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                                 <a href={item && item.href}  data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start list_grp_active">
                                                              <div class="d-flex w-100 justyfy-content-start align-items-center">
                                                              <span class="menu-collapsed">{item && item.header}</span>
                                                                  {
@@ -104,9 +105,9 @@ const Sidebar = () => {
                                                                         return(
                                                                             <>
                                                              <div id={items && items.id} class="collapse sidebar-submenu">
-                                                                 <Link to={items&&items.path } class="list-group-item list-group-item-action">
+                                                                 <NavLink to={items&&items.path } class="list-group-item list-group-item-action">
                                                                      <span class="menu-collapsed">{items &&items.name}</span>
-                                                                 </Link>
+                                                                 </NavLink>
                                                              </div>
                                                                             </>
                                                                         )
@@ -114,7 +115,7 @@ const Sidebar = () => {
                                                                 })
                                                             }
                                                        </> :
-                                                  <Link to={item.path} className="list-group-item list-group-item-action">{item.name}</Link>
+                                                  <NavLink to={item.path} className="list-group-item list-group-item-action">{item.name}</NavLink>
                                     
 
                                                         }

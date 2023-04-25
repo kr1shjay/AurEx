@@ -55,6 +55,12 @@ const MobileForm = () => {
     const handleChange = (e) => {
         e.preventDefault();
         const { name, value } = e.target;
+        console.log(name,"name")
+        if(name=='otp'){
+            if (!(value == '' || (/^[0-9\b]+$/.test(value) && value.length <= 6))) {
+                return
+            }
+        }
         let formData = { ...formValue, ...{ [name]: value } }
         setFormValue(formData)
         setValidateError(validation(formData,t))
@@ -82,7 +88,7 @@ const MobileForm = () => {
 
         let reCaptcha = await handleReCaptcha()
         if (isEmpty(reCaptcha)) {
-            toastAlert('error', 'Invalid ReCaptcha', 'signup', 'TOP_CENTER');
+            toastAlert('error', 'Invalid ReCaptcha', 'signup', 'TOP_RIGHT');
             return
         }
 
@@ -105,12 +111,12 @@ const MobileForm = () => {
         // setReCaptcha('')
         if (status == 'success') {
             setFormValue(initialFormValue)
-            toastAlert('success', message, 'signup', 'TOP_CENTER');
+            toastAlert('success', message, 'signup', 'TOP_RIGHT');
         } else {
             if (error) {
                 setValidateError(error);
             }
-            toastAlert('error', message, 'signup', 'TOP_CENTER');
+            toastAlert('error', message, 'signup', 'TOP_RIGHT');
         }
     }
 
@@ -192,9 +198,10 @@ const MobileForm = () => {
                         placeholder={t('ENTER_MOBILE_NO')}
                         value={phoneCode + phoneNo}
                         onChange={handlePhoneNumber}
+                       autoComplete="new-password"
                         onBlur={handleBlurPhone}
                         specialLabel={false}
-                        country={'in'}
+                        country={'us'}
                     />
                     {
                         !optStatus && 
@@ -221,6 +228,7 @@ const MobileForm = () => {
                         className="form-control"
                         placeholder={t('VERIFY_CODE')}
                         name="otp"
+                        autoComplete="new-password"
                         value={otp}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -240,6 +248,7 @@ const MobileForm = () => {
                         placeholder={t('ENTER_PASSWORD')}
                         name="password"
                         value={password}
+                        autoComplete="off"
                         onChange={handleChange}
                         onBlur={handleBlur}
                     />
@@ -254,7 +263,7 @@ const MobileForm = () => {
                         </Link>
                     </div>
                 </div>
-                {toched.password && validateError.password && <p className="error-message">{validateError.password}</p>}
+                {toched.password && validateError.password && <p className="error-message">{t(validateError.password)}</p>}
             </div>
 
             <div className="form-group">
@@ -266,6 +275,8 @@ const MobileForm = () => {
                         className="form-control"
                         placeholder={t('CONFIRM_PASSWORD')}
                         name="confirmPassword"
+                       autoComplete="new-password"
+                       data-attr="data"
                         value={confirmPassword}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -281,10 +292,10 @@ const MobileForm = () => {
                         </Link>
                     </div>
                 </div>
-                {toched.confirmPassword && validateError.confirmPassword && <p className="error-message">{validateError.confirmPassword}</p>}
+                {toched.confirmPassword && validateError.confirmPassword && <p className="error-message">{t(validateError.confirmPassword)}</p>}
             </div>
 
-            <div className="form-group">
+            {/* <div className="form-group">
                 <span className="login_label">{t('REFERRAL_CODE')}</span>
                 <div className="input-group regGroupInput mt-2">
                     <input
@@ -297,7 +308,7 @@ const MobileForm = () => {
                     />
                 </div>
                 {validateError.referenceCode && <p className="error-message">{t(validateError.referenceCode)}</p>}
-            </div>
+            </div> */}
 
             <div className="form-group">
                 <div className="form-check d-flex">

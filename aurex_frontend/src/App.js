@@ -144,7 +144,7 @@ const App = () => {
                             <ConditionRoute exact path='/orders' component={Orders} type={"private"} />
                             <ConditionRoute exact path='/kyc' component={ProfilePage} type={"private"} />
                             <ConditionRoute exact path='/api-management' component={ApiMgmtPage} type={"private"} />
-                            <ConditionRoute exact path='/referral' component={Referral} type={"private"} />
+                            {/* <ConditionRoute exact path='/referral' component={Referral} type={"private"} /> */}
                             <ConditionRoute exact path='/notification' component={Notification} type={"private"} />
                             <ConditionRoute exact path="/launchpad" component={Launchpad} type={"private"} />
                             <ConditionRoute exact path="/launchpad/:launchId" component={TokenDetailPage} type={"private"} />

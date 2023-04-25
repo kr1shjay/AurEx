@@ -24,7 +24,7 @@ let HelpCentreArticle = new Schema({
 
   status: {
     type: String,
-    default: 1, // 0 - deactive, 1-active
+    default: 1, // 0 - Inactive, 1-active
   }
 });
 

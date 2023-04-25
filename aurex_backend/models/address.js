@@ -17,7 +17,7 @@ let address = new Schema({
 		type: String, default: ''
 	},
 	status:{
-		type: Number, default: 1, // 0 - deactive, 1-active
+		type: Number, default: 1, // 0 - Inactive, 1-active
 	},
 });
 

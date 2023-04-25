@@ -7,7 +7,8 @@ import {
     SpotTrade,
     Wallet,
     Admin,
-    Currency
+    Currency,
+    ApiKey
 } from '../models';
 
 // import SpotPairOld from '../models_Old/spotpairs'
@@ -22565,9 +22566,19 @@ let spotData =
 */
 export const decryptTradeOrder = (req, res, next) => {
     try {
-        let token = decryptObject(req.body.token)
-        req.body = token;
-        return next();
+        let api_key = req.header("x-api-key");
+        let authorization = req.header('Authorization')
+        console.log("orderreq", req.user, req.body,authorization)
+        if (api_key !== null && api_key !== undefined && authorization == undefined) {
+            return next();
+        }
+        else {
+            console.log("token22", req.body)
+            let token = decryptObject(req.body.token)
+            console.log("token", req.body)
+            req.body = token;
+            return next();
+        }
     } catch (err) {
         return res.status(500).json({ 'status': false, 'message': "SOMETHING_WRONG" });
     }
@@ -22817,7 +22828,7 @@ export const cancelOrder = async (req, res) => {
 
         let orderData = await SpotTrade.findOne({ '_id': req.params.orderId, 'userId': req.user.id });
         if (!orderData) {
-            return res.status(400).json({ 'status': false, 'message': "NO_ORDER" });
+            return res.status(400).json({ 'status': false, 'message': "There is no order" });
         }
 
         if (['open', 'pending', 'conditional'].includes(orderData.status)) {
@@ -22878,20 +22889,28 @@ export const cancelOrder = async (req, res) => {
 */
 export const orderPlace = async (req, res) => {
     try {
-        let reqBody = req.body
-        console.log("orderreq",reqBody)
-        if (reqBody.orderType == 'limit') {
-            limitOrderPlace(req, res)
-        } else if (reqBody.orderType == 'market') {
-            marketOrderPlace(req, res)
-        } else if (reqBody.orderType == 'stop_limit') {
-            stopLimitOrderPlace(req, res)
-        } else if (reqBody.orderType == 'stop_market') {
-            stopMarketOrderPlace(req, res)
-        } else if (reqBody.orderType == 'trailing_stop') {
-            trailingStopOrderPlace(req, res)
+        let api_key = req.header("x-api-key");
+        console.log("orderreq",req.user)
+        if(api_key!==null && api_key!== undefined && req.user.trade !==true){
+             return res.status(400).json({ 'status': false, 'message': "You don't have permission to trade" });      
+        }
+        else{
+            let reqBody = req.body
+            console.log("orderreq",reqBody)
+            if (reqBody.orderType == 'limit') {
+                limitOrderPlace(req, res)
+            } else if (reqBody.orderType == 'market') {
+                marketOrderPlace(req, res)
+            } else if (reqBody.orderType == 'stop_limit') {
+                stopLimitOrderPlace(req, res)
+            } else if (reqBody.orderType == 'stop_market') {
+                stopMarketOrderPlace(req, res)
+            } else if (reqBody.orderType == 'trailing_stop') {
+                trailingStopOrderPlace(req, res)
+            }
         }
     } catch (err) {
+        console.log(err,'orderreq-err')
         return res.status(400).json({ 'status': false, 'message': "Error occured For the Interval_orderPlace_err" });
     }
 }
@@ -23130,8 +23149,8 @@ export const matchEngine = async () => {
 export const marketOrderPlace = async (req, res) => {
     try {
         let reqBody = req.body;
-        console.log("marketreq",reqBody)
 
+        console.log("marketOrderPlace ",reqBody)
         reqBody.quantity = parseFloat(reqBody.quantity)
         let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
 
@@ -23200,7 +23219,7 @@ export const marketOrderPlace = async (req, res) => {
             ])
 
             if ((spotOrder && spotOrder.length == 0) || (spotOrder[0].orderBook && spotOrder[0].orderBook.length == 0)) {
-                return res.status(400).json({ 'status': false, 'message': "NO_ORDER" });
+                return res.status(400).json({ 'status': false, 'message': "There is no order" });
             }
             // orderPrice = spotOrder[0].orderBook[0]._id
             
@@ -23243,10 +23262,12 @@ export const marketOrderPlace = async (req, res) => {
                         orderPrice = item._id;
                         orderCost = orderCost + (item._id * needQty)
                         orderBookQuantity = orderBookQuantity + needQty;
+                        console.log("orderBookQuantity",orderBookQuantity,"orderCost",orderCost,"orderPrice",orderPrice)
                     } else {
                         orderPrice = item._id;
                         orderCost = orderCost + (item._id * (item.quantity - item.filledQuantity))
                         orderBookQuantity = orderBookQuantity + (item.quantity - item.filledQuantity);
+                        console.log("orderBookQuantity",orderBookQuantity,"orderCost",orderCost,"orderPrice",orderPrice)
                     }
                 } else {
                     break
@@ -23255,6 +23276,7 @@ export const marketOrderPlace = async (req, res) => {
             // orderValue = (reqBody.buyorsell == 'buy') ? orderPrice * reqBody.quantity : reqBody.quantity;
             // orderValue = (reqBody.buyorsell == 'buy') ? orderPrice : orderBookQuantity;
             orderValue = (reqBody.buyorsell == 'buy') ? orderCost : orderBookQuantity;
+            console.log("orderValue",orderValue)
         } else if (spotPairData.botstatus == "binance") {
             orderValue = (reqBody.buyorsell == 'buy') ? binanceCtrl.calculateMarkup(spotPairData.markPrice, spotPairData.markupPercentage, '+') * reqBody.quantity : reqBody.quantity;
             orderPrice = (reqBody.buyorsell == 'buy') ? binanceCtrl.calculateMarkup(spotPairData.markPrice, spotPairData.markupPercentage, '+') : spotPairData.markPrice;
@@ -24220,6 +24242,7 @@ export const marketProcess = async (newOrder) => {
 
         // console.log("----updateOrder", updateOrder)
 
+        await getOpenOrderSocket(newOrder.userId,newOrder.pairId)
         await getOrderHistorySocket(newOrder.userId, newOrder.pairId)
         await getTradeHistorySocket(newOrder.userId, newOrder.pairId)
 
@@ -24232,7 +24255,7 @@ export const marketProcess = async (newOrder) => {
             'tableId': updateOrder._id
         })
 
-        await getOrderBookSocket(pairData._id)
+        await getOrderBookSocket(newOrder.pairId)
 
         return false;
     } catch (err) {
@@ -24392,7 +24415,7 @@ export const tradeMatching = async (newOrder, orderData, count = 0, pairData) =>
                         }),
                         "isMaker": sellMaker,
                         "status": "filled",
-                        "Type": "buy",
+                        "Type": "sell",
                         "createdAt": new Date(),
                         "orderValue": sellQuantity * execPrice,  // sellQuantity * sellOrderData.price,
                     }
@@ -25054,10 +25077,12 @@ export const getOrderBook = async (req, res) => {
 */
 export const getOrderBookSocket = async (pairId) => {
     try {
+        console.log("getOrderBookSocket",pairId)
         let result = await orderBookData({
             'pairId': pairId
         })
         result['pairId'] = pairId;
+        console.log("getOrderBookSocket",result)
         socketEmitAll('orderBook', result)
         return true
     } catch (err) {
@@ -25156,6 +25181,7 @@ export const orderBookData = async ({ pairId }) => {
 */
 export const getOpenOrder = async (req, res) => {
     try {
+        console.log("getOpenOrder",req.body,req.user    )
         let pagination = paginationQuery(req.query);
         console.log("open",req.params)
         let count = await SpotTrade.countDocuments({
@@ -25201,6 +25227,7 @@ export const getOpenOrder = async (req, res) => {
          console.log("openorder",result)
         return res.status(200).json({ 'success': true, result })
     } catch (err) {
+        console.log(err,'errrr')
         return res.status(500).json({ 'success': false })
     }
 }
@@ -25213,6 +25240,7 @@ export const getOpenOrder = async (req, res) => {
 */
 export const allOpenOrder = async (req, res) => {
     try {
+        console.log('allOpenOrder')
         let pagination = paginationQuery(req.query);
         let filter, reqQuery = req.query;
 
@@ -25258,6 +25286,7 @@ export const allOpenOrder = async (req, res) => {
         }
         return res.status(200).json({ 'success': true, result })
     } catch (err) {
+        console.log(err,'allOpenOrder')
         return res.status(500).json({ 'success': false })
     }
 }
@@ -26267,8 +26296,7 @@ export const recentTrade = async (pairId) => {
                 }
             },
             { "$unwind": "$filled" },
-            { "$sort": { 'filled.createdAt': -1 } },
-            { "$limit": 20 },
+            // { "$sort": { 'filled.createdAt': -1 } },
             {
                 "$group": {
                     "_id": {
@@ -26284,6 +26312,7 @@ export const recentTrade = async (pairId) => {
                 }
             },
             { "$sort": { 'createdAt': -1 } },
+            { "$limit": 20 },
             {
                 "$project": {
                     "_id": 0

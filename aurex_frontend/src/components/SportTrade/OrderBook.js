@@ -115,7 +115,7 @@ const OrderBook = forwardRef((props, ref) => {
             <div className="tableHead mb-2">
                 <h4>Order Book <small>({tradePair && tradePair.firstCurrencySymbol}/{tradePair && tradePair.secondCurrencySymbol})</small></h4>
                 <div className="inputGroup">
-                    <a href={() => false} className="ml-0 zoomIcon" data-toggle="collapse" href="#settingsOrderBook"><i className="bi bi-gear-fill"></i></a>
+                    <a className="ml-0 zoomIcon" data-toggle="collapse" href="#settingsOrderBook"><i className="bi bi-gear-fill"></i></a>
                     <div className="collapse" id="settingsOrderBook">
                         <div className="card card-body px-2 py-2">
                             <div className="inputGroup">
@@ -224,7 +224,7 @@ const OrderBook = forwardRef((props, ref) => {
                                         data-toggle="tooltip"
                                         data-placement="right"
                                         data-html="true"
-                                        title="<b>Avg.Price:</b> = 7,138.75<br /><b>Sum BTC:</b> 1.302019<br /><b>Sum USDT:</b> 14,279.6600000">
+                                        title="order price">
                                         <span
                                             className={clsx({ "col-4": showTotal }, { "col-6": !showTotal }, 'greenText')}
                                             onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.secondFloatDigit) }) }}

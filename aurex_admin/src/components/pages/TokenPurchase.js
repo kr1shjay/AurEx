@@ -249,7 +249,7 @@ class TokenPurchase extends Component {
                         <div className="container-fluid">
                             <h3 className="mt-2 text-secondary">Token Purchase History</h3>
                             {records && records.length > 0 ? (
-                                <button onClick={this.exportPDF} className='btn btn-info' style={{ width: '118px', height: '35px', fontSize: '13px' }}>Download(PDF)</button>
+                                <button onClick={this.exportPDF} className='btn btn-info mr-2' style={{ width: '118px', height: '35px', fontSize: '13px' }}>Download(PDF)</button>
                             ) : (
                                 ""
                             )}
@@ -260,7 +260,7 @@ class TokenPurchase extends Component {
                                 //     filename={"TokenPurchase.csv"}
                                 //     className="btn btnTrade1 py-4"
                                 // >
-                                <button className='btn btn-info' onClick={this.DownloadeCsv} style={{ width: '118px', height: '35px', fontSize: '13px' }}>Download(CSV)</button>
+                                <button className='btn btn-info mr-2' onClick={this.DownloadeCsv} style={{ width: '118px', height: '35px', fontSize: '13px' }}>Download(CSV)</button>
                                 // </CSVLink> 
                             ) : (
                                 ""

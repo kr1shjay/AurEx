@@ -12,6 +12,7 @@ import GridItem from "components/Grid/GridItem.js";
 // import lib
 import { toastAlert } from "../../lib/toastAlert";
 import isEmpty from "../../lib/isEmpty";
+import {createNotification} from '../../actions/notificationAction'
 
 const CryptoDeposit = (props) => {
   const { t, i18n } = useTranslation();
@@ -27,7 +28,7 @@ const CryptoDeposit = (props) => {
   // console.log(currency, "currency");
 
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show={show} onHide={handleClose} centered backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>Crypto Deposit</Modal.Title>
       </Modal.Header>

@@ -75,7 +75,7 @@ class ContactUpdateModal extends React.Component {
         return (
             <div>
                 <div className="modal fade" id="update-contact-modal">
-                    <div className="modal-dialog modal-lg">
+                    <div className="modal-dialog modal-lg modal-dialog-centered">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h4 className="modal-title">Reply to contact</h4>
@@ -127,7 +127,7 @@ class ContactUpdateModal extends React.Component {
                                             <label htmlFor="reply">Reply</label>
                                         </div>
                                         <div className="col-md-9">
-                                            <textarea
+                                            <textarea className='form-control'
                                                 onChange={this.handleChange}
                                             >
 

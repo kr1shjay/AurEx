@@ -37,20 +37,20 @@ class UserAssetModal extends React.Component {
                 align: "left",
                 sortable: true
             },
-            {
-                key: "derivativeBal",
-                text: "Derivative Balance",
-                className: "email",
-                align: "left",
-                sortable: true
-            },
-            {
-                key: "p2pBal",
-                text: "p2p Balance",
-                className: "email",
-                align: "left",
-                sortable: true
-            }
+            // {
+            //     key: "derivativeBal",
+            //     text: "Derivative Balance",
+            //     className: "email",
+            //     align: "left",
+            //     sortable: true
+            // },
+            // {
+            //     key: "p2pBal",
+            //     text: "p2p Balance",
+            //     className: "email",
+            //     align: "left",
+            //     sortable: true
+            // }
         ];
 
         this.config = {

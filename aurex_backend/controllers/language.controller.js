@@ -64,7 +64,7 @@ export const editLanguage = async (req, res) => {
             return res.status(400).json({ 'success': false, 'message': 'There is no record' })
         }
 
-        if (languageData.isPrimary && (reqBody.isPrimary == false || reqBody.status == 'deactive')) {
+        if (languageData.isPrimary && (reqBody.isPrimary == false || reqBody.status == 'Inactive')) {
             let setPrimary = await Language.findOneAndUpdate({
                 "_id": { "$ne": reqBody.id },
                 "status": 'active',
@@ -74,7 +74,7 @@ export const editLanguage = async (req, res) => {
                 return res.status(400).json({ 'success': false, 'message': 'Does not diable the default language' })
             }
             reqBody.isPrimary = false
-        } else if (languageData.status == 'deactive' && reqBody.isPrimary == true && reqBody.status == 'deactive') {
+        } else if (languageData.status == 'Inactive' && reqBody.isPrimary == true && reqBody.status == 'Inactive') {
             reqBody.isPrimary = false
         }
 

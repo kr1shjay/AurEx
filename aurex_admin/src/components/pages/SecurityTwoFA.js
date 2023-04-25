@@ -239,8 +239,9 @@ class google2Fa extends React.Component {
                                                 </div>
                                                 <div class="row mt-2">
                                                     <div className='col-md-6'>
-                                                    <div className="form-check">
-                                                                {secretData && secretData.twoFaStatus == "disabled" && <div> <Checkbox
+                                                    <div className="form-check form_cekc_show pl-0">
+                                                                {secretData && secretData.twoFaStatus == "disabled" && 
+                                                                <div> <Checkbox
                                                                     name="CheckValue"
                                                                     onChange={this.handleCheckBox}
                                                                     checked={CheckValue}
@@ -248,7 +249,8 @@ class google2Fa extends React.Component {
                                                                 /> <label className="form-check-label" for="flexCheckDefault">  I have backup the code</label>
 
 
-                                                                </div>}
+                                                                </div>
+                                                                }
                                                             </div>
                                                     </div>
                                                 </div>

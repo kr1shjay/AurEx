@@ -9,8 +9,8 @@ app.use(bodyParser.json());
 
 const host = '127.0.0.1';
 const port = 8332;
-const username = 'StdcasjxcwdsXCSNVJKvnns';
-const password = "LdvdnsjnqwUHGHVEjnsw";
+const username = 'muxbQlCWqOWtccPULEpp';
+const password = "G5nNLXBIvSX9qFk2e0xS";
 const coin = 'BTC'
 const PORT = 3000;
 
@@ -124,5 +124,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, function () {
-  console.log(`Example app listening on port ${PORT}!`);
+  console.log(`BTC app listening on port ${PORT}!`);
 });

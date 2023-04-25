@@ -130,7 +130,7 @@ const ActiveList = (props) => {
                                                 className="img-fluid"
                                             /> */}
                                             </div>
-                                                </div>
+                                            </div>
                                                 <div className='col-12 col-lg-8'>
                                                     <div className='row mb-3'>
                                                         <div className='col-12 col-lg-6 mb-3 mb-lg-0'>
@@ -186,7 +186,7 @@ const ActiveList = (props) => {
                                             </div>
                                             <div className="grid_values">
                                                 <p className='text_white_launch_p'>Website</p>
-                                                <p> <a target={`_blank`} href={item.website}>{item.website}<i className="fa fa-external-link" aria-hidden="true"></i></a></p>
+                                                <p> <a target={`_blank`} href={item.website.includes("https://")? item.website :  "https://"+item.website}>{item.website}<i className="fa fa-external-link" aria-hidden="true"></i></a></p>
                                             </div>
                                                         </div>
                                                     </div>

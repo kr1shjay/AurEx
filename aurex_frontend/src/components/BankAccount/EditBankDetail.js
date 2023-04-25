@@ -162,9 +162,39 @@ const EditBankDetail = (props) => {
 
     return (
         <form className={clsx("contact_form", { "disabledForm": formDisable }, "pt-4")}>
-            <h5 className="dash_subtitle pb-3 mb-3">Bank {formType == 'edit' && key}</h5>
+            
             <GridContainer>
-                <GridItem xs={12} sm={12} md={6} lg={3} className="settingsSelect">
+                {/* <GridItem xs={12} sm={12} md={6} lg={3} className="settingsSelect">
+                    <div className="form-group">
+                        <label>Select Currency</label>
+                        <Select
+                            value={currencyId}
+                            name="currencyId"
+                            onChange={handleSelect}
+                            disabled={formDisable}
+                            placeholder={'Select Currency'}
+                        >
+                            <MenuItem value=" " disabled>Select Currency</MenuItem>
+                            {
+                                currencyOption && currencyOption.length > 0 && currencyOption.map((item, key) => {
+                                    if (item.type == 'fiat') {
+                                        return (
+                                            <MenuItem key={key} value={item._id}>{item.coin}</MenuItem>
+                                        )
+                                    }
+                                })
+                            }
+                        </Select>
+                    </div>
+                </GridItem> */}
+            </GridContainer>
+
+            {
+                !isEmpty(currencySymbol) && 
+                <>
+                <h5 className="dash_subtitle pb-3 mb-3">Bank {formType == 'edit' && key}</h5>
+                <GridContainer>
+                    <GridItem xs={12} sm={12} md={6} lg={3} className="settingsSelect">
                     <div className="form-group">
                         <label>Select Currency</label>
                         <Select
@@ -187,10 +217,6 @@ const EditBankDetail = (props) => {
                         </Select>
                     </div>
                 </GridItem>
-            </GridContainer>
-
-            {
-                !isEmpty(currencySymbol) && <GridContainer>
 
                     <GridItem xs={12} sm={6} md={6} lg={3}>
                         <div className="form-group">
@@ -327,6 +353,7 @@ const EditBankDetail = (props) => {
 
                     </GridItem>
                 </GridContainer>
+                </>
             }
         </form>
 

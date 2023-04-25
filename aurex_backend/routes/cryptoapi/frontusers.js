@@ -1459,7 +1459,7 @@ router.post("/tfa-enable", function (req, res) {
                     res.status(200).json({
                       message: "2fa status deactivated successfully",
                       success: true,
-                      tfastatus: "deactive",
+                      tfastatus: "Inactive",
                     });
                   }
                 });

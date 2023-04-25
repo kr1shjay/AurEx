@@ -10,7 +10,7 @@ import { toastAlert } from '../../lib/toastAlert';
 
 
 const options = [{ 'value': "binance", 'label': "binance" }, { 'value': "off", 'label': "Off" }, { 'value': "wazirx", 'label': "Wazirx" }];
-const statusOptions = [{ 'value': "active", 'label': "Active" }, { 'value': "deactive", 'label': "DeActive" }]
+const statusOptions = [{ 'value': "active", 'label': "Active" }, { 'value': "Inactive", 'label': "Inactive" }]
 
 const initialFormValue = {
     "pairId": "",
@@ -27,7 +27,7 @@ const initialFormValue = {
     "markPrice": "",
     "markupPercentage": "",
     "botstatus": "off",
-    "status": "active", //active ,deactive
+    "status": "active", //active ,Inactive
 }
 
 class PairAddModal extends React.Component {

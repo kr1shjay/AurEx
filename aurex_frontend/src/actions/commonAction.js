@@ -262,6 +262,26 @@ export const getANNC = async (dispatch) => {
     }
 }
 
+export const getAncontent = async () => {
+    try {
+        let respData = await axios({
+            'method': 'get',
+            'url': `/api/getannouncement`,
+        });
+        console.log("getannouncement",respData.data.result)
+        return {
+            status: 'success',
+            loading: false,
+            result: respData.data.result,
+        }
+        
+    }
+    catch (err) {
+        handleResp(err, 'error')
+        return false
+    }
+} 
+
 /** 
  * Order History Filter
 */
@@ -372,3 +392,4 @@ export const newContact = async (data) => {
         }
     }
 }
+

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -144,7 +144,27 @@ export default function ScrollableTabsButtonAuto() {
     catch (err) { }
   }
 
-  const handlePairChange = async (pairData) => {
+  const handlePairChange = async (pairData,event) => {
+    console.log(event.target.closest("tr"),"event");
+    var allDivTd = document.getElementsByClassName("all_pair_tr");
+
+for(var i = 0; i < allDivTd.length; i++){
+    var td = allDivTd[i];
+    // td.getElementsByTagName("tr").classList.remove("active_pair")
+    console.log(td.getElementsByTagName("tr"),"fdsf");
+  var alltd = td.getElementsByTagName("tr");
+    for(var j = 0; j < alltd.length; j++){
+      var tdnew = alltd[j];
+      // td.getElementsByTagName("tr").classList.remove("active_pair")
+      // console.log(td.getElementsByTagName("tr"),"fdsf")
+      tdnew.classList.remove("active_pair")
+  }
+    // td.getElementsByTagName("tr").classList.remove("active_pair")
+}
+   
+    event.target.closest("tr").classList.add("active_pair");
+
+   
     let pair = `${pairData.firstCurrencySymbol}_${pairData.secondCurrencySymbol}`
     history.push('/spot/' + pair)
     if (tikerRoot != pair) {
@@ -291,12 +311,12 @@ export default function ScrollableTabsButtonAuto() {
                                                         {/* <th>24h Volume</th> */}
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody className="all_pair_tr">
                                                     {
                                                         pairLists && pairLists.length > 0 && pairLists.map((item, key) => {
                                                             if (el == item.secondCurrencySymbol) {
                                                                 return (
-                                                                    <tr key={key} onClick={() => handlePairChange(item)}>
+                                                                    <tr key={key} onClick={(e) => handlePairChange(item,e)}>
                                                                         <td>
                                                                             <p className="mb-0">{/* <i class="fas fa-star"></i> */}{item.firstCurrencySymbol}<span>/{item.secondCurrencySymbol}</span></p></td>
                                                                         <td className="balance_amt_detail">

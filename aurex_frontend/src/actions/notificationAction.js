@@ -100,3 +100,51 @@ export const readNotification = async () => {
         }
     }
 }
+
+export const readsingelNotification = async (data) => {
+    try {
+        let respData = await axios({
+            'method': 'put',
+            'url': `/api/readsingel-notification`,
+            data
+        })
+        return {
+            status: "success",
+            loading: false,
+            ReadMsg: respData.data.result.all,
+            unReadMsg: respData.data.result.unRead,
+        }
+    } catch (err) {
+        handleResp(err, 'error')
+        return {
+            status: "failed",
+            loading: false,
+            // message: err.response.data.message,
+        }
+    }
+}
+
+
+export const createNotification = async (data)=>{
+    try {
+        let respData = await axios({
+            'method': 'post',
+            'url': `/api/create-notification`,
+            data
+        })
+        return {
+            status: "success",
+            loading: false,
+            ReadMsg: respData.data.result.all,
+            unReadMsg: respData.data.result.unRead,
+        }
+    } catch (err) {
+        handleResp(err, 'error')
+        return {
+            status: "failed",
+            loading: false,
+            // message: err.response.data.message,
+        }
+}
+}
+///readsingel-notification

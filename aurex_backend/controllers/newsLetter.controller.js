@@ -23,7 +23,9 @@ export const newSubscribe = async (req, res) => {
         let reqBody = req.body;
         let checkDoc = await NewsLetter.findOne({ 'email': reqBody.email })
         if (checkDoc) {
-            return res.status(400).json({ 'status': false, 'errors': { 'email': 'Email already Subscribed' } })
+            return res.status(400).json({ 'status': false, 'message':  'Email already Subscribed'  })
+        }else if(reqBody.email==""||reqBody.email==null ||reqBody.email==undefined){
+            return res.status(400).json({ 'status': false, 'message':  'Email must not be empty'})
         }
         let newDoc = new NewsLetter({
             'email': reqBody.email
@@ -73,14 +75,14 @@ export const sendNews = async (req, res) => {
                     'message': message,
                     // 'date': datetime.getFullYear() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getDate()
                 }
-                mailTemplateLang({
+                await mailTemplateLang({
                     'identifier': 'newsletter_send',
                     'toEmail': item,
                     content
                 })
             }
         }
-        return res.status(200).json({ 'status': true, 'message': "Sent newsletter mails sucessfully. Refreshing data..." });
+        return res.status(200).json({ 'status': true, 'message': "Sent newsletter mails successfully. Refreshing data..." });
     } catch (err) {
         console.log("🚀 ~ file: newsLetter.controller.js ~ line 84 ~ sendNews ~ err", err)
         return res.status(500).json({ 'status': false, 'message': 'Error on server' })

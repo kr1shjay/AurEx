@@ -80,7 +80,7 @@ const EmailForm = () => {
 
         let reCaptcha = await handleReCaptcha()
         if (isEmpty(reCaptcha)) {
-            toastAlert('error', 'Invalid ReCaptcha', 'signup', 'TOP_CENTER');
+            toastAlert('error', 'Invalid ReCaptcha', 'signup', 'TOP_RIGHT');
             return
         }
 
@@ -101,12 +101,12 @@ const EmailForm = () => {
         // setReCaptcha('')
         if (status == 'success') {
             setFormValue(initialFormValue)
-            toastAlert('success', message, 'signup', 'TOP_CENTER');
+            toastAlert('success', message, 'signup', 'TOP_RIGHT');
         } else {
             if (error) {
                 setValidateError(error);
             }
-            toastAlert('error', message, 'signup', 'TOP_CENTER');
+            toastAlert('error', message, 'signup', 'TOP_RIGHT');
         }
     }
 
@@ -225,7 +225,7 @@ const EmailForm = () => {
                 {toched.confirmPassword && validateError.confirmPassword && <p className="error-message">{t(validateError.confirmPassword)}</p>}
             </div>
 
-            <div className="form-group">
+            {/* <div className="form-group">
                 <span className="login_label">{t('REFERRAL_CODE')}</span>
                 <div className="input-group regGroupInput mt-2">
                     <input
@@ -238,7 +238,7 @@ const EmailForm = () => {
                     />
                 </div>
                 {validateError.referenceCode && <p className="error-message">{t(validateError.referenceCode)}</p>}
-            </div>
+            </div> */}
 
             <div className="form-group">
                 <div className="form-check d-flex">

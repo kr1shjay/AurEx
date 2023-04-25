@@ -5,7 +5,7 @@ let category = new Schema({
 		type: String, default: ''
     },
     status:{
-		type: String, default: 1, // 0 - deactive, 1-active
+		type: String, default: 1, // 0 - Inactive, 1-active
 	}
 });
 

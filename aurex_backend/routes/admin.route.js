@@ -102,7 +102,7 @@ router.route('/emailTemplate')
   .put(passportAuth, emailTemplateValid.editTemplateValidate, emailTemplateCtrl.editEmailTemplate)
 
 //anouncement
-router.route('/anouncement').post(passportAuth, anouncementValid.anouncementAdd, anouncementCtrl.anouncementAdd)
+router.route('/anouncement').post(passportAuth, anouncementCtrl.Anouncementupload ,anouncementValid.anouncementAdd,anouncementCtrl.anouncementAdd)
 
 // User
 router.route('/user').get(passportAuth, userCntrl.getUserList)

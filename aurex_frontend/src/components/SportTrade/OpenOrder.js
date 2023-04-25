@@ -10,6 +10,7 @@ import SocketContext from '../Context/SocketContext';
 import { useTranslation } from 'react-i18next';
 // import component
 import CancelOrder from './CancelOrder';
+import CancelModal from './CancelModal'
 
 // import action
 import { getOpenOrder } from '../../actions/spotTradeAction';
@@ -37,6 +38,8 @@ const OpenOrder = (props) => {
     // state
     const [loader, setLoader] = useState(true)
     const [orderData, setOrderData] = useState(initialData)
+    const [cancel, buyCancel] = useState(false);
+    const [cancelID,setCancelId]=useState()
 
     const { currentPage, nextPage, limit, count, data } = orderData
 
@@ -96,7 +99,7 @@ const OpenOrder = (props) => {
 
             // socket
             socketContext.socket.on('openOrder', (result) => {
-                console.log("result",result)
+                console.log("openorder socket",result)
                 if (result.pairId == tradePair.pairId) {
                     setOrderData({
                         'currentPage': result.currentPage,
@@ -112,9 +115,13 @@ const OpenOrder = (props) => {
             })
         }
     }, [tradePair,socketContext.socket])
+    const onDismiss = ()=>{
+        buyCancel(false)
+    }
 
     return (
         <div className="table-responsive">
+           {cancel ? (<CancelModal id={cancelID} onDismiss={onDismiss}/>):("")}
             <Scrollbars style={{ width: "100%", height: 342 }}>
                 <table id="positionsTable" className="table table-striped">
                     <thead>
@@ -147,9 +154,17 @@ const OpenOrder = (props) => {
                                         <td>{Number(item.orderValue).toFixed(curFloat)}</td>
                                         {/* <td>{triggerCondition(item.conditionalType, item.stopPrice)}</td> */}
                                         <td>
-                                            <CancelOrder
+                                            {/* <CancelOrder
                                                 orderId={item._id}
-                                            />
+                                            /> */}
+                                            <button 
+                                            onClick={(e)=>{
+                                                e.preventDefault();
+                                                setCancelId(item._id);
+                                                buyCancel(true);}}
+                                            className="btn btn-primary text-uppercase py-2"
+                                            disabled={loader}
+                                            >Cancel</button>
                                         </td>
                                     </tr>
                                 )

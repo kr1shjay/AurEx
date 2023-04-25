@@ -53,20 +53,32 @@ const Chart = (props) => {
             theme: theme,
             toolbar_bg: "#1a1b1c",
             overrides: {
-                // "symbolWatermarkProperties.color": "#000657",
                 "paneProperties.background": "#1a1b1c",
-                "paneProperties.vertGridProperties.color": "transparent",
-                "paneProperties.horzGridProperties.color": "transparent"
-            },
+                "paneProperties.vertGridProperties.color": "#2a2e2d",
+                "paneProperties.horzGridProperties.color": "#2a2e2d",
+                "symbolWatermarkProperties.transparency": 90,
+                "scalesProperties.textColor" : "#AAA",
+                "mainSeriesProperties.candleStyle.wickUpColor": '#336854',
+                "mainSeriesProperties.candleStyle.wickDownColor": '#7f323f',
+               }
+            // overrides: {
+            //     // "symbolWatermarkProperties.color": "#000657",
+            //     "paneProperties.background": "#1a1b1c",
+            //     "paneProperties.vertGridProperties.color": "transparent",
+            //     "paneProperties.horzGridProperties.color": "transparent"
+            // },
         };
 
         if (theme == "White") {
             delete widgetOptions.toolbar_bg;
             delete widgetOptions.overrides;
         }
+        console.log("thtme",theme);
 
         const tvWidget = new widget(widgetOptions);
-
+        //tvWidget.mainSeriesPriceFormatter()._priceScale = 10000;
+        //tvWidget.mainSeriesPriceFormatter()._priceScale = 10000;
+        // TradingView.SeriesStyle?.Area.toFixed(2)
         tvWidget.onChartReady(() => {
             tvWidget.headerReady().then(() => {
                 const button = tvWidget.createButton();
@@ -95,9 +107,9 @@ const Chart = (props) => {
         if (!isEmpty(tradePair)) {
             if(!sectionNum || tradePair.sectionNum == sectionNum) {
                 let symbol = tradePair.firstCurrencySymbol + tradePair.secondCurrencySymbol;
-                let themeValue = 'White';
+                let themeValue = 'Dark';
                 if (themeData == 'light') {
-                    themeValue = 'White'
+                    themeValue = 'Dark'
                 } else if (themeData == 'dark') {
                     themeValue = 'Dark'
                 }
@@ -146,6 +158,7 @@ Chart.defaultProps = {
     fullscreen: false,
     autosize: true,
     studiesOverrides: {},
+    
 };
 
 export default Chart;

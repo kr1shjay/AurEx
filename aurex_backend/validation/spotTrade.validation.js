@@ -11,17 +11,23 @@ import isEmpty from '../lib/isEmpty';
  * BODY :  token
 */
 export const decryptValidate = (req, res, next) => {
-    let errors = {}, reqBody = req.body;
-
-    if (isEmpty(reqBody.token)) {
-        errors.token = "REQUIRED";
+    let api_key = req.header("x-api-key");
+    let authorization = req.header('Authorization');
+    if (api_key !== null && api_key !== undefined && authorization == undefined) {
+        return next();
     }
+    else {
+        let errors = {}, reqBody = req.body;
 
-    if (!isEmpty(errors)) {
-        return res.status(400).json({ "errors": errors })
+        if (isEmpty(reqBody.token)) {
+            errors.token = "REQUIRED";
+        }
+
+        if (!isEmpty(errors)) {
+            return res.status(400).json({ "errors": errors })
+        }
+        return next();
     }
-
-    return next();
 }
 
 /**
@@ -31,6 +37,7 @@ export const decryptValidate = (req, res, next) => {
  * BODY :  orderType(limit,market,stopLimit,oco)
 */
 export const orderPlaceValidate = (req, res, next) => {
+
     let errors = {}, reqBody = req.body;
 
     if (isEmpty(reqBody.orderType)) {

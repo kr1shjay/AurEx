@@ -10,7 +10,7 @@ const UserSettingSchema = new Schema({
     },
     currencySymbol: {
         type: String,
-        default: 'INR'
+        default: 'USDT'
     },
     theme: {
         type: String,   //light, dark

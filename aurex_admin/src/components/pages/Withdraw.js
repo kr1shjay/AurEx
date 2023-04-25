@@ -12,12 +12,13 @@ import { getWithdrawList } from '../../actions/walletAction'
 
 // impport lib
 import { paymentType } from '../../lib/displayStatus'
-
+import {momentFormat} from "../../lib/dateTimeHelper"
 
 //import downloads
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { CSVLink } from "react-csv";
+import { compose } from "redux";
 
 
 class Withdraw extends Component {
@@ -29,7 +30,10 @@ class Withdraw extends Component {
                 text: "Created date",
                 className: "created_date",
                 align: "left",
-                sortable: true
+                sortable: true,
+                cell: record => {
+                    return momentFormat(record.createdAt, 'YYYY-MM-DD HH:mm')
+                }
             },
             {
                 key: "userId",
@@ -180,6 +184,7 @@ class Withdraw extends Component {
             const { status, loading, result } = await getWithdrawList(reqData);
             this.setState({ "loader": loading })
             if (status == 'success') {
+                console.log("count: result.count",result.count)
                 this.setState({ "count": result.count, 'records': result.data })
             }
         } catch (err) { }
@@ -352,7 +357,7 @@ class Withdraw extends Component {
                             )}
                             <ReactDatatable className="table table-bordered table-striped user_management_table"
                                 config={this.config}
-                                records={records}
+                                records={this.state.records}
                                 columns={this.columns}
                                 dynamic={true}
                                 total_record={count}

@@ -176,7 +176,7 @@ export default function SpotMarket(props) {
             <div className='row'>
                 <div className="col-md-9"></div>
                 <div className="col-md-3">
-                    <div className="seacr_box_s">
+                    <div className="seacr_box_s searc_right_pad_new">
                         <input
                             type="text"
                             placeholder="Find Coin"

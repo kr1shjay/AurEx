@@ -43,7 +43,7 @@ class FiatDepositModal extends Component {
             const { formValue } = this.state;
             let reqData = {
                 'transactionId': record._id,
-                'amount': formValue.amount
+                'amount': record.amount
             };
 
             const { status, loading, message, error } = await approveFiatDeposit(reqData);
@@ -134,7 +134,7 @@ class FiatDepositModal extends Component {
                                         <input
                                             type="text"
                                             name="amount"
-                                            value={amount}
+                                            value={record.amount}
                                             onChange={this.handleChange}
                                             error={errors.amount}
                                             className={classnames("form-control", {

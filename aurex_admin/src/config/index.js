@@ -1,33 +1,35 @@
 let key = {};
-
+// empty string
 // if (process.env.NODE_ENV === "production") {
 if (process.env.REACT_APP_MODE === "production") {
     console.log("Set Production Config")
-    const API_URL = 'https://api.cluxchange.com';
+    const API_URL = 'https://api.aurexchange.com';
 
     key = {
         secretOrKey: "FxUum76z",
-        Recaptchakey: "6LeHezUfAAAAAE_uuY_HFN5HoEVsQv8bpyC3xTat", //local
+        Recaptchakey: "6LeKwCYjAAAAAMbORefOGhr-1AAXaTNTkL7MBJrV", //local
         API_URL: API_URL,
-        FRONT_URL: 'https://cluxchange.com',
-        ADMIN_URL: 'https://cluxchange.com/admin',
+        FRONT_URL: 'https://aurexchange.com',
+        ADMIN_URL: 'https://contorls.aurexchange.com',
         getGeoInfo: "https://ipapi.co/json/",
     };
 
-} else if (process.env.REACT_APP_MODE === "demo") {
+} 
+else if (process.env.REACT_APP_MODE === "demo") {
     console.log("Set Demo Config")
-    const API_URL = 'https://cluxapi.wealwin.com';
+    const API_URL = 'https://aurex.maticz.com/api';
 
     key = {
         secretOrKey: "FxUum76z",
-        Recaptchakey: "6LeHezUfAAAAAE_uuY_HFN5HoEVsQv8bpyC3xTat", //local
-        API_URL: 'https://cluxapi.wealwin.com',
-        FRONT_URL: 'https://clux.wealwin.com',
-        ADMIN_URL: 'https://clux.wealwin.com/admin',
+        Recaptchakey: "6Lc0jA4jAAAAADmNtnnGw7Px86Pscz2sgpavPIcn", //local
+        API_URL: 'https://aurex.maticz.com/api',
+        FRONT_URL: 'https://aurex.maticz.com',
+        ADMIN_URL: 'https://aurex.maticz.com/admin',
         getGeoInfo: "https://ipapi.co/json/",
     };
 
-} else {
+}
+else {
     console.log("Set Development Config")
     const API_URL = 'http://localhost';
     key = {

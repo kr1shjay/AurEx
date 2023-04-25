@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import clsx from "classnames";
 import ReactDatatable from '@ashvin27/react-datatable';
 import { useTranslation } from 'react-i18next';
-
+import DataTable from "react-data-table-component";
 // import action
 import { gettradeHistory } from "../../actions/dashboardAction";
 
@@ -20,7 +20,7 @@ const RecentTransaction = () => {
   const [reportData, setreportData] = useState([]);
   const [filter, setFilter] = useState({
     'page': 1,
-    'limit': 5,
+    'limit': 10,
   })
   const [count, setcount] = useState(0);
   // funtion
@@ -127,136 +127,189 @@ const RecentTransaction = () => {
     fetchTransaction(filterData);
   }
 
-  const columns = [
-    {
-      key: "createdAt",
-      text: "Date",
-      className: "Date",
-      align: "left",
-      sortable: true,
-      width: 200,
-      cell: (record) => {
-        return (
-          <p>
-            {dateTimeFormat(record.createdAt, "YYYY-MM-DD HH:mm")}
-          </p>
-        )
-      }
+  // const columns = [
+  //   {
+  //     key: "createdAt",
+  //     text: "Date",
+  //     className: "Date",
+  //     align: "left",
+  //     sortable: true,
+  //     width: 200,
+  //     cell: (record) => {
+  //       return (
+  //         <p>
+  //           {dateTimeFormat(record.createdAt, "YYYY-MM-DD HH:mm")}
+  //         </p>
+  //       )
+  //     }
 
-    },
-    {
-      key: "_id",
-      text: "Transaction id",
-      className: "pairName",
-      align: "left",
-      sortable: true,
-      width: 200,
-    },
-    {
-      key: "buyorsell",
-      text: "side",
-      className: "name",
-      align: "left",
-      sortable: true,
-    },
-    {
-      key: "orderType",
-      text: "OrderType",
-      className: "name",
-      align: "left",
-      sortable: true,
-      cell: (record) => {
+  //   },
+  //   {
+  //     key: "_id",
+  //     text: "Transaction id",
+  //     className: "pairName",
+  //     align: "left",
+  //     sortable: true,
+  //     width: 200,
+  //   },
+  //   {
+  //     key: "buyorsell",
+  //     text: "side",
+  //     className: "name",
+  //     align: "left",
+  //     sortable: true,
+  //   },
+  //   {
+  //     key: "orderType",
+  //     text: "OrderType",
+  //     className: "name",
+  //     align: "left",
+  //     sortable: true,
+  //     cell: (record) => {
 
-        console.log("orderTypeorderType",record.orderType)
-        return (
-          <p>
-            {(record.orderType == "limit" ? "Limit" : "Market")}
-          </p>
-        )
-      }
+  //       console.log("orderTypeorderType",record.orderType)
+  //       return (
+  //         <p>
+  //           {(record.orderType == "limit" ? "Limit" : "Market")}
+  //         </p>
+  //       )
+  //     }
+  //   },
+  //   {
+  //     text: "Pair Name",
+  //     className: "name",
+  //     align: "left",
+  //     sortable: true,
+  //     cell: (item) => {
+  //       return (
+  //         <p>
+  //           {item.firstCurrency + item.secondCurrency}
+  //         </p>
+  //       )
+  //     }
+  //   },
+  //   {
+  //     key: "price",
+  //     text: "Price",
+  //     className: "name",
+  //     align: "left",
+  //     sortable: true,
+  //   },
+  //   {
+  //     key: "quantity",
+  //     text: "Quantity",
+  //     className: "name",
+  //     align: "left",
+  //     sortable: true,
+  //   },
+  //   {
+  //     text: "FilledQuantity",
+  //     className: "name",
+  //     align: "left",
+  //     sortable: true,
+  //     cell: (record) => {
+  //       return (
+  //         <p>
+  //           {(record.filledQuantity)}
+  //         </p>
+  //       )
+  //     }
+  //   },
+  //   {
+  //     key: "orderValue",
+  //     text: "Order Value",
+  //     className: "name",
+  //     align: "left",
+  //     sortable: true,
+  //     cell: (record) => {
+  //       return (
+  //         <p>
+  //           {(record.orderValue.toFixed(4))}
+  //         </p>
+  //       )
+  //     }
+  //   },
+
+
+  // ];
+  const columns =[
+    {
+      name:"Date",
+      selector:"createdAt",
+      sortable:false
     },
     {
-      text: "Pair Name",
-      className: "name",
-      align: "left",
-      sortable: true,
+      name:"Transaction id",
+      selector:"_id",
+      sortable:false
+    },
+    {
+      name:"side",
+      selector:"buyorsell",
+      sortable:false
+    },
+    {
+      name:"OrderType",
+      selector:"orderType",
+      sortable:false
+    },
+    {
+      name:"Pair Name",
       cell: (item) => {
-        return (
-          <p>
-            {item.firstCurrency + item.secondCurrency}
-          </p>
-        )
-      }
+              return (
+                <p>
+                  {item.firstCurrency + item.secondCurrency}
+                </p>
+              )
+            }
     },
     {
-      key: "price",
-      text: "Price",
-      className: "name",
-      align: "left",
-      sortable: true,
+      name:"Price",
+      selector:"price",
+      sortable:false
     },
     {
-      key: "quantity",
-      text: "Quantity",
-      className: "name",
-      align: "left",
-      sortable: true,
+      name:"Quantity",
+      selector:"quantity",
+      sortable:false
     },
     {
-      text: "FilledQuantity",
-      className: "name",
-      align: "left",
-      sortable: true,
-      cell: (record) => {
-        return (
-          <p>
-            {(record.filledQuantity)}
-          </p>
-        )
-      }
+      name:"FilledQuantity",
+      selector:"filledQuantity",
+      sortable:false
     },
     {
-      key: "orderValue",
-      text: "Order Value",
-      className: "name",
-      align: "left",
-      sortable: true,
-      cell: (record) => {
-        return (
-          <p>
-            {(record.orderValue.toFixed(4))}
-          </p>
-        )
-      }
-    },
+      name:"Order Value",
+      selector:"orderValue",
+      sortable:false
+    }
+  ]
 
+  // const config = {
+  //   page_size: 5,
+  //   length_menu: [10, 20, 50],
+  //   filename: "Order",
+  //   no_data_text: 'No Records found!',
+  //   language: {
+  //     length_menu: "Show _MENU_ result per page",
+  //     filter: "Filter in records...",
+  //     info: "Showing _START_ to _END_ of _TOTAL_ records",
+  //     pagination: {
+  //       first: "First",
+  //       previous: "Previous",
+  //       next: "Next",
+  //       last: "Last"
+  //     }
+  //   },
+  //   show_length_menu: false,
+  //   show_filter: false,
+  //   show_pagination: true,
+//   show_info: true,
+  // };
 
-  ];
-
-  const config = {
-    page_size: 5,
-    length_menu: [10, 20, 50],
-    filename: "Order",
-    no_data_text: 'No Records found!',
-    language: {
-      length_menu: "Show _MENU_ result per page",
-      filter: "Filter in records...",
-      info: "Showing _START_ to _END_ of _TOTAL_ records",
-      pagination: {
-        first: "First",
-        previous: "Previous",
-        next: "Next",
-        last: "Last"
-      }
-    },
-    show_length_menu: false,
-    show_filter: false,
-    show_pagination: true,
-    show_info: true,
-  };
 
   return (
-    <div className="table-responsive">
+    <div className="table-responsive stakingHistoryTable">
       <br />
       <span>
         {/* {data.length > 0 ? (
@@ -282,13 +335,24 @@ const RecentTransaction = () => {
         )} */}
       </span>
 
-      <ReactDatatable
+      {/* <ReactDatatable
         config={config}
         records={data}
         columns={columns}
         dynamic={true}
         total_record={count}
         onChange={handlePagination}
+      /> */}
+      <DataTable
+      columns={columns}
+      data={data}
+      noHeader
+      pagination
+      progressPending={loader}
+      paginationServer
+      paginationComponentOptions={{ noRowsPerPage: true }}
+      paginationTotalRows={count}
+      onChangePage={handlePagination}
       />
 
       {/* <table className="table mb-0">

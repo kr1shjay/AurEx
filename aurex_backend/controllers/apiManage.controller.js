@@ -1,7 +1,8 @@
 // import model
 import {
     User,
-    ApiKey
+    ApiKey,
+    UserToken
 } from '../models';
 import passport from 'passport';
 import {  usersAuth } from '../config/passport';
@@ -107,11 +108,11 @@ export const changeStatus = async (req, res) => {
         }
 
         if (keyDoc.status == 'active') {
-            keyDoc.status = 'deactive'
+            keyDoc.status = 'Inactive'
             await keyDoc.save();
             let data = await getKeys(req.user.id)
             return res.status(200).json({ 'status': true, 'message': "The API key was successfully disabled.", 'result': data });
-        } else if (keyDoc.status == 'deactive') {
+        } else if (keyDoc.status == 'Inactive') {
             keyDoc.status = 'active'
             await keyDoc.save();
             let data = await getKeys(req.user.id)
@@ -233,7 +234,7 @@ export const testKey = (req, res) => {
 }
 
 
-export const apikey= async(apikey,next,res)=>{
+export const apikey= async(apikey,next,req,res)=>{
     console.log("demochecking")
     // let api_key = req.header("x-api-key");
     // console.log("apiii",api_key)
@@ -251,7 +252,9 @@ export const apikey= async(apikey,next,res)=>{
             trade: userDetails.trade
            
         }
-        return next(null, datas);
+        req.user = datas
+        console.log("data",datas)
+        return next();
     }
     else{
       res.send("Key not found")
@@ -260,38 +263,49 @@ export const apikey= async(apikey,next,res)=>{
 
 
 
-export const verifyToken = (req, res, next) => {
+export const verifyToken =async (req, res, next) => {
     const token = req.header('Authorization').split('Bearer ').join('');
 
-    console.log("token",token)
+    // console.log("token",token)
     try {
-        // var decrypt=decryptString(token,true);
-        // console.log("decrypt",decrypt,"priya")
-        var decrypt = jwt.decode(token);
-        console.log(decrypt);
-        const decoded = jwt.verify(token, config.cryptoSecretKey);
-        console.log(decoded,"decoded");
+
+        let decoding = new User().decodejwt(token)
+        console.log("decoding",decoding,req.header('Authorization'));
+        let userDoc = await UserToken.findOne({ 'userId': decoding._id, 'token': req.header('Authorization') }).populate({ path: "userId", select: "_id userId type email google2Fa status" })
+       console.log("userDoc",userDoc)
+        let data = {
+            id: userDoc.userId._id,
+            userId: userDoc.userId.userId,
+            type: userDoc.userId.type,
+            email: userDoc.userId.email,
+            google2Fa: userDoc.userId.google2Fa
+        }
+        req.user = data
+        console.log("data",data)
+        return next();
+        // var decrypt = jwt.decode(token);
+        // console.log(decrypt);
+        // const decoded = jwt.verify(token, config.secretOrKey);
+        // console.log(decoded,"decoded");
     } catch (err) {
-        console.log("error",err)
+        console.log("verifyToken-error",err)
         return res.status(401).send("Invalid Token");
     }
-    return next();
 }
 
 
 
-const passportAuth = passport.authenticate("usersAuth", { session: false });
 export const authorization = async(req,res,next)=>{
     let api_key = req.header("x-api-key");
     console.log("passport--->",api_key,api_key!== undefined)
 
     if(api_key!==null && api_key!== undefined){
-        console.log("passport--->",api_key,api_key!== undefined)
-        await apikey(api_key,next,res)
+        console.log("key--->",api_key,api_key!== undefined)
+        await apikey(api_key,next,req,res)
     }
     else{
-        console.log("passport--->",api_key,api_key!== undefined)
-        usersAuth(passportAuth);
+        await verifyToken(req,res,next);
+        // console.log("token")
     }
 }
 

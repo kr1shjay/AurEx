@@ -115,6 +115,7 @@ const CreateTicket = (props) => {
                         <Select
                             value={categoryId}
                             name={'categoryId'}
+                            id={'categoryId'}
                             onChange={handleChange}
                         >
                             <MenuItem value={' '}>{"Select Issue"}</MenuItem>
@@ -162,6 +163,7 @@ const CreateTicket = (props) => {
                                 }
                             </label>
                         </div>
+                        <p>jpg,jpeg,png,pdf allowed</p>
                         {
                             validateError.attachment && <p className="error-message">{t(validateError.attachment)}</p>
                         }
@@ -202,7 +204,10 @@ const CreateTicket = (props) => {
                         categoryList && categoryList.length > 0 && categoryList.map((item, i) =>{
                             return (
                                 <ul>
-                                    <li><a href="#">{i+1}. {item.categoryName}</a></li>
+                                    <li ><a href='#'  onClick={(e)=>{
+                                    e.preventDefault();
+                                    setFormValue({ ...formValue, ...{ ['categoryId']:item._id}});
+                                }}>{i+1}. {item.categoryName}</a></li>
                                 </ul>
                             )
                         })

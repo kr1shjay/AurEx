@@ -991,7 +991,7 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active,
 .input_grp_width .input-group-text
 {
 background-color: transparent !important;
-border-color: #242827 !important;
+border-color: #59615f !important;
 color: #fff !important;
 }
 .input_grp_width .input-group-text i
@@ -1033,4 +1033,8 @@ color: #fff !important;
 .select__menu
 {
     background: #000 !important;
+}
+.btn-info
+{
+    width: auto !important;
 }

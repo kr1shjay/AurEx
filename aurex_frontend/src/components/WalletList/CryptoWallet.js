@@ -21,7 +21,7 @@ import {
   gethideZeroStatus,
   updateHideZeroStatus,
 } from "../../actions/walletAction";
-
+import { checkEmail } from "../../actions/walletAction";
 //import lib
 
 import { toastAlert } from "../../lib/toastAlert";
@@ -44,6 +44,7 @@ const CryptoWallet = () => {
   // redux-state
   const walletData = useSelector((state) => state.wallet);
   const currencyDoc = useSelector((state) => state.currency);
+  console.log('currency',currencyDoc)
 
   // function
   const handleChange = (e) => {
@@ -86,6 +87,9 @@ const CryptoWallet = () => {
         }
       });
     if (arrayData && arrayData.length > 0) {
+      setOriginal(arrayData);
+    }
+    else{
       setOriginal(arrayData);
     }
     if (isEmpty(value)) {
@@ -163,7 +167,7 @@ const CryptoWallet = () => {
           </div>
 
           {
-            <div className="seacr_box_s">
+            <div className="seacr_box_s searc_right_pad_new">
               <input
                 type="text"
                 placeholder={t("FIND_COIN")}
@@ -225,7 +229,8 @@ const CryptoWallet = () => {
                         <span>{item.coin}</span>
                       </div>
 
-                      <p>{toFixedDown(item.spotBal, curData.decimal)}</p>
+                      {/* <p>{toFixedDown(item.spotBal, curData.decimal)}</p> */}
+                      <p>{toFixed(item.spotBal, curData.decimal)}</p>
                       {/* {walletType == 'derivative' && <p>{item.derivativeBal}</p>}
                               {walletType == 'p2p' && <p>{item.p2pBal}</p>} */}
                     </div>
@@ -234,12 +239,24 @@ const CryptoWallet = () => {
                         <div className="Subscribe">
                           <Button
                             className="btn-primary"
-                            onClick={() => {
-                              setModal({
-                                type: "deposit",
-                                assetData: item,
-                                currency: curData,
-                              });
+                            onClick={async() => {
+                              console.log("check-email")
+                              const emailvlaid = await checkEmail();
+                              if (emailvlaid.email) {
+                                setModal({
+                                  type: "deposit",
+                                  assetData: item,
+                                  currency: curData,
+                                });
+                              }
+                              else {
+                                toastAlert("error", "Please submit email details", "email");
+                              }
+                              // setModal({
+                              //   type: "deposit",
+                              //   assetData: item,
+                              //   currency: curData,
+                              // });
                             }}
                           >
                             {t("DEPOSIT")}
@@ -317,7 +334,8 @@ const CryptoWallet = () => {
                         <span>{item.coin}</span>
                       </div>
 
-                      <p>{toFixedDown(item.spotBal, curData.decimal)}</p>
+                      {/* <p>{toFixedDown(item.spotBal, curData.decimal)}</p> */}
+                      <p>{toFixed(item.spotBal, curData.decimal)}</p>
                       {/* {walletType == 'derivative' && <p>{item.derivativeBal}</p>}
                                         {walletType == 'p2p' && <p>{item.p2pBal}</p>} */}
                     </div>
@@ -326,12 +344,24 @@ const CryptoWallet = () => {
                         <div className="Subscribe">
                           <Button
                             className="btn-primary"
-                            onClick={() => {
-                              setModal({
-                                type: "deposit",
-                                assetData: item,
-                                currency: curData,
-                              });
+                            onClick={async() => {
+                              console.log("check-email")
+                              const emailvlaid = await checkEmail();
+                              if (emailvlaid.email) {
+                                setModal({
+                                  type: "deposit",
+                                  assetData: item,
+                                  currency: curData,
+                                });
+                              }
+                              else {
+                                toastAlert("error", "Please submit email details", "email");
+                              }
+                              // setModal({
+                              //   type: "deposit",
+                              //   assetData: item,
+                              //   currency: curData,
+                              // });
                             }}
                           >
                             {t("DEPOSIT")}

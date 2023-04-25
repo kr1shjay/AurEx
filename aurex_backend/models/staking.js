@@ -45,7 +45,7 @@ const stakingSchema = new Schema({
 		default: 1
 	},
 	status: {
-		type: String,		// active, deactive
+		type: String,		// active, Inactive
 		default: 'active'
 	},
 });

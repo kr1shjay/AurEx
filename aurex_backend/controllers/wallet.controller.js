@@ -80,9 +80,17 @@ export const uploadWalletDoc = (req, res, next) => {
 */
 export const decryptWallet = (req, res, next) => {
     try {
+        let api_key = req.header("x-api-key");
+        let authorization = req.header('Authorization')
+        console.log("orderreq", req.user, req.body,authorization)
+        if (api_key !== null && api_key !== undefined && authorization == undefined) {
+            return next();
+        }
+        else{
         let token = decryptObject(req.body.token)
         req.body = token;
         return next();
+        }
     } catch (err) {
         return res.status(500).json({ 'status': false, 'message': "SOMETHING_WRONG" });
     }
@@ -137,7 +145,7 @@ export const updateHideZeroStatus = async (req, res) => {
 
         const updateData = await wallet.findOneAndUpdate({ "_id": ObjectId(req.user.id) }, { hideZeroStatus: reqBody.hideZeroStatus }, { new: true },)
 
-        return res.status(200).json({ 'success': true, message: "Hidezero updated successfully" })
+        return res.status(200).json({ 'success': true, message: "zero balance asstes hide  successfully" })
 
     } catch (err) {
         console.log("errrrrrrrrrrrrrrrrrr", err)
@@ -162,6 +170,11 @@ export const getWallet = async (req, res) => {
             "assets.p2pBal": 1
         })
 
+        var userInfo = await User.findOne({
+            '_id': req.user.id
+        })
+        console.log("User Info : ", userInfo)
+
         if (!walletData) {
             return res.status(400).json({ 'success': false })
         }
@@ -172,11 +185,12 @@ export const getWallet = async (req, res) => {
                 assetList.push(el._id)
             }
         });
-
+        console.log("USer email : ", req.user.email ? req.user.email : userInfo.phoneNo)
         if (assetList && assetList.length > 0) {
             let updateAsset = await updateAddress(assetList, req.user.userId, {
                 'walletId': walletData._id,
-                "binSubAcctEmail": req.user.binSubAcctEmail
+                "binSubAcctEmail": req.user.binSubAcctEmail,
+                "emailId": req.user.email ? req.user.email : userInfo.phoneNo
             })
 
             if (updateAsset && updateAsset.length > 0) {
@@ -186,6 +200,7 @@ export const getWallet = async (req, res) => {
         return res.status(200).json({ 'success': true, 'messages': "successfully", 'result': usrAsset, })
     }
     catch (err) {
+        console.log("User data : ", err)
         return res.status(500).json({ 'success': false })
     }
 }
@@ -195,13 +210,13 @@ export const getWallet = async (req, res) => {
 export const getbalance = async (req, res) => {
     try {
         let balancedata = await wallet.findOne({ "_id": req.user.id });
-        console.log("balance",balancedata)
+        console.log("balance", balancedata)
         if (!balancedata) {
             return res.status(400).json({ 'success': true, 'messages': "USER_NOT_FOUND" })
         }
-        let assetDoc = balancedata.assets.find((val)=>(val.coin == req.query.symbol));
+        let assetDoc = balancedata.assets.find((val) => (val.coin == req.query.symbol));
 
-        console.log("assetDoc",assetDoc)
+        console.log("assetDoc", assetDoc)
         if (!assetDoc) {
             return res.status(400).json({ 'success': true, 'messages': "NOT_FOUND" })
         }
@@ -210,13 +225,13 @@ export const getbalance = async (req, res) => {
             "coinbal": assetDoc.spotBal
         }
         return res.status(200).json({ 'success': true, 'messages': "success", 'result': result })
-        }
+    }
     catch (err) {
         return res.status(500).json({ 'status': false, 'message': "Error occured" });
     }
 }
 
-    
+
 
 
 /** 
@@ -264,7 +279,7 @@ export const updateAddress = async (assetList, userId, option = {}) => {
                 }
             },
         ]);
-
+        console.log("USer option : ", option)
         let walletData;
         if (currencyList && currencyList.length > 0) {
             if (currencyList[0].crypto && currencyList[0].crypto.length > 0) {
@@ -408,7 +423,14 @@ export const getAssetByCurrency = async (req, res) => {
 */
 export const checkUserKyc = async (req, res, next) => {
     try {
+        let user = await User.findOne({ _id: req.user.id })
+        if (!user.email) {
+            return res.status(400).json({ "success": false, 'message': "EMAIL_SUMBIT" })
+        }
         let userKyc = await UserKyc.findOne({ "userId": req.user.id });
+        if (!user.email) {
+            return res.status(400).json({ "success": false, 'message': "EMAIL_SUMBIT" })
+        }
         if (!userKyc) {
             return res.status(400).json({ "success": false, 'message': "KYC_SUBMIT_ALERT" })
         }
@@ -432,128 +454,137 @@ export const checkUserKyc = async (req, res, next) => {
 */
 export const withdrawFiatRequest = async (req, res) => {
     try {
-        let reqBody = req.body;
-        reqBody.amount = parseFloat(reqBody.amount);
-        let userData = await User.findOne({ "_id": req.user.id, 'bankDetails._id': reqBody.bankId });
-
-        if (!userData) {
-            return res.status(400).json({ 'success': false, 'errors': { 'bankId': 'INVALID_BANK_ACCOUNT' } })
+        let api_key = req.header("x-api-key");
+        console.log("orderreq", req.user,api_key !== null && api_key !== undefined && req.user.withdraw !== true)
+        if (api_key !== null && api_key !== undefined && req.user.withdraw !== true) {
+            console.log("orderreq444", req.user)
+            return res.status(400).json({ 'status': false, 'message': "You don't have permission to WithdrawFiatRequest" });
         }
+        else {
 
-        if (userData.google2Fa.secret == '') {
-            return res.status(500).json({ "success": false, 'errors': { 'twoFACode': 'TWO_FA_MSG' } })
+            let reqBody = req.body;
+            reqBody.amount = parseFloat(reqBody.amount);
+            let userData = await User.findOne({ "_id": req.user.id, 'bankDetails._id': reqBody.bankId });
+
+            if (!userData) {
+                return res.status(400).json({ 'success': false, 'errors': { 'bankId': 'INVALID_BANK_ACCOUNT' } })
+            }
+
+            if (userData.google2Fa.secret == '') {
+                return res.status(500).json({ "success": false, 'errors': { 'twoFACode': 'TWO_FA_MSG' } })
+            }
+
+            let verifyTwoFaCode = node2fa.verifyToken(userData.google2Fa.secret, reqBody.twoFACode);
+            if (!(verifyTwoFaCode && verifyTwoFaCode.delta == 0)) {
+                return res.status(400).json({ "success": false, 'errors': { 'twoFACode': "INVALID_CODE" } })
+            }
+
+            let bankDetails = userData.bankDetails.id(reqBody.bankId);
+            if (!bankDetails) {
+                return res.status(400).json({ 'success': false, 'errors': { 'bankId': 'INVALID_BANK_ACCOUNT' } })
+            }
+
+            let usrWallet = await Wallet.findOne({
+                '_id': req.user.id
+            }, {
+                '_id': 1,
+                'binSubAcctId': 1,
+                "assets._id": 1,
+                "assets.coin": 1,
+                "assets.address": 1,
+                "assets.destTag": 1,
+                "assets.spotBal": 1,
+                "assets.derivativeBal": 1,
+                "assets.p2pBal": 1,
+            })
+
+            if (!usrWallet) {
+                return res.status(400).json({ 'success': false, 'message': 'NO_DATA' })
+            }
+
+            let usrAsset = usrWallet.assets.id(reqBody.currencyId);
+            if (!usrAsset) {
+                return res.status(400).json({ 'success': false, 'message': 'NO_DATA' })
+            }
+
+            let curData = await Currency.findOne({ '_id': reqBody.currencyId })
+            if (!curData) {
+                return res.status(400).json({ 'success': false, 'message': 'NO_DATA' })
+            }
+
+            let finalAmount = reqBody.amount + precentConvetPrice(reqBody.amount, curData.withdrawFee)
+            if (usrAsset.spotBal < finalAmount) {
+                return res.status(400).json({ 'success': false, 'errors': { 'finalAmount': 'INSUFFICIENT_BALANCE' } })
+            }
+
+            if (curData.minimumWithdraw > finalAmount) {
+                return res.status(400).json({ 'success': false, 'errors': { 'finalAmount': 'WITHDRAW_TOO_LOW' } })
+            }
+
+            var transactions = new Transaction();
+            transactions["userId"] = req.user.userId;
+            transactions["currencyId"] = reqBody.currencyId;
+            transactions["coin"] = curData.coin;
+            transactions["amount"] = finalAmount;
+            transactions["actualAmount"] = reqBody.amount;
+            transactions["paymentType"] = 'fiat_withdraw';
+            transactions["commissionFee"] = curData.withdrawFee;
+            transactions['bankDetail'] = bankDetails;
+            transactions["status"] = 'new';
+
+
+            let beforeBalance = parseFloat(usrAsset.spotBal);
+            usrAsset.spotBal = parseFloat(usrAsset.spotBal) - parseFloat(finalAmount);
+            let updateWallet = await usrWallet.save();
+            let trxData = await transactions.save();
+
+            // usrAsset.spotBal = usrAsset.spotBal - finalAmount;
+            // let updateWallet = await usrWallet.save();
+            // let trxData = await transactions.save();
+
+
+
+            // CREATE PASS_BOOK
+            createPassBook({
+                'userId': req.user.id,
+                'coin': curData.coin,
+                'currencyId': reqBody.currencyId,
+                'tableId': trxData._id,
+                'beforeBalance': beforeBalance,
+                'afterBalance': parseFloat(usrAsset.spotBal),
+                'amount': parseFloat(finalAmount),
+                'type': 'fiat_withdraw_request',
+                'category': 'debit'
+            })
+
+
+
+            let encryptToken = encryptString(trxData._id, true)
+            let content = {
+                'name': userData.firstName,
+                'confirmMailUrl': `${config.FRONT_URL}/withdraw-fiat-verification/${encryptToken}`,
+            };
+
+            mailTemplateLang({
+                'userId': req.user.id,
+                'identifier': 'withdraw_request_fiat',
+                'toEmail': userData.email,
+                content
+            })
+
+            // newNotification({
+            //     'userId': req.user.id,
+            //     'currencyId': trxData.currencyId,
+            //     'transactionId': trxData._id,
+            //     'trxId': trxData._id,
+            //     'currencySymbol': trxData.coin,
+            //     'amount': trxData.amount,
+            //     'paymentType': trxData.paymentType,
+            //     'status': trxData.status,
+            // })
+
+            return res.status(200).json({ "success": true, 'message': 'VERIFICATION_LINK', 'result': updateWallet.assets })
         }
-
-        let verifyTwoFaCode = node2fa.verifyToken(userData.google2Fa.secret, reqBody.twoFACode);
-        if (!(verifyTwoFaCode && verifyTwoFaCode.delta == 0)) {
-            return res.status(400).json({ "success": false, 'errors': { 'twoFACode': "INVALID_CODE" } })
-        }
-
-        let bankDetails = userData.bankDetails.id(reqBody.bankId);
-        if (!bankDetails) {
-            return res.status(400).json({ 'success': false, 'errors': { 'bankId': 'INVALID_BANK_ACCOUNT' } })
-        }
-
-        let usrWallet = await Wallet.findOne({
-            '_id': req.user.id
-        }, {
-            '_id': 1,
-            'binSubAcctId': 1,
-            "assets._id": 1,
-            "assets.coin": 1,
-            "assets.address": 1,
-            "assets.destTag": 1,
-            "assets.spotBal": 1,
-            "assets.derivativeBal": 1,
-            "assets.p2pBal": 1,
-        })
-
-        if (!usrWallet) {
-            return res.status(400).json({ 'success': false, 'message': 'NO_DATA' })
-        }
-
-        let usrAsset = usrWallet.assets.id(reqBody.currencyId);
-        if (!usrAsset) {
-            return res.status(400).json({ 'success': false, 'message': 'NO_DATA' })
-        }
-
-        let curData = await Currency.findOne({ '_id': reqBody.currencyId })
-        if (!curData) {
-            return res.status(400).json({ 'success': false, 'message': 'NO_DATA' })
-        }
-
-        let finalAmount = reqBody.amount + precentConvetPrice(reqBody.amount, curData.withdrawFee)
-        if (usrAsset.spotBal < finalAmount) {
-            return res.status(400).json({ 'success': false, 'errors': { 'finalAmount': 'INSUFFICIENT_BALANCE' } })
-        }
-
-        if (curData.minimumWithdraw > finalAmount) {
-            return res.status(400).json({ 'success': false, 'errors': { 'finalAmount': 'WITHDRAW_TOO_LOW' } })
-        }
-
-        var transactions = new Transaction();
-        transactions["userId"] = req.user.userId;
-        transactions["currencyId"] = reqBody.currencyId;
-        transactions["coin"] = curData.coin;
-        transactions["amount"] = finalAmount;
-        transactions["actualAmount"] = reqBody.amount;
-        transactions["paymentType"] = 'fiat_withdraw';
-        transactions["commissionFee"] = curData.withdrawFee;
-        transactions['bankDetail'] = bankDetails;
-        transactions["status"] = 'new';
-
-
-        let beforeBalance = parseFloat(usrAsset.spotBal);
-        usrAsset.spotBal = parseFloat(usrAsset.spotBal) - parseFloat(finalAmount);
-        let updateWallet = await usrWallet.save();
-        let trxData = await transactions.save();
-
-        // usrAsset.spotBal = usrAsset.spotBal - finalAmount;
-        // let updateWallet = await usrWallet.save();
-        // let trxData = await transactions.save();
-
-
-
-        // CREATE PASS_BOOK
-        createPassBook({
-            'userId': req.user.id,
-            'coin': curData.coin,
-            'currencyId': reqBody.currencyId,
-            'tableId': trxData._id,
-            'beforeBalance': beforeBalance,
-            'afterBalance': parseFloat(usrAsset.spotBal),
-            'amount': parseFloat(finalAmount),
-            'type': 'fiat_withdraw_request',
-            'category': 'debit'
-        })
-
-
-
-        let encryptToken = encryptString(trxData._id, true)
-        let content = {
-            'name': userData.firstName,
-            'confirmMailUrl': `${config.FRONT_URL}/withdraw-fiat-verification/${encryptToken}`,
-        };
-
-        mailTemplateLang({
-            'userId': req.user.id,
-            'identifier': 'withdraw_request_fiat',
-            'toEmail': userData.email,
-            content
-        })
-
-        // newNotification({
-        //     'userId': req.user.id,
-        //     'currencyId': trxData.currencyId,
-        //     'transactionId': trxData._id,
-        //     'trxId': trxData._id,
-        //     'currencySymbol': trxData.coin,
-        //     'amount': trxData.amount,
-        //     'paymentType': trxData.paymentType,
-        //     'status': trxData.status,
-        // })
-
-        return res.status(200).json({ "success": true, 'message': 'VERIFICATION_LINK', 'result': updateWallet.assets })
     }
     catch (err) {
         return res.status(500).json({ "success": false, 'message': "SOMETHING_WRONG" })
@@ -593,7 +624,7 @@ export const fiatRequestVerify = async (req, res) => {
         //     'status': updateTrxData.status,
         // })
 
-        return res.status(200).json({ "success": true, 'message': 'Successfully verify withdraw request' })
+        return res.status(200).json({ "success": true, 'message': 'Successfully verifed withdraw request' })
     }
     catch (err) {
         return res.status(500).json({ "success": false, 'message': "SOMETHING_WRONG" })
@@ -608,6 +639,12 @@ export const fiatRequestVerify = async (req, res) => {
 */
 export const withdrawCoinRequest = async (req, res) => {
     try {
+        let api_key = req.header("x-api-key");
+        console.log("orderreq",req.user)
+        if(api_key!==null && api_key!== undefined && req.user.withdraw !==true){
+             return res.status(400).json({ 'status': false, 'message': "You don't have permission to WithdrawCoinRequest" });      
+        }
+        else{
         let reqBody = req.body;
         reqBody.amount = parseFloat(reqBody.amount);
         let userData = await User.findOne({ "_id": req.user.id });
@@ -707,12 +744,12 @@ export const withdrawCoinRequest = async (req, res) => {
             'cancelWithdraw': `${config.FRONT_URL}/withdraw-cancel/${encryptToken}`,
         };
 
-        mailTemplateLang({
-            'userId': req.user.id,
-            'identifier': 'withdraw_request',
-            'toEmail': userData.email,
-            content
-        })
+        // mailTemplateLang({
+        //     'userId': req.user.id,
+        //     'identifier': 'withdraw_request',
+        //     'toEmail': userData.email,
+        //     content
+        // })
 
         // newNotification({
         //     'userId': trxData.userId,
@@ -726,8 +763,27 @@ export const withdrawCoinRequest = async (req, res) => {
         // })
         return res.status(200).json({ "success": true, 'message': 'VERIFICATION_LINK', 'result': updateWallet.assets })
     }
+}
     catch (err) {
         return res.status(500).json({ "success": false, 'message': "SOMETHING_WRONG" })
+    }
+}
+
+export const withdrawfee = async (req, res) => {
+    try {
+        var currencyId=req.body.currencyId
+        console.log("currencyId",currencyId)
+        var withdrawamount=req.body.amount
+        console.log("withdrawamount",withdrawamount)
+        let CurrencyData = await Currency.findOne({ '_id': currencyId })
+        console.log("Data",CurrencyData)
+        let finalAmount = parseFloat(CurrencyData.withdrawFee)
+        console.log("withdrawfee",finalAmount)
+        return res.status(200).json({ 'success': true, 'messages': "success", 'result': finalAmount })
+    }
+    catch(err){
+        console.log("FeeErr",err)
+        return res.status(500).json({ "success": false, 'message': "Error occured" })
     }
 }
 
@@ -1175,7 +1231,7 @@ export const getDepositList = async (req, res) => {
 
             let result = {
                 pdfData: data,
-                count: count.length
+                count: count
             }
             return res.status(200).json({ "success": true, result })
         } else {
@@ -1197,7 +1253,7 @@ export const getDepositList = async (req, res) => {
 
             let result = {
                 data,
-                count: count.length
+                count: count
             }
 
             return res.status(200).json({ "success": true, result })
@@ -1278,7 +1334,7 @@ export const getWithdrawList = async (req, res) => {
 
             let result = {
                 PdfData: data,
-                count: count.length
+                count: count
             }
             return res.status(200).json({ "success": true, result })
         } else {
@@ -1299,10 +1355,10 @@ export const getWithdrawList = async (req, res) => {
                 "paymentType": 1,
                 "createdAt": 1
             }).sort({ "createdAt": -1 }).skip(pagination.skip).limit(pagination.limit);
-
+            console.log("count: count.length", count)
             let result = {
                 data,
-                count: count.length
+                count: count
             }
             return res.status(200).json({ "success": true, result })
         }
@@ -1354,7 +1410,7 @@ export const coinWithdrawApprove = async (req, res) => {
             let content = {
                 'amount': trxData.actualAmount,
                 'currency': trxData.coin,
-                'tranactionId': reqParam.transactionId,
+                'transactionId': reqParam.transactionId,
                 'date': new Date(),
             };
 
@@ -1431,14 +1487,15 @@ export const WithdrawCancel = async (req, res) => {
         return res.status(500).json({ "success": false, 'message': 'Error on server' })
     }
 }
-
+//problem in the auto withdraw
 autoWithdraw.start();
 export const AutoWithdraw = async () => {
     try {
         let TransactionData = await Transaction.aggregate([
             {
                 "$match": {
-                    status: "pending"
+                    status: "pending",
+                    paymentType: "coin_withdraw"
                 }
             },
             {
@@ -1454,7 +1511,7 @@ export const AutoWithdraw = async () => {
 
         ])
 
-        let setTime = new Date(new Date().getTime() - 120000); //2 min
+        let setTime = new Date(new Date().getTime() - 7200000); //2 hour
         for (let item of TransactionData) {
             if (item.status == "pending") {
                 if (item.createdAt <= setTime) {
@@ -1477,7 +1534,7 @@ export const AutoWithdraw = async () => {
                     let content = {
                         'amount': item.actualAmount,
                         'currency': item.coin,
-                        'tranactionId': '-',
+                        'transactionId': '-',
                         'message': "Your Withdraw Cancelled Because Timed Out",
                         'date': new Date(),
                     };
@@ -1563,7 +1620,7 @@ export const WithdrawApprove = async (req, res) => {
             let content = {
                 'amount': trxData.actualAmount,
                 'currency': trxData.coin,
-                'tranactionId': withdrawData.trxId,
+                'transactionId': withdrawData.trxId,
                 'message': "Your Withdraw Successfully Completed",
                 'date': new Date(),
             };
@@ -1693,7 +1750,7 @@ export const fiatWithdrawApprove = async (req, res) => {
             let content = {
                 'amount': trxData.actualAmount,
                 'currency': trxData.coin,
-                'tranactionId': reqParam.transactionId,
+                'transactionId': reqParam.transactionId,
                 'date': new Date(),
             };
 
@@ -1767,7 +1824,7 @@ export const fiatWithdrawReject = async (req, res) => {
         //    let content = {
         //         'amount': trxData.actualAmount,
         //         'currency': trxData.coin,
-        //         'tranactionId': reqParam.transactionId,
+        //         'transactionId': reqParam.transactionId,
         //         'date': new Date(),
         //     };
 
@@ -1862,7 +1919,7 @@ export const fiatDepositApprove = async (req, res) => {
         let content = {
             'amount': reqBody.amount,
             'currency': transactionData.coin,
-            'tranactionId': reqBody.transactionId,
+            'transactionId': reqBody.transactionId,
             'date': new Date(),
         };
 
@@ -1977,6 +2034,7 @@ export const newUsrWallet = async (walletData, option = {}) => {
                     ...await coinCtrl.generateTokenAddr({
                         'currencyList': currencyList[0].token,
                         'walletData': walletData,
+
                     })
                 ]
             }

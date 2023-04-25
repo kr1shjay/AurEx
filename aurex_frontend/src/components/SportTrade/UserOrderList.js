@@ -31,7 +31,7 @@ const UserOrderList = () => {
                         aria-controls="nav-positions"
                         aria-selected="true"
                     >
-                        {t("OPEN_ORDER")}({openOrderCnt})
+                        {t("OPEN_ORDER")} ({openOrderCnt})
                     </a>
                     <a className="nav-item nav-link py-2" id="nav-closedPL-tab" data-toggle="tab" href="#nav-closedPL" role="tab" aria-controls="nav-closedPL" aria-selected="false">{t('ORDER_HISTORY')}</a>
                     <a className="nav-item nav-link py-2" id="nav-active0-tab" data-toggle="tab" href="#nav-active0" role="tab" aria-controls="nav-active0" aria-selected="false">{t('TRADE_HISTORY')}</a>

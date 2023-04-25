@@ -17,6 +17,7 @@ import { coinValidation } from "./validation";
 import { toastAlert } from "../../lib/toastAlert";
 import { precentConvetPrice } from "../../lib/calculation";
 import { encryptObject } from "../../lib/cryptoJS";
+import { toFixed } from "lib/roundOf";
 
 const initialFormValue = {
   currencyId: "",
@@ -96,7 +97,16 @@ const CryptoWithdraw = (props) => {
       finalAmount,
       spotBal: assetData.spotBal,
     };
-
+ let newDoc ={
+    "title" : "withdraw request",
+    "description" : "withdraw request send Successfully",
+    "isRead" : false,
+    "trxId" : "",
+    "currencySymbol" : "",
+    "amount" : 0,
+    "paymentType" : "coin_deposit",
+    "status" : "new",
+ }
     let validationError = coinValidation(reqData, t);
     console.log(validationError,'------------101')
     if (!isEmpty(validationError)) {
@@ -113,11 +123,13 @@ const CryptoWithdraw = (props) => {
       const { status, loading, error, message } = await withdrawRequestCoin(
         encryptToken
       );
+      console.log("CryptoWithdraw---------------", loading, error, message)
       setLoader(loading);
       if (status == "success") {
         setFormValue(initialFormValue);
         handleClose();
-        toastAlert("success", t(message), "withdraw");
+        // toastAlert("success", t(message), "withdraw");
+        toastAlert("success", "Your withdraw request sent to admin", "withdraw");
       } else {
         if (error) {
           setValidateError(error);
@@ -129,16 +141,16 @@ const CryptoWithdraw = (props) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show={show} onHide={handleClose} centered backdrop="static">
       <Modal.Header closeButton>
-        <Modal.Title>{t("WITHDRAW CRYPTO")}</Modal.Title>
+        <Modal.Title>Withdraw Crypto</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <GridContainer>
-          <GridItem xs={12} sm={12} md={12} lg={5}>
+          <GridItem xs={12} sm={12} md={12} lg={6}>
             <label>{t("AMOUNT")}</label>
             <div className="form-group  ">
-              <div class="seacr_box_s">
+              <div class="seacr_box_s padd_right_input">
                 <input
                   type="text"
                   placeholder=""
@@ -153,7 +165,7 @@ const CryptoWithdraw = (props) => {
               <p className="error-message">{t(validateError.amount)}</p>
             )}
           </GridItem>
-          <GridItem xs={12} sm={12} md={6} lg={7}>
+          <GridItem xs={12} sm={12} md={12} lg={6}>
             <label>{t("WITHDRAW_ADDRESS")}</label>
             <div class="form-group">
               <div class="seacr_box_s">
@@ -183,13 +195,13 @@ const CryptoWithdraw = (props) => {
             </div>
           </GridItem>
           <GridItem xs={12} sm={12} md={12} lg={6}>
-            <label>{t("FINAL_WITHDRAW_AMOUNT")}</label>
+            <label>{t("FINAL_WITHDRAW_AMOUNT_WITH_FEE")}</label>
             <div className="form-group  ">
-              <div class="seacr_box_s">
+              <div class="seacr_box_s padd_right_input">
                 <input
                   type="text"
                   placeholder=""
-                  value={finalAmount}
+                  value={toFixed(finalAmount,8)}
                   disabled
                 />
                 <i class="">{assetData.coin}</i>
@@ -231,7 +243,7 @@ const CryptoWithdraw = (props) => {
               <ul>
                 <li>
                   1. {t("MIN_WITHDRAW_LIMIT")}
-                  {currency && currency.minimumWithdraw}
+                  {currency && toFixed(currency.minimumWithdraw,8)}
                 </li>
                 <li>2. {t("WITHDRAW_PROCESS")}</li>
                 <li>3. {t("WITHDRAW_TIME")}</li>

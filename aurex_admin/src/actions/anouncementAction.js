@@ -6,7 +6,6 @@ export const anouncementAdd = async (data) => {
         const respData = await axios({
             'url': `/adminapi/anouncement`,
             'method': 'post',
-
             'data': data
         })
         return {

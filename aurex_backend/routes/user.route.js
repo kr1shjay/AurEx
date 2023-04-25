@@ -44,185 +44,189 @@ const router = express();
 const passportAuth = passport.authenticate("usersAuth", { session: false });
 
 // User
-router.route('/register').post(userValid.registerValidate, userCtrl.createNewUser);
-router.route('/login').post(userValid.loginValidate, userCtrl.userLogin);
+router.route('/register').post(userValid.registerValidate, userCtrl.createNewUser);//
+router.route('/login').post(userValid.loginValidate, userCtrl.userLogin);//
 router.route('/confirm-mail').post(userValid.confirmMailValidate, userCtrl.confirmMail);
-router.route('/check-deposit').get(passportAuth, userCtrl.checkDeposit)
-router.route('/hide-btn').get(passportAuth, userCtrl.hideBtn)
+router.route('/check-deposit').get(apiKeyCtrl.authorization, userCtrl.checkDeposit)//
+router.route('/hide-btn').get(apiKeyCtrl.authorization, userCtrl.hideBtn)
 router.route('/userProfile')
-    .get(passportAuth, userCtrl.getUserProfile)
-    .put(passportAuth, userCtrl.uploadProfile, userValid.editProfileValidate, userCtrl.editUserProfile);
-router.route('/changePassword').post(passportAuth, userValid.changePwdValidate, userCtrl.changePassword);
-router.route('/upgradeUser').post(passportAuth, userCtrl.upgradeUser)
+    .get(apiKeyCtrl.authorization, userCtrl.getUserProfile)//
+    .put(apiKeyCtrl.authorization, userCtrl.uploadProfile, userValid.editProfileValidate, userCtrl.editUserProfile);//
+router.route('/changePassword').post(apiKeyCtrl.authorization, userValid.changePwdValidate, userCtrl.changePassword);//
+router.route('/upgradeUser').post(apiKeyCtrl.authorization, userCtrl.upgradeUser)
 router.route('/security/2fa')
-    .get(passportAuth, userCtrl.get2faCode)
-    .put(passportAuth, userValid.update2faValid, userCtrl.update2faCode)
-    .patch(passportAuth, userValid.update2faValid, userCtrl.diabled2faCode);
+    .get(apiKeyCtrl.authorization, userCtrl.get2faCode)
+    .put(apiKeyCtrl.authorization, userValid.update2faValid, userCtrl.update2faCode)
+    .patch(apiKeyCtrl.authorization, userValid.update2faValid, userCtrl.diabled2faCode);
 router.route('/bankdetail')
-    .post(passportAuth, userValid.editBankValidate, userCtrl.updateBankDetail)
-    .put(passportAuth, userValid.deleteBankValidate, userCtrl.deleteBankDetail)
-    .patch(passportAuth, userValid.deleteBankValidate, userCtrl.setPrimaryBank)
-    .get(passportAuth, userCtrl.getBankDetail);
+    .post(apiKeyCtrl.authorization, userValid.editBankValidate, userCtrl.updateBankDetail)
+    .put(apiKeyCtrl.authorization, userValid.deleteBankValidate, userCtrl.deleteBankDetail)
+    .patch(apiKeyCtrl.authorization, userValid.deleteBankValidate, userCtrl.setPrimaryBank)
+    .get(apiKeyCtrl.authorization, userCtrl.getBankDetail);
 router.route('/userSetting')
-    .get(passportAuth, userCtrl.getUserSetting)
-    .put(passportAuth, userValid.editSettingValid, userCtrl.editUserSetting);
-router.route('/editNotif').put(passportAuth, userValid.editNotifValid, userCtrl.editNotif)
+    .get(apiKeyCtrl.authorization, userCtrl.getUserSetting)//
+    .put(apiKeyCtrl.authorization, userValid.editSettingValid, userCtrl.editUserSetting);
+router.route('/editNotif').put(apiKeyCtrl.authorization, userValid.editNotifValid, userCtrl.editNotif)
 router.route('/forgotPassword').post(userValid.checkForgotPwdValidate, userCtrl.checkForgotPassword);
 
 router.route('/resetPassword').post(userValid.resetPwdValidate, userCtrl.resetPassword);
-router.route('/phoneChange')
-    .post(passportAuth, userValid.newPhoneValidate, userCtrl.changeNewPhone)
-    .put(passportAuth, userValid.editPhoneValidate, userCtrl.verifyNewPhone);
-router.route('/emailChange')
-    .post(passportAuth, userValid.editEmailValidate, userCtrl.editEmail)
-    .put(userValid.tokenValidate, userCtrl.sentVerifLink)
-    .patch(userValid.tokenValidate, userCtrl.verifyNewEmail);
-router.route('/sentOTP').post(userValid.sentOtp, userCtrl.checkMobile, userCtrl.sentOtp)
+router.route('/phoneChange') //
+    .post(apiKeyCtrl.authorization, userValid.newPhoneValidate, userCtrl.changeNewPhone)
+    .put(apiKeyCtrl.authorization, userValid.editPhoneValidate, userCtrl.verifyNewPhone);
+router.route('/emailChange') //
+    .post(apiKeyCtrl.authorization, userValid.editEmailValidate, userCtrl.editEmail)//
+    .put(userValid.tokenValidate, userCtrl.sentVerifLink)//
+    .patch(userValid.tokenValidate, userCtrl.verifyNewEmail);//
+router.route('/sentOTP').post(userValid.sentOtp, userCtrl.checkMobile, userCtrl.sentOtp)//
 
 // kyc
-router.route('/kycdetail').get(passportAuth, userKycCtrl.getUserKycDetail);
-router.route('/kyc').put(passportAuth, userKycCtrl.uploadKyc, userKycValid.updateKycValidate, userKycCtrl.updateKyc);
-router.route('/kyc/idproof').put(passportAuth, userKycCtrl.IDKycUpload, userKycValid.idProofValidate, userKycCtrl.updateIdProof);
-router.route('/kyc/addressproof').put(passportAuth, userKycCtrl.uploadKyc, userKycValid.addressProofValidate, userKycCtrl.updateAddressProof);
+router.route('/kycdetail').get(apiKeyCtrl.authorization, userKycCtrl.getUserKycDetail);//
+router.route('/kyc').put(apiKeyCtrl.authorization, userKycCtrl.uploadKyc, userKycValid.updateKycValidate, userKycCtrl.updateKyc);//
+router.route('/kyc/idproof').put(apiKeyCtrl.authorization, userKycCtrl.IDKycUpload, userKycValid.idProofValidate, userKycCtrl.updateIdProof);//
+router.route('/kyc/addressproof').put(apiKeyCtrl.authorization, userKycCtrl.uploadKyc, userKycValid.addressProofValidate, userKycCtrl.updateAddressProof);//
 
 // User Reference 
 
-router.route('/transList').get(passportAuth, usrRefCtrl.transList)
-router.route('/referralHist').get(passportAuth, usrRefCtrl.referralHist);
+router.route('/transList').get(apiKeyCtrl.authorization, usrRefCtrl.transList)
+router.route('/referralHist').get(apiKeyCtrl.authorization, usrRefCtrl.referralHist);
 
 //user setting
-router.route('/add-fav').post(passportAuth, userCtrl.AddFavorite)
-router.route('/get-fav').get(passportAuth, userCtrl.getFavorit)
+router.route('/add-fav').post(apiKeyCtrl.authorization, userCtrl.AddFavorite)
+router.route('/get-fav').get(apiKeyCtrl.authorization, userCtrl.getFavorit)
 
 // wallet
 // router.route('/getAssetsDetails').get(passportAuth, walletCtrl.getAssetsDetails);
-router.route('/getAssetsDetails').get(passportAuth, walletCtrl.getWallet);
-router.route('/getHideoZeroStatus').get(passportAuth,walletCtrl.getHideZeroStatus).put(passportAuth,walletCtrl.updateHideZeroStatus);
-router.route('/getbalance').get(passportAuth, walletCtrl.getbalance);
+router.route('/getAssetsDetails').get(apiKeyCtrl.authorization, walletCtrl.getWallet);//
+router.route('/getHideoZeroStatus').get(apiKeyCtrl.authorization,walletCtrl.getHideZeroStatus).put(apiKeyCtrl.authorization,walletCtrl.updateHideZeroStatus);//
+router.route('/getbalance').get(apiKeyCtrl.authorization, walletCtrl.getbalance);//
 
 // auto withdraw
 router.route('/WithdrawApprove').post(walletValid.tokenValid, walletCtrl.WithdrawApprove);
 router.route('/WithdrawCancel').post(walletValid.tokenValid, walletCtrl.WithdrawCancel);
 
-router.route('/getAsset/:currencyId').get(passportAuth, walletCtrl.getAssetByCurrency);
+router.route('/getAsset/:currencyId').get(apiKeyCtrl.authorization, walletCtrl.getAssetByCurrency);
 router.route('/fiatWithdraw')
-    .post(passportAuth, walletValid.tokenValid, walletCtrl.decryptWallet, walletValid.fiatWithdrawValidate, walletCtrl.checkUserKyc, walletCtrl.withdrawFiatRequest)
+    .post(apiKeyCtrl.authorization, walletValid.tokenValid, walletCtrl.decryptWallet, walletValid.fiatWithdrawValidate, walletCtrl.checkUserKyc, walletCtrl.withdrawFiatRequest)
     .patch(walletValid.tokenValid, walletCtrl.fiatRequestVerify);
 router.route('/coinWithdraw')
-    .post(passportAuth, walletValid.tokenValid, walletCtrl.decryptWallet, walletValid.coinWithdrawValid, walletCtrl.withdrawCoinRequest)
+    .post(apiKeyCtrl.authorization, walletValid.tokenValid, walletCtrl.decryptWallet, walletValid.coinWithdrawValid, walletCtrl.withdrawCoinRequest)
     .patch(walletValid.tokenValid, walletCtrl.coinRequestVerify);
-router.route('/fiatDeposit').post(passportAuth, walletCtrl.uploadWalletDoc, walletValid.depositReqtValid, walletCtrl.checkUserKyc, walletCtrl.depositRequest);
-router.route('/walletTransfer').post(passportAuth, walletValid.walletTransferValid, walletCtrl.walletTransfer);
-router.route('/fundTransfer').post(passportAuth, walletValid.fundTransferValid, walletCtrl.fundTransfer);
+router.route('/fiatDeposit').post(apiKeyCtrl.authorization, walletCtrl.uploadWalletDoc, walletValid.depositReqtValid, walletCtrl.checkUserKyc, walletCtrl.depositRequest);
+router.route('/walletTransfer').post(apiKeyCtrl.authorization, walletValid.walletTransferValid, walletCtrl.walletTransfer);
+router.route('/fundTransfer').post(apiKeyCtrl.authorization, walletValid.fundTransferValid, walletCtrl.fundTransfer);
+router.route('/withdrawfee').post(apiKeyCtrl.authorization, walletCtrl.withdrawfee)
 
-router.route('/history/transaction/:paymentType').get(passportAuth, walletCtrl.getTrnxHistory);
+router.route('/history/transaction/:paymentType').get(apiKeyCtrl.authorization, walletCtrl.getTrnxHistory);
 
 // Dashboard
-router.route('/recentTransaction').get(passportAuth, dashboardCtrl.getRecentTransaction);
-router.route('/loginHistory').get(passportAuth, dashboardCtrl.getLoginHistory);
-router.route('/notificationHistory').get(passportAuth, dashboardCtrl.getNotificationHistory);
-router.route('/getDashBal').get(passportAuth, dashboardCtrl.getDashBal);
+router.route('/recentTransaction').get(apiKeyCtrl.authorization, dashboardCtrl.getRecentTransaction);//
+router.route('/loginHistory').get(apiKeyCtrl.authorization, dashboardCtrl.getLoginHistory);//
+router.route('/notificationHistory').get(apiKeyCtrl.authorization, dashboardCtrl.getNotificationHistory);
+router.route('/getDashBal').get(apiKeyCtrl.authorization, dashboardCtrl.getDashBal);//
 router
   .route("/gettradehistory_dash")
-  .get(passportAuth, dashboardCtrl.gettradehistory_dash);
+  .get(apiKeyCtrl.authorization, dashboardCtrl.gettradehistory_dash);
   
 //Top gain list
 router.route('/top-gain').get(spotTradeCtrl.topGainList)
 //statistic
-router.route('/Statistic').get(passportAuth, userCtrl.getAllTrade)
+router.route('/Statistic').get(apiKeyCtrl.authorization, userCtrl.getAllTrade)
 
 //Notification
-router.route('/get-notification').get(passportAuth, NotificationCtrl.getNotification)
-router.route('/unread-notice').get(passportAuth, NotificationCtrl.unReadNotice)
-router.route('/read-notification').put(passportAuth, NotificationCtrl.readNotification)
+router.route('/get-notification').get(apiKeyCtrl.authorization, NotificationCtrl.getNotification)//
+router.route('/unread-notice').get(apiKeyCtrl.authorization, NotificationCtrl.unReadNotice)//
+router.route('/read-notification').put(apiKeyCtrl.authorization, NotificationCtrl.readNotification)//
+router.route('/readsingel-notification').put(apiKeyCtrl.authorization, NotificationCtrl.readsingelNotification)
+router.route('/create-notification').post(apiKeyCtrl.authorization, NotificationCtrl.NewNotification)
 
 // Spot Trade
-router.route('/spot/allPairs').get(passportAuth, spotTradeCtrl.allPairs)//not
-router.route('/spot/tradePair').get(spotTradeCtrl.getPairList);
-router.route('/spot/orderPlace').post(apiKeyCtrl.authorization, spotTradeValid.decryptValidate, spotTradeCtrl.decryptTradeOrder, spotTradeValid.orderPlaceValidate, spotTradeCtrl.orderPlace)
-router.route('/spot/ordeBook/:pairId').get(apiKeyCtrl.verifyToken,spotTradeCtrl.getOrderBook)
-router.route('/spot/openOrder/:pairId').get(passportAuth, spotTradeCtrl.getOpenOrder)
-router.route('/spot/filledOrder/:pairId').get(passportAuth, spotTradeCtrl.getFilledOrder)//not
-router.route('/spot/orderHistory/:pairId').get(passportAuth, spotTradeCtrl.getOrderHistory)
-router.route('/spot/tradeHistory/:pairId').get(passportAuth, spotTradeCtrl.getTradeHistory)
+router.route('/spot/allPairs').get(apiKeyCtrl.authorization, spotTradeCtrl.allPairs)//not
+router.route('/spot/tradePair').get(spotTradeCtrl.getPairList);//
+router.route('/spot/orderPlace').post(apiKeyCtrl.authorization, spotTradeValid.decryptValidate, spotTradeCtrl.decryptTradeOrder, spotTradeValid.orderPlaceValidate, spotTradeCtrl.orderPlace)//
+router.route('/spot/ordeBook/:pairId').get(spotTradeCtrl.getOrderBook)//
+router.route('/spot/openOrder/:pairId').get(apiKeyCtrl.authorization, spotTradeCtrl.getOpenOrder)//
+router.route('/spot/filledOrder/:pairId').get(apiKeyCtrl.authorization, spotTradeCtrl.getFilledOrder)//not
+router.route('/spot/orderHistory/:pairId').get(apiKeyCtrl.authorization, spotTradeCtrl.getOrderHistory)//
+router.route('/spot/tradeHistory/:pairId').get(apiKeyCtrl.authorization, spotTradeCtrl.getTradeHistory)//
 router.route('/spot/marketPrice/:pairId').get(spotTradeCtrl.getMarketPrice)//not
-router.route('/spot/recentTrade/:pairId').get(spotTradeCtrl.getRecentTrade)
-router.route('/spot/cancelOrder/:orderId').delete(passportAuth, spotTradeCtrl.cancelOrder)
-router.route('/spot/allOpenOrder').get(passportAuth, spotTradeCtrl.allOpenOrder)//not
-router.route('/spot/allOpenOrderDoc').get(passportAuth, spotTradeCtrl.allOpenOrderDoc)//not
-router.route('/spot/allTradeOrder').get(passportAuth, spotTradeCtrl.allTradeOrder)//not
-router.route('/spot/allTradeOrderDoc').get(passportAuth, spotTradeCtrl.allTradeOrderDoc)//not
+router.route('/spot/recentTrade/:pairId').get(spotTradeCtrl.getRecentTrade)//
+router.route('/spot/cancelOrder/:orderId').delete(apiKeyCtrl.authorization, spotTradeCtrl.cancelOrder)//
+router.route('/spot/allOpenOrder').get(apiKeyCtrl.authorization, spotTradeCtrl.allOpenOrder)//not
+router.route('/spot/allOpenOrderDoc').get(apiKeyCtrl.authorization, spotTradeCtrl.allOpenOrderDoc)//not
+router.route('/spot/allTradeOrder').get(apiKeyCtrl.authorization, spotTradeCtrl.allTradeOrder)//not
+router.route('/spot/allTradeOrderDoc').get(apiKeyCtrl.authorization, spotTradeCtrl.allTradeOrderDoc)//not
 
 
 // Derivative Trade
 router.route('/perpetual/allPairs').get(derivativeTradeCtrl.allPairs);
 router.route('/perpetual/tradePair').get(derivativeTradeCtrl.getPairList);
-router.route('/perpetual/orderPlace').post(passportAuth, derivativeTradeCtrl.decryptTradeOrder, derivativeTradeCtrl.orderPlace)
+router.route('/perpetual/orderPlace').post(apiKeyCtrl.authorization, derivativeTradeCtrl.decryptTradeOrder, derivativeTradeCtrl.orderPlace)
 router.route('/perpetual/ordeBook/:pairId').get(derivativeTradeCtrl.getOrderBook)
-router.route('/perpetual/openOrder/:pairId').get(passportAuth, derivativeTradeCtrl.getOpenOrder)
-router.route('/perpetual/filledOrder/:pairId').get(passportAuth, derivativeTradeCtrl.getFilledOrder)
-router.route('/perpetual/tradeHistory/:pairId').get(passportAuth, derivativeTradeCtrl.getTradeHistory)
-router.route('/perpetual/positionOrder/:pairId').get(passportAuth, derivativeTradeCtrl.getPositionOrder)
-router.route('/perpetual/cancelOrder/:orderId').delete(passportAuth, derivativeTradeCtrl.cancelOrder)
+router.route('/perpetual/openOrder/:pairId').get(apiKeyCtrl.authorization, derivativeTradeCtrl.getOpenOrder)
+router.route('/perpetual/filledOrder/:pairId').get(apiKeyCtrl.authorization, derivativeTradeCtrl.getFilledOrder)
+router.route('/perpetual/tradeHistory/:pairId').get(apiKeyCtrl.authorization, derivativeTradeCtrl.getTradeHistory)
+router.route('/perpetual/positionOrder/:pairId').get(apiKeyCtrl.authorization, derivativeTradeCtrl.getPositionOrder)
+router.route('/perpetual/cancelOrder/:orderId').delete(apiKeyCtrl.authorization, derivativeTradeCtrl.cancelOrder)
 router.route('/perpetual/recentTrade/:pairId').get(derivativeTradeCtrl.getRecentTrade)
-router.route('/perpetual/allOpenOrder').get(passportAuth, derivativeTradeCtrl.allOpenOrder)
-router.route('/perpetual/allOpenOrderDoc').get(passportAuth, derivativeTradeCtrl.allOpenOrderDoc)
-router.route('/perpetual/allTradeHist').get(passportAuth, derivativeTradeCtrl.allTradeHist)
-router.route('/perpetual/allTradeHistDoc').get(passportAuth, derivativeTradeCtrl.allTradeHistDoc)
+router.route('/perpetual/allOpenOrder').get(apiKeyCtrl.authorization, derivativeTradeCtrl.allOpenOrder)
+router.route('/perpetual/allOpenOrderDoc').get(apiKeyCtrl.authorization, derivativeTradeCtrl.allOpenOrderDoc)
+router.route('/perpetual/allTradeHist').get(apiKeyCtrl.authorization, derivativeTradeCtrl.allTradeHist)
+router.route('/perpetual/allTradeHistDoc').get(apiKeyCtrl.authorization, derivativeTradeCtrl.allTradeHistDoc)
 
 // chart
-router.route('/chart/:config').get(chartCtrl.getChartData)
+router.route('/chart/:config').get(chartCtrl.getChartData)//
 router.route('/perpetual/chart/:config').get(chartCtrl.getPerpetualChart)
 
 // Staking
-router.route('/getStaking').get(stakingCtrl.getStaking)
-router.route('/stake/balance').get(passportAuth, stakingCtrl.getStakeBal)
-router.route('/stake/orderPlace').post(passportAuth, stakingCtrl.orderPlace)
-router.route('/stake/orderList').get(passportAuth, stakingCtrl.orderList)
-router.route('/stake/settleHistory').get(passportAuth, stakingCtrl.getSettleHistory)
-router.route('/stake/cancel/:stakeId').delete(passportAuth, stakingCtrl.cancelOrder)
-router.route("/orderPlaceLocked").post(passportAuth, stakingCtrl.orderPlaceLocked);
+router.route('/getStaking').get(stakingCtrl.getStaking)//
+router.route('/stake/balance').get(apiKeyCtrl.authorization, stakingCtrl.getStakeBal)
+router.route('/stake/orderPlace').post(apiKeyCtrl.authorization, stakingCtrl.orderPlace)
+router.route('/stake/orderList').get(apiKeyCtrl.authorization, stakingCtrl.orderList)//
+router.route('/stake/settleHistory').get(apiKeyCtrl.authorization, stakingCtrl.getSettleHistory)//
+router.route('/stake/cancel/:stakeId').delete(apiKeyCtrl.authorization, stakingCtrl.cancelOrder)
+router.route("/orderPlaceLocked").post(apiKeyCtrl.authorization, stakingCtrl.orderPlaceLocked);
 router.route("/high-yield").get(stakingCtrl.highYield);
 
 // Launch Pad
-router.route('/launchpad/list/:listType').get(passportAuth, launchpadCtrl.getAllLaunchpad)
-router.route('/launchpad/:id').get(passportAuth, launchpadCtrl.getLaunchpad)
-router.route('/purchaseToken').post(passportAuth, launchpadCtrl.purchaseToken);
-router.route('/getPurchaseTkn/:launchId').get(passportAuth, launchpadCtrl.getPurchaseTkn);
+router.route('/launchpad/list/:listType').get(apiKeyCtrl.authorization, launchpadCtrl.getAllLaunchpad)//
+router.route('/launchpad/:id').get(apiKeyCtrl.authorization, launchpadCtrl.getLaunchpad)
+router.route('/purchaseToken').post(apiKeyCtrl.authorization, launchpadCtrl.purchaseToken);
+router.route('/getPurchaseTkn/:launchId').get(apiKeyCtrl.authorization, launchpadCtrl.getPurchaseTkn);
 
 // API Management
 router.route('/key/manage/:keyId?')
-    .get(passportAuth, apiKeyCtrl.keyList)
-    .post(passportAuth, apiKeyVaild.newKeyVaild, apiKeyCtrl.newKey)
-    .patch(passportAuth, apiKeyCtrl.changeStatus)
-    .delete(passportAuth, apiKeyCtrl.removeKey)
+    .get(apiKeyCtrl.authorization, apiKeyCtrl.keyList)
+    .post(apiKeyCtrl.authorization, apiKeyVaild.newKeyVaild, apiKeyCtrl.newKey)
+    .patch(apiKeyCtrl.authorization, apiKeyCtrl.changeStatus)
+    .delete(apiKeyCtrl.authorization, apiKeyCtrl.removeKey)
 
 // router.route('/demo').get(apiKeyCtrl,)
 
 // Common
-router.route('/getLanguage').get(languageCtrl.getLanguage);
-router.route('/getCurrency').get(currencyCtrl.getCurrency);
-router.route('/getSocialMedia').get(commonCtrl.getSocialMedia);
+router.route('/getLanguage').get(languageCtrl.getLanguage);//
+router.route('/getCurrency').get(currencyCtrl.getCurrency);//
+router.route('/getSocialMedia').get(commonCtrl.getSocialMedia);//
 router.route('/getMarketTrend').get(commonCtrl.getMarketTrend)
 router.route('/getCmsData').get(commonCtrl.getCmsData)
 router.route('/getFaqTrend').get(commonCtrl.getFaqTrend)
-router.route('/getPairData').get(passportAuth, commonCtrl.getPairData)
-router.route('/priceConversion').get(passportAuth, commonCtrl.getPriceCNV)
-router.route('/historyFilter').get(passportAuth, commonCtrl.historyFilter)
+router.route('/getPairData').get(apiKeyCtrl.authorization, commonCtrl.getPairData)
+router.route('/priceConversion').get(apiKeyCtrl.authorization, commonCtrl.getPriceCNV)//
+router.route('/historyFilter').get(apiKeyCtrl.authorization, commonCtrl.historyFilter)
 router.route('/contact').post(contactUsValid.newContactValid, contactCtrl.newContact)
 
 // Announcement
-router.route('/announcement').get(passportAuth, anouncementCtrl.getAnnouncement)
+router.route('/announcement').get(anouncementCtrl.getAnnouncement)
+router.route('/getannouncement').get(anouncementCtrl.getAnnouncementContent)
 
 // CMS 
 router.route('/cms/:identifier').get(cmsCtrl.getCMSPage)
 router.route('/fetch-cms').post(cmsCtrl.getAllCMSPage)
 
 // FAQ
-router.route('/faq').get(faqCtrl.getFaqWithCategory);
+router.route('/faq').get(faqCtrl.getFaqWithCategory);//
 
 // Support Ticket
-router.route('/getSptCat').get(passportAuth, supportCtrl.getSptCat);
+router.route('/getSptCat').get(apiKeyCtrl.authorization, supportCtrl.getSptCat);//
 // router.route('/ticket')
 //     .get(passportAuth, supportCtrl.userTicketList)
 //     .post(passportAuth, supportCtrl.createNewTicket)
@@ -230,10 +234,10 @@ router.route('/getSptCat').get(passportAuth, supportCtrl.getSptCat);
 //     .patch(passportAuth, supportCtrl.closeTicket);
 
 router.route('/ticket')
-    .get(passportAuth, supportCtrl.userTicketList)
-    .post(passportAuth, supportCtrl.uploadAttachment, supportValid.createNewTicket, supportCtrl.createNewTicket)
-    .put(passportAuth, supportCtrl.uploadAttachment, supportValid.usrReplyMsg, supportCtrl.usrReplyMsg)
-    .patch(passportAuth, supportCtrl.closeTicket);
+    .get(apiKeyCtrl.authorization, supportCtrl.userTicketList)//
+    .post(apiKeyCtrl.authorization, supportCtrl.uploadAttachment, supportValid.createNewTicket, supportCtrl.createNewTicket)//
+    .put(apiKeyCtrl.authorization, supportCtrl.uploadAttachment, supportValid.usrReplyMsg, supportCtrl.usrReplyMsg)//
+    .patch(apiKeyCtrl.authorization, supportCtrl.closeTicket);//
 
 // P2P
 router.route('/p2p/allPairs').get(p2pCtrl.allPairs);
@@ -241,26 +245,27 @@ router.route('/p2p/detail').get(p2pCtrl.getDetail)
 router.route('/p2p/allPostAd').get(p2pCtrl.allPostAd)
 router.route('/p2p/pair').get(p2pCtrl.getPairList)
 router.route('/p2p/postOrder')
-    .post(passportAuth, p2pValid.postAdValid, p2pCtrl.postOrder)
-    .put(passportAuth, p2pValid.editPostValid, p2pCtrl.editPost)
-    .patch(passportAuth, p2pCtrl.cancelPost)
-router.route('/p2p/postOrderList').get(passportAuth, p2pCtrl.postOrderList)
-router.route('/p2p/orderPlace').post(passportAuth, p2pValid.orderPlaceValid, p2pCtrl.checkPost, p2pCtrl.orderPlace)
-router.route('/p2p/orderDetail/:orderId').get(passportAuth, p2pCtrl.getOrderDetail)
-router.route('/p2p/conversation').post(passportAuth, p2pCtrl.uploadAttach, p2pCtrl.usrConversation)
-router.route("/p2p/cancelOrder/:orderId").delete(passportAuth, p2pCtrl.cancelOrder);
-router.route("/p2p/transferPayment/:orderId").post(passportAuth, p2pCtrl.transferPayment);
-router.route("/p2p/releaseAsset").post(passportAuth, p2pCtrl.releaseAsset);
-router.route("/p2p/disputeOrder/:orderId").post(passportAuth, p2pCtrl.disputeOrder);
-router.route("/p2p/orderHistory").get(passportAuth, p2pCtrl.orderHistory);
-router.route("/p2p/orderHistoryDoc").get(passportAuth, p2pCtrl.orderHistoryDoc);
+    .post(apiKeyCtrl.authorization, p2pValid.postAdValid, p2pCtrl.postOrder)
+    .put(apiKeyCtrl.authorization, p2pValid.editPostValid, p2pCtrl.editPost)
+    .patch(apiKeyCtrl.authorization, p2pCtrl.cancelPost)
+router.route('/p2p/postOrderList').get(apiKeyCtrl.authorization, p2pCtrl.postOrderList)
+router.route('/p2p/orderPlace').post(apiKeyCtrl.authorization, p2pValid.orderPlaceValid, p2pCtrl.checkPost, p2pCtrl.orderPlace)
+router.route('/p2p/orderDetail/:orderId').get(apiKeyCtrl.authorization, p2pCtrl.getOrderDetail)
+router.route('/p2p/conversation').post(apiKeyCtrl.authorization, p2pCtrl.uploadAttach, p2pCtrl.usrConversation)
+router.route("/p2p/cancelOrder/:orderId").delete(apiKeyCtrl.authorization, p2pCtrl.cancelOrder);
+router.route("/p2p/transferPayment/:orderId").post(apiKeyCtrl.authorization, p2pCtrl.transferPayment);
+router.route("/p2p/releaseAsset").post(apiKeyCtrl.authorization, p2pCtrl.releaseAsset);
+router.route("/p2p/disputeOrder/:orderId").post(apiKeyCtrl.authorization, p2pCtrl.disputeOrder);
+router.route("/p2p/orderHistory").get(apiKeyCtrl.authorization, p2pCtrl.orderHistory);
+router.route("/p2p/orderHistoryDoc").get(apiKeyCtrl.authorization, p2pCtrl.orderHistoryDoc);
 
 // News Letter
-router.route("/newsLetter/subscribe").post(newsLetterCtrl.newSubscribe);
+router.route("/newsLetter/subscribe").post(newsLetterCtrl.newSubscribe);//
 
 // Webhook
 router.route('/depositwebhook').post(coinpaymentCtrl.verifySign, coinpaymentCtrl.depositwebhook)
-router.route('/getMySpotHistory').post(passportAuth, spotTradeCtrl.getMySpotHistory);
-router.route('/getFilledOrderHistory').post(passportAuth, spotTradeCtrl.getFilledOrderHistory);
-
+router.route('/getMySpotHistory').post(apiKeyCtrl.authorization, spotTradeCtrl.getMySpotHistory);
+router.route('/getFilledOrderHistory').post(apiKeyCtrl.authorization, spotTradeCtrl.getFilledOrderHistory);
+//chechemail
+router.route('/checkEmail').post(apiKeyCtrl.authorization,userCtrl.checkEmail)//
 export default router;

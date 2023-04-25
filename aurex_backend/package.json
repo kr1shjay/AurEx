@@ -84,6 +84,7 @@
   },
   "scripts": {
     "start": "nodemon babel_hook.js",
+    "start_demo": "NODE_ENV=demo nodemon babel_hook.js",
     "server": "node babel_hook.js",
     "prod": "NODE_ENV=production node babel_hook.js",
     "demo": "NODE_ENV=demo node babel_hook.js"

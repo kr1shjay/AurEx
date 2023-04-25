@@ -26,7 +26,7 @@ const initialFormValue = {
     "markupPercentage": "",
     "maintenanceMargin": "",
     "markPrice": "",
-    "status": "active", //active ,deactive
+    "status": "active", //active ,Inactive
 }
 
 class PairAddModal extends React.Component {

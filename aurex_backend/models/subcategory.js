@@ -8,7 +8,7 @@ let subcategory = new Schema({
 		type: Schema.Types.ObjectId, ref: 'HelpCentrecategory', index:true
     },
     status:{
-		type: String, default: 1, // 0 - deactive, 1-active
+		type: String, default: 1, // 0 - Inactive, 1-active
 	}
 });
 

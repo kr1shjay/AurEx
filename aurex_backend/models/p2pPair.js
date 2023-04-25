@@ -56,8 +56,8 @@ const P2pPairSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['active', 'deactive'],
-        default: "active",  //active, deactive
+        enum: ['active', 'Inactive'],
+        default: "active",  //active, Inactive
     },
 
 

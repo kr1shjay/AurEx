@@ -65,7 +65,7 @@ class LaunchpadUpdateModal extends React.Component {
 		  height: '52px',
 		  padding: '0 6px',
 		  backgroundColor: "#1a1b1c",
-		  borderColor: '#242827',
+		  borderColor: '#59615f',
 		borderRadius: 8,
 		borderStyle: 'solid',
 		borderWidth: '1px'
@@ -400,12 +400,12 @@ class LaunchpadUpdateModal extends React.Component {
                             <div className="col-md-9">
                                 <Select
                                 styles={this.styles} className="border_blue_select basic-multi-select"
-                                    value={fiatCurOption && fiatCurOption.length > 0 ? fiatCurOption.filter((el) => {
+                                    value={currencyOption && currencyOption.length > 0 ? currencyOption.filter((el) => {
                                         if (el.value == launchCoin) {
                                             return el;
                                         }
                                     }) : []}
-                                    options={fiatCurOption}
+                                    options={currencyOption}
                                     onChange={this.handleLaunchCoin}
                                 />
                                 <span className="text-danger">{errors.launchCoin}</span>
@@ -542,6 +542,9 @@ class LaunchpadUpdateModal extends React.Component {
                                     dateFormat="MMMM d, yyyy h:mm aa"
                                     minDate={new Date()}
                                     filterTime={this.filterPassedTime}
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                      }}
                                 />
                                 <span className="text-danger">{errors.startTimeStamp}</span>
                             </div>
@@ -568,6 +571,9 @@ class LaunchpadUpdateModal extends React.Component {
                                     dateFormat="MMMM d, yyyy h:mm aa"
                                     minDate={new Date()}
                                     filterTime={this.filterPassedTime}
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                      }}
                                 />
                                 <span className="text-danger">{errors.endTimeStamp}</span>
                             </div>

@@ -61,6 +61,7 @@ class SupportReply extends React.Component {
     handleSubmit = async e => {
         e.preventDefault();
         const { formValue, records } = this.state
+        console.log("handleSubmit admin replay", formValue, records )
         this.setState({ 'loader': true })
 
         let reqData = {
@@ -147,7 +148,7 @@ class SupportReply extends React.Component {
                             </div>
 
                             {/* Typing area */}
-                            <form className="bg-light">
+                            <form className="">
                                 <div className="input-group input-grp-dark">
                                     <textarea
                                         type="text"
@@ -159,7 +160,6 @@ class SupportReply extends React.Component {
                                         value={message}
                                         onChange={this.handleChange}
                                     />
-                                    <span style={{ color: 'red' }}>{errors.message}</span>
                                     <div className="input-group-append">
                                         <button
                                             onClick={this.handleSubmit}
@@ -168,6 +168,8 @@ class SupportReply extends React.Component {
                                         </button>
                                     </div>
                                 </div>
+                                <span style={{ color: 'red' }}>{errors.message}</span>
+
                             </form>
                             <br />
                             {/* </div> */}

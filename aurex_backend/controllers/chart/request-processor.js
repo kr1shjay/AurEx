@@ -195,10 +195,11 @@ function convertabcdHistoryToUDFFormat(data, callBy) {
 				var formatDatex = formatDate(new Date(time).toISOString());
 				var fi = dateToYMD(formatDatex.datex);
 				result.t.push(parseDated(fi, formatDatex.timex) / 1000);
-				result.o.push(open);
-				result.h.push(high);
-				result.l.push(low);
-				result.c.push(close);
+				console.log(parseFloat(open).toFixed(2),parseFloat(high).toFixed(2),parseFloat(low).toFixed(2),parseFloat(close).toFixed(2),'data')
+				result.o.push(parseFloat(open).toFixed(2));
+				result.h.push(parseFloat(high).toFixed(2));
+				result.l.push(parseFloat(low).toFixed(2));
+				result.c.push(parseFloat(close).toFixed(2));
 				result.v.push(volume);
 			} else if (callBy == 'wazirx') {
 				let { time, open, high, low, close, volume, closeTime, assetVolume, trades, buyBaseVolume, buyAssetVolume, ignored } = row;
@@ -527,6 +528,7 @@ RequestProcessor.prototype._sendSymbolInfo = function (symbolName, response, tra
 };
 
 RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDateTimestamp, endDateTimestamp, resolution, response, tradeType) {
+	// console.log("_sendSymbolHistory",symbol, startDateTimestamp, endDateTimestamp, resolution, response, tradeType)
 	function sendResult(content) {
 		var header = Object.assign({}, defaultResponseHeader);
 		header["Content-Length"] = content.length;
@@ -633,7 +635,7 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 			timeType,
 			startDateTimestamp: startDateTimestamp
 		});
-
+		// console.log("tradeChart",tradeChart);
 	} else if (tradeType == 'perpetual') {
 		tradeChart = await perpetualChart({
 			pairName: pair,
@@ -657,7 +659,7 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 
 	} else {
 		// res.json([]);
-		console.log("null");
+		console.log("null1");
 	}
 };
 
@@ -798,6 +800,7 @@ RequestProcessor.prototype._sendFuturesmag = function (response) {
 };
 
 RequestProcessor.prototype.processRequest = function (action, query, response, tradeType) {
+	// console.log("RequestProcessor.prototype.processRequest",action, query, response, tradeType)
 	// try {
 	if (action === "/config") {
 		this._sendConfig(response);

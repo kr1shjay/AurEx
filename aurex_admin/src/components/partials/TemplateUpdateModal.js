@@ -195,7 +195,7 @@ class TemplateUpdateModal extends React.Component {
                                         onChange={this.handleChange}
                                     >
                                         <option value={'active'}>Active</option>
-                                        <option value={'deactive'}>Deactive</option>
+                                        <option value={'Inactive'}>Inactive</option>
                                     </Form.Control>
                                 </div>
                             </div>*/}

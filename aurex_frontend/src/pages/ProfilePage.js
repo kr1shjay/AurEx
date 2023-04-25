@@ -39,6 +39,7 @@ const ProfilePage = (props) => {
 
   useEffect(() => {
     getKycDetail(dispatch)
+    document.title="AUREX"
   }, [])
 
   return (
@@ -74,7 +75,7 @@ const ProfilePage = (props) => {
                 <div className="table_p2p_section inprofile">
                   <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" className={clsx({ "active": location.pathname == '/profile' })} href="#Profile">{t("PERSONAL")}</a></li>
-                    <li><a data-toggle="tab" className={clsx({ "active": location.pathname == '/bank' })} href="#Bank">{t("Bank")}</a></li>
+                    {/* <li><a data-toggle="tab" className={clsx({ "active": location.pathname == '/bank' })} href="#Bank">{t("Bank")}</a></li> */}
                     <li><a data-toggle="tab" className={clsx({ "active": location.pathname == '/kyc' })} href="#KYC">{t("KYC")}</a></li>
                   </ul>
 
@@ -96,14 +97,14 @@ const ProfilePage = (props) => {
 
                       </div>
                     </div>
-                    <div id="Bank" class="tab-pane fade pt-2">
+                    {/* <div id="Bank" class="tab-pane fade pt-2">
                       <div className="row align-items-center">
                         <div className="col-lg-12">
                           <h3 className="dash_title mb-3">{t("BANK_ACCOUNT_DETAIL")}</h3>
                         </div>
                       </div>
                       <BankAccount />
-                    </div>
+                    </div> */}
                     <div id="KYC" class="tab-pane fade">
                       <UserKycDetail />
                       <IDProof />

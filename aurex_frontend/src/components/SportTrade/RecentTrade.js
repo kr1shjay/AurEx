@@ -32,6 +32,7 @@ const RecentTrade = (props) => {
     const fetchRecentTrade = async (pairId) => {
         try {
             const { status, loading, result } = await getRecentTrade(pairId);
+            console.log("recenttrade",result)
             if (status === 'success') {
                 setTradeData(result)
                 fetchRecentTradeWs(result)
@@ -57,6 +58,9 @@ const RecentTrade = (props) => {
         }
     }, [tradePair])
 
+    const z = (n) =>  {
+        return ('0' + n).slice(-2);
+      }
     return (
         <div className="tradeTableLeftSide darkBox recentTrades">
             <div className="tableHead">
@@ -64,7 +68,7 @@ const RecentTrade = (props) => {
             </div>
             <div className="tradeTableTitle row w-100 mx-auto">
                 <span className="col-4">{t('PRICE')}({tradePair && tradePair.secondCurrencySymbol})</span>
-                <span className="col-4 text-right text-right">{t('AMOUNT')}({tradePair && tradePair.firstCurrencySymbol})</span>
+                <span className="col-4 text-right text-center">{t('AMOUNT')}({tradePair && tradePair.firstCurrencySymbol})</span>
                 <span className="col-4 text-right text-right">{t('TIME')}</span>
             </div>
 
@@ -73,7 +77,8 @@ const RecentTrade = (props) => {
                 {
                     tradeData && tradeData.length > 0 && tradeData.map((item, key) => {
                         let dataTime = new Date(item.createdAt);
-                        let time = dataTime.getHours() + ':' + dataTime.getMinutes() + ':' + dataTime.getSeconds();
+                        console.log("toUTCString",dataTime)
+                        let time = z(dataTime.getUTCHours()) + ':' + z(dataTime.getUTCMinutes()) + ':' + z(dataTime.getUTCSeconds());
 
                         return (
                             <div className="tradeTableBodyRow odd row mx-auto">
@@ -83,7 +88,7 @@ const RecentTrade = (props) => {
                                 >
                                     {currencyFormat(toFixed(item.price, tradePair.secondFloatDigit))}
                                 </span>
-                                <span className="col-4 text-right">{item.filledQuantity}</span>
+                                <span className="col-4 text-center">{item.filledQuantity}</span>
                                 <span className="col-4 text-right">{time}</span>
                             </div>
                         )

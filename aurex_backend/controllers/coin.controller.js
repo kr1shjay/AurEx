@@ -72,9 +72,18 @@ export const coinWithdraw = async ({
             return await binanceCtrl.withdraw(coin, toAddress, amount)
         } else if (type == 'local') {
             return await localWithdraw({ coin, toAddress, amount, currencyDetails })
+        } else if(type == 'coin_payment'){
+           console.log("Coin Payments : ",coin,amount,toAddress)
+           var destTag = "";
+            return await coinPayment.createWithdrawal({
+                currencySymbol: coin,
+                amount: amount,
+                address: toAddress,
+                destTag: destTag
+            })
         }
     } catch (err) {
-        console.log(err,'-----------')
+        console.log(err,'------------')
         return {
             'status': false
         }
@@ -200,8 +209,9 @@ export const generateCryptoAddr = async ({ currencyList = [], option = {} }) => 
                     assetList.push(assetObj)
                 }
                 else if (currency.depositType == 'coin_payment') {
-                    let emailId = 'GM-' + 'alwin@gmail.com';
-                    let ipnUrl = config.SERVER_URL + ipnUrl;
+                    console.log("option.emailId",option.emailId)
+                    let emailId = 'AUREX' + option.emailId; // user registered address
+                    let ipnUrl = config.IPN_URL;  // config ipn url
                     var coinpayment_details = await coinPayment.createAddress(currency.coin, emailId, ipnUrl)
 
                     let assetObj = {

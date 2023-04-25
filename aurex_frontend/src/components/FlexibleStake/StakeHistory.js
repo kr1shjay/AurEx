@@ -8,7 +8,8 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 // import action
 import { getStakeHistory } from '../../actions/stakingAction';
-
+import { toFixed } from 'lib/roundOf';
+import {Dropdown} from 'react-bootstrap'
 //lib
 import { momentFormat } from 'lib/dateTimeHelper';
 
@@ -29,6 +30,9 @@ const StakeHistory = () => {
     })
 
     const { coin, type } = filter
+
+    const [filtercoin, setFiltercoin] = useState("");
+    const [filtertype, setFiltertype] = useState("Subscription");
 
     // redux
     const currencyData = useSelector(state => state.currency)
@@ -89,6 +93,11 @@ const StakeHistory = () => {
 
     ];
 
+    const change =()=>{
+        console.log("change",filter)
+        fetchHistory(filter)
+    }
+
 
 
     // function
@@ -136,14 +145,15 @@ const StakeHistory = () => {
         let filterData = {
             ...filter,
             [name]: value
-        }
+        }    
         setFilter(filterData)
+        console.log("handleChange",filterData)
         fetchHistory(filterData)
     }
 
     useEffect(() => {
         fetchHistory(filter)
-    }, [])
+    }, [filtercoin,filtertype])
     // alert(filter)
     return (
 
@@ -151,6 +161,34 @@ const StakeHistory = () => {
             <div className="newUsersFilter contact_form settingsSelect mb-0">
                 <div className="newsSelectGroup">
                     <label className='mb-0'>{t('FILTER_BY')}</label>
+                    {/* <Dropdown className="themeselect">
+      <Dropdown.Toggle variant="link" id="dropdown-basic" className="marginSpace min_height_select"
+                        value={filtercoin}
+                        name="coin"
+                        onChange={handleChange}>
+       {!filtercoin?t('ALL'):filtercoin}
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu className='small menu_not_scroll_dd'>
+      {
+                            currencyData && currencyData.length > 0 && currencyData.map((item, key) => {
+                                if (item.type == 'crypto' || item.type == 'token') {
+                                    return (
+                                       
+                                          <Dropdown.Item  value={item.coin} key={key} 
+                                          onClick={async(e) =>{ 
+                                            setFiltercoin(e.target.getAttribute("value"));
+                                            let filterData= {...filter,['coin']: e.target.getAttribute("value")};
+                                            setFilter(filterData);
+                                        }}> {item.coin} </Dropdown.Item>
+                                    )
+                                }
+                            })
+                        }
+      
+ 
+      </Dropdown.Menu>
+    </Dropdown> */}
                     <Select
                         className="marginSpace min_height_select"
                         value={coin}
@@ -170,6 +208,32 @@ const StakeHistory = () => {
                             })
                         }
                     </Select>
+                                 {/* <Dropdown className="themeselect">
+      <Dropdown.Toggle variant="link" id="dropdown-basic1" className="marginSpace min_height_select"
+                        value={type}
+                        name="coin"
+                        onChange={handleChange}>
+                             {!filtertype?t('Subscription'):filtertype}
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu className='menu_not_scroll_dd'>
+        <Dropdown.Item onClick={(e) =>{ 
+        setFiltertype('Subscription');
+        let filterData= {...filter,['type']:'subscription' };
+        setFilter(filterData);
+    }}> {t('Subscription')} </Dropdown.Item>
+        <Dropdown.Item onClick={(e) => {
+        setFiltertype('Redemption');
+        let filterData= {...filter,['type']:'redemption' };
+        setFilter(filterData);
+    }}> {t('Redemption')} </Dropdown.Item>
+        <Dropdown.Item onClick={(e) => {
+        setFiltertype('Interest');
+        let filterData= {...filter,['type']:'interest'};
+        setFilter(filterData);
+    }}> {t('Interest')} </Dropdown.Item>
+    </Dropdown.Menu>
+    </Dropdown> */}
                     <Select
                         className="marginSpace min_height_select"
                         value={type}

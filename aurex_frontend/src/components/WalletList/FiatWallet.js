@@ -50,6 +50,9 @@ const FiatWallet = () => {
         if(arrayData && arrayData.length >0){
             setOriginal(arrayData)
         }
+        else{
+            setOriginal(arrayData);
+        }
         if(isEmpty(value)){
             setOriginal(filterData)
         }
@@ -77,7 +80,7 @@ const FiatWallet = () => {
             />
             <div className="d-flex justify-content-between">
                 <h3 className="login_title_8">{t("FIAT_WALLET")}</h3>
-                 <div className="seacr_box_s">
+                 <div className="seacr_box_s searc_right_pad_new">
                     <input type="text" placeholder={t("FIND_COIN")}  onChange={onSearch}/>
                     <i class="fas fa-search"></i>
                 </div> 
@@ -94,7 +97,8 @@ const FiatWallet = () => {
                                             <img src={curData && curData.image} alt="logo" className="img-fluid" />
                                             <span>{item.coin}</span>
                                         </div>
-                                        <p>{toFixedDown(item.spotBal,curData.decimal)}</p>
+                                        {/* <p>{toFixedDown(item.spotBal,curData.decimal)}</p> */}
+                                        <p>{toFixed(item.spotBal,curData.decimal)}</p>
                                     </div>
                                     <div className="button_lst_section">
                                     { curData.depositStatus ==  "On" &&

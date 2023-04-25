@@ -342,6 +342,14 @@ UserSchema.methods.generateJWT = function (payload) {
   var token = jwt.sign(payload, config.secretOrKey);
   return `Bearer ${token}`;
 };
+UserSchema.methods.decodejwt = function (data) {
+  var decode = jwt.verify(data, config.secretOrKey);
+  console.log(decode,"decode")
+  return decode ;
+};
+
+
+
 
 UserSchema.virtual('wallet', {
   ref: 'wallet',

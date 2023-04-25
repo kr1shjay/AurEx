@@ -65,7 +65,7 @@ export const editLangValidate = (req, res, next) => {
 
     if (isEmpty(reqBody.status)) {
         errors.status = "Status field is required";
-    } else if (!['active','deactive'.includes(reqBody.status)]) {
+    } else if (!['active','Inactive'.includes(reqBody.status)]) {
         errors.status = "Status type is invalid";
     }
  

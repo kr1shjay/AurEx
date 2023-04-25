@@ -34,7 +34,6 @@ const Chart = (props) => {
             interval: props.interval,
             container_id: props.containerId,
             library_path: props.libraryPath,
-
             locale: getLanguageFromURL() || 'en',
             disabled_features: ['use_localstorage_for_settings'],
             enabled_features: ['study_templates'],
@@ -93,7 +92,7 @@ const Chart = (props) => {
             let themeValue = 'Dark';
 
             if (themeData == 'light') {
-                themeValue = 'White'
+                themeValue = 'Dark'
             } else if (themeData == 'dark') {
                 themeValue = 'Dark'
             }

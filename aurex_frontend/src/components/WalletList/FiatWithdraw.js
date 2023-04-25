@@ -18,6 +18,7 @@ import { fiatValidation } from './validation'
 import { toastAlert } from "../../lib/toastAlert";
 import { precentConvetPrice } from '../../lib/calculation';
 import { encryptObject } from '../../lib/cryptoJS'
+import {toFixed} from '../../lib/roundOf'
 
 const initialFormValue = {
     'currencyId': '',
@@ -143,6 +144,7 @@ const FiatWithdraw = (props) => {
             show={show}
             onHide={handleClose}
             centered
+            backdrop="static"
         >
             <Modal.Header closeButton>
                 <Modal.Title>{t('WITHDRAW_FIAT')}</Modal.Title>
@@ -150,8 +152,8 @@ const FiatWithdraw = (props) => {
             <Modal.Body>
 
                 <GridContainer>
-                    <GridItem xs={12} sm={12} md={6} lg={6}>
-                        <div class="form-group select_lable_">
+                    <GridItem xs={12} sm={12} md={12} lg={6}>
+                        <div class="form-group select_lable_ select_lable_new_wi mx-0">
                             <label>
                             {t("WITHDRAW_ACCOUNT")}
                                 {/* <Link to={'/profile'}>+ {t("ADD_BANK")}</Link> */}
@@ -177,7 +179,7 @@ const FiatWithdraw = (props) => {
                     <GridItem xs={12} sm={12} md={12} lg={6}>
                         <label>{t('AMOUNT')}</label>
                         <div className="form-group  ">
-                            <div class="seacr_box_s">
+                            <div class="seacr_box_s padd_right_input">
                                 <input type="text" placeholder=""
                                     name='amount'
                                     value={amount}
@@ -185,8 +187,9 @@ const FiatWithdraw = (props) => {
                                 />
                                 <i class="">{assetData && assetData.coin}</i>
                             </div>
+                            {validateError.amount && <p className="error-message">{t(validateError.amount)}</p>}
                         </div>
-                        {validateError.amount && <p className="error-message">{t(validateError.amount)}</p>}
+                        
                     </GridItem>
                     <GridItem xs={12} sm={12} md={12} lg={12}>
                         <div className="wallwt_balance">
@@ -194,17 +197,18 @@ const FiatWithdraw = (props) => {
                         </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={12} lg={6}>
-                        <label>{t('FINAL_WITHDRAW_AMOUNT')}</label>
+                        <label>{t('FINAL_WITHDRAW_AMOUNT_WITH_FEE')}</label>
                         <div className="form-group  ">
-                            <div class="seacr_box_s">
+                            <div class="seacr_box_s padd_right_input">
                                 <input type="text" placeholder=""
                                     value={finalAmount}
                                     disabled
                                 />
                                 <i class="">{assetData && assetData.coin}</i>
                             </div>
+                            {validateError.finalAmount && <p className="error-message">{t(validateError.finalAmount)}</p>}
                         </div>
-                        {validateError.finalAmount && <p className="error-message">{t(validateError.finalAmount)}</p>}
+                        
                     </GridItem>
                     <GridItem xs={12} sm={12} md={12} lg={6}>
                         <label>{t('ENTER2FA_CODE')}</label>
@@ -217,8 +221,9 @@ const FiatWithdraw = (props) => {
                                     onChange={handleChange}
                                 />
                             </div>
+                            {validateError.twoFACode && <p className="error-message">{t(validateError.twoFACode)}</p>}
                         </div>
-                        {validateError.twoFACode && <p className="error-message">{t(validateError.twoFACode)}</p>}
+                        
                     </GridItem>
                     <div className="submit_btn w-100 mx-3">
                         <Button className="w-100"
@@ -233,7 +238,7 @@ const FiatWithdraw = (props) => {
                     <div className="notes_section">
                         <p>{t('NOTES')}</p>
                         <ul>
-                            <li>1. {t('MIN_WITHDRAW_LIMIT')} {currency && currency.minimumWithdraw}</li>
+                            <li>1. {t('MIN_WITHDRAW_LIMIT')} {currency && toFixed(currency.minimumWithdraw,8)}</li>
                             <li>2. {t('WITHDRAW_TIME_TAKE')}</li>
                         </ul>
                     </div>

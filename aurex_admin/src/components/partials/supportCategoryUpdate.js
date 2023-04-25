@@ -100,7 +100,6 @@ class categoryUpdateModal extends React.Component {
                                         value={categoryName}
                                         name="categoryName"
                                         error={errors.categoryName}
-                                        name="categoryName"
                                         type="text"
                                         className={classnames("form-control", {
                                             invalid: errors.categoryName
@@ -123,7 +122,7 @@ class categoryUpdateModal extends React.Component {
                                         onChange={this.handleChange}
                                     >
                                         <option value={'active'}>Active</option>
-                                        <option value={'deactive'}>Deactive</option>
+                                        <option value={'Inactive'}>Inactive</option>
                                     </Form.Control>
                                     <span className="text-danger">{errors.status}</span>
                                 </div>

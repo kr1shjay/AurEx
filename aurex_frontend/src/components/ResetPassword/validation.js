@@ -20,7 +20,7 @@ const validation = value => {
     if (isEmpty(value.confirmPassword)) {
         errors.confirmPassword = "REQUIRED"
     } else if (!(isEmpty(value.confirmPassword)) && value.password != value.confirmPassword) {
-        errors.confirmPassword = "CONFIRM_PASSWORD_MISMATCH"
+        errors.confirmPassword = "Confirm password mismatch"
     }
 
 

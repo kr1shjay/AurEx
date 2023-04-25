@@ -494,7 +494,7 @@ export const orderPlace = async (req, res) => {
             return res.status(400).json({ 'success': false, 'message': 'your price is less then minimum Amount' })
         }
         if (reqBody.price > checkStake.maximumAmount) {
-            return res.status(400).json({ 'success': false, 'message': 'your price is greater then maxmimum Amount' })
+            return res.status(400).json({ 'success': false, 'message': 'your price is greater then maximum Amount' })
         }
 
         if (!checkStake) {
@@ -506,7 +506,7 @@ export const orderPlace = async (req, res) => {
         }
 
         if (checkStake.status != 'active') {
-            return res.status(400).json({ 'success': false, 'message': "Deactive" })
+            return res.status(400).json({ 'success': false, 'message': "Inactive" })
         }
 
         let usrWallet = await Wallet.findOne({ "userId": req.user.userId })
@@ -1153,7 +1153,7 @@ export const orderPlaceLocked = async (req, res) => {
         }
 
         if (checkStake.status != "active") {
-            return res.status(400).json({ success: false, message: "Deactive" });
+            return res.status(400).json({ success: false, message: "Inactive" });
         }
 
         if (checkStake.minimumAmount > reqBody.price) {
