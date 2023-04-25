@@ -599,7 +599,7 @@ export default {
     "TICKET_ID": "Ticket ID",
     "POST_HISTORY": "Post History",
     "REF_KEY_LATER": "Optional name for this key. This will help you reference this key later.",
-    "IP_RESTRICTION": "IP access restrictions:",
+    "IP_RESTRICTION": "IP access restrictions",
     "SECURITY_REASONS": "For security reasons, please do not reveal your key(s) to non-trusted third parties.We recommend that users add their IP addresses to each of the API key. A maximum of four (4) IP addresses can be added to each key. To add multiple IP addresses, enter them seperately with commas in between. e.g.192.168.1.1,192.168.1.2,192.168.1.3",
     "CREATE_API_KEY": "  Create API Key",
     "WRITE_SECRET_KEY": "Please write down the secret key.",

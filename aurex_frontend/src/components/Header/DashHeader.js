@@ -73,6 +73,9 @@ export default function DashHeader(props) {
               <li>
               <Link to="/spot">{t('MARKET')}</Link>
             </li>
+            <li>
+              <Link to="/api-management">API Key</Link>
+            </li>
             </li>
             <li>
               <Link to="/">{t('WALLET')}</Link>

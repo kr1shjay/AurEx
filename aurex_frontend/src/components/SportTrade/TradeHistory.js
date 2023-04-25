@@ -109,7 +109,7 @@ const TradeHistory = () => {
 
     return (
         <div className="table-responsive">
-            <Scrollbars style={{ width: "100%", height: 342 }}>
+            <Scrollbars style={{ width: "100%", height: 310 }}>
                 <table id="active0Table" className="table table-striped">
                     <thead>
                         <tr>

@@ -132,6 +132,11 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                 <NavLink to="/spot">{t("MARKET")}</NavLink>
               </li>
             }
+              {
+              <li>
+                <NavLink to="/api-management">API Key</NavLink>
+              </li>
+            }
             {isAuth && (
               <li>
                 <NavLink to="/wallet">{t("WALLET")}</NavLink>
@@ -354,6 +359,9 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
             <li>
               <NavLink to="/spot">Spot</NavLink>
             </li>
+            <li>
+              <NavLink to="/api-management">API Key</NavLink>
+            </li>
             {/*<li>
               <Link to="/derivative">Derivative</Link>
             </li>*/}
@@ -363,11 +371,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                 <NavLink to="/dashboard">Dashboard</NavLink>
               </li>
             )}
-            {isAuth && (
-              <li>
-                <NavLink to="/spot">Market</NavLink>
-              </li>
-            )}
+            
             {/*{
               isAuth && <li>
                 <Link to="/p2p">P2P</Link>

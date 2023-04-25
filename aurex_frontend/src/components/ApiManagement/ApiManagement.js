@@ -16,15 +16,24 @@ const ApiManagement = () => {
     }
 
     return (
-        <div className="container pt-5">
+        <div className='settingsContent userPages pb-0'>
+         <div className="container-fluid">
+           
+            <div class="dashboard_box launchpad_box">
             <CreateApiKey
                 ref={createRef}
                 handleList={handleList}
             />
+            </div>
+
+            <div class="dashboard_box launchpad_box">
             <ApiKeyList
                 ref={listRef}
             />
-        </div>
+            </div>
+            </div>
+            </div>
+           
     )
 }
 
