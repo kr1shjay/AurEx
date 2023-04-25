@@ -287,33 +287,44 @@ const CreateApiKey = (props) => {
 
             {
                 !isEmpty(newRecord) && <div>
-                    <h3>{t('WRITE_SECRET_KEY')}</h3>
+                     <div className='profileDetailView mt-3 '>
+                <h4>{t('WRITE_SECRET_KEY')}</h4>
+                 </div>
                     <p>{t('SOMEWHERE_SAFE')}</p>
-                    <div className="form-group">
-                        <div className="row">
-                            <div className="col-md-4">
-                                <div className="checkbox pt-2"><label>{t('ID')}:</label></div>
-                            </div>
-                            <div className="col-md-8">
-                                <div>
-                                    <input type="test" defaultValue={newRecord.keyId} disabled={true} />
-                                </div>
-                            </div>
+<div className='contact_form mt-3'>
+                    <GridContainer>
+                    <GridItem xs={12} sm={6} md={6} lg={6}>
+                        <div className="form-group">
+                            <label>{t('ID')}</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="id"
+                                onChange={handleChange}
+                                defaultValue={newRecord.keyId} disabled={true}
+                            />
+                           
                         </div>
-                    </div>
+                    </GridItem>
+                    <GridItem xs={12} sm={6} md={6} lg={6}>
+                        <div className="form-group">
+                            <label>{t('SECRET')}</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="secret"
+                                onChange={handleChange}
+                                defaultValue={newRecord.secretKey} disabled={true}
+                            />
+                          
+                        </div>
+                    </GridItem>
 
-                    <div className="form-group">
-                        <div className="row">
-                            <div className="col-md-4">
-                                <div className="checkbox pt-2"><label>{t('SECRET')}:</label></div>
-                            </div>
-                            <div className="col-md-8">
-                                <div>
-                                    <input type="test" defaultValue={newRecord.secretKey} disabled={true} />
-                                </div>
-                            </div>
-                        </div>
+                    </GridContainer>
                     </div>
+              
+
+                   
                 </div>
             }
             </div>

@@ -54,14 +54,14 @@ const CustromBtn = (props) => {
     return (
         <>
             <button
-                className="btn btn-outline py-1 m-0"
+                className="btn btn-outline py-1 m-0 mr-2"
                 disabled={loader}
                 onClick={handleStatus}
             >{loading == 'changeStatus' && <i class="fas fa-spinner fa-spin"></i>} {status == 'active' ? 'Enable' : 'Disable'}
             </button>
 
             <button
-                className="btn btn-primary py-1 m-0"
+                className="btn btn-red-delete py-1 m-0"
                 disabled={loader}
                 onClick={handleRemove}
             >{loading == 'remove' && <i class="fas fa-spinner fa-spin"></i>} {t('DELETE')}</button>

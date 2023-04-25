@@ -63,7 +63,7 @@ const ApiKeyList = forwardRef((props, ref) => {
             </div>
             <div className='dashHistoryTable mt-3'>
             <div className="table-responsive">
-                <table className="table">
+                <table className="table table_api_mif">
                     <thead>
                         <tr>
                             <th>{t('ENABLED')}</th>
@@ -90,7 +90,7 @@ const ApiKeyList = forwardRef((props, ref) => {
                                         <td>{item._id}</td>
                                         <td>{item.ipRestriction == true ? item.ipList.join(',') : '0.0.0.0'}</td>
                                         <td>{item.createdAt}</td>
-                                        <td><span className="bgHighlight mr-2 py-1 px-2">{t('READ')}</span></td>
+                                        <td><span className="bgHighlight btn_read_gren">{t('READ')}</span></td>
                                         <td>
                                             <CustromBtn
                                                 keyId={item.keyId}
