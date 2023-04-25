@@ -568,7 +568,7 @@ export default {
     "TICKET_ID": "ID de billets",
     "POST_HISTORY": "Historique des publications",
     "REF_KEY_LATER": "Nom facultatif pour cette clé. Cela vous aidera à référencer cette clé plus tard.",
-    "IP_RESTRICTION": "Restrictions d'accès IP :",
+    "IP_RESTRICTION": "Restrictions d'accès IP ",
     "SECURITY_REASONS": "Pour des raisons de sécurité, veuillez ne pas divulguer votre ou vos clés à des tiers non fiables. Nous recommandons aux utilisateurs d'ajouter leurs adresses IP à chacune des clés API. Un maximum de quatre (4) adresses IP peuvent être ajoutées à chaque clé. Pour ajouter plusieurs adresses IP, saisissez-les séparément avec des virgules entre elles. par exemple192.168.1.1,192.168.1.2,192.168.1.3",
     "CREATE_API_KEY": "Créer une clé API",
     "WRITE_SECRET_KEY": "Veuillez noter la clé secrète.",

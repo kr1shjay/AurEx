@@ -106,7 +106,7 @@ const OrderHistory = () => {
 
     return (
         <div className="table-responsive">
-            <Scrollbars style={{ width: "100%", height: 342 }}>
+            <Scrollbars style={{ width: "100%", height: 310 }}>
                 <table id="closedPLTable" className="table table-striped">
                     <thead>
                         <tr>

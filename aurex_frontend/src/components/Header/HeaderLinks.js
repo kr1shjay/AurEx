@@ -111,6 +111,13 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
         </ListItem>
          
         }
+
+{
+         <ListItem className={classes.listItem}>
+          <NavLink to="/api-management" color="transparent" className="nav-link">API Key</NavLink>
+        </ListItem>
+         
+        }
          <ListItem className={classes.listItem}>
           <NavLink to="/launchpad" color="transparent" className="nav-link">Launchpad</NavLink>
         </ListItem>
@@ -260,6 +267,9 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
             )}
               <li>
                  <NavLink to="/spot" color="transparent" >{t('MARKET')}</NavLink>
+              </li>
+              <li>
+                 <NavLink to="/api-management" color="transparent" >API Key</NavLink>
               </li>
               {!isAuth && (
               <li>
