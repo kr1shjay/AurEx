@@ -192,7 +192,7 @@ const MarketTrend = () => {
                                     </div>
                                     ))
                                     
-                                ):(<div><p>No recodrs found</p></div>)}
+                                ):(<div><p>No records found</p></div>)}
                                 
                             
                                 
