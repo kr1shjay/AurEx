@@ -94,7 +94,7 @@ const BalanceList = () => {
                     <tr>
                         <td>{t("SPOT_BALANCE")}</td>
                         <td>{(toFixed(balData.spotBal, 8)).toLocaleString("en-US")} {reqData.firstCurrencySymbol}</td>
-                        <td>{currencySymbol(userSetting.currencySymbol)}{toFixed(balData.estSpotBal, 2)}</td>
+                        <td>{currencySymbol(userSetting.currencySymbol)}  {toFixed(balData.estSpotBal, 2)}</td>
                         {/* <td> <span>[ <Link to={'/wallet'}>{t("DEPOSIT")}</Link> ]</span> <span>[  <Link to={'/wallet'}>{t("WITHDRAW")}</Link> ]</span><span>[ <Link to={'/spot'}>{t("TRADE")}</Link> ]</span></td> */}
                     </tr>
                     {/* <tr>
