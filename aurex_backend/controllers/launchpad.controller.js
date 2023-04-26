@@ -162,8 +162,8 @@ export const addLaunchpad = async (req, res) => {
             'maxSupply': reqBody.maxSupply,
             'industry': reqBody.industry,
             'website': reqBody.website,
-            'startTimeStamp': reqBody.startTimeStamp,
-            'endTimeStamp': reqBody.endTimeStamp,
+            'startTimeStamp':reqBody.startTimeStamp,
+            'endTimeStamp':reqBody.endTimeStamp,
             'telegram': reqBody.telegram,
             'twitter': reqBody.twitter,
             'facebook': reqBody.facebook,
@@ -215,7 +215,7 @@ export const updateLaunchpad = async (req, res) => {
             'maxSupply': reqBody.maxSupply,
             'industry': reqBody.industry,
             'website': reqBody.website,
-            'startTimeStamp': reqBody.startTimeStamp,
+            'startTimeStamp':reqBody.startTimeStamp,
             'endTimeStamp': reqBody.endTimeStamp,
             'telegram': reqBody.telegram,
             'twitter': reqBody.twitter,
@@ -236,6 +236,7 @@ export const updateLaunchpad = async (req, res) => {
 
         return res.status(200).json({ 'success': true, 'message': 'Launchpad token updated successfully' })
     } catch (err) {
+        console.log(err,'updateLaunchpad')
         return res.status(500).json({ 'success': false, 'message': 'Something went wrong' })
     }
 }

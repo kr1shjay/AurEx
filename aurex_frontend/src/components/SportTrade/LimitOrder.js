@@ -173,8 +173,12 @@ const LimitOrder = (props) => {
     useEffect(() => {
         if (orderBookDetail && !isEmpty(orderBookDetail.price)) {
             console.log(orderBookDetail,'orderBookDetail')
+            let total = 0
+            if (!isEmpty(orderBookDetail.quantity)) {
+                total = orderBookDetail.price * orderBookDetail.quantity
+            }
             setFormValue((prev) => {
-                return { ...prev, 'price': orderBookDetail.price,'quantity':orderBookDetail.quantity }
+                return { ...prev, 'price': orderBookDetail.price,'quantity':orderBookDetail.quantity,'total':total }
             })
         }
     }, [orderBookDetail])

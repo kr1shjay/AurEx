@@ -182,15 +182,23 @@ const MarketTrend = () => {
                             <Slider {...settings}>
                                
                                 {anncData && anncData.length > 0 ? (
-                                    anncData.map((val,index)=>(
-                                    <div onClick={()=>{setIsShowAd(true);
-                                        setIndex(index)}}
-                                    >
-                                    <div className='banner_carousel_boundary'>
-                                    <img src={`${config.API_URL}/images/anouncement/${val.image}`} alt="Banner" className="img-fluid" />
-                                    </div>
-                                    </div>
-                                    ))
+                                        anncData.map((val, index) => {
+                                            if(new Date(val.endDateTime).getTime() !== new Date().getTime()){
+                                                return(
+                                                    <div onClick={() => {
+                                                        setIsShowAd(true);
+                                                        setIndex(index)
+                                                    }}
+                                                    >
+                                                        <div className='banner_carousel_boundary'>
+                                                            <img src={`${config.API_URL}/images/anouncement/${val.image}`} alt="Banner" className="img-fluid" />
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                            
+                                           
+                                        })
                                     
                                 ):(<div><p>No records found</p></div>)}
                                 

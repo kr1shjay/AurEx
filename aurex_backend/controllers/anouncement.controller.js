@@ -11,6 +11,7 @@ import { nowDateInUTC } from '../lib/dateHelper'
 import config from "../config";
 // import lib
 import imageFilter from "../lib/imageFilter";
+import { paginationQuery, filterSearchQuery } from '../lib/adminHelpers'
 import isEmpty from "../lib/isEmpty"
 
 const anouncementStorage = multer.diskStorage({
@@ -79,6 +80,83 @@ export const anouncementAdd = async (req, res) => {
         }
         return res.status(200).json({ 'success': true, 'message': "Successfully added" })
     })
+}
+
+/** 
+ * Add Announcement
+ * METHOD : POST
+ * URL : /adminapi/anouncement
+ * BODY : content, endDateTime
+*/
+export const anouncementEdit = async (req, res) => {
+  try {
+
+
+    let reqBody = req.body;
+    let reqFile = req.files
+    console.log("reqFile", reqFile)
+    let newDoc = await Anouncement.findOne({ _id: req.body._id })
+    newDoc.content = reqBody.content
+    newDoc.endDateTime = reqBody.endDateTime
+    newDoc.image = reqFile.image ? reqFile.image[0].filename : newDoc.image
+    await newDoc.save((err, data) => {
+      if (err) {
+        console.log("err", err)
+        return res.status(500).json({ 'success': false, 'message': "Something went wrong" })
+      }
+      return res.status(200).json({ 'success': true, 'message': "Successfully Edited" })
+    })
+  } catch (err) {
+    console.log(err, 'anouncementdelete')
+    return res.status(500).json({ 'success': false, 'message': "Something went wrong" })
+  }
+}
+
+/** 
+ * Add Announcement
+ * METHOD : POST
+ * URL : /adminapi/anouncement
+ * BODY : content, endDateTime
+*/
+export const anouncementdelete = async (req, res) => {
+  try{
+    console.log("reqFile", req.query._id)
+    let id = req.query._id
+    let newDoc = await Anouncement.findOneAndDelete({_id:id})
+    if(newDoc){
+      console.log("reqFile")
+      return res.status(200).json({ 'success': true, 'message': "Successfully Deleted" })
+    }
+  }catch(err){
+    console.log(err,'anouncementdelete')
+    return res.status(500).json({ 'success': false, 'message': "Something went wrong" })
+  }
+  
+}
+
+
+/** 
+ * Launchpad List
+ * URL : /adminapi/anouncement
+ * METHOD : GET
+*/
+export const  getanouncement= async (req, res) => {
+  try {
+      let pagination = paginationQuery(req.query);
+      let filter = filterSearchQuery(req.query, ['industry', 'website']);
+
+      let count = await Anouncement.countDocuments(filter);
+      let data = await Anouncement.find({}).skip(pagination.skip).limit(pagination.limit)
+
+      let result = {
+          count,
+          data,
+          imageUrl: `${config.SERVER_URL}${config.IMAGE.ACCOUMENT_URL_PATH}`
+      }
+      return res.status(200).json({ 'success': true, 'message': 'FETCH_SUCCESS', 'result': result })
+  } catch (err) {
+      return res.status(500).json({ 'success': false, 'message': "Something went wrong" })
+  }
 }
 
 /** 

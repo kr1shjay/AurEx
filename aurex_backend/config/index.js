@@ -275,7 +275,7 @@ if (process.env.NODE_ENV === "production") {
       SUPPORT_PATH: "public/images/support",
       SUPPORT_URL_PATH: "/images/support/",
       ACCOUMENT_PATH:"public/images/anouncement",
-      ACCOUMENT_URL_PATH:"/anouncement/",      
+      ACCOUMENT_URL_PATH:"/images/anouncement/",      
 
       P2P_SIZE: 2  *1024 * 1024, // 2 MB
       P2P_PATH: "public/p2p",
