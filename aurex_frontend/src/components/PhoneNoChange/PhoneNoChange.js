@@ -184,7 +184,7 @@ const PhoneNoChange = () => {
         } else if (mobileDetail.timer == 0 && mobileDetail.timerStart == true) {
             setMobileDetail({
                 ...mobileDetail, ...{
-                    'timer': 120,
+                    'timer': 600,
                     'timerStart': false,
                     'isDisable': false
                 }

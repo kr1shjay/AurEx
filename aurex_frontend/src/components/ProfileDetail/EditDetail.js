@@ -231,6 +231,7 @@ const EditDetail = forwardRef((props, ref) => {
                                     className="form-control"
                                     name={"blockNo"}
                                     value={blockNo}
+                                    maxLength={20}
                                     onChange={handleChange}
                                 />
                                 {validateError.blockNo && <p className="error-message">{t(validateError.blockNo)}</p>}
@@ -245,6 +246,7 @@ const EditDetail = forwardRef((props, ref) => {
                                     className="form-control"
                                     name={"address"}
                                     value={address}
+                                    maxLength={20}
                                     onChange={handleChange}
                                 // disabled={editForm}
                                 />
@@ -259,6 +261,7 @@ const EditDetail = forwardRef((props, ref) => {
                                     className="form-control"
                                     name={"city"}
                                     value={city}
+                                    maxLength={20}
                                     onChange={handleChange}
                                 // disabled={editForm}
                                 />
@@ -273,6 +276,7 @@ const EditDetail = forwardRef((props, ref) => {
                                     className="form-control"
                                     name={"postalCode"}
                                     value={postalCode}
+                                    maxLength={20}
                                     onChange={handleChange}
                                 // disabled={editForm}
                                 />
@@ -287,6 +291,7 @@ const EditDetail = forwardRef((props, ref) => {
                                     className="form-control"
                                     name={"state"}
                                     value={state}
+                                    maxLength={20}
                                     onChange={handleChange}
                                 // disabled={editForm}
                                 />

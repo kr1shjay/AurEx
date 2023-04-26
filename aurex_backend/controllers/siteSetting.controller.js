@@ -68,6 +68,11 @@ export const getSiteSetting = async (req, res) => {
     "facebookLink": 1,
     "twitterUrl": 1,
     "linkedinLink": 1,
+    "telegramlink":1,
+    "youtubelink":1,
+    "discordlink":1,
+    "redditlink":1,
+    "mediumlink":1,
     "siteName": 1,
     "address": 1,
     "address1": 1,
@@ -83,6 +88,7 @@ export const getSiteSetting = async (req, res) => {
     if (err) {
       return res.status(500).json({ 'success': false, 'message': "Something went wrong" })
     }
+    console.log("links",data)
     return res.status(200).json({ 'success': true, 'message': "Fetch success", 'result': data })
   })
 }

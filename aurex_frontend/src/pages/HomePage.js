@@ -346,14 +346,14 @@ const fetchCmsData = async () => {
             <i className="fab fa-twitter fa-fw mr-3" aria-hidden="true"></i>
             <span>Twitter</span>
             </a>
-            <a href={socialMedia && socialMedia.telegramLink} target="_blank" className="btn_outline_big_green">
+            <a href={socialMedia && socialMedia.telegramlink} target="_blank" className="btn_outline_big_green">
             <i className="fab fa-telegram-plane fa-fw mr-3" aria-hidden="true"></i>
             <span>Telegram</span>
             </a>
           </div>
           <div className="icon_social_sec mt-4">
           <div className="media_circle_round" target="_blank">
-            <a href="#" target="_blank" className="youtube_round">
+            <a href={socialMedia && socialMedia.youtubelink} target="_blank" className="youtube_round">
             <i className="fab fa-youtube"></i>
             </a>
             <a href={socialMedia && socialMedia.facebookLink} target="_blank" className="facebook_round">
@@ -362,13 +362,13 @@ const fetchCmsData = async () => {
             <a href={socialMedia && socialMedia.linkedinLink} target="_blank" className="linkedin_round">
             <i class="fab fa-linkedin-in"></i>
             </a>
-            <a href={socialMedia && socialMedia.discord} target="_blank" className="discord_round">
+            <a href={socialMedia && socialMedia.discordlink} target="_blank" className="discord_round">
             <i class="fab fa-discord"></i>
             </a>
             <a href={socialMedia && socialMedia.redditlink} target="_blank" className="reddit_round">
             <i class="fab fa-reddit-alien"></i>
             </a>
-            <a href={socialMedia && socialMedia.medium} target="_blank" className="medium_round">
+            <a href={socialMedia && socialMedia.mediumlink} target="_blank" className="medium_round">
             <i class="fab fa-medium-m"></i>
             </a>
           </div>
