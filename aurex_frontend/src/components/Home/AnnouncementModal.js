@@ -28,7 +28,7 @@ centered
 </div>
 <p className='text-white mt-3'>{props.anncData[props.index].content}</p>
 <p>
-    <b>End Date:</b>
+    <b>End Date : </b>
      <span>{momentFormat(props.anncData[props.index].endDateTime,"YYYY-MM-DD")}</span>
 </p>
 <button type="button" class="btn btn-bordered-secondary w-100 mt-3 mr-3"  onClick={()=>props.onDismiss()}>Close</button>

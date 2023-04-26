@@ -175,6 +175,7 @@ export default {
     "SIDE": "Side",
     "EXECTED_PRICE": "Executed Price",
     "EXECUTED": "Executed",
+    "EXECUTED/REMAINING": "Executed / Remaining",
     "ADA": "ADA",
     "SELFIE_SELECTED_ID": "Selfie with Selected ID",
     "IDENTITY_DOCUMENT_TITLE1": "Here you can verify your identity by uploading one of the approved identity documents",

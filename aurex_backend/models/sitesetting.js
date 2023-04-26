@@ -100,6 +100,19 @@ const SiteSettingSchema = new Schema({
         type: String,
         default: "",
     },
+    redditLink: {
+        type: String,
+        default: "",
+    },
+    discord: {
+        type: String,
+        default: "",
+    },
+    medium: {
+        type: String,
+        default: "",
+    },
+
 
     sitelogo: {
         type: String,

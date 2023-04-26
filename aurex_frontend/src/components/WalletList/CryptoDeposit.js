@@ -118,7 +118,7 @@ const CryptoDeposit = (props) => {
                 </li>
                 <li>
                   {" "}
-                  2. Deposit minimum deposit limit or greaterthan deposit limit
+                  2. Deposit minimum deposit limit or greater than deposit limit
                 </li>
                 <li>3. {t("DEPOSIT_TIME")}</li>
               </ul>

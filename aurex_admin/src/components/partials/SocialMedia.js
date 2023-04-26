@@ -100,7 +100,7 @@ class SocialMedia extends Component {
                 <Card.Body>
                     <div className="row mt-2">
                         <div className="col-md-3">
-                            <label htmlFor="currencyName">Twiter Link</label>
+                            <label htmlFor="currencyName">Twitter Link</label>
                         </div>
                         <div className="col-md-9">
                             <input

@@ -184,13 +184,13 @@ const OrderBook = forwardRef((props, ref) => {
                                     >
                                         <span
                                             className={clsx({ "col-4": showTotal }, { "col-6": !showTotal }, 'pinkText')}
-                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.secondFloatDigit) }) }}
+                                            onClick={() => { orderBookDetail(dispatch, {'price': toFixed(item._id, tradePair.secondFloatDigit),'quantity':toFixed(item.quantity,tradePair.firstFloatDigit)}) }}
                                         >
                                             {toFixed(item._id, tradePair.secondFloatDigit)}
                                         </span>
                                         <span
                                             className={clsx({ "col-4": showTotal }, { "col-6": !showTotal }, 'text-right')}
-                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.secondFloatDigit) }) }}
+                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.secondFloatDigit),'quantity':toFixed(item.quantity, tradePair.firstFloatDigit)}) }}
                                         >
                                             {toFixed(item.quantity, tradePair.firstFloatDigit)}
                                         </span>
@@ -227,13 +227,13 @@ const OrderBook = forwardRef((props, ref) => {
                                         title="order price">
                                         <span
                                             className={clsx({ "col-4": showTotal }, { "col-6": !showTotal }, 'greenText')}
-                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.secondFloatDigit) }) }}
+                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.secondFloatDigit),'quantity':toFixed(item.quantity,tradePair.firstFloatDigit) }) }}
                                         >
                                             {toFixed(item._id, tradePair.secondFloatDigit)}
                                         </span>
                                         <span
                                             className={clsx({ "col-4": showTotal }, { "col-6": !showTotal }, 'text-right')}
-                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.secondFloatDigit) }) }}
+                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.secondFloatDigit) ,'quantity':toFixed(item.quantity,tradePair.firstFloatDigit)}) }}
                                         >
                                             {toFixed(item.quantity, tradePair.firstFloatDigit)}
                                         </span>

@@ -16,6 +16,11 @@ const initialFormValue = {
     "twiterLink": "",
     "fbLink": "",
     "linkedInLink": "",
+    "telegramlink":"",
+    "youtubelink":"",
+    "discordlink":"",
+    "redditlink":"",
+    "mediumlink":"",
     "emailLogo": "",
     "siteName": "",
     "address": "",
@@ -80,6 +85,11 @@ class SiteDetails extends Component {
         const { twiterLink,
             linkedInLink,
             fbLink,
+            telegramlink,
+            youtubelink,
+            discordlink,
+            redditlink,
+            mediumlink,
             emailLogo,
             address,
             address1,
@@ -100,6 +110,11 @@ class SiteDetails extends Component {
         formData.append("twiterLink", twiterLink);
         formData.append("linkedInLink", linkedInLink);
         formData.append("fbLink", fbLink);
+        formData.append("telegramLink", telegramlink);
+        formData.append("youtubelink", youtubelink);
+        formData.append("discordlink", discordlink);
+        formData.append("redditlink", redditlink);
+        formData.append("mediumlink", mediumlink);
         formData.append("address", address);
         formData.append("address1", address1);
         formData.append("address2", address2);
@@ -131,6 +146,11 @@ class SiteDetails extends Component {
         const { twiterLink,
             fbLink,
             linkedInLink,
+            telegramlink,
+            youtubelink,
+            discordlink,
+            redditlink,
+            mediumlink,
             emailLogo,
             siteName,
             address,
@@ -146,7 +166,7 @@ class SiteDetails extends Component {
                 <Card.Body>
                     <div className="row mt-2 align-items-center">
                         <div className="col-md-3">
-                            <label htmlFor="currencyName">Twiter Link</label>
+                            <label htmlFor="currencyName">Twitter Link</label>
                         </div>
                         <div className="col-md-9">
                             <input
@@ -209,6 +229,111 @@ class SiteDetails extends Component {
                     </div>
                     <div className="row mt-2 align-items-center">
                         <div className="col-md-3">
+                            <label htmlFor="currencyName">Telegram Link</label>
+                        </div>
+                        <div className="col-md-9">
+                            <input
+
+                                value={twiterLink}
+                                onChange={this.handleChange}
+                                name="twiterLink"
+                                error={errors.twiterLink}
+                                id="twiter"
+                                type="text"
+                                className={classnames("form-control", {
+                                    invalid: errors.twiterLink
+                                })}
+                            />
+                            <span className="text-danger">{errors.twiterLink}</span>
+                        </div>
+
+                    </div>
+                    <div className="row mt-2 align-items-center">
+                        <div className="col-md-3">
+                            <label htmlFor="currencyName">Youtube Link</label>
+                        </div>
+                        <div className="col-md-9">
+                            <input
+
+                                value={twiterLink}
+                                onChange={this.handleChange}
+                                name="twiterLink"
+                                error={errors.twiterLink}
+                                id="twiter"
+                                type="text"
+                                className={classnames("form-control", {
+                                    invalid: errors.twiterLink
+                                })}
+                            />
+                            <span className="text-danger">{errors.twiterLink}</span>
+                        </div>
+
+                    </div>
+                    <div className="row mt-2 align-items-center">
+                        <div className="col-md-3">
+                            <label htmlFor="currencyName">Discord Link</label>
+                        </div>
+                        <div className="col-md-9">
+                            <input
+
+                                value={twiterLink}
+                                onChange={this.handleChange}
+                                name="twiterLink"
+                                error={errors.twiterLink}
+                                id="twiter"
+                                type="text"
+                                className={classnames("form-control", {
+                                    invalid: errors.twiterLink
+                                })}
+                            />
+                            <span className="text-danger">{errors.twiterLink}</span>
+                        </div>
+
+                    </div>
+                    <div className="row mt-2 align-items-center">
+                        <div className="col-md-3">
+                            <label htmlFor="currencyName">Reddit Link</label>
+                        </div>
+                        <div className="col-md-9">
+                            <input
+
+                                value={twiterLink}
+                                onChange={this.handleChange}
+                                name="twiterLink"
+                                error={errors.twiterLink}
+                                id="twiter"
+                                type="text"
+                                className={classnames("form-control", {
+                                    invalid: errors.twiterLink
+                                })}
+                            />
+                            <span className="text-danger">{errors.twiterLink}</span>
+                        </div>
+
+                    </div>
+                    <div className="row mt-2 align-items-center">
+                        <div className="col-md-3">
+                            <label htmlFor="currencyName">Medium Link</label>
+                        </div>
+                        <div className="col-md-9">
+                            <input
+
+                                value={twiterLink}
+                                onChange={this.handleChange}
+                                name="twiterLink"
+                                error={errors.twiterLink}
+                                id="twiter"
+                                type="text"
+                                className={classnames("form-control", {
+                                    invalid: errors.twiterLink
+                                })}
+                            />
+                            <span className="text-danger">{errors.twiterLink}</span>
+                        </div>
+
+                    </div>
+                    <div className="row mt-2 align-items-center">
+                        <div className="col-md-3">
                             <label htmlFor="currencyName"> Site Name</label>
                         </div>
                         <div className="col-md-9">
@@ -228,7 +353,7 @@ class SiteDetails extends Component {
                         </div>
 
                     </div>
-                   
+
                     <div className="row mt-2 align-items-center">
                         <div className="col-md-3">
                             <label htmlFor="currencyName">Address</label>
@@ -339,20 +464,20 @@ class SiteDetails extends Component {
                             <label htmlFor="currencyName">Site Logo</label>
                         </div>
                         <div className="col-md-9">
-                        <label class="custom-file-upload">
-                            <input
+                            <label class="custom-file-upload">
+                                <input
 
-                                name="emailLogo"
-                                onChange={this.handleFile}
-                                id="emailLogo"
-                                type="file"
-                                error={errors.emailLogo}
-                                className={classnames("form-control", {
-                                    invalid: errors.emailLogo
-                                })}
-                            />
-                            Choose File
-                    </label>
+                                    name="emailLogo"
+                                    onChange={this.handleFile}
+                                    id="emailLogo"
+                                    type="file"
+                                    error={errors.emailLogo}
+                                    className={classnames("form-control", {
+                                        invalid: errors.emailLogo
+                                    })}
+                                />
+                                Choose File
+                            </label>
 
                             <span className="text-danger">{errors.emailLogo}</span>
                             <img

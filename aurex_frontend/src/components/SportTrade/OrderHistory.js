@@ -116,7 +116,7 @@ const OrderHistory = () => {
                             <th>{t('SIDE')}</th>
                             <th>{t('EXECTED_PRICE')}</th>
                             <th>{t('PRICE')}</th>
-                            <th>{t('EXECUTED')}</th>
+                            <th>{t('EXECUTED/REMAINING')}</th>
                             {/* <th>{t('AMOUNT')}</th> */}
                             <th>{t('TOTAL')}</th>
                             {/* <th>{t('TRIGGER_CONDITION')}</th> */}
@@ -127,6 +127,7 @@ const OrderHistory = () => {
                         {
                             data && data.length > 0 && data.map((item, key) => {
                                 let curFloat = item.buyorsell == 'sell' ? tradePair.firstFloatDigit : tradePair.secondFloatDigit;
+                                let Remaining = Number(item.quantity) - Number(item.filledQuantity)
                                 return (
                                     <tr key={key}>
                                         <td>{momentFormat(item.orderDate, 'YYYY-MM-DD HH:mm')}</td>
@@ -135,7 +136,7 @@ const OrderHistory = () => {
                                         <td className={clsx({ "greenText": item.buyorsell === 'buy' }, { "pinkText": item.buyorsell === 'sell' })}>{capitalize(item.buyorsell)}</td>
                                         <td>{item.filledQuantity > 0 ? Number(item.averageTotal / item.filledQuantity).toFixed(curFloat): 0}</td>
                                         <td>{['market'].includes(item.orderType) ? 'Market price' : Number(item.price).toFixed(curFloat)}</td>
-                                        <td>{Number(item.filledQuantity).toFixed(curFloat)}</td>
+                                        <td>{Number(item.filledQuantity).toFixed(curFloat)} / {Number(Remaining).toFixed(curFloat)}</td>
                                         {/* <td>{item.quantity}</td> */}
                                         <td>{Number(item.averageTotal).toFixed(curFloat)}</td>
                                         {/* <td>{triggerCondition(item.conditionalType, item.stopPrice)}</td> */}

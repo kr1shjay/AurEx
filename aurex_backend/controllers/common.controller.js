@@ -50,7 +50,12 @@ export const getSocialMedia = async (req, res) => {
         let settingData = await SiteSetting.findOne({}, {
             "facebookLink": 1,
             "linkedinLink": 1,
-            "twitterUrl": 1
+            "twitterUrl": 1,
+            "telegramlink":1,
+            "youtubelink":1,
+            "redditlink":1,
+            "discord":1,
+            "medium":1
         })
         console.log(settingData, '-------------settingData')
         if (settingData) {

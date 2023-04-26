@@ -54,6 +54,7 @@ const EditDetail = forwardRef((props, ref) => {
         setFormValue(formData)
         if (!isEmpty(validateError)) {
             setValidateError({})
+
         }
     }
 
@@ -200,6 +201,7 @@ const EditDetail = forwardRef((props, ref) => {
                                     className="form-control"
                                     name={"firstName"}
                                     value={firstName}
+                                    maxLength={20}
                                     onChange={handleChange}
                                 // disabled={editForm}
                                 />
@@ -214,6 +216,7 @@ const EditDetail = forwardRef((props, ref) => {
                                     className="form-control"
                                     name={"lastName"}
                                     value={lastName}
+                                    maxLength={20}
                                     onChange={handleChange}
                                 // disabled={editForm}
                                 />
