@@ -21,6 +21,9 @@ const validation = value => {
     if (isEmpty(value.password)) {
         errors.password = "REQUIRED"
     }
+    if (isEmpty(value.name)){
+        errors.name = "REQUIRED"
+    }
 
     return errors;
 }

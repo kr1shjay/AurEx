@@ -30,6 +30,7 @@ export const SET_TRADE_THEME = 'SET_TRADE_THEME'
 export const SET_PRICE_CONVERSION = 'SET_PRICE_CONVERSION'
 export const SET_ANNOUNCEMENT = 'SET_ANNOUNCEMENT'
 export const SET_MEDIA = 'SET_MEDIA'
+export const SET_EMPTY = '';
 
 // Spot Trade
 export const SET_LAST_PRICE = 'SET_LAST_PRICE';

@@ -1,5 +1,7 @@
 // import package
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+import clsx from 'classnames';
 
 import {
     Radio,
@@ -24,12 +26,14 @@ import { newApiKey } from '../../actions/apiMgmtAction'
 import { toastAlert } from '../../lib/toastAlert';
 import validation from './validation';
 import isEmpty from '../../lib/isEmpty';
+import { useSelector, useDispatch } from 'react-redux'
 
 const initialFormValue = {
     'name': '',
     'ipRestriction': false,
     'password': '',
     'ipList': '',
+    "showPassword":false,
     'withdraw':false,
     'deposit':false,
     'trade':false
@@ -39,15 +43,17 @@ const CreateApiKey = (props) => {
     const { t, i18n } = useTranslation();
 
     // props
-    const { handleList } = props;
+    const { handleList,record } = props;
 
     // state
     const [formValue, setFormValue] = useState(initialFormValue);
     const [loader, setLoader] = useState(false)
     const [validateError, setValidateError] = useState({});
     const [newRecord, setNewRecord] = useState({})
+    const selector = useSelector(state => state.apikey)
+    console.log("selector",selector)
 
-    const { name, ipRestriction, password, ipList, withdraw, deposit, trade } = formValue;
+    const { name, ipRestriction, password, showPassword, showConfirmPassword,ipList, withdraw, trade } = formValue;
 
     // function
     const handleChange = (e) => {
@@ -83,6 +89,7 @@ const CreateApiKey = (props) => {
                 setNewRecord(result.data)
                 toastAlert('success', message, 'apiKey')
                 setFormValue(initialFormValue)
+                setValidateError({})
             } else {
                 if (error) {
 
@@ -92,6 +99,11 @@ const CreateApiKey = (props) => {
             }
         } catch (err) { }
     }
+    useEffect(() => {
+        console.log('record',selector)
+        setNewRecord({}) 
+    }, [selector])
+
 
     return (
         <>
@@ -122,23 +134,39 @@ const CreateApiKey = (props) => {
                                 onChange={handleChange}
                             />
                             <p className="mb-0 mt-1">{t('REF_KEY_LATER')}</p>
+                                    {
+                                        validateError.name && <p className="error-message">{t(validateError.name)}</p>
+                                    }
                         </div>
                     </GridItem>
 
                     <GridItem xs={12} sm={6} md={6} lg={6}>
-                    <div className="form-group">
-                                <label>{t('PASSWORD')}</label>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    name="password"
-                                    value={password}
-                                    onChange={handleChange}
-                                />
-                                {
-                                    validateError.password && <p className="error-message">{t(validateError.password)}</p>
-                                }
-                            </div>
+                                <div className="form-group">
+                                    <label>{t('PASSWORD')}</label>
+                                    <div className='input-group input_grp_style_new1'>
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        className="form-control"
+                                        name="password"
+                                        value={password}
+                                        onChange={handleChange}
+                                    />
+
+                                    <div className="input-group-append">
+                                        <Link onClick={(e) => {
+                                            e.preventDefault();
+                                            setFormValue((el => {
+                                                return { ...el, ...{ showPassword: !el.showPassword } }
+                                            }))
+                                        }}>
+                                            <i className={clsx("fa", { "fa-eye": showPassword }, { "fa-eye-slash": !showPassword })} aria-hidden="true"></i>
+                                        </Link>
+                                    </div>
+                                    </div>
+                                    {
+                                        validateError.password && <p className="error-message">{t(validateError.password)}</p>
+                                    }
+                                </div>
                     </GridItem>
                 </GridContainer>
                 <div className='profileDetailView mt-3'>
@@ -286,7 +314,7 @@ const CreateApiKey = (props) => {
             </form>
 
             {
-                !isEmpty(newRecord) && <div>
+                !isEmpty(newRecord) && newRecord && <div>
                      <div className='profileDetailView mt-3 '>
                 <h4>{t('WRITE_SECRET_KEY')}</h4>
                  </div>

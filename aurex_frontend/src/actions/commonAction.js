@@ -1,3 +1,4 @@
+
 // import config
 import axios,{  handleResp} from '../config/axios'
 
@@ -10,7 +11,8 @@ import {
     SET_TRADE_THEME,
     SET_PRICE_CONVERSION,
     SET_ANNOUNCEMENT,
-    SET_MEDIA
+    SET_MEDIA,
+    SET_EMPTY
 } from '../constant';
 
 // import lib
@@ -115,6 +117,13 @@ export const setTimeZone = async (dispatch) => {
         data
     })
 
+}
+export const setEmpty = (data)=>{
+    console.log(data,'data')
+    return{
+        type:SET_EMPTY,
+        data
+    }
 }
 
 export const setTheme = async (dispatch, theme) => {
