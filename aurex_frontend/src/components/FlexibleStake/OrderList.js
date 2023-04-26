@@ -41,7 +41,7 @@ const SubscribeStake = () => {
                                                     <p><span>{momentFormat(item && item.createdAt, 'YYYY-MM-DD HH:mm')}</span> <span className="textDepositGreen">{item.APY}%</span> <span className="textDepositGreen">{item.type}</span> </p>
                                                 </div>
                                                 <div className="csRight flex-row align-items-center">
-                                                    <h4>{item.amount} {item.coin}</h4>
+                                                    <h4 className='margin_top_amount_10'>{item.amount} {item.coin}</h4>
 
                                                     {
 

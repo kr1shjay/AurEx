@@ -208,7 +208,7 @@ const MarketTable = (props) => {
                                                          "red_text": item.change <= 0
                                                      })}>{toFixed(item.change, 2)}</span></td>
                                                      <td>
-                                                         <a href={isAuth ? "/spot" : "login"} class="btn greenButton mr-2" id="BTC-USDT">Trade</a> 
+                                                         <a href={isAuth ? "/spot" : "login"} class="btn greenButton btn_flex_ce mr-2" id="BTC-USDT">Trade</a> 
                                                      </td>
                                                  </tr>
                                              )

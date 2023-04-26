@@ -30619,3 +30619,13 @@ margin-bottom: 10px;
   border: 1px solid #a81e3a !important;
   color: #a81e3a !important;
 }
+.btn_flex_ce
+{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.margin_top_amount_10
+{
+  margin-top: 16px !important;
+}

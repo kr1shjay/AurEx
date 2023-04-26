@@ -89,7 +89,11 @@ class LaunchpadAddModal extends React.Component {
 		singleValue: (provided, state) => ({
 		  ...provided,
 		  color: "#fff"
-		})
+		}),
+        menuList: (base) => ({
+            ...base,
+            maxHeight: "110px" // your desired height
+          })
 	  };
 
     componentWillReceiveProps(nextProps) {
@@ -349,7 +353,7 @@ class LaunchpadAddModal extends React.Component {
                                 <label htmlFor="price">Launch Coin</label>
                             </div>
                             <div className="col-md-9">
-                                <Select
+                                <Select classNamePrefix="mySelect"
                                     value={currencyOption && currencyOption.length > 0 ? currencyOption.filter((el) => {
                                         if (el.value == launchCoin) {
                                             return el;
