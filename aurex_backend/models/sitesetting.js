@@ -104,11 +104,11 @@ const SiteSettingSchema = new Schema({
         type: String,
         default: "",
     },
-    discord: {
+    discordlink: {
         type: String,
         default: "",
     },
-    medium: {
+    mediumlink: {
         type: String,
         default: "",
     },

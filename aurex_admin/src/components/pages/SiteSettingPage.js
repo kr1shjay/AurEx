@@ -102,9 +102,11 @@ class SiteSettingPage extends Component {
     async fetchSiteSetting() {
         try {
             const { status, loading, result } = await getSiteSetting();
+          
             if (status == 'success') {
                 this.setState({ 'marketTrend': result.marketTrend, "records": result })
             }
+            console.log("result",result)
         } catch (err) { }
     }
 

@@ -1312,7 +1312,7 @@ export const changeNewPhone = async (req, res) => {
 */
 export const verifyNewPhone = async (req, res) => {
     try {
-        let reqBody = req.body, otpTime = new Date(new Date().getTime() - 120000); //2 min
+        let reqBody = req.body, otpTime = new Date(new Date().getTime() - 600000); //2 min
         let userData = await User.findOne({ "_id": req.user.id });
 
         if (userData.otptime <= otpTime) {

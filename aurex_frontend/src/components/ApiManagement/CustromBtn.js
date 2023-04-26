@@ -7,6 +7,10 @@ import { changeStatus, removeKey } from '../../actions/apiMgmtAction'
 
 // import lib
 import { toastAlert } from '../../lib/toastAlert';
+import { useDispatch} from 'react-redux';
+import  apikey  from '../../reducers/apikey'
+import { setEmpty } from 'actions/commonAction';
+
 
 const CustromBtn = (props) => {
     // props
@@ -15,7 +19,8 @@ const CustromBtn = (props) => {
     // status
     const [loader, setLoader] = useState(false)
     const [loading, setLoading] = useState('')
-
+    const dispatch= useDispatch()
+    
     // function
     const handleStatus = async (e) => {
         e.preventDefault();
@@ -45,6 +50,7 @@ const CustromBtn = (props) => {
             if (status == 'success') {
                 handleRefetch(result)
                 toastAlert('success', message, 'removeKey')
+                dispatch(setEmpty({'delete':true}))
             } else {
                 toastAlert('error', message, 'removeKey')
             }

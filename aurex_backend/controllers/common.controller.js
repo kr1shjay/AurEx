@@ -54,8 +54,8 @@ export const getSocialMedia = async (req, res) => {
             "telegramlink":1,
             "youtubelink":1,
             "redditlink":1,
-            "discord":1,
-            "medium":1
+            "discordlink":1,
+            "mediumlink":1
         })
         console.log(settingData, '-------------settingData')
         if (settingData) {

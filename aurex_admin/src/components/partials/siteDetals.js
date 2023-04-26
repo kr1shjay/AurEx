@@ -47,12 +47,18 @@ class SiteDetails extends Component {
 
     componentWillReceiveProps(nextProps) {
         const { records } = nextProps;
+        console.log(records,'telegramlink')
         if (records) {
             this.setState({
                 formValue: {
                     twiterLink: records.twitterUrl,
                     fbLink: records.facebookLink,
                     linkedInLink: records.linkedinLink,
+                    telegramlink: records.telegramlink,
+                    youtubelink: records.youtubelink,
+                    discordlink: records.discordlink,
+                    redditlink: records.redditlink,
+                    mediumlink: records.mediumlink,
                     emailLogo: records.emailLogo,
                     siteName: records.siteName,
                     address: records.address,
@@ -234,17 +240,17 @@ class SiteDetails extends Component {
                         <div className="col-md-9">
                             <input
 
-                                value={twiterLink}
+                                value={telegramlink}
                                 onChange={this.handleChange}
-                                name="twiterLink"
-                                error={errors.twiterLink}
-                                id="twiter"
+                                name="telegramlink"
+                                error={errors.telegramlink}
+                                id="telegram"
                                 type="text"
                                 className={classnames("form-control", {
-                                    invalid: errors.twiterLink
+                                    invalid: errors.telegramlink
                                 })}
                             />
-                            <span className="text-danger">{errors.twiterLink}</span>
+                            <span className="text-danger">{errors.telegramlink}</span>
                         </div>
 
                     </div>
@@ -255,17 +261,17 @@ class SiteDetails extends Component {
                         <div className="col-md-9">
                             <input
 
-                                value={twiterLink}
+                                value={youtubelink}
                                 onChange={this.handleChange}
-                                name="twiterLink"
-                                error={errors.twiterLink}
-                                id="twiter"
+                                name="youtubelink"
+                                error={errors.youtubelink}
+                                id="youtube"
                                 type="text"
                                 className={classnames("form-control", {
-                                    invalid: errors.twiterLink
+                                    invalid: errors.youtubelink
                                 })}
                             />
-                            <span className="text-danger">{errors.twiterLink}</span>
+                            <span className="text-danger">{errors.youtubelink}</span>
                         </div>
 
                     </div>
@@ -276,17 +282,17 @@ class SiteDetails extends Component {
                         <div className="col-md-9">
                             <input
 
-                                value={twiterLink}
+                                value={discordlink}
                                 onChange={this.handleChange}
-                                name="twiterLink"
-                                error={errors.twiterLink}
-                                id="twiter"
+                                name="discordlink"
+                                error={errors.discordlink}
+                                id="discord"
                                 type="text"
                                 className={classnames("form-control", {
-                                    invalid: errors.twiterLink
+                                    invalid: errors.discordlink
                                 })}
                             />
-                            <span className="text-danger">{errors.twiterLink}</span>
+                            <span className="text-danger">{errors.discordlink}</span>
                         </div>
 
                     </div>
@@ -297,17 +303,17 @@ class SiteDetails extends Component {
                         <div className="col-md-9">
                             <input
 
-                                value={twiterLink}
+                                value={redditlink}
                                 onChange={this.handleChange}
-                                name="twiterLink"
-                                error={errors.twiterLink}
-                                id="twiter"
+                                name="redditlink"
+                                error={errors.redditlink}
+                                id="reddit"
                                 type="text"
                                 className={classnames("form-control", {
-                                    invalid: errors.twiterLink
+                                    invalid: errors.redditlink
                                 })}
                             />
-                            <span className="text-danger">{errors.twiterLink}</span>
+                            <span className="text-danger">{errors.redditlink}</span>
                         </div>
 
                     </div>
@@ -318,17 +324,17 @@ class SiteDetails extends Component {
                         <div className="col-md-9">
                             <input
 
-                                value={twiterLink}
+                                value={mediumlink}
                                 onChange={this.handleChange}
-                                name="twiterLink"
-                                error={errors.twiterLink}
-                                id="twiter"
+                                name="mediumlink"
+                                error={errors.mediumlink}
+                                id="medium"
                                 type="text"
                                 className={classnames("form-control", {
-                                    invalid: errors.twiterLink
+                                    invalid: errors.mediumlink
                                 })}
                             />
-                            <span className="text-danger">{errors.twiterLink}</span>
+                            <span className="text-danger">{errors.mediumlink}</span>
                         </div>
 
                     </div>

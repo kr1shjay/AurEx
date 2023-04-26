@@ -33,6 +33,7 @@ import p2pPair from './p2pPair';
 import iconBtn from './iconBtn';    
 import notice from './notice';
 import purchaseToken from './purchaseToken';
+import apikey from './apikey'
 
 export default combineReducers({
     auth: authReducer,
@@ -60,7 +61,8 @@ export default combineReducers({
     iconBtn,
     notice,
     purchaseToken,
-    socialMedia
+    socialMedia,
+    apikey
     // modal: modal,
     // form,
     // trade: tradeReducers,
