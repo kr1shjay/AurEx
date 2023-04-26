@@ -5,6 +5,10 @@ import { useTranslation } from 'react-i18next';
 // import component
 import CustromBtn from './CustromBtn';
 
+// import component
+import GridContainer from "components/Grid/GridContainer.js";
+import GridItem from "components/Grid/GridItem.js";
+
 // import action
 import { keyList } from '../../actions/apiMgmtAction'
 
@@ -45,9 +49,21 @@ const ApiKeyList = forwardRef((props, ref) => {
 
     return (
         <>
-            <h5 class="dash_subtitle mt-3">{t('YOUR_API_KEY')}</h5>
+
+<div>
+                <GridContainer>
+                    <GridItem lg={12}>  
+                    <div className="launchpadCoinName">
+                                <h3 className='login_title_8'>{t('YOUR_API_KEY')}
+                                {/* <small className='text_sm_white mb-0'>{data.coin}</small> */}
+                                </h3>
+                            </div>
+                    </GridItem>
+                </GridContainer>
+            </div>
+            <div className='dashHistoryTable mt-3'>
             <div className="table-responsive">
-                <table className="table">
+                <table className="table table_api_mif">
                     <thead>
                         <tr>
                             <th>{t('ENABLED')}</th>
@@ -61,7 +77,7 @@ const ApiKeyList = forwardRef((props, ref) => {
                     </thead>
                     <tbody>
                         {
-                            loader && <tr><td colSpan={7}>{t('LOADING')}</td></tr>
+                            loader && <tr><td colSpan={7} className='text-center'>{t('LOADING')}</td></tr>
                         }
 
                         {
@@ -74,7 +90,7 @@ const ApiKeyList = forwardRef((props, ref) => {
                                         <td>{item._id}</td>
                                         <td>{item.ipRestriction == true ? item.ipList.join(',') : '0.0.0.0'}</td>
                                         <td>{item.createdAt}</td>
-                                        <td><span className="bgHighlight mr-2 py-1 px-2">{t('READ')}</span></td>
+                                        <td><span className="bgHighlight btn_read_gren">{t('READ')}</span></td>
                                         <td>
                                             <CustromBtn
                                                 keyId={item.keyId}
@@ -88,10 +104,11 @@ const ApiKeyList = forwardRef((props, ref) => {
                         }
 
                         {
-                            !loader && record && record.length == 0 && <tr><td colSpan={7}>{t('NO_RECORD')}</td></tr>
+                            !loader && record && record.length == 0 && <tr><td colSpan={7} className='text-center'>{t('NO_RECORD')}</td></tr>
                         }
                     </tbody>
                 </table>
+            </div>
             </div>
         </>
     )

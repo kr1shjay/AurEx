@@ -10,7 +10,7 @@ import ApiManagement from '../components/ApiManagement';
 
 const ApiMgmtPage = () => {
     return (
-        <div>
+        <div className="dashboard_container page_wrap">
             <Header className="header"
                 color="transparent"
                 // routes={dashboardRoutes}
@@ -22,7 +22,7 @@ const ApiMgmtPage = () => {
                     color: "dark",
                 }}
             />
-            <div className="static_container py-4">
+            <div className="">
                 <ApiManagement />
             </div>
             <Footer />

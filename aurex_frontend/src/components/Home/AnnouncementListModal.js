@@ -43,7 +43,7 @@ centered
         {val.content}
         </p>
     <p>
-        <b>End Date:</b>
+        <b>End Date : </b>
          <span>{momentFormat(val.endDateTime,"YYYY-MM-DD")}</span>
     </p>  
     </div>

@@ -135,8 +135,10 @@ const LimitOrder = (props) => {
             let { status, loading, message, error, result } = await orderPlace(encryptToken);
             setLoader(loading)
             if (status == 'success') {
-                setFormValue(initialFormValue);
-
+                
+                let formData = initialFormValue
+                formData = { ...formData, ...{ 'price': marketPriceData.markPrice } }
+                setFormValue(formData);
                 // if (result.userAsset._id == firstCurrency._id) {
                 //     setUserFirstCurrency(result.userAsset, dispatch)
                 // } else if (result.userAsset._id == secondCurrency._id) {
@@ -170,8 +172,9 @@ const LimitOrder = (props) => {
 
     useEffect(() => {
         if (orderBookDetail && !isEmpty(orderBookDetail.price)) {
+            console.log(orderBookDetail,'orderBookDetail')
             setFormValue((prev) => {
-                return { ...prev, 'price': orderBookDetail.price }
+                return { ...prev, 'price': orderBookDetail.price,'quantity':orderBookDetail.quantity }
             })
         }
     }, [orderBookDetail])

@@ -122,7 +122,7 @@ const OpenOrder = (props) => {
     return (
         <div className="table-responsive">
            {cancel ? (<CancelModal id={cancelID} onDismiss={onDismiss}/>):("")}
-            <Scrollbars style={{ width: "100%", height: 342 }}>
+            <Scrollbars style={{ width: "100%", height: 312 }}>
                 <table id="positionsTable" className="table table-striped">
                     <thead>
                         <tr>

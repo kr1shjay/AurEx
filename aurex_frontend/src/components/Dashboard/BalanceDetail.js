@@ -72,7 +72,7 @@ const BalanceDetail = () => {
                                         {/* <p>{item.derivativeBal + item.spotBal + item.p2pBal} </p> */}
                                         <p>{toFixed(item.spotBal,8).toLocaleString("en-US")} </p>
                                         {
-                                            priceCNV && <small>= {currencySymbol(userSetting.currencySymbol)}{(toFixed(((item.spotBal) * priceCNV.convertPrice), 2)).toLocaleString("en-US")}</small>
+                                            priceCNV && <small>= {currencySymbol(userSetting.currencySymbol)} {(toFixed(((item.spotBal) * priceCNV.convertPrice), 2)).toLocaleString("en-US")}</small>
                                         }
 
                                     </div>

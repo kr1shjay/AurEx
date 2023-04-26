@@ -26,6 +26,7 @@ import { useTranslation } from 'react-i18next';
 import { setAccountData } from "actions/users";
 const dashboardRoutes = [];
 
+
 // Scroll to Top
 function ScrollToTopOnMount() {
   useEffect(() => {
@@ -51,7 +52,8 @@ const HomePage = () => {
   // redux
   const { isAuth } = useSelector(state => state.auth)
   const language = useSelector(state => state.language)
-
+  const socialMedia = useSelector(state => state.socialMedia);
+  console.log("social",socialMedia)
   const [tickerclose, setTickerclose] = useState(false);
   const [anncData,setAnncData]=useState([])
 
@@ -125,6 +127,7 @@ const fetchCmsData = async () => {
     fetchAnnouncemet()
   }, [])
   return (
+   
     <div className={tickerclose?"page_wrap home_page_header_banner without_ticker_banner":"page_wrap home_page_header_banner"}>
       <ScrollToTopOnMount />
       <div className={tickerclose?"upper_slider d-none":"upper_slider"}>
@@ -339,11 +342,11 @@ const fetchCmsData = async () => {
           <h2 className="title1 text-left" data-aos="fade-up" data-aos-duration="1000">Join the AUREX Community Today</h2>
           <h6 className="mb-0 text-left ml-0" data-aos="fade-up" data-aos-duration="1000">Always there for you</h6>
           <div className="social_btn_sec mt-4">
-            <a href="#" target="_blank" className="btn_outline_big_green mr-4">
+            <a href={socialMedia && socialMedia.twitterUrl} target="_blank" className="btn_outline_big_green mr-4">
             <i className="fab fa-twitter fa-fw mr-3" aria-hidden="true"></i>
             <span>Twitter</span>
             </a>
-            <a href="#" target="_blank" className="btn_outline_big_green">
+            <a href={socialMedia && socialMedia.telegramLink} target="_blank" className="btn_outline_big_green">
             <i className="fab fa-telegram-plane fa-fw mr-3" aria-hidden="true"></i>
             <span>Telegram</span>
             </a>
@@ -353,19 +356,19 @@ const fetchCmsData = async () => {
             <a href="#" target="_blank" className="youtube_round">
             <i className="fab fa-youtube"></i>
             </a>
-            <a href="#" target="_blank" className="facebook_round">
+            <a href={socialMedia && socialMedia.facebookLink} target="_blank" className="facebook_round">
             <i className="fab fa-facebook-f"></i>
             </a>
-            <a href="#" target="_blank" className="linkedin_round">
+            <a href={socialMedia && socialMedia.linkedinLink} target="_blank" className="linkedin_round">
             <i class="fab fa-linkedin-in"></i>
             </a>
-            <a href="#" target="_blank" className="discord_round">
+            <a href={socialMedia && socialMedia.discord} target="_blank" className="discord_round">
             <i class="fab fa-discord"></i>
             </a>
-            <a href="#" target="_blank" className="reddit_round">
+            <a href={socialMedia && socialMedia.redditlink} target="_blank" className="reddit_round">
             <i class="fab fa-reddit-alien"></i>
             </a>
-            <a href="#" target="_blank" className="medium_round">
+            <a href={socialMedia && socialMedia.medium} target="_blank" className="medium_round">
             <i class="fab fa-medium-m"></i>
             </a>
           </div>

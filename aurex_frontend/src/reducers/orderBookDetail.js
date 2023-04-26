@@ -4,11 +4,14 @@ import {
 } from '../constant';
 
 const initialState = {
-    'price': ''
+    'price': '',
+    'quantity':''
 }
 
 const orderBookDetail = (state = initialState, action) => {
+    console.log('orderBookDetail',action)
     switch (action.type) {
+        
         case SET_SPOT_ORDER_BOOK:
             return {
                 ...state,

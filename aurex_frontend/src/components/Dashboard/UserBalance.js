@@ -104,7 +104,7 @@ const UserBalance = () => {
                     {!balLoader && <Fragment>{toFixed(totalBals, 8)}<span>{reqData.firstCurrencySymbol}</span></Fragment>}
                 </h1>
                 {estLoader && <i class="fas fa-spinner fa-spin"></i>}
-                {!estLoader && !balLoader && <small>= {currencySymbol(userSetting.currencySymbol)}{toFixed(estBal, 2)}</small>}
+                {!estLoader && !balLoader && <small>= {currencySymbol(userSetting.currencySymbol)}    {toFixed(estBal, 2)}</small>}
             </div>
             <div className="Subscribe pb-3">
                 <Button onClick={() => history.push('/wallet')}>{t("DEPOSIT")}</Button>

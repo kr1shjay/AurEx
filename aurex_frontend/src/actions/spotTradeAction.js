@@ -397,6 +397,7 @@ export const updateTradeAsset = (dispatch, data) => {
 }
 
 export const orderBookDetail = (dispatch, data) => {
+    console.log('orderBookDetail',data)
     dispatch({
         type: SET_SPOT_ORDER_BOOK,
         data
