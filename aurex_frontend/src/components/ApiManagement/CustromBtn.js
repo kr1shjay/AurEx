@@ -63,7 +63,7 @@ const CustromBtn = (props) => {
                 className="btn btn-outline py-1 m-0 mr-2"
                 disabled={loader}
                 onClick={handleStatus}
-            >{loading == 'changeStatus' && <i class="fas fa-spinner fa-spin"></i>} {status == 'active' ? 'Enable' : 'Disable'}
+            >{loading == 'changeStatus' && <i class="fas fa-spinner fa-spin"></i>} {status == 'active' ? 'Disable' : 'Enable'}
             </button>
 
             <button

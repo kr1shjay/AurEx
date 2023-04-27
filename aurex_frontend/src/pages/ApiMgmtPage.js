@@ -2,6 +2,7 @@ import React from "react";
 
 // import component
 import HeaderLinks from "components/Header/HeaderLinks.js";
+import HeaderLinksAfterlogin from "components/Header/HeaderLinksAfterlogin";
 import Header from "components/Header/Header.js";
 import Footer from "components/Footer/Footer.js";
 import ApiManagement from '../components/ApiManagement';
@@ -15,7 +16,7 @@ const ApiMgmtPage = () => {
                 color="transparent"
                 // routes={dashboardRoutes}
                 brand={<img src={require("../assets/images/logo.png")} alt="logo" className="img-fluid" />}
-                rightLinks={<HeaderLinks />}
+                rightLinks={<HeaderLinksAfterlogin />}
                 fixed
                 changeColorOnScroll={{
                     height: 20,

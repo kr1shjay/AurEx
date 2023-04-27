@@ -70,7 +70,9 @@ const CreateApiKey = (props) => {
             name,
             ipRestriction,
             password,
-            ipList
+            ipList,
+            withdraw,
+            trade
         }
 
         let validationError = validation(reqData)
@@ -92,7 +94,7 @@ const CreateApiKey = (props) => {
                 setValidateError({})
             } else {
                 if (error) {
-
+                    setValidateError({'password':error.password})
                 } else {
                     toastAlert('error', message, 'apiKey')
                 }
@@ -259,7 +261,7 @@ const CreateApiKey = (props) => {
                             inputProps={{ 'aria-label': 'secondary checkbox' }}
                             name="withdraw"
                             value={withdraw}
-                            onChange={()=>setFormValue({...formValue,...{withdraw: !formValue}})}
+                            onChange={()=>setFormValue({...formValue,...{withdraw: !withdraw}})}
                           />
                           <label className="form-check-label pl-0 mb-0" for="flexCheckDefault">{t('WITHDRAW')}
                           </label>
@@ -273,7 +275,7 @@ const CreateApiKey = (props) => {
                                    inputProps={{ 'aria-label': 'secondary checkbox' }}
                                    name="trade"
                                    value={trade}
-                                   onChange={()=>setFormValue({...formValue,...{trade: !formValue}})}
+                                   onChange={()=>setFormValue({...formValue,...{trade: !trade}})}
                                     
                                 /> 
                           <label className="form-check-label pl-0 mb-0" for="flexCheckDefault">{t('TRADE')}

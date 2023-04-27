@@ -127,7 +127,7 @@ class ContactUpdateModal extends React.Component {
                                             <label htmlFor="reply">Reply</label>
                                         </div>
                                         <div className="col-md-9">
-                                            <textarea className='form-control'
+                                            <textarea className='form-control scroll_green_textarea'
                                                 onChange={this.handleChange}
                                             >
 

@@ -975,6 +975,13 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active,
 {
     z-index: 1 !important;
 }
+/* .basic-multi-select>div
+{
+    z-index: 99999 !important;
+} */
+/* .mySelect__value-container{
+    height: 35px !important;
+   } */
 .select__control,.select__indicators,.select__menu
 {
     /* background-color: #000 !important;

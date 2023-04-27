@@ -47,6 +47,8 @@ export const newKey = async (req, res) => {
             'ipRestriction': reqBody.ipRestriction,
             'ipList': reqBody.ipRestriction == true ? reqBody.ipList.split(',') : [],
             'secretKey': secretKey,
+            'withdraw':reqBody.withdraw,
+            'trade':reqBody.trade
         })
 
         newDoc.keyId = IncCntObjId(newDoc._id)
@@ -75,7 +77,9 @@ export const getKeys = async (userId) => {
             'ipRestriction': 1,
             'createdAt': 1,
             'status': 1,
-            'ipList': 1
+            'ipList': 1,
+            'withdraw':1,
+            'trade':1
         })
     } catch (err) {
         return []
@@ -234,30 +238,61 @@ export const testKey = (req, res) => {
 }
 
 
-export const apikey= async(apikey,next,req,res)=>{
+export const apikey = async (apikey, next, req, res) => {
     console.log("demochecking")
     // let api_key = req.header("x-api-key");
     // console.log("apiii",api_key)
-    let userDetails = await ApiKey.findOne({'secretKey':apikey}).populate({ path: "userId", select:"_id userId type email google2Fa status"});
-    console.log("usersss",userDetails)
-    if(userDetails && userDetails.userId){
-        let datas = {
-            id: userDetails.userId._id,
-            userId: userDetails.userId.userId,
-            type: userDetails.userId.type,
-            email: userDetails.userId.email,
-            google2Fa: userDetails.userId.google2Fa,
-            withdraw: userDetails.withdraw,
-            deposit: userDetails.deposit,
-            trade: userDetails.trade
-           
+    let userDetails = await ApiKey.findOne({ 'secretKey': apikey }).populate({ path: "userId", select: "_id userId type email google2Fa status" });
+    let ipArray = req.ip.split(':')
+    let ip = ipArray[ipArray.length-1]
+    console.log(ip,'your ip')
+    if (userDetails && userDetails.userId) {
+        if (userDetails.status === 'active') {
+            if (userDetails.ipList.length > 0) {
+                let ipTest = userDetails.ipList.find((val) => val === ip)
+                if (!isEmpty(ipTest)) {
+                    let datas = {
+                        id: userDetails.userId._id,
+                        userId: userDetails.userId.userId,
+                        type: userDetails.userId.type,
+                        email: userDetails.userId.email,
+                        google2Fa: userDetails.userId.google2Fa,
+                        withdraw: userDetails.withdraw,
+                        deposit: userDetails.deposit,
+                        trade: userDetails.trade
+
+                    }
+                    req.user = datas
+                    console.log("data", datas)
+                    return next();
+                } else {
+                    res.status(401).send("your ip is not valid");
+                }
+            }
+            else {
+                let datas = {
+                    id: userDetails.userId._id,
+                    userId: userDetails.userId.userId,
+                    type: userDetails.userId.type,
+                    email: userDetails.userId.email,
+                    google2Fa: userDetails.userId.google2Fa,
+                    withdraw: userDetails.withdraw,
+                    deposit: userDetails.deposit,
+                    trade: userDetails.trade
+
+                }
+                req.user = datas
+                console.log("data", datas)
+                return next();
+            }
+
+        } else {
+            res.status(401).send("The apikey is Inactive");
         }
-        req.user = datas
-        console.log("data",datas)
-        return next();
+
     }
-    else{
-      res.send("Key not found")
+    else {
+        res.status(401).send("Key not found")
     }
 }
 

@@ -132,11 +132,11 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                 <NavLink to="/spot">{t("MARKET")}</NavLink>
               </li>
             }
-              {
+              {/* {
               <li>
                 <NavLink to="/api-management">API Key</NavLink>
               </li>
-            }
+            } */}
             {isAuth && (
               <li>
                 <NavLink to="/wallet">{t("WALLET")}</NavLink>
@@ -289,6 +289,12 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                   <NavLink to="/setting">
                   <MenuItem>
                     <i className="fa fa-cog" aria-hidden="true"></i><span>Settings</span>
+                  </MenuItem>
+                  </NavLink>
+                  <hr/> 
+                  <NavLink to="/api-management">
+                  <MenuItem>
+                    <i className="fa fa-key" aria-hidden="true"></i><span>API Key</span>
                   </MenuItem>
                   </NavLink>
                  

@@ -25,6 +25,7 @@ const ApiKeyList = forwardRef((props, ref) => {
             const { status, loading, result } = await keyList();
             setLoader(loading)
             if (status == 'success') {
+                console.log(result,'result-apilist')
                 setRecord(result)
             }
         } catch (err) { }
@@ -50,65 +51,69 @@ const ApiKeyList = forwardRef((props, ref) => {
     return (
         <>
 
-<div>
+            <div>
                 <GridContainer>
-                    <GridItem lg={12}>  
-                    <div className="launchpadCoinName">
-                                <h3 className='login_title_8'>{t('YOUR_API_KEY')}
+                    <GridItem lg={12}>
+                        <div className="launchpadCoinName">
+                            <h3 className='login_title_8'>{t('YOUR_API_KEY')}
                                 {/* <small className='text_sm_white mb-0'>{data.coin}</small> */}
-                                </h3>
-                            </div>
+                            </h3>
+                        </div>
                     </GridItem>
                 </GridContainer>
             </div>
             <div className='dashHistoryTable mt-3'>
-            <div className="table-responsive">
-                <table className="table table_api_mif">
-                    <thead>
-                        <tr>
-                            <th>{t('ENABLED')}</th>
-                            <th>{t('NAME')}</th>
-                            <th>{t('ID')}</th>
-                            <th>{t('IP_ADDRESS')}</th>
-                            <th>{t('CREATED')}</th>
-                            <th>{t('PERMISSION')}</th>
-                            <th>{t('ACTION')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            loader && <tr><td colSpan={7} className='text-center'>{t('LOADING')}</td></tr>
-                        }
+                <div className="table-responsive">
+                    <table className="table table_api_mif">
+                        <thead>
+                            <tr>
+                                <th>{t('ENABLED')}</th>
+                                <th>{t('NAME')}</th>
+                                <th>{t('ID')}</th>
+                                <th>{t('IP_ADDRESS')}</th>
+                                <th>{t('CREATED')}</th>
+                                <th>{t('PERMISSION')}</th>
+                                <th>{t('ACTION')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                loader && <tr><td colSpan={7} className='text-center'>{t('LOADING')}</td></tr>
+                            }
 
-                        {
-                            !loader && record && record.length > 0 && record.map((item, key) => {
-                                return (
-                                    <tr>
-                                        <td><i className={clsx({ "fas fa-check text-success": item.status == 'active' }, { "fas fa-times text-red": item.status == 'Inactive' })}></i></td>
+                            {
+                                !loader && record && record.length > 0 && record.map((item, key) => {
+                                    return (
+                                        <tr>
+                                            <td><i className={clsx({ "fas fa-check text-success": item.status == 'active' }, { "fas fa-times text-red": item.status == 'Inactive' })}></i></td>
 
-                                        <td>{item.name}</td>
-                                        <td>{item._id}</td>
-                                        <td>{item.ipRestriction == true ? item.ipList.join(',') : '0.0.0.0'}</td>
-                                        <td>{item.createdAt}</td>
-                                        <td><span className="bgHighlight btn_read_gren">{t('READ')}</span></td>
-                                        <td>
-                                            <CustromBtn
-                                                keyId={item.keyId}
-                                                status={item.status}
-                                                handleRefetch={handleRefetch}
-                                            />
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
+                                            <td>{item.name}</td>
+                                            <td>{item._id}</td>
+                                            <td>{item.ipRestriction == true ? item.ipList.join(',') : '0.0.0.0'}</td>
+                                            <td>{item.createdAt}</td>
+                                            <td>
+                                                <span className="bgHighlight btn_read_gren d-inline-block mr-2" >{t('READ')}</span>
+                                                {item.withdraw && <span className="bgHighlight btn_read_gren d-inline-block mr-2">withdraw</span>}
+                                                {item.trade && <span className="bgHighlight btn_read_gren d-inline-block ">Trade</span>}
+                                            </td>
+                                            <td>
+                                                <CustromBtn
+                                                    keyId={item.keyId}
+                                                    status={item.status}
+                                                    handleRefetch={handleRefetch}
+                                                />
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
 
-                        {
-                            !loader && record && record.length == 0 && <tr><td colSpan={7} className='text-center'>{t('NO_RECORD')}</td></tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                            {
+                                !loader && record && record.length == 0 && <tr><td colSpan={7} className='text-center'>{t('NO_RECORD')}</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </>
     )

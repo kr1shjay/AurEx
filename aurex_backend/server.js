@@ -35,7 +35,7 @@ app.use(cors());
 var ip = require('ip');
 var fs = require('fs');
 var myip = ip.address();
-
+app.set('trust proxy', true)
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

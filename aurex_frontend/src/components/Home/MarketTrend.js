@@ -183,7 +183,7 @@ const MarketTrend = () => {
                                
                                 {anncData && anncData.length > 0 ? (
                                         anncData.map((val, index) => {
-                                            if(new Date(val.endDateTime).getTime() !== new Date().getTime()){
+                                            if(!(new Date(val.endDateTime).getTime()  <= new Date().getTime())){
                                                 return(
                                                     <div onClick={() => {
                                                         setIsShowAd(true);

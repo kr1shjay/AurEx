@@ -188,3 +188,18 @@ position: relative !important;
 {
   padding-right: 40px !important;
 }
+
+.scroll_green_textarea::-webkit-scrollbar {
+  width: 6px;
+  height: 5px;
+}
+.scroll_green_textarea::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+.scroll_green_textarea::-webkit-scrollbar-thumb {
+  background-color: #02c076;
+}
+.scroll_green_textarea
+{
+  min-height: 80px !important;
+}
