@@ -38,11 +38,11 @@ const MarketTrend = () => {
     var settings = {
         dots: true,
         infinite: false,
-        arrows: false,
+        arrows: true,
         speed: 500,
         slidesToShow: 4,
         slidesToScroll: 1,
-        autoplay: true,
+        autoplay: false,
         autoplaySpeed: 2000,
         responsive: [
             {
@@ -210,7 +210,7 @@ const MarketTrend = () => {
 
                     </div>
                 </div>
-                <div className="row" data-aos="fade-up" data-aos-duration="1000">
+                <div className="row pt-4" data-aos="fade-up" data-aos-duration="1000">
                     <div className="col-md-12 text-center content-container">
                         <div className="coinTableMain">
                             <h1 className="mb-4 title1 mt-5">{t('MATKET_PRICE')}</h1>
