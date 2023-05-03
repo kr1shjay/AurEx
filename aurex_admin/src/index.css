@@ -203,3 +203,7 @@ position: relative !important;
 {
   min-height: 80px !important;
 }
+.anpunce_table_sec th:last-child,.anpunce_table_sec td:last-child
+{
+  min-width: 100px !important;
+}
