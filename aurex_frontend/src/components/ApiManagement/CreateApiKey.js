@@ -94,7 +94,7 @@ const CreateApiKey = (props) => {
                 setValidateError({})
             } else {
                 if (error) {
-                    setValidateError({'password':error.password})
+                    setValidateError(error)
                 } else {
                     toastAlert('error', message, 'apiKey')
                 }
