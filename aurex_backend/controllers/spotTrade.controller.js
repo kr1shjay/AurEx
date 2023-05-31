@@ -22928,10 +22928,10 @@ export const limitOrderPlace = async (req, res) => {
         reqBody.price = parseFloat(reqBody.price)
         reqBody.quantity = parseFloat(reqBody.quantity)
         // console.log("-------reqBody.", reqBody)
-        let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
+        let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId,status:'active'});
 
         if (!spotPairData) {
-            return res.status(400).json({ 'status': false, 'message': "Invalid Pair" });
+            return res.status(400).json({ 'status': false, 'message': "Invalid Pair or pair is not active" });
         }
 
         if (reqBody.quantity < spotPairData.minQuantity) {
@@ -23152,10 +23152,10 @@ export const marketOrderPlace = async (req, res) => {
 
         console.log("marketOrderPlace ",reqBody)
         reqBody.quantity = parseFloat(reqBody.quantity)
-        let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
+        let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId,status:'active' });
 
         if (!spotPairData) {
-            return res.status(400).json({ 'status': false, 'message': "Invalid Pair" });
+            return res.status(400).json({ 'status': false, 'message': "Invalid Pair or pair is not active" });
         }
 
         if (reqBody.quantity < spotPairData.minQuantity) {

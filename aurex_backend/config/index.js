@@ -180,7 +180,7 @@ if (process.env.NODE_ENV === "production") {
     BINANCE_GATE_WAY: {
       // API_KEY: 'LohrjuucqdzFKCoNGm2Uku7aw9uaIh1jyVD5wAOxuZZP6uW4RBqbXCxdgiIB2GTr',
       API_KEY:
-        "TNWrwZJMYTd40xEzIidazLV45aPxddTKmOj4w7hnA9kEM6wPkYWeayXRKvoytz",
+        "TNWrwZJMYTd4OxEzlIIidazLV45aPxddTKmOj4w7hnA9kEM6wPkYWeayXRKvoytZ",
       // API_SECRET: 'qFNvYopTOmf9LBhgJvKDvuU46k5jCJoTOJTsRN2yxxesdspXjYpxdch3WMqFhZZD',
       API_SECRET:
         "g4TfEZHdCTxPdEe2UfrP84bTNp7Q9gtRo2iqje9nyc2JD9iYmsW1awYRNGwLTxCy",

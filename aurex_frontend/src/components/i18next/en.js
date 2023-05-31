@@ -606,6 +606,7 @@ export default {
     "WRITE_SECRET_KEY": "Please write down the secret key.",
     "SOMEWHERE_SAFE": "Write it down somewhere safe! The secret key will no longer be available once you leave this page.",
     "SECRET": "Secret",
+    "API_KEY":"Api key",
     "USD": "USD",
     "EURO": "Euro",
     "ADD_ANOTHER_ACCOUNT": "    Add Another Account",

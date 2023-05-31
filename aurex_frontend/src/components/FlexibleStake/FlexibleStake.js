@@ -120,7 +120,7 @@ const FlexibleStake = () => {
                 columns={stakingHistoryColumns}
                 data={list}
                 noHeader
-                progressPending={loader} className="text_center_div_table staking_btn_table"
+                progressPending={loader} className="text_center_div_table staking_btn_table table_staking_align_left_first"
             />
         </Fragment>
 

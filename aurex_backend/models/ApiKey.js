@@ -25,6 +25,11 @@ const ApiKeySchema = new Schema({
         unique: true,
         required: true
     },
+    apiKey: {
+        type: String,
+        unique: true,
+        required: true
+    },
     ipList: {
         type: Array,
         default: []

@@ -180,10 +180,10 @@ if (process.env.NODE_ENV === "production") {
     BINANCE_GATE_WAY: {
       // API_KEY: 'LohrjuucqdzFKCoNGm2Uku7aw9uaIh1jyVD5wAOxuZZP6uW4RBqbXCxdgiIB2GTr',
       API_KEY:
-        "bmqqEolaBTg488Nyygo0fu1F0PE2P7kICljuqo6YKyvhFFPMcpzpT3JMeBOfVwIg",
+        "TNWrwZJMYTd4OxEzlIIidazLV45aPxddTKmOj4w7hnA9kEM6wPkYWeayXRKvoytZ",
       // API_SECRET: 'qFNvYopTOmf9LBhgJvKDvuU46k5jCJoTOJTsRN2yxxesdspXjYpxdch3WMqFhZZD',
       API_SECRET:
-        "RW7gMRoV9CC0frrjK2E4asxExP3ZbsHLOFvgKbiMqLLzYq2rHVRGXd0i3re7P2qv",
+        "g4TfEZHdCTxPdEe2UfrP84bTNp7Q9gtRo2iqje9nyc2JD9iYmsW1awYRNGwLTxCy",
     },
     coinpaymentGateway: {
       PUBLIC_KEY:
