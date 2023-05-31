@@ -295,7 +295,8 @@ class FaqPage extends Component {
                 </button>
               </form>
             </div>
-            <ReactDatatable className="table table-bordered table-striped user_management_table"
+            <div className="px-3">
+            <ReactDatatable className="table table-bordered table-striped user_management_table anpunce_table_sec"
               responsive={this.state.responsive}
               config={this.config}
               records={records}
@@ -306,6 +307,7 @@ class FaqPage extends Component {
               onChange={this.handlePagination}
 
             />
+            </div>
           </div>
         </div>
       </div>

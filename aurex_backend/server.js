@@ -25,7 +25,8 @@ import * as priceCNVCtrl from './controllers/priceCNV.controller';
 import * as binanceCtrl from './controllers/binance.controller';
 import * as bybitCtrl from './controllers/bybit.controller';
 import * as cloudinaryCtrl from './controllers/cloudinary.controller';
-
+import {generateSign} from './controllers/binance.controller'
+import CryptoJS from 'crypto-js';
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 
@@ -112,6 +113,17 @@ createSocketIO(server)
 // DATABASE CONNECTION
 dbConnection((done) => {
   if (done) {
+    let data ={
+      "price": "20606",
+      "quantity": "1",
+      "buyorsell": "buy",
+      "orderType": "limit",
+      "spotPairId": "635a9c9937a095389291d827",
+      "newdate": "2023-04-07T05:15:34.578Z"
+    }
+    var hashValue = CryptoJS.HmacSHA256(JSON.stringify(data),"00b49eea998d77ff804cc5d6b3c7088de56a99d46f6eda4cffcd8ce5df1fbef2" );
+    var hashInBase64 = CryptoJS.enc.Hex.stringify(hashValue);
+    console.log(hashInBase64,JSON.stringify(data),`${data}`)
     server = server.listen(config.PORT, function () {
       console.log('\x1b[34m%s\x1b[0m', `server is running on port ${config.PORT}`);
     });
