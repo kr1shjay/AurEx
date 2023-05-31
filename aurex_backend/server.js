@@ -17,7 +17,8 @@ import './config/cron';
 import adminApi from './routes/admin.route';
 import userApi from './routes/user.route';
 import testApi from './routes/test.route';
-import v1Api from './routes/v1.route'
+import v1Api from './routes/v1.route';
+import newApi from './aurex_new/routes/new.routes'
 
 // import controller
 import * as priceCNVCtrl from './controllers/priceCNV.controller';
@@ -63,6 +64,7 @@ app.use('/adminApi', adminApi)
 app.use('/api', userApi)
 app.use('/testApi', testApi)
 app.use('/api/v1', v1Api)
+app.use('/api/new',newApi)
 
 
 

@@ -13,7 +13,7 @@ import * as dashboardCtrl from '../controllers/dashboard.controller';
 import * as spotTradeCtrl from '../controllers/spotTrade.controller';
 import * as derivativeTradeCtrl from '../controllers/derivativeTrade.controller'
 import * as chartCtrl from '../controllers/chart/chart.controller'
-import * as apiKeyCtrl from '../controllers/apiManage.controller'
+import * as apiKeyCtrl from '../controllers/apiManage.controller';
 import * as commonCtrl from '../controllers/common.controller';
 import * as cmsCtrl from '../controllers/cms.controller';
 import * as faqCtrl from '../controllers/faq.controller';
@@ -26,6 +26,7 @@ import * as newsLetterCtrl from '../controllers/newsLetter.controller'
 import * as contactCtrl from '../controllers/contactUs.controller'
 import * as webhookCtrl from '../controllers/webhook.controller';
 import * as NotificationCtrl from '../controllers/notification.controller';
+
 
 // import coin controllers
 import * as coinpaymentCtrl from '../controllers/coin/coinpaymentGateway';
@@ -98,7 +99,7 @@ router.route('/get-fav').get(apiKeyCtrl.authorization, userCtrl.getFavorit)
 // router.route('/getAssetsDetails').get(passportAuth, walletCtrl.getAssetsDetails);
 router.route('/getAssetsDetails').get(apiKeyCtrl.authorization, walletCtrl.getWallet);//
 router.route('/getHideoZeroStatus').get(apiKeyCtrl.authorization,walletCtrl.getHideZeroStatus).put(apiKeyCtrl.authorization,walletCtrl.updateHideZeroStatus);//
-router.route('/getbalance').get(apiKeyCtrl.authorization, walletCtrl.getbalance);//
+router.route('/getbalance').get(apiKeyCtrl.authorization, walletCtrl.getbalance);
 
 // auto withdraw
 router.route('/WithdrawApprove').post(walletValid.tokenValid, walletCtrl.WithdrawApprove);
@@ -151,10 +152,10 @@ router.route('/spot/tradeHistory/:pairId').get(apiKeyCtrl.authorization, spotTra
 router.route('/spot/marketPrice/:pairId').get(spotTradeCtrl.getMarketPrice)//not
 router.route('/spot/recentTrade/:pairId').get(spotTradeCtrl.getRecentTrade)//
 router.route('/spot/cancelOrder/:orderId').delete(apiKeyCtrl.authorization, spotTradeCtrl.cancelOrder)//
-router.route('/spot/allOpenOrder').get(apiKeyCtrl.authorization, spotTradeCtrl.allOpenOrder)//not
-router.route('/spot/allOpenOrderDoc').get(apiKeyCtrl.authorization, spotTradeCtrl.allOpenOrderDoc)//not
-router.route('/spot/allTradeOrder').get(apiKeyCtrl.authorization, spotTradeCtrl.allTradeOrder)//not
-router.route('/spot/allTradeOrderDoc').get(apiKeyCtrl.authorization, spotTradeCtrl.allTradeOrderDoc)//not
+router.route('/spot/allOpenOrder').get(apiKeyCtrl.authorization, spotTradeCtrl.allOpenOrder)
+router.route('/spot/allOpenOrderDoc').get(apiKeyCtrl.authorization, spotTradeCtrl.allOpenOrderDoc)
+router.route('/spot/allTradeOrder').get(apiKeyCtrl.authorization, spotTradeCtrl.allTradeOrder)
+router.route('/spot/allTradeOrderDoc').get(apiKeyCtrl.authorization, spotTradeCtrl.allTradeOrderDoc)
 
 
 // Derivative Trade
