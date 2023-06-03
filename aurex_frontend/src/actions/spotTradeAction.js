@@ -117,7 +117,7 @@ export const getOrderBook = async (pairId) => {
     try {
         let respData = await axios({
             'method': 'get',
-            'url': `/api/spot/ordeBook/${pairId}`,
+            'url': `/api/spot/orderBook/${pairId}`,
         });
         return {
             status: 'success',

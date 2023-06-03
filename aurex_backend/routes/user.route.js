@@ -144,7 +144,7 @@ router.route('/create-notification').post(apiKeyCtrl.authorization, Notification
 router.route('/spot/allPairs').get(apiKeyCtrl.authorization, spotTradeCtrl.allPairs)//not
 router.route('/spot/tradePair').get(spotTradeCtrl.getPairList);//
 router.route('/spot/orderPlace').post(apiKeyCtrl.authorization, spotTradeValid.decryptValidate, spotTradeCtrl.decryptTradeOrder, spotTradeValid.orderPlaceValidate, spotTradeCtrl.orderPlace)//
-router.route('/spot/ordeBook/:pairId').get(spotTradeCtrl.getOrderBook)//
+router.route('/spot/orderBook/:pairId').get(spotTradeCtrl.getOrderBook)//
 router.route('/spot/openOrder/:pairId').get(apiKeyCtrl.authorization, spotTradeCtrl.getOpenOrder)//
 router.route('/spot/filledOrder/:pairId').get(apiKeyCtrl.authorization, spotTradeCtrl.getFilledOrder)//not
 router.route('/spot/orderHistory/:pairId').get(apiKeyCtrl.authorization, spotTradeCtrl.getOrderHistory)//

@@ -18,15 +18,16 @@ router.route('/login').post(userValid.loginValidate, userCtrl.userLogin);
 
 //spotTrade
 router.route('/spot/orderPlace').post(apiKeyCtrl.authorization, spotTradeValid.decryptValidate, spotTradeCtrl.decryptTradeOrder, spotTradeValid.orderPlaceValidate, spotTradeCtrl.orderPlace)
-router.route('/spot/openOrder/:pairId').get(apiKeyCtrl.authorization, spotTradeCtrl.getOpenOrder)
-router.route('/spot/cancelOrder/:orderId').delete(apiKeyCtrl.authorization, spotTradeCtrl.cancelOrder)
-router.route('/spot/orderHistory/:pairId').get(apiKeyCtrl.authorization, spotTradeCtrl.getOrderHistory)
-router.route('/spot/tradeHistory/:pairId').get(apiKeyCtrl.authorization, spotTradeCtrl.getTradeHistory)
+router.route('/spot/openOrder').post(apiKeyCtrl.authorization, spotTradeCtrl.getOpenOrder)
+router.route('/spot/cancelOrder').delete(apiKeyCtrl.authorization, spotTradeCtrl.cancelOrder)
+router.route('/spot/orderHistory').post(apiKeyCtrl.authorization, spotTradeCtrl.getOrderHistory)
+router.route('/spot/tradeHistory').post(apiKeyCtrl.authorization, spotTradeCtrl.getTradeHistory)
 router.route('/spot/orderBook/:pairId').get(spotTradeCtrl.getOrderBook)
 router.route('/spot/recentTrade/:pairId').get(spotTradeCtrl.getRecentTrade)
 router.route('/spot/tradePair').get(spotTradeCtrl.getPairList)
-router.route('/spot/allOpenOrder').get(apiKeyCtrl.authorization, spotTradeCtrl.allOpenOrder)
-router.route('/spot/allTradeOrder').get(apiKeyCtrl.authorization, spotTradeCtrl.allTradeOrder)
+router.route('/spot/allOpenOrder').post(apiKeyCtrl.authorization, spotTradeCtrl.allOpenOrder)
+router.route('/spot/allTradeOrder').post(apiKeyCtrl.authorization, spotTradeCtrl.allTradeOrder)
+router.route('/spot/orderStatus').post(apiKeyCtrl.authorization, spotTradeCtrl.getOrderStatus)
 
 // auto withdraw
 router.route('/coinWithdraw')
@@ -34,7 +35,8 @@ router.route('/coinWithdraw')
 router.route('/withdrawfee').post(apiKeyCtrl.authorization, walletCtrl.withdrawfee)
 
 // wallet
-router.route('/getbalance').get(apiKeyCtrl.authorization, walletCtrl.getbalance)
+router.route('/getbalance').post(apiKeyCtrl.authorization, walletCtrl.getbalance)
+
 
 
 export default router;

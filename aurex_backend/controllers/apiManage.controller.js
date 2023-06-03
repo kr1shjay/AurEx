@@ -5,15 +5,15 @@ import {
     UserToken
 } from '../models';
 import passport from 'passport';
-import {  usersAuth } from '../config/passport';
+import { usersAuth } from '../config/passport';
 // import lib
 import { randomByte } from '../lib/crypto';
 import isEmpty from '../lib/isEmpty';
 import { IncCntObjId } from '../lib/generalFun';
 import { cnvtBoolean } from '../lib/stringCase';
 import { findBtwDates, nowDateInUTC } from '../lib/dateHelper';
-import { createHash,createHmac } from '../lib/crypto'
-import {generateSign} from '../controllers/binance.controller'
+import { createHash, createHmac } from '../lib/crypto'
+import { generateSign } from '../controllers/binance.controller'
 import CryptoJS from 'crypto-js';
 const jwt = require('jsonwebtoken');
 import config from '../config';
@@ -26,17 +26,17 @@ import { decryptString } from '../lib/cryptoJS';
  * BODY : name, ipRestriction, ipList, password
 */
 export const newKey = async (req, res) => {
-    console.log("varana",req.body)
+    console.log("varana", req.body)
     try {
         let reqBody = req.body;
-        console.log("vanthutanreqBody",reqBody)
+        console.log("vanthutanreqBody", reqBody)
         reqBody.ipRestriction = cnvtBoolean(reqBody.ipRestriction)
         let userDoc = await User.findOne({ '_id': req.user.id })
-        
+
         if (!userDoc.authenticate(reqBody.password)) {
             return res.status(400).json({ 'success': false, 'errors': { 'password': "Password incorrect" } });
         }
-        
+
 
         let secretKey = await randomByte(32)
         let apikey = await randomByte(32)
@@ -50,9 +50,9 @@ export const newKey = async (req, res) => {
             'ipRestriction': reqBody.ipRestriction,
             'ipList': reqBody.ipRestriction == true ? reqBody.ipList.split(',') : [],
             'secretKey': secretKey,
-            'apiKey':apikey,
-            'withdraw':reqBody.withdraw,
-            'trade':reqBody.trade
+            'apiKey': apikey,
+            'withdraw': reqBody.withdraw,
+            'trade': reqBody.trade
         })
 
         newDoc.keyId = IncCntObjId(newDoc._id)
@@ -64,12 +64,12 @@ export const newKey = async (req, res) => {
             'data': {
                 'keyId': newData.keyId,
                 'secretKey': newData.secretKey,
-                'apiKey':newData.apiKey
+                'apiKey': newData.apiKey
             }
         }
         return res.status(200).json({ 'status': true, 'message': "Successfully created", result });
     } catch (err) {
-        console.log("newKey_newKey",err);
+        console.log("newKey_newKey", err);
         return res.status(500).json({ 'status': false, 'message': "SOMETHING_WRONG" });
     }
 }
@@ -83,8 +83,8 @@ export const getKeys = async (userId) => {
             'createdAt': 1,
             'status': 1,
             'ipList': 1,
-            'withdraw':1,
-            'trade':1
+            'withdraw': 1,
+            'trade': 1
         })
     } catch (err) {
         return []
@@ -247,24 +247,94 @@ export const apikey = async (apikey, next, req, res) => {
     console.log("demochecking")
     // let api_key = req.header("x-api-key");
     // console.log("apiii",api_key)
-    let userDetails = await ApiKey.findOne({ 'apiKey': apikey }).populate({ path: "userId", select: "_id userId type email google2Fa status" });
+    let userDetails = await ApiKey.findOne({ 'apiKey': apikey }).populate({ path: "userId", select: "_id userId type email google2Fa status viewCount lastupdate" });
     let ipArray = req.ip.split(':')
-    let ip = ipArray[ipArray.length-1]
-    
-    console.log(ip,'your ip')
+    let ip = ipArray[ipArray.length - 1]
+    console.log(ip, 'your ip')
     if (userDetails && userDetails.userId) {
         if (userDetails.status === 'active') {
-            if (userDetails.ipList.length > 0) {
-                let ipTest = userDetails.ipList.find((val) => val === ip)
-                if (!isEmpty(ipTest)) {
+            console.log("viewcount", userDetails.viewCount)
+            if (userDetails.viewCount+1 < 50) {
+                // userDetails.viewCount= userDetails.viewCount+1
+                // userDetails.lastUpdate = new Date()
+                userDetails.viewCount = userDetails.lastUpdate === new Date().getDate() ? userDetails.viewCount + 1 : userDetails.viewCount > 0 && userDetails.viewCount - userDetails.viewCount + 1
+                userDetails.lastUpdate = userDetails.lastUpdate === new Date().getDate() ? userDetails.lastUpdate : new Date().getDate()
+                await userDetails.save()
+                console.log("count_count", userDetails.viewCount, userDetails.lastUpdate === new Date().getDate(), userDetails.lastUpdate)
+                console.log("userDetails.lastUpdate", userDetails.lastUpdate, new Date())
+                // if(userDetails.lastUpdate === new Date() ? userDetails.viewCount+1 : userDetails.viewCount)
+                if (userDetails.ipList.length > 0) {
+                    let ipTest = userDetails.ipList.find((val) => val === ip)
+                    if (!isEmpty(ipTest)) {
+                        if (req.body.hash) {
+                            let payload = req.body
+                            let hash = req.body.hash
+                            console.log(req.body, "signature")
+                            delete payload.hash
+                            let hashValue
+                            if(isEmpty(payload)){
+                                hashValue = CryptoJS.HmacSHA256('hash', userDetails.secretKey);
+                                console.log(req.body, hashInBase64, "nopayload")
+                            }else{
+                                hashValue = CryptoJS.HmacSHA256(JSON.stringify(payload), userDetails.secretKey);
+                                console.log(req.body, hashInBase64, "payload")
+                            }
+                            var hashInBase64 = CryptoJS.enc.Hex.stringify(hashValue);
+                            console.log(req.body, hashInBase64, "signature")
+                            if (hashInBase64 === hash) {
+                                let datas = {
+                                    id: userDetails.userId._id,
+                                    userId: userDetails.userId.userId,
+                                    type: userDetails.userId.type,
+                                    email: userDetails.userId.email,
+                                    google2Fa: userDetails.userId.google2Fa,
+                                    withdraw: userDetails.withdraw,
+                                    deposit: userDetails.deposit,
+                                    trade: userDetails.trade
+                                }
+                                req.user = datas
+                                console.log("data", datas)
+                                return next();
+                            } else {
+                                res.status(401).json({ 'statusCode': 500, 'message': "Secret key does not exist" });
+                            }
+                        } else {
+                            // let datas = {
+                            //     id: userDetails.userId._id,
+                            //     userId: userDetails.userId.userId,
+                            //     type: userDetails.userId.type,
+                            //     email: userDetails.userId.email,
+                            //     google2Fa: userDetails.userId.google2Fa,
+                            //     withdraw: userDetails.withdraw,
+                            //     deposit: userDetails.deposit,
+                            //     trade: userDetails.trade
+                            // }
+                            // req.user = datas
+                            // console.log("data", datas)
+                            // return next();
+                            res.status(401).json({ 'statusCode': 401, 'message': "Hash is required" });
+
+                        }
+                    } else {
+                        res.status(401).json({ 'statusCode': 401, 'message': "Your Ip is not valid" });
+                    }
+                }
+                else {
                     if (req.body.hash) {
                         let payload = req.body
                         let hash = req.body.hash
                         console.log(req.body, "signature")
                         delete payload.hash
-                        var hashValue = CryptoJS.HmacSHA256(JSON.stringify(payload),userDetails.secretKey);
+                        let hashValue
+                        if(isEmpty(payload)){
+                            hashValue = CryptoJS.HmacSHA256('hash', userDetails.secretKey);
+                            console.log(payload, "nopayload")
+                        }else{
+                            hashValue = CryptoJS.HmacSHA256(JSON.stringify(payload), userDetails.secretKey);
+                            console.log(payload, "payload")
+                        }
                         var hashInBase64 = CryptoJS.enc.Hex.stringify(hashValue);
-                        console.log(req.body,hashInBase64, "signature")
+                        console.log(req.body, hashInBase64, "signature")
                         if (hashInBase64 === hash) {
                             let datas = {
                                 id: userDetails.userId._id,
@@ -281,96 +351,52 @@ export const apikey = async (apikey, next, req, res) => {
                             console.log("data", datas)
                             return next();
                         } else {
-                            res.status(401).send("Seceret key is not valid");
+                            res.status(401).json({ 'statusCode': 401, 'message': "Signature does not match" });
                         }
                     } else {
-                        let datas = {
-                            id: userDetails.userId._id,
-                            userId: userDetails.userId.userId,
-                            type: userDetails.userId.type,
-                            email: userDetails.userId.email,
-                            google2Fa: userDetails.userId.google2Fa,
-                            withdraw: userDetails.withdraw,
-                            deposit: userDetails.deposit,
-                            trade: userDetails.trade
-
-                        }
-                        req.user = datas
-                        console.log("data", datas)
-                        return next();
-
+                        // let datas = {
+                        //     id: userDetails.userId._id,
+                        //     userId: userDetails.userId.userId,
+                        //     type: userDetails.userId.type,
+                        //     email: userDetails.userId.email,
+                        //     google2Fa: userDetails.userId.google2Fa,
+                        //     withdraw: userDetails.withdraw,
+                        //     deposit: userDetails.deposit,
+                        //     trade: userDetails.trade
+                        // }
+                        // req.user = datas
+                        // console.log("data", datas)
+                        // return next();
+                        res.status(401).json({ 'statusCode': 401, 'message': "Hash is required" });
                     }
-                } else {
-                    res.status(401).send("your ip is not valid");
                 }
-            }
-            else {
-                if(req.body.hash){
-                    let payload = req.body
-                    let hash = req.body.hash
-                    console.log(req.body,"signature")
-                    delete payload.hash
-                    var hashValue = CryptoJS.HmacSHA256(JSON.stringify(payload),userDetails.secretKey);
-                    var hashInBase64 = CryptoJS.enc.Hex.stringify(hashValue);
-                    console.log(req.body,hashInBase64,"signature")
-                    if(hashInBase64 === hash){
-                        let datas = {
-                            id: userDetails.userId._id,
-                            userId: userDetails.userId.userId,
-                            type: userDetails.userId.type,
-                            email: userDetails.userId.email,
-                            google2Fa: userDetails.userId.google2Fa,
-                            withdraw: userDetails.withdraw,
-                            deposit: userDetails.deposit,
-                            trade: userDetails.trade
-    
-                        }
-                        req.user = datas
-                        console.log("data", datas)
-                        return next();
-                    }else{
-                        res.status(401).send("Seceret key is not valid");
-                    }
-                }else{
-                    let datas = {
-                        id: userDetails.userId._id,
-                        userId: userDetails.userId.userId,
-                        type: userDetails.userId.type,
-                        email: userDetails.userId.email,
-                        google2Fa: userDetails.userId.google2Fa,
-                        withdraw: userDetails.withdraw,
-                        deposit: userDetails.deposit,
-                        trade: userDetails.trade
 
-                    }
-                    req.user = datas
-                    console.log("data", datas)
-                    return next();
-                }
+            } else {
+                res.status(400).json({ 'statusCode': 400, 'message': "You reached your today's limit" });
             }
-
         } else {
-            res.status(401).send("The apikey is Inactive");
+            res.status(401).json({ 'statusCode': 401, 'message': "The apikey is Inactive" });
         }
 
     }
+
     else {
-        res.status(401).send("Key not found")
+        res.status(401).json({ 'statusCode': 401, 'message': "API Key does not exist" })
     }
 }
 
 
 
-export const verifyToken =async (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
     const token = req.header('Authorization').split('Bearer ').join('');
 
     // console.log("token",token)
     try {
 
         let decoding = new User().decodejwt(token)
-        console.log("decoding",decoding,req.header('Authorization'));
+        console.log("decoding", decoding, req.header('Authorization'));
         let userDoc = await UserToken.findOne({ 'userId': decoding._id, 'token': req.header('Authorization') }).populate({ path: "userId", select: "_id userId type email google2Fa status" })
-       console.log("userDoc",userDoc)
+        console.log("userDoc", userDoc)
         let data = {
             id: userDoc.userId._id,
             userId: userDoc.userId.userId,
@@ -379,30 +405,30 @@ export const verifyToken =async (req, res, next) => {
             google2Fa: userDoc.userId.google2Fa
         }
         req.user = data
-        console.log("data",data)
+        console.log("data", data)
         return next();
         // var decrypt = jwt.decode(token);
         // console.log(decrypt);
         // const decoded = jwt.verify(token, config.secretOrKey);
         // console.log(decoded,"decoded");
     } catch (err) {
-        console.log("verifyToken-error",err)
+        console.log("verifyToken-error", err)
         return res.status(401).send("Invalid Token");
     }
 }
 
 
 
-export const authorization = async(req,res,next)=>{
+export const authorization = async (req, res, next) => {
     let api_key = req.header("x-api-key");
-    console.log("passport--->",api_key,api_key!== undefined)
+    console.log("passport--->", api_key, api_key !== undefined)
 
-    if(api_key!==null && api_key!== undefined){
-        console.log("key--->",api_key,api_key!== undefined)
-        await apikey(api_key,next,req,res)
+    if (api_key !== null && api_key !== undefined) {
+        console.log("key--->", api_key, api_key !== undefined)
+        await apikey(api_key, next, req, res)
     }
-    else{
-        await verifyToken(req,res,next);
+    else {
+        await verifyToken(req, res, next);
         // console.log("token")
     }
 }

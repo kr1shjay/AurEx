@@ -86,7 +86,7 @@ export const userLogin = async (req, res) => {
             } else {
                 let check2Fa = node2fa.verifyToken(checkUser.google2Fa.secret, reqBody.twoFACode)
                 if (!(check2Fa && check2Fa.delta == 0)) {
-                    return res.status(400).json({ 'statusCode':400,'success': false, 'errors': { 'twoFACode': "INVALID_CODE" } })
+                    return res.status(400).json({ 'statusCode':400,'success': false, 'errors': { 'twoFACode': "Invalid Code" } })
                 }
 
             }
@@ -137,7 +137,7 @@ export const userLogin = async (req, res) => {
 
     } catch (err) {
         console.log(err, '-----------------error on server')
-        return res.status(500).json({ 'statusCode':500,"success": false, 'message': "Error on server" })
+        return res.status(500).json({ 'statusCode':500,"success": false, 'message': "System error" })
     }
 }
 

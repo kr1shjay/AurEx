@@ -24,7 +24,7 @@ export const decryptValidate = (req, res, next) => {
         }
 
         if (!isEmpty(errors)) {
-            return res.statusCode(400).json({ "errors": errors })
+            return res.status(400).json({'statusCode':400, "errors": errors })
         }
         return next();
     }
@@ -47,7 +47,7 @@ export const orderPlaceValidate = (req, res, next) => {
     }
 
     if (!isEmpty(errors)) {
-        return res.statusCode(400).json({ "errors": errors })
+        return res.status(400).json({'statusCode':400, "errors": errors })
     }
 
     if (reqBody.orderType == 'limit') {
@@ -101,7 +101,7 @@ export const limitOrderValidate = (req, res, next) => {
     }
 
     if (!isEmpty(errors)) {
-        return res.statusCode(400).json({ "errors": errors })
+        return res.status(400).json({'statusCode':400, "errors": errors })
     }
 
     return next();
@@ -137,7 +137,7 @@ export const marketOrderValidate = (req, res, next) => {
     }
 
     if (!isEmpty(errors)) {
-        return res.statusCode(400).json({ "errors": errors })
+        return res.status(400).json({ 'statusCode':400,"errors": errors })
     }
 
     return next();
@@ -189,7 +189,7 @@ export const stopLimitOrderValidate = (req, res, next) => {
     }
 
     if (!isEmpty(errors)) {
-        return res.statusCode(400).json({ "errors": errors })
+        return res.status(400).json({'statusCode':400, "errors": errors })
     }
 
     return next();
@@ -233,7 +233,7 @@ export const stopMarketOrderValidate = (req, res, next) => {
     }
 
     if (!isEmpty(errors)) {
-        return res.statusCode(400).json({ "errors": errors })
+        return res.status(400).json({'statusCode':400, "errors": errors })
     }
 
     return next();
@@ -276,7 +276,7 @@ export const trailingStopOrderValidate = (req, res, next) => {
     }
 
     if (!isEmpty(errors)) {
-        return res.statusCode(400).json({ "errors": errors })
+        return res.status(400).json({'statusCode':400, "errors": errors })
     }
 
     return next();

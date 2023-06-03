@@ -55,6 +55,18 @@ const ApiKeySchema = new Schema({
         type:Boolean,
         default:false
     },
+    viewCount:{
+        type:Number,
+        default:0
+    },
+    lastUpdate:{
+        type:Number,
+        default:new Date().getDate()
+    },
+    createdDate:{
+        type:Date,
+        default:Date.now()
+    }
 }, {
     timestamps: true
 });

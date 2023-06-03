@@ -25053,7 +25053,7 @@ export const assetUpdate = async ({
 
 /** 
  * Get Order Book
- * URL : /api/spot/ordeBook/:{{pairId}}
+ * URL : /api/spot/orderBook/:{{pairId}}
  * METHOD : GET
  * PARAMS : pairId
 */

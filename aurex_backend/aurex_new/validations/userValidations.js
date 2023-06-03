@@ -48,7 +48,7 @@ export const loginValidate = (req, res, next) => {
     // }
 
     if (!isEmpty(errors)) {
-        return res.statusCode(400).json({ "errors": errors })
+        return res.status(400).json({'statusCode':400, "errors": errors })
     }
 
     return next();
