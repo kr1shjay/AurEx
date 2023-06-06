@@ -517,6 +517,7 @@ export const marketOrderPlace = async (req, res) => {
             'buyorsell': reqBody.buyorsell,
             'status': 'open',
         }
+        var newOrder
         if (spotPairData.botstatus == "off") {
 
             console.log("no spottyuussssssssssssssssssssssssssssss", spotOrder)
@@ -530,7 +531,7 @@ export const marketOrderPlace = async (req, res) => {
             //     //     await  getOrderHistorySocket(newOrder.userId, newOrder.pairId)
             //     //   await  getTradeHistorySocket(newOrder.userId, newOrder.pairId)
             //     }else{
-            let newOrder = await new SpotTrade(newOrderData).save();
+            newOrder = await new SpotTrade(newOrderData).save();
 
             // CREATE PASS_BOOK
             createPassBook({
