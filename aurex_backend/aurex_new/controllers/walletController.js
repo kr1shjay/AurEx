@@ -140,9 +140,15 @@ export const withdrawCoinRequest = async (req, res) => {
         }
 
         let curData = await Currency.findOne({ '_id': reqBody.currencyId })
+        console.log("curData",curData)
+        var status= curData.withdrawStatus
         if (!curData) {
             return res.status(400).json({ 'statusCode':400,'success': false, 'message': 'Data does not exist' })
         }
+        else if(status=== "Off"){
+            return res.status(400).json({ 'statusCode':400,'success': true, 'message': 'Null' })
+        }
+
 
         // let finalAmount = reqBody.amount + precentConvetPrice(reqBody.amount, curData.withdrawFee)
         let finalAmount = reqBody.amount + parseFloat(curData.withdrawFee)

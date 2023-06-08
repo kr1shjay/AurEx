@@ -61,7 +61,7 @@ const ApiKeySchema = new Schema({
     },
     lastUpdate:{
         type:Number,
-        default:new Date().getDate()
+        default:new Date().getMinutes()
     },
     createdDate:{
         type:Date,
