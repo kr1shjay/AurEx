@@ -268,52 +268,40 @@ export const apikey = async (apikey, next, req, res) => {
                 if (userDetails.ipList.length > 0) {
                     let ipTest = userDetails.ipList.find((val) => val === ip)
                     if (!isEmpty(ipTest)) {
-                          let datas = {
-                                id: userDetails.userId._id,
-                                userId: userDetails.userId.userId,
-                                type: userDetails.userId.type,
-                                email: userDetails.userId.email,
-                                google2Fa: userDetails.userId.google2Fa,
-                                withdraw: userDetails.withdraw,
-                                deposit: userDetails.deposit,
-                                trade: userDetails.trade
+                  
+                        if (req.body.hash) {
+                            let payload = req.body
+                            let hash = req.body.hash
+                            console.log(req.body, "signature")
+                            delete payload.hash
+                            let hashValue
+                            if(isEmpty(payload)){
+                                hashValue = CryptoJS.HmacSHA256('hash', userDetails.secretKey);
+                                console.log(req.body, hashInBase64, "nopayload")
+                            }else{
+                                hashValue = CryptoJS.HmacSHA256(JSON.stringify(payload), userDetails.secretKey);
+                                console.log(req.body, hashInBase64, "payload")
                             }
-                            req.user = datas
-                            console.log("data", datas)
-                            return next();
-                        // if (req.body.hash) {
-                        //     let payload = req.body
-                        //     let hash = req.body.hash
-                        //     console.log(req.body, "signature")
-                        //     delete payload.hash
-                        //     let hashValue
-                        //     if(isEmpty(payload)){
-                        //         hashValue = CryptoJS.HmacSHA256('hash', userDetails.secretKey);
-                        //         console.log(req.body, hashInBase64, "nopayload")
-                        //     }else{
-                        //         hashValue = CryptoJS.HmacSHA256(JSON.stringify(payload), userDetails.secretKey);
-                        //         console.log(req.body, hashInBase64, "payload")
-                        //     }
-                        //     var hashInBase64 = CryptoJS.enc.Hex.stringify(hashValue);
-                        //     console.log(req.body, hashInBase64, "signature")
-                        //     if (hashInBase64 === hash) {
-                        //         let datas = {
-                        //             id: userDetails.userId._id,
-                        //             userId: userDetails.userId.userId,
-                        //             type: userDetails.userId.type,
-                        //             email: userDetails.userId.email,
-                        //             google2Fa: userDetails.userId.google2Fa,
-                        //             withdraw: userDetails.withdraw,
-                        //             deposit: userDetails.deposit,
-                        //             trade: userDetails.trade
-                        //         }
-                        //         req.user = datas
-                        //         console.log("data", datas)
-                        //         return next();
-                        //     } else {
-                        //         res.status(401).json({ 'statusCode': 500, 'message': "Secret key does not exist" });
-                        //     }
-                        // } else {
+                            var hashInBase64 = CryptoJS.enc.Hex.stringify(hashValue);
+                            console.log(req.body, hashInBase64, "signature")
+                            if (hashInBase64 === hash) {
+                                let datas = {
+                                    id: userDetails.userId._id,
+                                    userId: userDetails.userId.userId,
+                                    type: userDetails.userId.type,
+                                    email: userDetails.userId.email,
+                                    google2Fa: userDetails.userId.google2Fa,
+                                    withdraw: userDetails.withdraw,
+                                    deposit: userDetails.deposit,
+                                    trade: userDetails.trade
+                                }
+                                req.user = datas
+                                console.log("data", datas)
+                                return next();
+                            } else {
+                                res.status(401).json({ 'statusCode': 500, 'message': "Secret key does not exist" });
+                            }
+                        } else {
                         //     // let datas = {
                         //     //     id: userDetails.userId._id,
                         //     //     userId: userDetails.userId.userId,
@@ -327,15 +315,31 @@ export const apikey = async (apikey, next, req, res) => {
                         //     // req.user = datas
                         //     // console.log("data", datas)
                         //     // return next();
-                        //     res.status(401).json({ 'statusCode': 401, 'message': "Hash is required" });
+                            res.status(401).json({ 'statusCode': 401, 'message': "Hash is required" });
 
-                        // }
+                         }
                     } else {
                         res.status(401).json({ 'statusCode': 401, 'message': "Your Ip is not valid" });
                     }
                 }
                 else {
-                      let datas = {
+                    if (req.body.hash) {
+                        let payload = req.body
+                        let hash = req.body.hash
+                        console.log(req.body, "signature")
+                        delete payload.hash
+                        let hashValue
+                        if(isEmpty(payload)){
+                            hashValue = CryptoJS.HmacSHA256('hash', userDetails.secretKey);
+                            console.log(payload, "nopayload")
+                        }else{
+                            hashValue = CryptoJS.HmacSHA256(JSON.stringify(payload), userDetails.secretKey);
+                            console.log(payload, "payload")
+                        }
+                        var hashInBase64 = CryptoJS.enc.Hex.stringify(hashValue);
+                        console.log(req.body, hashInBase64, "signature")
+                        if (hashInBase64 === hash) {
+                            let datas = {
                                 id: userDetails.userId._id,
                                 userId: userDetails.userId.userId,
                                 type: userDetails.userId.type,
@@ -344,59 +348,30 @@ export const apikey = async (apikey, next, req, res) => {
                                 withdraw: userDetails.withdraw,
                                 deposit: userDetails.deposit,
                                 trade: userDetails.trade
+
                             }
                             req.user = datas
                             console.log("data", datas)
                             return next();
-                    // if (req.body.hash) {
-                    //     let payload = req.body
-                    //     let hash = req.body.hash
-                    //     console.log(req.body, "signature")
-                    //     delete payload.hash
-                    //     let hashValue
-                    //     if(isEmpty(payload)){
-                    //         hashValue = CryptoJS.HmacSHA256('hash', userDetails.secretKey);
-                    //         console.log(payload, "nopayload")
-                    //     }else{
-                    //         hashValue = CryptoJS.HmacSHA256(JSON.stringify(payload), userDetails.secretKey);
-                    //         console.log(payload, "payload")
-                    //     }
-                    //     var hashInBase64 = CryptoJS.enc.Hex.stringify(hashValue);
-                    //     console.log(req.body, hashInBase64, "signature")
-                    //     if (hashInBase64 === hash) {
-                    //         let datas = {
-                    //             id: userDetails.userId._id,
-                    //             userId: userDetails.userId.userId,
-                    //             type: userDetails.userId.type,
-                    //             email: userDetails.userId.email,
-                    //             google2Fa: userDetails.userId.google2Fa,
-                    //             withdraw: userDetails.withdraw,
-                    //             deposit: userDetails.deposit,
-                    //             trade: userDetails.trade
-
-                    //         }
-                    //         req.user = datas
-                    //         console.log("data", datas)
-                    //         return next();
-                    //     } else {
-                    //         res.status(401).json({ 'statusCode': 401, 'message': "Signature does not match" });
-                    //     }
-                    // } else {
-                    //     // let datas = {
-                    //     //     id: userDetails.userId._id,
-                    //     //     userId: userDetails.userId.userId,
-                    //     //     type: userDetails.userId.type,
-                    //     //     email: userDetails.userId.email,
-                    //     //     google2Fa: userDetails.userId.google2Fa,
-                    //     //     withdraw: userDetails.withdraw,
-                    //     //     deposit: userDetails.deposit,
-                    //     //     trade: userDetails.trade
-                    //     // }
-                    //     // req.user = datas
-                    //     // console.log("data", datas)
-                    //     // return next();
-                    //     res.status(401).json({ 'statusCode': 401, 'message': "Hash is required" });
-                    // }
+                        } else {
+                            res.status(401).json({ 'statusCode': 401, 'message': "Signature does not match" });
+                        }
+                    } else {
+                        // let datas = {
+                        //     id: userDetails.userId._id,
+                        //     userId: userDetails.userId.userId,
+                        //     type: userDetails.userId.type,
+                        //     email: userDetails.userId.email,
+                        //     google2Fa: userDetails.userId.google2Fa,
+                        //     withdraw: userDetails.withdraw,
+                        //     deposit: userDetails.deposit,
+                        //     trade: userDetails.trade
+                        // }
+                        // req.user = datas
+                        // console.log("data", datas)
+                        // return next();
+                        res.status(401).json({ 'statusCode': 401, 'message': "Hash is required" });
+                    }
                 }
 
             } else {
