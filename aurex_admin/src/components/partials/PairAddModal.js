@@ -392,8 +392,13 @@ class PairAddModal extends React.Component {
                                         }
                                     </Form.Control>
                                     <span className="text-danger">{errors.botstatus}</span>
+                                    {this.state.formValue.botstatus && this.state.formValue.botstatus==="binance"? 
+                             <span className="text-secondary f-12 ">Notes:Minimum Quantity should be same as Binance Minimum Quantity</span>
+                             :""
+                            }
                                 </div>
                             </div>
+                          
 
                         </form>
                     </Modal.Body>
