@@ -2,7 +2,8 @@
 import {
     User,
     ApiKey,
-    UserToken
+    UserToken,
+    SiteSetting
 } from '../models';
 import passport from 'passport';
 import { usersAuth } from '../config/passport';
@@ -251,15 +252,16 @@ export const apikey = async (apikey, next, req, res) => {
     let ipArray = req.ip.split(':')
     let ip = ipArray[ipArray.length - 1]
     console.log(ip, 'your ip')
+    let limit_check = await SiteSetting.findOne({});
+
     if (userDetails && userDetails.userId) {
         if (userDetails.status === 'active') {
             console.log("viewcount", userDetails.viewCount)
             console.log("minutes",new Date().getMinutes())
             userDetails.viewCount = userDetails.lastUpdate === new Date().getMinutes() ? userDetails.viewCount + 1 : userDetails.viewCount > 0 && userDetails.viewCount - userDetails.viewCount + 1
-            if (userDetails.viewCount <= 200) {
+            if (userDetails.viewCount <= limit_check.ApiLimit) {
                 // userDetails.viewCount= userDetails.viewCount+1
-                // userDetails.lastUpdate = new Date()
-                
+                // userDetails.lastUpdate = new Date()   
                 userDetails.lastUpdate = userDetails.lastUpdate === new Date().getMinutes() ? userDetails.lastUpdate : new Date().getMinutes()
                 await userDetails.save()
                 console.log("count_count", userDetails.viewCount, userDetails.lastUpdate === new Date().getMinutes(), userDetails.lastUpdate)
@@ -268,7 +270,6 @@ export const apikey = async (apikey, next, req, res) => {
                 if (userDetails.ipList.length > 0) {
                     let ipTest = userDetails.ipList.find((val) => val === ip)
                     if (!isEmpty(ipTest)) {
-                  
                         if (req.body.hash) {
                             let payload = req.body
                             let hash = req.body.hash
@@ -299,7 +300,7 @@ export const apikey = async (apikey, next, req, res) => {
                                 console.log("data", datas)
                                 return next();
                             } else {
-                                res.status(401).json({ 'statusCode': 500, 'message': "Secret key does not exist" });
+                                res.status(401).json({ 'statusCode': 400, 'message': "Secret key does not exist" });
                             }
                         } else {
                         //     // let datas = {
@@ -375,7 +376,7 @@ export const apikey = async (apikey, next, req, res) => {
                 }
 
             } else {
-                res.status(400).json({ 'statusCode': 400, 'message': "You reached your today's limit" });
+                res.status(400).json({ 'statusCode': 400, 'message': "You reached the limit" });
             }
         } else {
             res.status(401).json({ 'statusCode': 401, 'message': "The apikey is Inactive" });

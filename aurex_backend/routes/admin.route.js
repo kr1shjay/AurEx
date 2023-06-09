@@ -167,6 +167,8 @@ router.route('/updateSocialMedia').put(passportAuth, siteSettingCtrl.updateSocia
 router.route('/updateFaqTrend').put(passportAuth, siteSettingCtrl.updateFaqTrend)
 router.route('/updatemailintegrate').post(passportAuth, siteSettingsValid.updateMailValid, siteSettingCtrl.updateMailIntegrate)
 router.route('/getemailintegrate').get(passportAuth, siteSettingCtrl.getMailIntegrate)
+router.route("/updateLimit").put(passportAuth, siteSettingCtrl.updateLimit)
+router.route("/getApiLimit").get(passportAuth, siteSettingCtrl.getApiLimit)
 
 
 //profit

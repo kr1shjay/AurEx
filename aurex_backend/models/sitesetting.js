@@ -142,6 +142,10 @@ const SiteSettingSchema = new Schema({
             default: 500
         }
     },
+    ApiLimit: {
+        type: Number,
+        default: 0
+    },
     
 })
 
