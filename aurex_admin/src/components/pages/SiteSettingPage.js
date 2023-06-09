@@ -13,9 +13,10 @@ import SocialMedia from '../partials/SocialMedia'
 import MailUpdate from '../partials/EmailIntegration'
 import SendinBlue from '../partials/SendinBlue'
 import FaqTrend from '../partials/FaqTrend'
+import classnames from "classnames";
 
 // import action
-import { getSiteSetting, updateSiteSetting, getMailIntegrate, updateMailIntegrate } from '../../actions/siteSettingActions';
+import { getSiteSetting, updateSiteSetting, getMailIntegrate, updateMailIntegrate, updateLimit ,getApiLimit } from '../../actions/siteSettingActions';
 import { getPairDropdown, } from '../../actions/commonActions'
 import { getCurrency } from '../../actions/currency';
 import { getFaqDropdown } from '../../actions/faqActions'
@@ -29,6 +30,7 @@ const initialFormValue = {
     "secure": "",
     "user": "",
     "pass": "",
+    "ApiLimit":0
 }
 
 class SiteSettingPage extends Component {
@@ -42,12 +44,14 @@ class SiteSettingPage extends Component {
             marketTrend: [],
             records: {},
             loader: false,
-            errors: {}
+            errors: {},
+            // ApiLimit: 0
         };
 
         this.fetchSiteSetting = this.fetchSiteSetting.bind(this);
         this.handlePairChange = this.handlePairChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleLimit = this.handleLimit.bind(this);
         this.fetchCurrency = this.fetchCurrency.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
@@ -107,6 +111,19 @@ class SiteSettingPage extends Component {
                 this.setState({ 'marketTrend': result.marketTrend, "records": result })
             }
             console.log("result",result)
+        } catch (err) { }
+    }
+
+
+    async fetchApiLimit() {
+        try {
+            const { status, loading, result } = await getApiLimit();
+          
+            if (status == 'success') {
+                let formData = { ...this.state.formValue, ...{ ['ApiLimit']:  result.ApiLimit } };
+                this.setState({formValue:formData})
+            }
+            console.log("result_limit",result)
         } catch (err) { }
     }
 
@@ -181,10 +198,6 @@ class SiteSettingPage extends Component {
     }
 
 
-
-
-
-
     async handleSubmit(e) {
         e.preventDefault();
         const { marketTrend } = this.state;
@@ -205,25 +218,48 @@ class SiteSettingPage extends Component {
         } catch (err) { }
     }
 
+    async handleLimit(e) {
+        e.preventDefault();
+        console.log("ApiLimit",this?.state)
+        const  {ApiLimit} = this?.state?.formValue;
+        
+        let reqData = {
+            ApiLimit
+        }
+
+        try {
+            const { status, loading, result, message } = await updateLimit(reqData);
+            if (status == 'success') {
+                this.setState({ 'ApiLimit': result.ApiLimit})
+                toastAlert('success', message, 'ApiLimit')
+            } else {
+                toastAlert('error', message, 'ApiLimit')
+            }
+
+        } catch (err) { }
+    }
+
 
     componentDidMount() {
         this.fetchSiteSetting();
         this.fetchPairDropdown();
         this.fetchCurrency();
         this.fetchFaqDropdown();
+        this.fetchApiLimit();
     };
 
 
 
     render() {
-        const { pairListOption, marketTrend, currencyOption, records, errors, faqOption } = this.state;
+        const { pairListOption, marketTrend, currencyOption, records, errors, faqOption, } = this.state;
         const {
             fromemail,
             host,
             port,
             secure,
             user,
-            pass
+            pass,
+            ApiLimit
         } = this.state.formValue;
 
 
@@ -284,6 +320,33 @@ class SiteSettingPage extends Component {
                             />*/}
                             <SendinBlue
                             />
+                            <Card>
+                                <Card.Header><p className="text-white"><b>Limitations for API Key</b></p></Card.Header>
+                                <Card.Body>
+                                    <div className="row mt-2 align-items-center">
+                                        <div className="col-md-3">
+                                            <label htmlFor="currencyName">Limit</label>
+                                        </div>
+                                        <div className="col-md-9">
+                                            <input
+                                                value={ApiLimit}
+                                                name="ApiLimit"
+                                                onChange={this.handleChange}
+                                                error={errors.ApiLimit}
+                                                id="ApiLimit"
+                                                type="text"
+                                                className={classnames("form-control", {
+                                                    invalid: errors.ApiLimit
+                                                })}
+                                            />
+
+                                        </div>
+                                    </div>
+                                </Card.Body>
+                                <Card.Footer>
+                                    <Button onClick={this.handleLimit}>Submit</Button>
+                                </Card.Footer>
+                            </Card>
                         </div>
                     </div>
                 </div>

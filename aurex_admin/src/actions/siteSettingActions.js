@@ -20,6 +20,27 @@ export const getSiteSetting = async () => {
     }
 }
 
+export const getApiLimit = async () => {
+    try {
+        const respData = await axios({
+            'url': `/adminapi/getApiLimit`,
+            'method': 'get'
+        })
+        return {
+            status: "success",
+            loading: false,
+            result: respData.data.result
+        }
+    } catch (err) {
+        return {
+            status: 'failed',
+            loading: false
+        }
+    }
+}
+
+
+
 export const updateSiteSetting = async (data) => {
     try {
         const respData = await axios({
@@ -42,6 +63,30 @@ export const updateSiteSetting = async (data) => {
         }
     }
 }
+
+export const updateLimit = async (data) => {
+    try {
+        const respData = await axios({
+            'url': `/adminapi/updateLimit`,
+            'method': 'put',
+            'data': data
+        })
+        return {
+            status: "success",
+            loading: false,
+            result: respData.data.result,
+            message: respData.data.message
+        }
+    } catch (err) {
+        return {
+            status: 'failed',
+            loading: false,
+            error: err.response.data.errors,
+            message: err.response.data.message
+        }
+    }
+}
+
 
 export const updateSiteDetails = async (data) => {
     try {

@@ -83,7 +83,8 @@ export const getSiteSetting = async (req, res) => {
     "telegramLink": 1,
     "blogLink": 1,
     "youtubeLink": 1,
-    "faqTrend": 1 
+    "faqTrend": 1,
+     
   }, (err, data) => {
     if (err) {
       return res.status(500).json({ 'success': false, 'message': "Something went wrong" })
@@ -92,6 +93,26 @@ export const getSiteSetting = async (req, res) => {
     return res.status(200).json({ 'success': true, 'message': "Fetch success", 'result': data })
   })
 }
+
+
+/** 
+ * Get Site Setting
+ * URL: /adminapi/getApiLimit
+ * METHOD : GET
+*/
+export const getApiLimit = async (req, res) => {
+  SiteSetting.findOne({}, {
+    "ApiLimit":1
+     
+  }, (err, data) => {
+    if (err) {
+      return res.status(500).json({ 'success': false, 'message': "Something went wrong" })
+    }
+    console.log("links",data)
+    return res.status(200).json({ 'success': true, 'message': "Fetch success", 'result': data })
+  })
+}
+
 
 /** 
  * Get Site Setting
@@ -120,6 +141,33 @@ export const updateSiteSetting = async (req, res) => {
   }
 }
 
+/** 
+ * Get Site Setting
+ * URL: /adminapi/updateLimit
+ * METHOD : PUT
+ * BODY : marketTrend
+*/
+export const updateLimit = async (req, res) => {
+  try {
+    let siteSettingData = await SiteSetting.findOne({});
+    console.log("reqBody_limit",reqBody)
+    if (!siteSettingData) {
+      return res.status(400).json({ 'success': false, 'message': "No record" })
+    }
+    let reqBody = req.body;
+    console.log("reqBody_limit",reqBody)
+    siteSettingData.ApiLimit = reqBody.ApiLimit ? reqBody.ApiLimit : siteSettingData.ApiLimit;
+
+    let updateData = await siteSettingData.save();
+
+    let result = {
+      'ApiLimit': updateData.ApiLimit
+    }
+    return res.status(200).json({ 'success': true, 'message': "Fetch success", 'result': result })
+  } catch (err) {
+    return res.status(500).json({ 'success': false, 'message': "Something went wrong" })
+  }
+}
 
 
 export const updateSiteDetails = async (req, res) => {
