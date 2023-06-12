@@ -63,13 +63,13 @@ export const getbalance = async (req, res) => {
         let balancedata = await wallet.findOne({ "_id": req.user.id });
         console.log("balance", balancedata)
         if (!balancedata) {
-            return res.status(400).json({ 'statusCode':400,'success': true, 'messages': "User does not exist" })
+            return res.status(400).json({ 'statusCode':400,'success': false, 'messages': "Wallet Id does not exist" })
         }
         let assetDoc = balancedata.assets.find((val) => (val.coin == req.body.symbol));
 
         console.log("assetDoc", assetDoc)
         if (!assetDoc) {
-            return res.status(400).json({'statusCode':400, 'success': true, 'messages': "Symbol not found" })
+            return res.status(400).json({'statusCode':400, 'success': false, 'messages': "Symbol not found" })
         }
         let result = {
             "coin": assetDoc.coin,
@@ -93,7 +93,7 @@ export const withdrawCoinRequest = async (req, res) => {
         let api_key = req.header("x-api-key");
         console.log("orderreq",req.user)
         if(api_key!==null && api_key!== undefined && req.user.withdraw !==true){
-             return res.status(400).json({ 'statusCode':400,'status': false, 'message': "          " });      
+             return res.status(400).json({ 'statusCode':400,'success': false, 'message': "You don't have permisssions to Withdraw" });      
         }
         else{
         let reqBody = req.body;
@@ -101,12 +101,12 @@ export const withdrawCoinRequest = async (req, res) => {
         let userData = await User.findOne({ "_id": req.user.id });
 
         if (userData.google2Fa.secret == '') {
-            return res.status(500).json({ 'statusCode':500,"success": false, 'errors': { 'twoFACode': 'You have to enable 2FA in order to withdraw fiat funds' } })
+            return res.status(400).json({ 'statusCode':400,"success": false, 'message':  'You have to enable 2FA in order to withdraw fiat funds' })
         }
 
         let verifyTwoFaCode = node2fa.verifyToken(userData.google2Fa.secret, reqBody.twoFACode);
         if (!(verifyTwoFaCode && verifyTwoFaCode.delta == 0)) {
-            return res.status(400).json({ 'statusCode':400,"success": false, 'errors': { 'twoFACode': "Invalid Code" } })
+            return res.status(400).json({ 'statusCode':400,"success": false, 'message': "Invalid twoFACode Code"  })
         }
 
         let usrWallet = await Wallet.findOne({
@@ -132,11 +132,11 @@ export const withdrawCoinRequest = async (req, res) => {
         }
 
         if (reqBody.coin != 'XRP' && usrAsset.address == reqBody.receiverAddress) {
-            return res.status(400).json({'statusCode':400, 'success': false, 'errors': { 'receiverAddress': 'Reciever address should differ' } })
+            return res.status(400).json({'statusCode':400, 'success': false, 'message': 'Reciever address should differ' })
         }
 
         if (reqBody.coin == 'XRP' && usrAsset.destTag == reqBody.destTag) {
-            return res.status(400).json({ 'statusCode':400,'success': false, 'errors': { 'destTag': 'Reciever tag should differ' } })
+            return res.status(400).json({ 'statusCode':400,'success': false, 'message':'Reciever tag should differ' })
         }
 
         let curData = await Currency.findOne({ '_id': reqBody.currencyId })
@@ -145,15 +145,15 @@ export const withdrawCoinRequest = async (req, res) => {
         if (!curData) {
             return res.status(400).json({ 'statusCode':400,'success': false, 'message': 'Data does not exist' })
         }
-        else if(status=== "Off"){
-            return res.status(400).json({ 'statusCode':400,'success': true, 'message': 'Null' })
+        else if(status==="Off"){
+            return res.status(400).json({ 'statusCode':400,'success': false, 'message': 'Null' })
         }
 
 
         // let finalAmount = reqBody.amount + precentConvetPrice(reqBody.amount, curData.withdrawFee)
         let finalAmount = reqBody.amount + parseFloat(curData.withdrawFee)
         if (usrAsset.spotBal < finalAmount) {
-            return res.status(400).json({ 'statusCode':400,'success': false, 'errors': { 'finalAmount': 'Insufficient wallet balance' } })
+            return res.status(400).json({ 'statusCode':400,'success': false, 'message': 'Insufficient wallet balance' })
         }
 
         var transactions = new Transaction();

@@ -1727,7 +1727,7 @@ export const getRecentTrade = async (req, res) => {
             }
         );
         if (!pairData) {
-            return res.status(400).json({'statusCode':400, 'success': false })
+            return res.status(400).json({'statusCode':400, 'success': false,'message':"Trade pair does not exist"})
         }
 
         if (pairData.botstatus == 'binance') {
@@ -1748,7 +1748,7 @@ export const getRecentTrade = async (req, res) => {
             }
         }
 
-        return res.status(409).json({'statusCode':409, 'success': false })
+        // return res.status(400).json({'statusCode':400, 'success': false })
     } catch (err) {
         return res.status(500).json({ 'statusCode':500,'success': false,  'message': "System error" })
     }
@@ -1958,7 +1958,7 @@ export const getOrderStatus = async (req, res) => {
         let orderStatus = await SpotTrade.findOne({ "_id": req.body.id });
         console.log("orderStatus", orderStatus)
         if (!orderStatus) {
-            return res.status(400).json({ 'statusCode': 400, 'success': true, 'messages': "Order Id not found" })
+            return res.status(400).json({ 'statusCode': 400, 'success': false, 'messages': "Order Id not found" })
         }
         return res.status(200).json({ 'statusCode': 200, 'success': true, 'messages': "success", 'result': orderStatus })
 

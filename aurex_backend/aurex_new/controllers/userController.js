@@ -47,25 +47,25 @@ export const userLogin = async (req, res) => {
             reqBody.email = reqBody.email.toLowerCase();
             checkUser = await User.findOne({ 'email': reqBody.email })
             if (!checkUser) {
-                return res.status(400).json({ 'statusCode':400,'success': false, 'errors': { 'email': "Email not found" } });
+                return res.status(400).json({ 'statusCode':400,'success': false, 'message': "Email not found"});
             }
         } else if (reqBody.formType == 'mobile') {
             checkUser = await User.findOne({ 'phoneCode': reqBody.phoneCode, 'phoneNo': reqBody.phoneNo })
             if (!checkUser) {
-                return res.status(400).json({ 'statusCode':400, 'success': false, 'errors': { 'phoneNo': "Mobile number not found" } });
+                return res.status(400).json({ 'statusCode':400, 'success': false, 'message':  "Mobile number not found" });
             }
             if (isEmpty(reqBody.twoFACode) && !isEmpty(reqBody.otp)) {
                 let to = `+${reqBody.phoneCode}${reqBody.phoneNo}`;
                 let { smsStatus } = await smsHelper.verifyOtp(to, reqBody.otp);
                 if (!smsStatus) {
-                    return res.status(500).json({ 'statusCode':500,"success": false, "message": "Invalid OTP" });
+                    return res.status(400).json({ 'statusCode':400, "success": false, "message": "Invalid OTP" });
                 }
             }
 
         }
 
         if (checkUser.status != 'verified') {
-            return res.status(400).json({ 'success': false, 'message': "Your account still not activated" });
+            return res.status(400).json({ 'statusCode':400 ,'success': false, 'message': "Your account still not activated" });
         }
 
         if (checkUser.hash == "" && checkUser.hash == "") {
@@ -76,7 +76,7 @@ export const userLogin = async (req, res) => {
         }
         if (!checkUser.authenticate(reqBody.password)) {
             loginHistory({ ...reqBody.loginHistory, ...{ "status": 'Failed', "reason": "Password incorrect", "userId": checkUser._id } })
-            return res.status(400).json({ 'statusCode':400,'success': false, 'errors': { 'password': "Password incorrect" } });
+            return res.status(400).json({ 'statusCode':400,'success': false, 'message': "Password incorrect"  });
         }
 
 
@@ -86,7 +86,7 @@ export const userLogin = async (req, res) => {
             } else {
                 let check2Fa = node2fa.verifyToken(checkUser.google2Fa.secret, reqBody.twoFACode)
                 if (!(check2Fa && check2Fa.delta == 0)) {
-                    return res.status(400).json({ 'statusCode':400,'success': false, 'errors': { 'twoFACode': "Invalid Code" } })
+                    return res.status(400).json({ 'statusCode':400,'success': false, 'message': "Invalid twoFACode Code" })
                 }
 
             }
