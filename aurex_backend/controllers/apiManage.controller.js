@@ -300,14 +300,14 @@ export const apikey = async (apikey, next, req, res) => {
                                 console.log("data", datas)
                                 return next();
                             } else {
-                                res.status(401).json({ 'statusCode': 400, 'message': "Secret key does not exist" });
+                                res.status(401).json({ 'statusCode': 401,'success': false, 'message': "Secret key does not exist" });
                             }
                         } else {
                             res.status(401).json({ 'statusCode': 401, 'message': "Hash is required" });
 
                          }
                     } else {
-                        res.status(401).json({ 'statusCode': 401, 'message': "Your Ip is not valid" });
+                        res.status(401).json({ 'statusCode': 401, 'success': false, 'message': "Your Ip is not valid" });
                     }
                 }
                 else {
@@ -342,7 +342,7 @@ export const apikey = async (apikey, next, req, res) => {
                             console.log("data", datas)
                             return next();
                         } else {
-                            res.status(401).json({ 'statusCode': 401, 'message': "Signature does not match" });
+                            res.status(401).json({ 'statusCode': 401, 'success': false,'message': "Signature does not match" });
                         }
                     } else {
                         res.status(401).json({ 'statusCode': 401, 'message': "Hash is required" });
@@ -350,16 +350,16 @@ export const apikey = async (apikey, next, req, res) => {
                 }
 
             } else {
-                res.status(400).json({ 'statusCode': 400, 'message': "You reached the limit" });
+                res.status(400).json({ 'statusCode': 400, 'success': false, 'message': "You reached the limit" });
             }
         } else {
-            res.status(401).json({ 'statusCode': 401, 'message': "The apikey is Inactive" });
+            res.status(401).json({ 'statusCode': 401, 'success': false, 'message': "The apikey is Inactive" });
         }
 
     }
 
     else {
-        res.status(401).json({ 'statusCode': 401, 'message': "API Key does not exist" })
+        res.status(401).json({ 'statusCode': 401, 'success': false, 'message': "API Key does not exist" })
     }
 }
 
