@@ -97,7 +97,7 @@ export const getChartData = (req, res) => {
             action = '/history';
             break;
     }
-    console.log("chartresponse",res)
+    // console.log("chartresponse",res)
     // console.log("chartaction", action)
     // console.log("chartquery", uri.query)
    

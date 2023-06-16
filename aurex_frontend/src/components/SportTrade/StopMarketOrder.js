@@ -11,6 +11,7 @@ import { orderPlace } from '../../actions/spotTradeAction';
 import isEmpty from '../../lib/isEmpty';
 import { encryptObject } from '../../lib/cryptoJS'
 import { toastAlert } from '../../lib/toastAlert';
+import validation from './validation';
 
 const marks = [
     {
@@ -42,6 +43,7 @@ function valuetext(value) {
 const initialFormValue = {
     'stopPrice': "",
     'quantity': '',
+    'price':'',
     'total': ''
 }
 
@@ -54,7 +56,7 @@ const SpotMarketOrder = (props) => {
     // state
     const [formValue, setFormValue] = useState(initialFormValue);
 
-    const { stopPrice, quantity } = formValue;
+    const { stopPrice,price, quantity } = formValue;
 
     // redux-state
     const tradePair = useSelector(state => state.tradePair);
@@ -87,13 +89,22 @@ const SpotMarketOrder = (props) => {
             //     return
             // }
             
+            
+
             let reqData = {
                 stopPrice: stopPrice,
                 quantity: quantity,
                 buyorsell: buyorsell,
                 orderType: 'stop_market',
                 spotPairId: tradePair.pairId,
+                price:price,
                 'newdate': new Date()
+            }
+           
+            const validateError = await validation(reqData)
+            if (!isEmpty(validateError)) {
+                toastAlert('error', validateError[Object.keys(validateError)[0]], 'spotOrder');
+                return
             }
 
             let encryptToken = {

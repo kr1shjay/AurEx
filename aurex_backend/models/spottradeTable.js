@@ -122,7 +122,7 @@ const SpotOrderSchema = new Schema({
 	},
 	orderType: {
 		type: String,
-		enum: ['limit', 'market', 'stop_limit', 'trailing_stop'],
+		enum: ['limit', 'market', 'stop_limit', 'trailing_stop','stop_market'],
 	},
 	price: {
 		type: Number,

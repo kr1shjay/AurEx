@@ -21,7 +21,7 @@ import { socketEmitOne, socketEmitAll } from '../../config/socketIO';
 // import controller
 import * as binanceCtrl from '../../controllers/binance.controller'
 import { createPassBook } from '../../controllers/passbook.controller';
-import {getOpenOrderSocket , getOrderHistorySocket , getTradeHistorySocket ,getOrderBookSocket , calculateServiceFee  ,assetUpdate ,marketPriceSocket ,recentTradeSocket ,orderBookData, recentTrade} from '../../controllers/spotTrade.controller'
+import {getOpenOrderSocket , getOrderHistorySocket , getTradeHistorySocket ,getOrderBookSocket , calculateServiceFee  ,assetUpdate ,marketPriceSocket ,recentTradeSocket ,orderBookData, recentTrade, matchEngine,marketTradeMatch} from '../../controllers/spotTrade.controller'
 
 // import lib
 import isEmpty from '../../lib/isEmpty';
@@ -31,6 +31,7 @@ import { toFixed } from '../../lib/roundOf'
 import { withoutServiceFee } from '../../lib/calculation'
 import { encryptString, decryptString } from '../../lib/cryptoJS'
 import { IncCntObjId } from '../../lib/generalFun';
+
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -258,49 +259,49 @@ export const limitOrderPlace = async (req, res) => {
 }
 
 
-/** 
- * Match Engine (QUEUE CONCEPT)
-*/
-export const matchEngine = async () => {
-    try {
-        if (tradeMatchCall) {
-            return
-        }
-        tradeMatchCall = true
-        // console.log(orderIds, '---orderIds')
-        if (marketOrderIds && Array.isArray(marketOrderIds) && marketOrderIds.length > 0) {
-            let newOrder = await SpotTrade.findOne({ '_id': marketOrderIds[0], 'orderType': 'market', 'status': { "$in": ['open'] } })
-            if (newOrder) {
-                let pairData = await SpotPair.findOne({ "_id": newOrder.pairId, 'status': 'active' });
-                if (pairData) {
-                    await tradeList(newOrder, pairData)
-                }
-            }
-            marketOrderIds.shift()
-            tradeMatchCall = false
-            matchEngine()
-            return
-        } else if (orderIds && Array.isArray(orderIds) && orderIds.length > 0) {
-            let newOrder = await SpotTrade.findOne({ '_id': orderIds[0], 'status': { "$in": ['open', 'pending'] } })
-            if (newOrder) {
-                let pairData = await SpotPair.findOne({ "_id": newOrder.pairId, 'status': 'active' });
-                if (pairData) {
-                    await tradeList(newOrder, pairData)
-                }
-            }
-            orderIds.shift()
-            tradeMatchCall = false
-            matchEngine()
-            return
-        }
-        tradeMatchCall = false
-        // console.log(orderIds, '---orderIds')
-        // matchEngine()
-        return
-    } catch (err) {
-        return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
-    }
-}
+// /** 
+//  * Match Engine (QUEUE CONCEPT)
+// */
+// export const matchEngine = async () => {
+//     try {
+//         if (tradeMatchCall) {
+//             return
+//         }
+//         tradeMatchCall = true
+//         // console.log(orderIds, '---orderIds')
+//         if (marketOrderIds && Array.isArray(marketOrderIds) && marketOrderIds.length > 0) {
+//             let newOrder = await SpotTrade.findOne({ '_id': marketOrderIds[0], 'orderType': 'market', 'status': { "$in": ['open'] } })
+//             if (newOrder) {
+//                 let pairData = await SpotPair.findOne({ "_id": newOrder.pairId, 'status': 'active' });
+//                 if (pairData) {
+//                     await tradeList(newOrder, pairData)
+//                 }
+//             }
+//             marketOrderIds.shift()
+//             tradeMatchCall = false
+//             matchEngine()
+//             return
+//         } else if (orderIds && Array.isArray(orderIds) && orderIds.length > 0) {
+//             let newOrder = await SpotTrade.findOne({ '_id': orderIds[0], 'status': { "$in": ['open', 'pending'] } })
+//             if (newOrder) {
+//                 let pairData = await SpotPair.findOne({ "_id": newOrder.pairId, 'status': 'active' });
+//                 if (pairData) {
+//                     await tradeList(newOrder, pairData)
+//                 }
+//             }
+//             orderIds.shift()
+//             tradeMatchCall = false
+//             matchEngine()
+//             return
+//         }
+//         tradeMatchCall = false
+//         // console.log(orderIds, '---orderIds')
+//         // matchEngine()
+//         return
+//     } catch (err) {
+//         return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
+//     }
+// }
 
 
 /**
@@ -662,397 +663,397 @@ export const marketOrderPlace = async (req, res) => {
     }
 }
 
-export const marketTradeMatch = async (newOrder, orderData, count = 0, pairData) => {
-    try {
+// export const marketTradeMatch = async (newOrder, orderData, count = 0, pairData) => {
+//     try {
 
-        console.log("meworderrrrrrrrrrrrrrrrrrr", newOrder)
-        if (!['open', 'pending'].includes(newOrder.status)) {
-            return true;
-        } else if (isEmpty(orderData[count])) {
-            let updateNewOrder = {}
+//         console.log("meworderrrrrrrrrrrrrrrrrrr", newOrder)
+//         if (!['open', 'pending'].includes(newOrder.status)) {
+//             return true;
+//         } else if (isEmpty(orderData[count])) {
+//             let updateNewOrder = {}
 
-            updateNewOrder['status'] = 'completed';
-            updateNewOrder['quantity'] = newOrder.filledQuantity;
+//             updateNewOrder['status'] = 'completed';
+//             updateNewOrder['quantity'] = newOrder.filledQuantity;
 
-            let newOrderUpdate = await SpotTrade.findOneAndUpdate({
-                '_id': newOrder._id
-            }, updateNewOrder, { 'new': true, 'upsert': true });
-
-
-            await getOrderHistorySocket(newOrder.userId, newOrder.pairId)
-            await getTradeHistorySocket(newOrder.userId, newOrder.pairId)
-
-            // // Balance Retrieve
-            // await assetUpdate({
-            //     'currencyId': newOrder.buyorsell == 'sell' ? newOrder.firstCurrencyId : newOrder.secondCurrencyId,
-            //     'userId': newOrder.userId,
-            //     'balance': newOrder.buyorsell == 'sell' ? (newOrder.quantity - newOrder.filledQuantity) : newOrder.price * (newOrder.quantity - newOrder.filledQuantity),
-            // })
+//             let newOrderUpdate = await SpotTrade.findOneAndUpdate({
+//                 '_id': newOrder._id
+//             }, updateNewOrder, { 'new': true, 'upsert': true });
 
 
-            await getOrderBookSocket(pairData._id)
+//             await getOrderHistorySocket(newOrder.userId, newOrder.pairId)
+//             await getTradeHistorySocket(newOrder.userId, newOrder.pairId)
 
-            return true;
-        }
-        let uniqueId = Math.floor(Math.random() * 1000000000);
-
-        let newOrderQuantity = newOrder.quantity - newOrder.filledQuantity;
-        let orderDataQuantity = orderData[count].quantity - orderData[count].filledQuantity;
-        if (newOrderQuantity == orderDataQuantity) {
-
-            /* New Order */
-            let updateNewOrder = {}
-            if (count == 0) {
-                updateNewOrder = newOrder;
-                updateNewOrder['price'] = orderData[count].price;
-                updateNewOrder['orderValue'] = orderData[count].price * newOrderQuantity;
-            }
-
-            updateNewOrder['status'] = 'completed';
-            updateNewOrder['filledQuantity'] = newOrder.filledQuantity + newOrderQuantity;
-            updateNewOrder['$push'] = {
-                "filled": {
-                    "pairId": newOrder.pairId,
-                    "sellUserId": newOrder.buyorsell == 'sell' ? newOrder.userId : orderData[count].userId,
-                    "buyUserId": newOrder.buyorsell == 'buy' ? newOrder.userId : orderData[count].userId,
-                    "userId": newOrder.userId,
-                    "sellOrderId": newOrder.buyorsell == 'sell' ? newOrder._id : orderData[count]._id,
-                    "buyOrderId": newOrder.buyorsell == 'buy' ? newOrder._id : orderData[count]._id,
-                    "uniqueId": uniqueId,
-                    "price": orderData[count].price,
-                    "filledQuantity": newOrderQuantity,
-                    "Fees": ((newOrder.buyorsell == 'sell' ? orderData[count].price * newOrderQuantity : newOrderQuantity) * pairData.taker_fees / 100),
-                    "status": "filled",
-                    "Type": newOrder.buyorsell,
-                    "createdAt": new Date(),
-                    "orderValue": orderData[count].price * newOrderQuantity,
-                }
-            }
-
-            await SpotTrade.findOneAndUpdate({
-                '_id': newOrder._id
-            }, updateNewOrder, { 'new': true, 'upsert': true });
-
-            await assetUpdate({
-                'currencyId': newOrder.buyorsell == 'sell' ? newOrder.secondCurrencyId : newOrder.firstCurrencyId,
-                'userId': newOrder.userId,
-                'balance': withoutServiceFee({
-                    'price': newOrder.buyorsell == 'sell' ? orderData[count].price * newOrderQuantity : newOrderQuantity,
-                    'serviceFee': pairData.taker_fees
-                }),
-                'type': 'spot_trade',
-                'tableId': newOrder._id
-            })
-
-            await getOrderHistorySocket(newOrder.userId, newOrder.pairId)
-            await getTradeHistorySocket(newOrder.userId, newOrder.pairId)
+//             // // Balance Retrieve
+//             // await assetUpdate({
+//             //     'currencyId': newOrder.buyorsell == 'sell' ? newOrder.firstCurrencyId : newOrder.secondCurrencyId,
+//             //     'userId': newOrder.userId,
+//             //     'balance': newOrder.buyorsell == 'sell' ? (newOrder.quantity - newOrder.filledQuantity) : newOrder.price * (newOrder.quantity - newOrder.filledQuantity),
+//             // })
 
 
-            /* Order Book */
-            await SpotTrade.findOneAndUpdate({
-                '_id': orderData[count]._id
-            }, {
+//             await getOrderBookSocket(pairData._id)
 
-                'status': 'completed',
-                'filledQuantity': orderData[count].filledQuantity + orderDataQuantity,
-                "$push": {
-                    "filled": {
-                        "pairId": orderData[count].pairId,
-                        "sellUserId": orderData[count].buyorsell == 'sell' ? orderData[count].userId : newOrder.userId,
-                        "buyUserId": orderData[count].buyorsell == 'buy' ? orderData[count].userId : newOrder.userId,
-                        "userId": orderData[count].userId,
-                        "sellOrderId": orderData[count].buyorsell == 'sell' ? orderData[count]._id : newOrder._id,
-                        "buyOrderId": orderData[count].buyorsell == 'buy' ? orderData[count]._id : newOrder._id,
-                        "uniqueId": uniqueId,
-                        "price": orderData[count].price,
-                        "filledQuantity": orderDataQuantity,
-                        "Fees": ((orderData[count].buyorsell == 'sell' ? orderData[count].price * orderDataQuantity : orderDataQuantity) * pairData.maker_rebate / 100),
-                        "status": "filled",
-                        "Type": orderData[count].buyorsell,
-                        "createdAt": new Date(),
-                        "orderValue": orderData[count].price * orderDataQuantity,
-                    }
-                }
-            }, { 'new': true });
+//             return true;
+//         }
+//         let uniqueId = Math.floor(Math.random() * 1000000000);
 
-            await assetUpdate({
-                'currencyId': orderData[count].buyorsell == 'sell' ? orderData[count].secondCurrencyId : orderData[count].firstCurrencyId,
-                'userId': orderData[count].userId,
-                'balance': withoutServiceFee({
-                    'price': orderData[count].buyorsell == 'sell' ? orderData[count].price * orderDataQuantity : orderDataQuantity,
-                    'serviceFee': pairData.maker_rebate
-                }),
-                'type': 'spot_trade',
-                'tableId': orderData[count]._id
-            })
+//         let newOrderQuantity = newOrder.quantity - newOrder.filledQuantity;
+//         let orderDataQuantity = orderData[count].quantity - orderData[count].filledQuantity;
+//         if (newOrderQuantity == orderDataQuantity) {
 
-            let
-                updateBalance = orderData[count].buyorsell == 'sell' ? orderData[count].price : orderData[count].quantity,
-                newBalance = orderData[count].buyorsell == 'sell' ? newOrder.price : newOrder.quantity
-            // if (updateBalance < newBalance) {
-            //     console.log('after updateBalence ---', updateBalance < newBalance)
-            //     // Balance Retrieve
-            //     await assetUpdate({
-            //         'currencyId': orderData[count].buyorsell == 'sell' ? newOrder.secondCurrencyId : newOrder.firstCurrencyId,
-            //         'userId': newOrder.userId,
-            //         'balance': newBalance - updateBalance
-            //     })
-            // }
+//             /* New Order */
+//             let updateNewOrder = {}
+//             if (count == 0) {
+//                 updateNewOrder = newOrder;
+//                 updateNewOrder['price'] = orderData[count].price;
+//                 updateNewOrder['orderValue'] = orderData[count].price * newOrderQuantity;
+//             }
 
-            await getOpenOrderSocket(orderData[count].userId, orderData[count].pairId)
-            await getOrderHistorySocket(orderData[count].userId, orderData[count].pairId)
-            await getTradeHistorySocket(orderData[count].userId, orderData[count].pairId)
+//             updateNewOrder['status'] = 'completed';
+//             updateNewOrder['filledQuantity'] = newOrder.filledQuantity + newOrderQuantity;
+//             updateNewOrder['$push'] = {
+//                 "filled": {
+//                     "pairId": newOrder.pairId,
+//                     "sellUserId": newOrder.buyorsell == 'sell' ? newOrder.userId : orderData[count].userId,
+//                     "buyUserId": newOrder.buyorsell == 'buy' ? newOrder.userId : orderData[count].userId,
+//                     "userId": newOrder.userId,
+//                     "sellOrderId": newOrder.buyorsell == 'sell' ? newOrder._id : orderData[count]._id,
+//                     "buyOrderId": newOrder.buyorsell == 'buy' ? newOrder._id : orderData[count]._id,
+//                     "uniqueId": uniqueId,
+//                     "price": orderData[count].price,
+//                     "filledQuantity": newOrderQuantity,
+//                     "Fees": ((newOrder.buyorsell == 'sell' ? orderData[count].price * newOrderQuantity : newOrderQuantity) * pairData.taker_fees / 100),
+//                     "status": "filled",
+//                     "Type": newOrder.buyorsell,
+//                     "createdAt": new Date(),
+//                     "orderValue": orderData[count].price * newOrderQuantity,
+//                 }
+//             }
 
+//             await SpotTrade.findOneAndUpdate({
+//                 '_id': newOrder._id
+//             }, updateNewOrder, { 'new': true, 'upsert': true });
 
-            await getOrderBookSocket(pairData._id)
-            await marketPriceSocket(pairData._id)
-            await recentTradeSocket(pairData._id)
+//             await assetUpdate({
+//                 'currencyId': newOrder.buyorsell == 'sell' ? newOrder.secondCurrencyId : newOrder.firstCurrencyId,
+//                 'userId': newOrder.userId,
+//                 'balance': withoutServiceFee({
+//                     'price': newOrder.buyorsell == 'sell' ? orderData[count].price * newOrderQuantity : newOrderQuantity,
+//                     'serviceFee': pairData.taker_fees
+//                 }),
+//                 'type': 'spot_trade',
+//                 'tableId': newOrder._id
+//             })
 
-            return true
-        }
-        else if (newOrderQuantity < orderDataQuantity) {
-            /* New Order */
-            let updateNewOrder = {}
-            if (count == 0) {
-                updateNewOrder = newOrder;
-                updateNewOrder['price'] = orderData[count].price;
-                updateNewOrder['orderValue'] = orderData[count].price * newOrderQuantity;
-            }
-
-            updateNewOrder['status'] = 'completed';
-            updateNewOrder['filledQuantity'] = newOrder.filledQuantity + newOrderQuantity;
-            updateNewOrder['$push'] = {
-                "filled": {
-                    "pairId": newOrder.pairId,
-                    "sellUserId": newOrder.buyorsell == 'sell' ? newOrder.userId : orderData[count].userId,
-                    "buyUserId": newOrder.buyorsell == 'buy' ? newOrder.userId : orderData[count].userId,
-                    "userId": newOrder.userId,
-                    "sellOrderId": newOrder.buyorsell == 'sell' ? newOrder._id : orderData[count]._id,
-                    "buyOrderId": newOrder.buyorsell == 'buy' ? newOrder._id : orderData[count]._id,
-                    "uniqueId": uniqueId,
-                    "price": orderData[count].price,
-                    "filledQuantity": newOrderQuantity,
-                    "Fees": ((newOrder.buyorsell == 'sell' ? orderData[count].price * newOrderQuantity : newOrderQuantity) * pairData.taker_fees / 100),
-                    "status": "filled",
-                    "Type": newOrder.buyorsell,
-                    "createdAt": new Date(),
-                    "orderValue": orderData[count].price * newOrderQuantity,
-                }
-            }
-
-            await SpotTrade.findOneAndUpdate({
-                '_id': newOrder._id
-            }, updateNewOrder, { 'new': true, 'upsert': true });
+//             await getOrderHistorySocket(newOrder.userId, newOrder.pairId)
+//             await getTradeHistorySocket(newOrder.userId, newOrder.pairId)
 
 
+//             /* Order Book */
+//             await SpotTrade.findOneAndUpdate({
+//                 '_id': orderData[count]._id
+//             }, {
 
-            await assetUpdate({
-                'currencyId': newOrder.buyorsell == 'sell' ? newOrder.secondCurrencyId : newOrder.firstCurrencyId,
-                'userId': newOrder.userId,
-                'balance': withoutServiceFee({
-                    'price': newOrder.buyorsell == 'sell' ? orderData[count].price * newOrderQuantity : newOrderQuantity,
-                    'serviceFee': pairData.taker_fees
-                }),
-                'type': 'spot_trade',
-                'tableId': newOrder._id
-            })
+//                 'status': 'completed',
+//                 'filledQuantity': orderData[count].filledQuantity + orderDataQuantity,
+//                 "$push": {
+//                     "filled": {
+//                         "pairId": orderData[count].pairId,
+//                         "sellUserId": orderData[count].buyorsell == 'sell' ? orderData[count].userId : newOrder.userId,
+//                         "buyUserId": orderData[count].buyorsell == 'buy' ? orderData[count].userId : newOrder.userId,
+//                         "userId": orderData[count].userId,
+//                         "sellOrderId": orderData[count].buyorsell == 'sell' ? orderData[count]._id : newOrder._id,
+//                         "buyOrderId": orderData[count].buyorsell == 'buy' ? orderData[count]._id : newOrder._id,
+//                         "uniqueId": uniqueId,
+//                         "price": orderData[count].price,
+//                         "filledQuantity": orderDataQuantity,
+//                         "Fees": ((orderData[count].buyorsell == 'sell' ? orderData[count].price * orderDataQuantity : orderDataQuantity) * pairData.maker_rebate / 100),
+//                         "status": "filled",
+//                         "Type": orderData[count].buyorsell,
+//                         "createdAt": new Date(),
+//                         "orderValue": orderData[count].price * orderDataQuantity,
+//                     }
+//                 }
+//             }, { 'new': true });
 
-            await getOrderHistorySocket(newOrder.userId, newOrder.pairId)
-            await getTradeHistorySocket(newOrder.userId, newOrder.pairId)
+//             await assetUpdate({
+//                 'currencyId': orderData[count].buyorsell == 'sell' ? orderData[count].secondCurrencyId : orderData[count].firstCurrencyId,
+//                 'userId': orderData[count].userId,
+//                 'balance': withoutServiceFee({
+//                     'price': orderData[count].buyorsell == 'sell' ? orderData[count].price * orderDataQuantity : orderDataQuantity,
+//                     'serviceFee': pairData.maker_rebate
+//                 }),
+//                 'type': 'spot_trade',
+//                 'tableId': orderData[count]._id
+//             })
+
+//             let
+//                 updateBalance = orderData[count].buyorsell == 'sell' ? orderData[count].price : orderData[count].quantity,
+//                 newBalance = orderData[count].buyorsell == 'sell' ? newOrder.price : newOrder.quantity
+//             // if (updateBalance < newBalance) {
+//             //     console.log('after updateBalence ---', updateBalance < newBalance)
+//             //     // Balance Retrieve
+//             //     await assetUpdate({
+//             //         'currencyId': orderData[count].buyorsell == 'sell' ? newOrder.secondCurrencyId : newOrder.firstCurrencyId,
+//             //         'userId': newOrder.userId,
+//             //         'balance': newBalance - updateBalance
+//             //     })
+//             // }
+
+//             await getOpenOrderSocket(orderData[count].userId, orderData[count].pairId)
+//             await getOrderHistorySocket(orderData[count].userId, orderData[count].pairId)
+//             await getTradeHistorySocket(orderData[count].userId, orderData[count].pairId)
 
 
-            /* Order Book */
-            await SpotTrade.findOneAndUpdate({
-                '_id': orderData[count]._id
-            }, {
+//             await getOrderBookSocket(pairData._id)
+//             await marketPriceSocket(pairData._id)
+//             await recentTradeSocket(pairData._id)
 
-                'status': 'pending',
-                'filledQuantity': orderData[count].filledQuantity + newOrderQuantity,
-                "$push": {
-                    "filled": {
-                        "pairId": orderData[count].pairId,
-                        "sellUserId": orderData[count].buyorsell == 'sell' ? orderData[count].userId : newOrder.userId,
-                        "buyUserId": orderData[count].buyorsell == 'buy' ? orderData[count].userId : newOrder.userId,
-                        "userId": orderData[count].userId,
-                        "sellOrderId": orderData[count].buyorsell == 'sell' ? orderData[count]._id : newOrder._id,
-                        "buyOrderId": orderData[count].buyorsell == 'buy' ? orderData[count]._id : newOrder._id,
-                        "uniqueId": uniqueId,
-                        "price": orderData[count].price,
-                        "filledQuantity": newOrderQuantity,
-                        "Fees": ((orderData[count].buyorsell == 'sell' ? orderData[count].price * newOrderQuantity : newOrderQuantity) * pairData.maker_rebate / 100),
-                        "status": "filled",
-                        "Type": orderData[count].buyorsell,
-                        "createdAt": new Date(),
-                        "orderValue": orderData[count].price * newOrderQuantity,
-                    }
-                }
-            }, { 'new': true });
+//             return true
+//         }
+//         else if (newOrderQuantity < orderDataQuantity) {
+//             /* New Order */
+//             let updateNewOrder = {}
+//             if (count == 0) {
+//                 updateNewOrder = newOrder;
+//                 updateNewOrder['price'] = orderData[count].price;
+//                 updateNewOrder['orderValue'] = orderData[count].price * newOrderQuantity;
+//             }
 
-            await assetUpdate({
-                'currencyId': orderData[count].buyorsell == 'sell' ? orderData[count].secondCurrencyId : orderData[count].firstCurrencyId,
-                'userId': orderData[count].userId,
-                'balance': withoutServiceFee({
-                    'price': orderData[count].buyorsell == 'sell' ? orderData[count].price * newOrderQuantity : newOrderQuantity,
-                    'serviceFee': pairData.maker_rebate
-                }),
-                'type': 'spot_trade',
-                'tableId': orderData[count]._id
-            })
+//             updateNewOrder['status'] = 'completed';
+//             updateNewOrder['filledQuantity'] = newOrder.filledQuantity + newOrderQuantity;
+//             updateNewOrder['$push'] = {
+//                 "filled": {
+//                     "pairId": newOrder.pairId,
+//                     "sellUserId": newOrder.buyorsell == 'sell' ? newOrder.userId : orderData[count].userId,
+//                     "buyUserId": newOrder.buyorsell == 'buy' ? newOrder.userId : orderData[count].userId,
+//                     "userId": newOrder.userId,
+//                     "sellOrderId": newOrder.buyorsell == 'sell' ? newOrder._id : orderData[count]._id,
+//                     "buyOrderId": newOrder.buyorsell == 'buy' ? newOrder._id : orderData[count]._id,
+//                     "uniqueId": uniqueId,
+//                     "price": orderData[count].price,
+//                     "filledQuantity": newOrderQuantity,
+//                     "Fees": ((newOrder.buyorsell == 'sell' ? orderData[count].price * newOrderQuantity : newOrderQuantity) * pairData.taker_fees / 100),
+//                     "status": "filled",
+//                     "Type": newOrder.buyorsell,
+//                     "createdAt": new Date(),
+//                     "orderValue": orderData[count].price * newOrderQuantity,
+//                 }
+//             }
 
-            let
-                updateBalance = orderData[count].buyorsell == 'sell' ? orderData[count].price : orderData[count].quantity,
-                newBalance = orderData[count].buyorsell == 'sell' ? newOrder.price : newOrder.quantity
-
-            // if (updateBalance < newBalance) {
-            //     // Balance Retrieve
-            //     await assetUpdate({
-            //         'currencyId': orderData[count].buyorsell == 'sell' ? newOrder.secondCurrencyId : newOrder.firstCurrencyId,
-            //         'userId': newOrder.userId,
-            //         'balance': newBalance - updateBalance
-            //     })
-            // }
-
-            await getOpenOrderSocket(orderData[count].userId, orderData[count].pairId)
-            await getOrderHistorySocket(orderData[count].userId, orderData[count].pairId)
-            await getTradeHistorySocket(orderData[count].userId, orderData[count].pairId)
+//             await SpotTrade.findOneAndUpdate({
+//                 '_id': newOrder._id
+//             }, updateNewOrder, { 'new': true, 'upsert': true });
 
 
 
-            await getOrderBookSocket(pairData._id)
-            await marketPriceSocket(pairData._id)
-            await recentTradeSocket(pairData._id)
+//             await assetUpdate({
+//                 'currencyId': newOrder.buyorsell == 'sell' ? newOrder.secondCurrencyId : newOrder.firstCurrencyId,
+//                 'userId': newOrder.userId,
+//                 'balance': withoutServiceFee({
+//                     'price': newOrder.buyorsell == 'sell' ? orderData[count].price * newOrderQuantity : newOrderQuantity,
+//                     'serviceFee': pairData.taker_fees
+//                 }),
+//                 'type': 'spot_trade',
+//                 'tableId': newOrder._id
+//             })
+
+//             await getOrderHistorySocket(newOrder.userId, newOrder.pairId)
+//             await getTradeHistorySocket(newOrder.userId, newOrder.pairId)
 
 
-            return true
-        }
-        else if (newOrderQuantity > orderDataQuantity) {
-            /* New Order */
-            let updateNewOrder = {}
-            if (count == 0) {
-                updateNewOrder = newOrder;
-                updateNewOrder['price'] = orderData[count].price;
-                updateNewOrder['orderValue'] = orderData[count].price * orderDataQuantity;
-            }
+//             /* Order Book */
+//             await SpotTrade.findOneAndUpdate({
+//                 '_id': orderData[count]._id
+//             }, {
 
-            updateNewOrder['status'] = 'pending';
-            updateNewOrder['filledQuantity'] = newOrder.filledQuantity + orderDataQuantity;
-            updateNewOrder['$push'] = {
-                "filled": {
-                    "pairId": newOrder.pairId,
-                    "sellUserId": newOrder.buyorsell == 'sell' ? newOrder.userId : orderData[count].userId,
-                    "buyUserId": newOrder.buyorsell == 'buy' ? newOrder.userId : orderData[count].userId,
-                    "userId": newOrder.userId,
-                    "sellOrderId": newOrder.buyorsell == 'sell' ? newOrder._id : orderData[count]._id,
-                    "buyOrderId": newOrder.buyorsell == 'buy' ? newOrder._id : orderData[count]._id,
-                    "uniqueId": uniqueId,
-                    "price": orderData[count].price,
-                    "filledQuantity": orderDataQuantity,
-                    "Fees": ((newOrder.buyorsell == 'sell' ? orderData[count].price * orderDataQuantity : orderDataQuantity) * pairData.taker_fees / 100),
-                    "status": "filled",
-                    "Type": newOrder.buyorsell,
-                    "createdAt": new Date(),
-                    "orderValue": orderData[count].price * orderDataQuantity,
-                }
-            }
+//                 'status': 'pending',
+//                 'filledQuantity': orderData[count].filledQuantity + newOrderQuantity,
+//                 "$push": {
+//                     "filled": {
+//                         "pairId": orderData[count].pairId,
+//                         "sellUserId": orderData[count].buyorsell == 'sell' ? orderData[count].userId : newOrder.userId,
+//                         "buyUserId": orderData[count].buyorsell == 'buy' ? orderData[count].userId : newOrder.userId,
+//                         "userId": orderData[count].userId,
+//                         "sellOrderId": orderData[count].buyorsell == 'sell' ? orderData[count]._id : newOrder._id,
+//                         "buyOrderId": orderData[count].buyorsell == 'buy' ? orderData[count]._id : newOrder._id,
+//                         "uniqueId": uniqueId,
+//                         "price": orderData[count].price,
+//                         "filledQuantity": newOrderQuantity,
+//                         "Fees": ((orderData[count].buyorsell == 'sell' ? orderData[count].price * newOrderQuantity : newOrderQuantity) * pairData.maker_rebate / 100),
+//                         "status": "filled",
+//                         "Type": orderData[count].buyorsell,
+//                         "createdAt": new Date(),
+//                         "orderValue": orderData[count].price * newOrderQuantity,
+//                     }
+//                 }
+//             }, { 'new': true });
 
-            let newOrderUpdate = await SpotTrade.findOneAndUpdate({
-                '_id': newOrder._id
-            }, updateNewOrder, { 'new': true, 'upsert': true });
+//             await assetUpdate({
+//                 'currencyId': orderData[count].buyorsell == 'sell' ? orderData[count].secondCurrencyId : orderData[count].firstCurrencyId,
+//                 'userId': orderData[count].userId,
+//                 'balance': withoutServiceFee({
+//                     'price': orderData[count].buyorsell == 'sell' ? orderData[count].price * newOrderQuantity : newOrderQuantity,
+//                     'serviceFee': pairData.maker_rebate
+//                 }),
+//                 'type': 'spot_trade',
+//                 'tableId': orderData[count]._id
+//             })
 
+//             let
+//                 updateBalance = orderData[count].buyorsell == 'sell' ? orderData[count].price : orderData[count].quantity,
+//                 newBalance = orderData[count].buyorsell == 'sell' ? newOrder.price : newOrder.quantity
 
-            await assetUpdate({
-                'currencyId': newOrder.buyorsell == 'sell' ? newOrder.secondCurrencyId : newOrder.firstCurrencyId,
-                'userId': newOrder.userId,
-                'balance': withoutServiceFee({
-                    'price': newOrder.buyorsell == 'sell' ? orderData[count].price * orderDataQuantity : orderDataQuantity,
-                    'serviceFee': pairData.taker_fees
-                }),
-                'type': 'spot_trade',
-                'tableId': newOrder._id
-            })
+//             // if (updateBalance < newBalance) {
+//             //     // Balance Retrieve
+//             //     await assetUpdate({
+//             //         'currencyId': orderData[count].buyorsell == 'sell' ? newOrder.secondCurrencyId : newOrder.firstCurrencyId,
+//             //         'userId': newOrder.userId,
+//             //         'balance': newBalance - updateBalance
+//             //     })
+//             // }
 
-            // await getOpenOrderSocket(newOrder.userId, newOrder.pairId)
-            // await getOrderHistorySocket(newOrder.userId, newOrder.pairId)
-            // await getTradeHistorySocket(newOrder.userId, newOrder.pairId)
-
-
-            /* Order Book */
-            await SpotTrade.findOneAndUpdate({
-                '_id': orderData[count]._id
-            }, {
-
-                'status': 'completed',
-                'filledQuantity': orderData[count].filledQuantity + orderDataQuantity,
-                "$push": {
-                    "filled": {
-                        "pairId": orderData[count].pairId,
-                        "sellUserId": orderData[count].buyorsell == 'sell' ? orderData[count].userId : newOrder.userId,
-                        "buyUserId": orderData[count].buyorsell == 'buy' ? orderData[count].userId : newOrder.userId,
-                        "userId": orderData[count].userId,
-                        "sellOrderId": orderData[count].buyorsell == 'sell' ? orderData[count]._id : newOrder._id,
-                        "buyOrderId": orderData[count].buyorsell == 'buy' ? orderData[count]._id : newOrder._id,
-                        "uniqueId": uniqueId,
-                        "price": orderData[count].price,
-                        "filledQuantity": orderDataQuantity,
-                        "Fees": ((orderData[count].buyorsell == 'sell' ? orderData[count].price * orderDataQuantity : orderDataQuantity) * pairData.maker_rebate / 100),
-                        "status": "filled",
-                        "Type": orderData[count].buyorsell,
-                        "createdAt": new Date(),
-                        "orderValue": orderData[count].price * orderDataQuantity,
-                    }
-                }
-            }, { 'new': true });
-
-            await assetUpdate({
-                'currencyId': orderData[count].buyorsell == 'sell' ? orderData[count].secondCurrencyId : orderData[count].firstCurrencyId,
-                'userId': orderData[count].userId,
-                'balance': withoutServiceFee({
-                    'price': orderData[count].buyorsell == 'sell' ? orderData[count].price * orderDataQuantity : orderDataQuantity,
-                    'serviceFee': pairData.maker_rebate
-                }),
-                'type': 'spot_trade',
-                'tableId': orderData[count]._id
-            })
-
-            let
-                updateBalance = orderData[count].buyorsell == 'sell' ? orderData[count].price : orderData[count].quantity,
-                newBalance = orderData[count].buyorsell == 'sell' ? newOrder.price : newOrder.quantity
-            // console.log('Before updateBalence ---', updateBalance < newBalance)
-            // console.log('updateBalance ---', updateBalance)
-            // console.log('updateBalance orderData[count].buyorsell ---', orderData[count].buyorsell)
-            // console.log('updateBalance orderData[count].price ---', orderData[count].price)
-            // console.log('updateBalance orderData ---', orderData)
-
-            // console.log('newBalance ---', newBalance)
-            // console.log('newBalance  orderData[count].buyorsell ---', orderData[count].buyorsell)
-            // console.log('newBalance newOrder.price---', newOrder.price)
-            // console.log('newBalance newOrder.quantity---', newOrder.quantity)
-            // if (updateBalance < newBalance) {
-            //     // Balance Retrieve
-            //     await assetUpdate({
-            //         'currencyId': orderData[count].buyorsell == 'sell' ? newOrder.secondCurrencyId : newOrder.firstCurrencyId,
-            //         'userId': newOrder.userId,
-            //         'balance': newBalance - updateBalance
-            //     })
-            // }
-
-            await getOpenOrderSocket(orderData[count].userId, orderData[count].pairId)
-            await getOrderHistorySocket(orderData[count].userId, orderData[count].pairId)
-            await getTradeHistorySocket(orderData[count].userId, orderData[count].pairId)
+//             await getOpenOrderSocket(orderData[count].userId, orderData[count].pairId)
+//             await getOrderHistorySocket(orderData[count].userId, orderData[count].pairId)
+//             await getTradeHistorySocket(orderData[count].userId, orderData[count].pairId)
 
 
 
-            await getOrderBookSocket(pairData._id)
-            await marketPriceSocket(pairData._id)
-            await recentTradeSocket(pairData._id)
+//             await getOrderBookSocket(pairData._id)
+//             await marketPriceSocket(pairData._id)
+//             await recentTradeSocket(pairData._id)
 
-            return await marketTradeMatch(newOrderUpdate, orderData, count = count + 1, pairData)
-        }
-    } catch (err) {
+
+//             return true
+//         }
+//         else if (newOrderQuantity > orderDataQuantity) {
+//             /* New Order */
+//             let updateNewOrder = {}
+//             if (count == 0) {
+//                 updateNewOrder = newOrder;
+//                 updateNewOrder['price'] = orderData[count].price;
+//                 updateNewOrder['orderValue'] = orderData[count].price * orderDataQuantity;
+//             }
+
+//             updateNewOrder['status'] = 'pending';
+//             updateNewOrder['filledQuantity'] = newOrder.filledQuantity + orderDataQuantity;
+//             updateNewOrder['$push'] = {
+//                 "filled": {
+//                     "pairId": newOrder.pairId,
+//                     "sellUserId": newOrder.buyorsell == 'sell' ? newOrder.userId : orderData[count].userId,
+//                     "buyUserId": newOrder.buyorsell == 'buy' ? newOrder.userId : orderData[count].userId,
+//                     "userId": newOrder.userId,
+//                     "sellOrderId": newOrder.buyorsell == 'sell' ? newOrder._id : orderData[count]._id,
+//                     "buyOrderId": newOrder.buyorsell == 'buy' ? newOrder._id : orderData[count]._id,
+//                     "uniqueId": uniqueId,
+//                     "price": orderData[count].price,
+//                     "filledQuantity": orderDataQuantity,
+//                     "Fees": ((newOrder.buyorsell == 'sell' ? orderData[count].price * orderDataQuantity : orderDataQuantity) * pairData.taker_fees / 100),
+//                     "status": "filled",
+//                     "Type": newOrder.buyorsell,
+//                     "createdAt": new Date(),
+//                     "orderValue": orderData[count].price * orderDataQuantity,
+//                 }
+//             }
+
+//             let newOrderUpdate = await SpotTrade.findOneAndUpdate({
+//                 '_id': newOrder._id
+//             }, updateNewOrder, { 'new': true, 'upsert': true });
+
+
+//             await assetUpdate({
+//                 'currencyId': newOrder.buyorsell == 'sell' ? newOrder.secondCurrencyId : newOrder.firstCurrencyId,
+//                 'userId': newOrder.userId,
+//                 'balance': withoutServiceFee({
+//                     'price': newOrder.buyorsell == 'sell' ? orderData[count].price * orderDataQuantity : orderDataQuantity,
+//                     'serviceFee': pairData.taker_fees
+//                 }),
+//                 'type': 'spot_trade',
+//                 'tableId': newOrder._id
+//             })
+
+//             // await getOpenOrderSocket(newOrder.userId, newOrder.pairId)
+//             // await getOrderHistorySocket(newOrder.userId, newOrder.pairId)
+//             // await getTradeHistorySocket(newOrder.userId, newOrder.pairId)
+
+
+//             /* Order Book */
+//             await SpotTrade.findOneAndUpdate({
+//                 '_id': orderData[count]._id
+//             }, {
+
+//                 'status': 'completed',
+//                 'filledQuantity': orderData[count].filledQuantity + orderDataQuantity,
+//                 "$push": {
+//                     "filled": {
+//                         "pairId": orderData[count].pairId,
+//                         "sellUserId": orderData[count].buyorsell == 'sell' ? orderData[count].userId : newOrder.userId,
+//                         "buyUserId": orderData[count].buyorsell == 'buy' ? orderData[count].userId : newOrder.userId,
+//                         "userId": orderData[count].userId,
+//                         "sellOrderId": orderData[count].buyorsell == 'sell' ? orderData[count]._id : newOrder._id,
+//                         "buyOrderId": orderData[count].buyorsell == 'buy' ? orderData[count]._id : newOrder._id,
+//                         "uniqueId": uniqueId,
+//                         "price": orderData[count].price,
+//                         "filledQuantity": orderDataQuantity,
+//                         "Fees": ((orderData[count].buyorsell == 'sell' ? orderData[count].price * orderDataQuantity : orderDataQuantity) * pairData.maker_rebate / 100),
+//                         "status": "filled",
+//                         "Type": orderData[count].buyorsell,
+//                         "createdAt": new Date(),
+//                         "orderValue": orderData[count].price * orderDataQuantity,
+//                     }
+//                 }
+//             }, { 'new': true });
+
+//             await assetUpdate({
+//                 'currencyId': orderData[count].buyorsell == 'sell' ? orderData[count].secondCurrencyId : orderData[count].firstCurrencyId,
+//                 'userId': orderData[count].userId,
+//                 'balance': withoutServiceFee({
+//                     'price': orderData[count].buyorsell == 'sell' ? orderData[count].price * orderDataQuantity : orderDataQuantity,
+//                     'serviceFee': pairData.maker_rebate
+//                 }),
+//                 'type': 'spot_trade',
+//                 'tableId': orderData[count]._id
+//             })
+
+//             let
+//                 updateBalance = orderData[count].buyorsell == 'sell' ? orderData[count].price : orderData[count].quantity,
+//                 newBalance = orderData[count].buyorsell == 'sell' ? newOrder.price : newOrder.quantity
+//             // console.log('Before updateBalence ---', updateBalance < newBalance)
+//             // console.log('updateBalance ---', updateBalance)
+//             // console.log('updateBalance orderData[count].buyorsell ---', orderData[count].buyorsell)
+//             // console.log('updateBalance orderData[count].price ---', orderData[count].price)
+//             // console.log('updateBalance orderData ---', orderData)
+
+//             // console.log('newBalance ---', newBalance)
+//             // console.log('newBalance  orderData[count].buyorsell ---', orderData[count].buyorsell)
+//             // console.log('newBalance newOrder.price---', newOrder.price)
+//             // console.log('newBalance newOrder.quantity---', newOrder.quantity)
+//             // if (updateBalance < newBalance) {
+//             //     // Balance Retrieve
+//             //     await assetUpdate({
+//             //         'currencyId': orderData[count].buyorsell == 'sell' ? newOrder.secondCurrencyId : newOrder.firstCurrencyId,
+//             //         'userId': newOrder.userId,
+//             //         'balance': newBalance - updateBalance
+//             //     })
+//             // }
+
+//             await getOpenOrderSocket(orderData[count].userId, orderData[count].pairId)
+//             await getOrderHistorySocket(orderData[count].userId, orderData[count].pairId)
+//             await getTradeHistorySocket(orderData[count].userId, orderData[count].pairId)
+
+
+
+//             await getOrderBookSocket(pairData._id)
+//             await marketPriceSocket(pairData._id)
+//             await recentTradeSocket(pairData._id)
+
+//             return await marketTradeMatch(newOrderUpdate, orderData, count = count + 1, pairData)
+//         }
+//     } catch (err) {
        
-        return res.status(500).json({  'statusCode':500,'status': false, 'message': "System error" });
-    }
-}
+//         return res.status(500).json({  'statusCode':500,'status': false, 'message': "System error" });
+//     }
+// }
 
 /**
  * Stop Limit order place
@@ -1070,25 +1071,25 @@ export const stopLimitOrderPlace = async (req, res) => {
         let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
 
         if (!spotPairData) {
-            return res.status(400).json({ 'statusCode':400, 'status': false, 'message': "Trade pair does not exist" });
+            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Trade pair does not exist" });
         }
 
         if (reqBody.quantity < spotPairData.minQuantity) {
-            return res.status(400).json({  'statusCode':400,'status': false, 'message': 'Invalid Amount' });
+            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Invalid Amount" });
         } else if (reqBody.quantity > spotPairData.maxQuantity) {
-            return res.status(400).json({  'statusCode':400,'status': false, 'message': 'Invalid Amount' });
+            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Invalid Amount" });
         }
 
         let currencyId = reqBody.buyorsell == 'buy' ? spotPairData.secondCurrencyId : spotPairData.firstCurrencyId;
 
         let usrWallet = await Wallet.findOne({ "_id": req.user.id, })
         if (!usrWallet) {
-            return res.status(500).json({ 'statusCode':500, 'status': false, 'message': "Error occured" });
+            return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
         }
 
         let usrAsset = usrWallet.assets.id(currencyId)
         if (!usrAsset) {
-            return res.status(500).json({ 'statusCode':500, 'status': false, 'message': "Error occured" });
+            return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
         }
 
         let
@@ -1096,7 +1097,7 @@ export const stopLimitOrderPlace = async (req, res) => {
             orderValue = (reqBody.buyorsell == 'buy') ? reqBody.price * reqBody.quantity : reqBody.quantity;
 
         if (balance < orderValue) {
-            return res.status(400).json({  'statusCode':400,'status': false, 'message': "Insufficient wallet balance" });
+            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Insufficient wallet balance" });
         }
 
         usrAsset.spotBal = balance - orderValue;
@@ -1117,7 +1118,7 @@ export const stopLimitOrderPlace = async (req, res) => {
         });
 
         if (balDetect && balDetect.nModified != 1) {
-            return res.status(400).json({  'statusCode':400,'status': false, 'message': "Insufficient wallet balance" });
+            return res.status(400).json({'statusCode':400, 'status': false, 'message': "Insufficient wallet balance" });
         }
 
         let conditionalType = 'equal';
@@ -1152,6 +1153,7 @@ export const stopLimitOrderPlace = async (req, res) => {
             conditionalType,
             status: 'conditional'
         });
+        console.log("newSpotTrade_stoplimit",newSpotTrade)
 
         if (spotPairData.botstatus == "binance") {
             let payloadObj = {
@@ -1170,9 +1172,10 @@ export const stopLimitOrderPlace = async (req, res) => {
                 newSpotTrade.liquidityId = binOrder.data.orderId;
                 newSpotTrade.liquidityType = 'binance';
                 newSpotTrade.isLiquidity = true;
+
                 await usrWallet.save();
             } else {
-                return res.status(400).json({  'statusCode':400,'status': false, 'message': binOrder.message });
+                return res.status(400).json({ 'statusCode':400,'status': false, 'message': binOrder.message });
             }
         }
 
@@ -1198,10 +1201,10 @@ export const stopLimitOrderPlace = async (req, res) => {
         }, req.user.id)
 
         getOpenOrderSocket(newOrder.userId, newOrder.pairId)
-        return res.status(200).json({ 'statusCode':200,'status': true, 'message': "Your order placed successfully.",'orderId':newOrder._id});
+        return res.status(200).json({'statusCode':200, 'status': true, 'message': "Your order placed successfully.", 'orderId':newOrder._id });
     } catch (err) {
-        // console.log("-------err", err)
-        return res.status(500).json({  'statusCode':500,'status': false, 'message': "System error" });
+       console.log("-------err", err)
+        return res.status(400).json({ 'statusCode':400,'status': false, 'message': "System error" });
     }
 }
 
@@ -1214,20 +1217,21 @@ export const stopLimitOrderPlace = async (req, res) => {
 export const stopMarketOrderPlace = async (req, res) => {
     try {
         let reqBody = req.body;
+        console.log("reqBody",reqBody)
         reqBody.stopPrice = parseFloat(reqBody.stopPrice)
-        reqBody.price = parseFloat(reqBody.price)
+        // reqBody.price = parseFloat(reqBody.price)
         reqBody.quantity = parseFloat(reqBody.quantity)
 
         let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
-
+        
         if (!spotPairData) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Trade pair does not exist" });
+            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Invalid Pair" });
         }
 
         if (reqBody.quantity < spotPairData.minQuantity) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': 'Invalid Amount' });
+            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Invalid Amount" });
         } else if (reqBody.quantity > spotPairData.maxQuantity) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': 'Invalid Amount' });
+            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Invalid Amount" });
         }
 
         let currencyId = reqBody.buyorsell == 'buy' ? spotPairData.secondCurrencyId : spotPairData.firstCurrencyId;
@@ -1239,17 +1243,19 @@ export const stopMarketOrderPlace = async (req, res) => {
 
         let usrAsset = usrWallet.assets.id(currencyId)
         if (!usrAsset) {
-            return res.status(500).json({'statusCode':500, 'status': false, 'message': "System error" });
+            return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
         }
 
         let
             balance = parseFloat(usrAsset.spotBal),
-            orderValue = (reqBody.buyorsell == 'buy') ? reqBody.price * reqBody.quantity : reqBody.quantity;
+            orderValue = (reqBody.buyorsell == 'buy') ? reqBody.stopPrice * reqBody.quantity : reqBody.quantity;
+            console.log("reqBody.price",reqBody.stopPrice,reqBody.quantity)
+            console.log("orderValue_orderValue",orderValue)
 
         if (balance < orderValue) {
-            return res.status(400).json({'statusCode':400, 'status': false, 'message': "Insufficient wallet balance" });
+            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Insufficient wallet balance" });
         }
-
+        
         usrAsset.spotBal = balance - orderValue;
         let updateUserAsset = await usrWallet.save();
 
@@ -1275,7 +1281,7 @@ export const stopMarketOrderPlace = async (req, res) => {
             secondCurrency: spotPairData.secondCurrencySymbol,
 
             stopPrice: reqBody.stopPrice,
-            price: reqBody.price,
+            price: spotPairData.markPrice,
             quantity: reqBody.quantity,
 
             orderValue: orderValue,
@@ -1294,9 +1300,11 @@ export const stopMarketOrderPlace = async (req, res) => {
 
         let newOrder = await newSpotTrade.save();
         getOpenOrderSocket(newOrder.userId, newOrder.pairId)
-        return res.status(200).json({ 'statusCode':200,'status': true, 'message': "Your order placed successfully.",'orderId':newOrder._id });
+        return res.status(200).json({'statusCode':200, 'status': true, 'message': "Your order placed successfully.", 'orderId':newOrder._id });
     } catch (err) {
-        return res.status(500).json({'statusCode':500, 'status': false, 'message': "System error" });
+        console.log("err_stopmarket",err)
+        return res.status(400).json({'statusCode':400, 'status': false, 'message': "System error" });
+        
     }
 }
 
