@@ -73,7 +73,8 @@ const OpenOrder = (props) => {
     }
 
     const fetchMoreData = () => {
-        if (data.length == orderData.handelcount) {
+        console.log("data.length",data.length,count)
+        if (data.length == count) {
             setOrderData({
                 ...orderData,
                 ...{ 'nextPage': false }
@@ -96,7 +97,7 @@ const OpenOrder = (props) => {
                 limit
             }
             fetchOpenOrder(reqData, tradePair.pairId)
-
+            
             // socket
             socketContext.socket.on('openOrder', (result) => {
                 console.log("openorder socket",result)
@@ -110,6 +111,7 @@ const OpenOrder = (props) => {
                         'data': result.data,
                     })
                     handleCount(result.handelcount)
+                    console.log("handelcount",result.handelcount)
                 }
                 
             })
