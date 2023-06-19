@@ -120,7 +120,7 @@ const OrderHistory = () => {
                             {/* <th>{t('AMOUNT')}</th> */}
                             <th>{t('TOTAL')}</th>
                             {/* <th>{t('TRIGGER_CONDITION')}</th> */}
-                            <th>{t('STATUS')}</th>
+                            <th className='py-2'>{t('STATUS')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -129,7 +129,7 @@ const OrderHistory = () => {
                                 let curFloat = item.buyorsell == 'sell' ? tradePair.firstFloatDigit : tradePair.secondFloatDigit;
                                 let Remaining = Number(item.quantity) - Number(item.filledQuantity)
                                 return (
-                                    <tr key={key}>
+                                    <tr key={key} className="rowpad">
                                         <td>{momentFormat(item.orderDate, 'YYYY-MM-DD HH:mm')}</td>
                                         <td>{item.firstCurrency}/{item.secondCurrency}</td>
                                         <td>{capitalize(item.orderType)}</td>
@@ -140,7 +140,7 @@ const OrderHistory = () => {
                                         {/* <td>{item.quantity}</td> */}
                                         <td>{Number(item.averageTotal).toFixed(curFloat)}</td>
                                         {/* <td>{triggerCondition(item.conditionalType, item.stopPrice)}</td> */}
-                                        <td>{item.status}</td>
+                                        <td className=''>{item.status}</td>
                                     </tr>
                                 )
 
@@ -155,7 +155,7 @@ const OrderHistory = () => {
                     </tbody>
                 </table>
             </Scrollbars>
-
+            {orderData.nextPage?<button className="btn btn_green_su" onClick={fetchMoreData}>Load more</button>:<></>}
 
         </div>
     )

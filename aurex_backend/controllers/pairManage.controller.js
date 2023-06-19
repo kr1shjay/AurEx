@@ -13,6 +13,7 @@ import {
 import * as binanceCtrl from './binance.controller';
 import * as symbolDatabase from './chart/symbols_database';
 import {nodeBinanceAPI} from '../config/binance'
+import {triggerStopMarketOrder,triggerStopLimitOrder} from './spotTrade.controller'
 // import lib
 import {
     paginationQuery,
@@ -111,34 +112,43 @@ export const editSpotPair = async (req, res) => {
             return res.status(400).json({ "success": false, 'errors': { 'firstCurrencyId': "Currency pair is already exists" } })
         }
 
-        let updateDoc = await SpotPair.findOneAndUpdate({
+        let pairData = await SpotPair.findOne({
             "_id": reqBody.pairId
-        }, {
-            'tikerRoot': `${firstCurrencyData.coin}${secondCurrencyData.coin}`,
-            'firstCurrencyId': reqBody.firstCurrencyId,
-            'firstCurrencySymbol': firstCurrencyData.coin,
-            'firstFloatDigit': reqBody.firstFloatDigit,
-            'secondCurrencyId': reqBody.secondCurrencyId,
-            'secondCurrencySymbol': secondCurrencyData.coin,
-            'secondFloatDigit': reqBody.secondFloatDigit,
-            'minPricePercentage': reqBody.minPricePercentage,
-            'maxPricePercentage': reqBody.maxPricePercentage,
-            'minQuantity': reqBody.minQuantity,
-            'maxQuantity': reqBody.maxQuantity,
-            'maker_rebate': reqBody.maker_rebate,
-            'taker_fees': reqBody.taker_fees,
-            "markPrice": reqBody.markPrice,
-            'markupPercentage': reqBody.markupPercentage,
-            'botstatus': reqBody.botstatus,
-            'status': reqBody.status,
         })
+            pairData.tikerRoot=`${firstCurrencyData.coin}${secondCurrencyData.coin}`,
+            pairData.firstCurrencyId= reqBody.firstCurrencyId,
+            pairData.firstCurrencySymbol= firstCurrencyData.coin,
+            pairData.firstFloatDigit= reqBody.firstFloatDigit,
+            pairData.secondCurrencyId= reqBody.secondCurrencyId,
+            pairData.secondCurrencySymbol=secondCurrencyData.coin,
+            pairData.secondFloatDigit= reqBody.secondFloatDigit,
+            pairData.minPricePercentage=reqBody.minPricePercentage,
+            pairData.maxPricePercentage= reqBody.maxPricePercentage,
+            pairData.minQuantity= reqBody.minQuantity,
+            pairData.maxQuantity= reqBody.maxQuantity,
+            pairData.maker_rebate= reqBody.maker_rebate,
+            pairData.taker_fees= reqBody.taker_fees,
+            pairData.markPrice= reqBody.markPrice,
+            pairData.markupPercentage= reqBody.markupPercentage,
+            pairData.botstatus= reqBody.botstatus,
+            pairData.status= reqBody.status
+
+            let updateSpotPair = await pairData.save();
+        
+        triggerStopMarketOrder(updateSpotPair)
+        console.log("updateDoc",updateSpotPair)
+        triggerStopLimitOrder(updateSpotPair)
         symbolDatabase.initialChartSymbol()
+       
+        
+        
+        // 
         // if (updateDoc.botstatus == 'binance') {
         //     binanceCtrl.getSpotPair();
         //     binanceCtrl.spotOrderBookWS();
         //     binanceCtrl.spotTickerPriceWS();
         // }
-        if ((reqBody.botstatus == 'binance' && updateDoc.botstatus == 'off') ||(reqBody.botstatus == 'off' && updateDoc.botstatus == 'binance') ) {
+        if ((reqBody.botstatus == 'binance' && pairData.botstatus == 'off') ||(reqBody.botstatus == 'off' && pairData.botstatus == 'binance') ) {
             binanceCtrl.getSpotPair();
             binanceCtrl.spotOrderBookWS();
             binanceCtrl.spotTickerPriceWS();
@@ -147,6 +157,7 @@ export const editSpotPair = async (req, res) => {
 
         return res.status(200).json({ 'message': 'Pair updated successfully. Refreshing data...' })
     } catch (err) {
+        console.log("mark_err",err)
         return res.status(500).json({ "success": false, 'message': "Error on server" })
     }
 }

@@ -131,7 +131,7 @@ const TradeHistory = () => {
                                 let curFloat = item.buyorsell == 'sell' ? tradePair.firstFloatDigit : tradePair.secondFloatDigit;
 
                                 return (
-                                    <tr key={key}>
+                                    <tr key={key} className="rowpad"> 
                                         <td>{momentFormat(item.createdAt, 'YYYY-MM-DD HH:mm')}</td>
                                         <td>{item.firstCurrency}/{item.secondCurrency}</td>
                                         <td className={
@@ -160,6 +160,7 @@ const TradeHistory = () => {
                 </table>
 
             </Scrollbars>
+            {orderData.nextPage?<button className="btn btn_green_su" onClick={fetchMoreData}>Load more</button>:<></>} 
         </div>
     )
 }

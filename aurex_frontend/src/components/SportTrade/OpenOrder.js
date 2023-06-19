@@ -66,14 +66,15 @@ const OpenOrder = (props) => {
             } else {
                 setOrderData({
                     ...orderData,
-                    ...{ 'nextPage': false }
+                    ...{ 'nextPage': false } 
                 })
             }
         } catch (err) { }
     }
 
     const fetchMoreData = () => {
-        if (data.length == orderData.handelcount) {
+        console.log("data.length",data.length,count)
+        if (data.length == count) {
             setOrderData({
                 ...orderData,
                 ...{ 'nextPage': false }
@@ -96,7 +97,7 @@ const OpenOrder = (props) => {
                 limit
             }
             fetchOpenOrder(reqData, tradePair.pairId)
-
+            
             // socket
             socketContext.socket.on('openOrder', (result) => {
                 console.log("openorder socket",result)
@@ -110,6 +111,7 @@ const OpenOrder = (props) => {
                         'data': result.data,
                     })
                     handleCount(result.handelcount)
+                    console.log("handelcount",result.handelcount)
                 }
                 
             })
@@ -148,7 +150,9 @@ const OpenOrder = (props) => {
                                         <td>{item.firstCurrency}/{item.secondCurrency}</td>
                                         <td>{capitalize(item.orderType)}</td>
                                         <td className={clsx({ "greenText": item.buyorsell === 'buy' }, { "pinkText": item.buyorsell == 'sell' })}>{capitalize(item.buyorsell)}</td>
-                                        <td>{Number(item.price).toFixed(curFloat)}</td>
+                                        <td>{item.orderType==='limit' || item.orderType==='stop_limit'?
+                                        (Number(item.price).toFixed(curFloat)):item.orderType==='stop_market'?
+                                        (Number(item.stopPrice).toFixed(curFloat)): (Number(item.price).toFixed(curFloat))}</td>
                                         <td>{Number(item.quantity).toFixed(curFloat)}</td>
                                         <td>{item.filledQuantity}</td>
                                         <td>{Number(item.orderValue).toFixed(curFloat)}</td>
