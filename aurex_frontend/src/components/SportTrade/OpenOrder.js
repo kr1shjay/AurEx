@@ -66,7 +66,7 @@ const OpenOrder = (props) => {
             } else {
                 setOrderData({
                     ...orderData,
-                    ...{ 'nextPage': false }
+                    ...{ 'nextPage': false } 
                 })
             }
         } catch (err) { }
@@ -148,7 +148,9 @@ const OpenOrder = (props) => {
                                         <td>{item.firstCurrency}/{item.secondCurrency}</td>
                                         <td>{capitalize(item.orderType)}</td>
                                         <td className={clsx({ "greenText": item.buyorsell === 'buy' }, { "pinkText": item.buyorsell == 'sell' })}>{capitalize(item.buyorsell)}</td>
-                                        <td>{Number(item.price).toFixed(curFloat)}</td>
+                                        <td>{item.orderType==='limit' || item.orderType==='stop_limit'?
+                                        (Number(item.price).toFixed(curFloat)):item.orderType==='stop_market'?
+                                        (Number(item.stopPrice).toFixed(curFloat)): (Number(item.price).toFixed(curFloat))}</td>
                                         <td>{Number(item.quantity).toFixed(curFloat)}</td>
                                         <td>{item.filledQuantity}</td>
                                         <td>{Number(item.orderValue).toFixed(curFloat)}</td>

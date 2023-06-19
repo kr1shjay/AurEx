@@ -24118,7 +24118,7 @@ export const stopMarketOrderPlace = async (req, res) => {
             price: spotPairData.markPrice,
             quantity: reqBody.quantity,
 
-            orderValue: orderValue,
+            orderValue: reqBody.stopPrice * reqBody.quantity,
 
             pairName: `${spotPairData.firstCurrencySymbol}${spotPairData.secondCurrencySymbol}`,
             beforeBalance: balance,
@@ -26096,7 +26096,7 @@ export const marketPrice = async (pairId) => {
 */
 export const triggerStopLimitOrder = async (spotPairData) => {
     try {
-
+        console.log("checking",spotPairData)
         if (!isEmpty(spotPairData) && !isEmpty(spotPairData.markPrice)) {
             let takeProfitOrder = await SpotTrade.find({
                 'pairId': ObjectId(spotPairData._id),
@@ -26136,6 +26136,7 @@ export const triggerStopLimitOrder = async (spotPairData) => {
 
         }
     } catch (err) {
+        console.log(err,'triggerStopLimitOrder')
     }
 }
 
@@ -26145,6 +26146,7 @@ export const triggerStopLimitOrder = async (spotPairData) => {
 */
 export const triggerStopMarketOrder = async (spotPairData) => {
     try {
+        console.log("checking",spotPairData)
 
         if (!isEmpty(spotPairData) && !isEmpty(spotPairData.markPrice)) {
             let takeProfitOrder = await SpotTrade.find({
@@ -26185,6 +26187,7 @@ export const triggerStopMarketOrder = async (spotPairData) => {
 
         }
     } catch (err) {
+        console.log(err,'triggerStopMarketOrder')
     }
 }
 
