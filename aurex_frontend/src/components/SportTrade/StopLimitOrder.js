@@ -181,7 +181,7 @@ const StopLimitOrder = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="form-group px-3">
+            {/* <div className="form-group px-3">
                 <Slider
                     defaultValue={0}
                     getAriaValueText={valuetext}
@@ -190,7 +190,7 @@ const StopLimitOrder = (props) => {
                     valueLabelDisplay="auto"
                     marks={marks}
                 />
-            </div>
+            </div> */}
             <div className="form-group">
                 <div className="input-group">
                     <div className="input-group-prepend">

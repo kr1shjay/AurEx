@@ -56,7 +56,7 @@ const SpotMarketOrder = (props) => {
     // state
     const [formValue, setFormValue] = useState(initialFormValue);
 
-    const { stopPrice,price, quantity } = formValue;
+    const { stopPrice,price, quantity , total } = formValue;
 
     // redux-state
     const tradePair = useSelector(state => state.tradePair);
@@ -74,8 +74,8 @@ const SpotMarketOrder = (props) => {
 
         let formData = { ...formValue, ...{ [name]: value } }
 
-        if (!isEmpty(formData.price) && !isEmpty(formData.quantity)) {
-            let totalPrice = formData.price * formData.quantity
+        if (!isEmpty(formData.stopPrice) && !isEmpty(formData.quantity)) {
+            let totalPrice = formData.stopPrice * formData.quantity
             formData = { ...formData, ...{ ['total']: totalPrice } }
         }
         setFormValue(formData)
@@ -169,7 +169,7 @@ const SpotMarketOrder = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="form-group px-3">
+            {/* <div className="form-group px-3">
                 <Slider
                     defaultValue={0}
                     getAriaValueText={valuetext}
@@ -178,13 +178,13 @@ const SpotMarketOrder = (props) => {
                     valueLabelDisplay="auto"
                     marks={marks}
                 />
-            </div>
+            </div> */}
             <div className="form-group">
                 <div className="input-group">
                     <div className="input-group-prepend">
                         <span className="btnType1">{t('TOTAL')}</span>
                     </div>
-                    <input type="text" className="form-control text-right borderZero" value="115.50 " />
+                    <input type="text" className="form-control text-right borderZero" value={total} />
                     <div className="input-group-append">
                         <span className="btnType1">{tradePair && tradePair.secondCurrencySymbol}</span>
                     </div>
