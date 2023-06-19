@@ -49,14 +49,14 @@ const OrderPlace = (props) => {
                                 >
                                     {t('MARKETS')}
                                 </a>
-                                {/*<a
+                                {/* <a
                                     className={clsx("nav-item nav-link py-2", { "active": orderType == 'stop_limit' })}
                                     onClick={() => setOrderType('stop_limit')}
                                 >
                                     {t("STOP_LIMIT")}
-                                </a>
-*/}
-                                {/* <a
+                                </a> */}
+
+                                <a
                                     className={clsx("nav-item nav-link py-2", { "active": ['stop_limit', 'stop_market'].includes(orderType) })}
                                     onClick={(e) => setOrderType(orderTypeOption)}
                                 >
@@ -76,7 +76,7 @@ const OrderPlace = (props) => {
                                 >
                                     <MenuItem value={'stop_limit'}>{t("STOP_LIMIT")}</MenuItem>
                                     <MenuItem value={'stop_market'}>{t("STOP_MARKET")}</MenuItem>
-                                </Select> */}
+                                </Select>
                             </div>
                         </nav>
                         <div className="tab-content" id="nav-tabContent1">
@@ -100,11 +100,11 @@ const OrderPlace = (props) => {
                                 />
                             }
 
-                            {/* {
+                            {
                             orderType == 'stop_market' && <StopMarketOrder
                                 buyorsell={buyorsell}
                             />
-                        } */}
+                        }
                         </div>
                     </div>
                 </div>

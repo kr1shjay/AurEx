@@ -23987,6 +23987,7 @@ export const stopLimitOrderPlace = async (req, res) => {
             conditionalType,
             status: 'conditional'
         });
+        console.log("newSpotTrade_stoplimit",newSpotTrade)
 
         if (spotPairData.botstatus == "binance") {
             let payloadObj = {
@@ -24005,6 +24006,7 @@ export const stopLimitOrderPlace = async (req, res) => {
                 newSpotTrade.liquidityId = binOrder.data.orderId;
                 newSpotTrade.liquidityType = 'binance';
                 newSpotTrade.isLiquidity = true;
+
                 await usrWallet.save();
             } else {
                 return res.status(400).json({ 'status': false, 'message': binOrder.message });
@@ -24035,7 +24037,7 @@ export const stopLimitOrderPlace = async (req, res) => {
         getOpenOrderSocket(newOrder.userId, newOrder.pairId)
         return res.status(200).json({ 'status': true, 'message': "Your order placed successfully." });
     } catch (err) {
-        // console.log("-------err", err)
+       console.log("-------err", err)
         return res.status(400).json({ 'status': false, 'message': "Limit order match error" });
     }
 }
@@ -24049,12 +24051,13 @@ export const stopLimitOrderPlace = async (req, res) => {
 export const stopMarketOrderPlace = async (req, res) => {
     try {
         let reqBody = req.body;
+        console.log("reqBody",reqBody)
         reqBody.stopPrice = parseFloat(reqBody.stopPrice)
-        reqBody.price = parseFloat(reqBody.price)
+        // reqBody.price = parseFloat(reqBody.price)
         reqBody.quantity = parseFloat(reqBody.quantity)
 
         let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
-
+        
         if (!spotPairData) {
             return res.status(400).json({ 'status': false, 'message': "Invalid Pair" });
         }
@@ -24079,12 +24082,14 @@ export const stopMarketOrderPlace = async (req, res) => {
 
         let
             balance = parseFloat(usrAsset.spotBal),
-            orderValue = (reqBody.buyorsell == 'buy') ? reqBody.price * reqBody.quantity : reqBody.quantity;
+            orderValue = (reqBody.buyorsell == 'buy') ? reqBody.stopPrice * reqBody.quantity : reqBody.quantity;
+            console.log("reqBody.price",reqBody.stopPrice,reqBody.quantity)
+            console.log("orderValue_orderValue",orderValue)
 
         if (balance < orderValue) {
             return res.status(400).json({ 'status': false, 'message': "Due to insuffient balance order cannot be placed" });
         }
-
+        
         usrAsset.spotBal = balance - orderValue;
         let updateUserAsset = await usrWallet.save();
 
@@ -24110,7 +24115,7 @@ export const stopMarketOrderPlace = async (req, res) => {
             secondCurrency: spotPairData.secondCurrencySymbol,
 
             stopPrice: reqBody.stopPrice,
-            price: reqBody.price,
+            price: spotPairData.markPrice,
             quantity: reqBody.quantity,
 
             orderValue: orderValue,
@@ -24131,7 +24136,9 @@ export const stopMarketOrderPlace = async (req, res) => {
         getOpenOrderSocket(newOrder.userId, newOrder.pairId)
         return res.status(200).json({ 'status': true, 'message': "Your order placed successfully." });
     } catch (err) {
+        console.log("err_stopmarket",err)
         return res.status(400).json({ 'status': false, 'message': "Stop Market order match error" });
+        
     }
 }
 
@@ -26065,6 +26072,7 @@ export const marketPrice = async (pairId) => {
                 }
 
                 triggerStopLimitOrder(updateSpotPair)
+                triggerStopMarketOrder(updateSpotPair)
                 trailingStopOrder(updateSpotPair)
                 return {
                     'status': true,
@@ -26119,6 +26127,55 @@ export const triggerStopLimitOrder = async (spotPairData) => {
             if (stopLossOrder && stopLossOrder.length > 0) {
                 for (let lossOrder of stopLossOrder) {
                     let newOrder = await SpotTrade.findOneAndUpdate({ "_id": lossOrder._id }, { "status": "open" }, { "new": true })
+                    getOpenOrderSocket(newOrder.userId, newOrder.pairId)
+                    getOrderBookSocket(newOrder.pairId)
+                    await tradeList(newOrder, spotPairData)
+                }
+            }
+
+
+        }
+    } catch (err) {
+    }
+}
+
+/** 
+ * Trigger Stop Market Order
+ * price
+*/
+export const triggerStopMarketOrder = async (spotPairData) => {
+    try {
+
+        if (!isEmpty(spotPairData) && !isEmpty(spotPairData.markPrice)) {
+            let takeProfitOrder = await SpotTrade.find({
+                'pairId': ObjectId(spotPairData._id),
+                'status': 'conditional',
+                'orderType': 'stop_market',
+                'conditionalType': 'greater_than',
+                'stopPrice': { "$lte": spotPairData.markPrice }
+            })
+
+            if (takeProfitOrder && takeProfitOrder.length > 0) {
+                for (let profitOrder of takeProfitOrder) {
+
+                    let newOrder = await SpotTrade.findOneAndUpdate({ "_id": profitOrder._id }, { "status": "open",'price': spotPairData.markPrice }, { "new": true })
+                    getOpenOrderSocket(newOrder.userId, newOrder.pairId)
+                    getOrderBookSocket(newOrder.pairId)
+                    await tradeList(newOrder, spotPairData)
+                }
+            }
+
+            let stopLossOrder = await SpotTrade.find({
+                'pairId': ObjectId(spotPairData._id),
+                'status': 'conditional',
+                'orderType': 'stop_market',
+                'conditionalType': 'lesser_than',
+                'stopPrice': { "$gte": spotPairData.markPrice }
+            })
+
+            if (stopLossOrder && stopLossOrder.length > 0) {
+                for (let lossOrder of stopLossOrder) {
+                    let newOrder = await SpotTrade.findOneAndUpdate({ "_id": lossOrder._id }, { "status": "open",'price': spotPairData.markPrice }, { "new": true })
                     getOpenOrderSocket(newOrder.userId, newOrder.pairId)
                     getOrderBookSocket(newOrder.pairId)
                     await tradeList(newOrder, spotPairData)

@@ -11,6 +11,7 @@ import { orderPlace } from '../../actions/spotTradeAction';
 import isEmpty from '../../lib/isEmpty';
 import { encryptObject } from '../../lib/cryptoJS'
 import { toastAlert } from '../../lib/toastAlert';
+import validation from './validation';
 
 const marks = [
     {
@@ -42,6 +43,7 @@ function valuetext(value) {
 const initialFormValue = {
     'stopPrice': "",
     'quantity': '',
+    'price':'',
     'total': ''
 }
 
@@ -54,7 +56,7 @@ const SpotMarketOrder = (props) => {
     // state
     const [formValue, setFormValue] = useState(initialFormValue);
 
-    const { stopPrice, quantity } = formValue;
+    const { stopPrice,price, quantity , total } = formValue;
 
     // redux-state
     const tradePair = useSelector(state => state.tradePair);
@@ -72,8 +74,8 @@ const SpotMarketOrder = (props) => {
 
         let formData = { ...formValue, ...{ [name]: value } }
 
-        if (!isEmpty(formData.price) && !isEmpty(formData.quantity)) {
-            let totalPrice = formData.price * formData.quantity
+        if (!isEmpty(formData.stopPrice) && !isEmpty(formData.quantity)) {
+            let totalPrice = formData.stopPrice * formData.quantity
             formData = { ...formData, ...{ ['total']: totalPrice } }
         }
         setFormValue(formData)
@@ -87,13 +89,22 @@ const SpotMarketOrder = (props) => {
             //     return
             // }
             
+            
+
             let reqData = {
                 stopPrice: stopPrice,
                 quantity: quantity,
                 buyorsell: buyorsell,
                 orderType: 'stop_market',
                 spotPairId: tradePair.pairId,
+                price:price,
                 'newdate': new Date()
+            }
+           
+            const validateError = await validation(reqData)
+            if (!isEmpty(validateError)) {
+                toastAlert('error', validateError[Object.keys(validateError)[0]], 'spotOrder');
+                return
             }
 
             let encryptToken = {
@@ -158,7 +169,7 @@ const SpotMarketOrder = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="form-group px-3">
+            {/* <div className="form-group px-3">
                 <Slider
                     defaultValue={0}
                     getAriaValueText={valuetext}
@@ -167,13 +178,13 @@ const SpotMarketOrder = (props) => {
                     valueLabelDisplay="auto"
                     marks={marks}
                 />
-            </div>
+            </div> */}
             <div className="form-group">
                 <div className="input-group">
                     <div className="input-group-prepend">
                         <span className="btnType1">{t('TOTAL')}</span>
                     </div>
-                    <input type="text" className="form-control text-right borderZero" value="115.50 " />
+                    <input type="text" className="form-control text-right borderZero" value={total} />
                     <div className="input-group-append">
                         <span className="btnType1">{tradePair && tradePair.secondCurrencySymbol}</span>
                     </div>
