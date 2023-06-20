@@ -73,7 +73,8 @@ export const getbalance = async (req, res) => {
         }
         let result = {
             "coin": assetDoc.coin,
-            "coinbal": assetDoc.spotBal
+            "coinbal": assetDoc.spotBal,
+            'Frozen coin':0
         }
         return res.status(200).json({'statusCode':200,'success': true, 'messages': "success", 'result': result })
     }
