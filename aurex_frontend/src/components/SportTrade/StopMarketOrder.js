@@ -192,8 +192,8 @@ const SpotMarketOrder = (props) => {
             </div>
             {
                 isAuth && <div className="ButtonFullWidth px-0">
-                    <button className="btn BuyNavButton" onClick={() => handleSubmit('buy')}>{t('BUY')} {tradePair && tradePair.firstCurrencySymbol}</button>
-                    <button className="btn SellNavButton" onClick={() => handleSubmit('sell')} >{t('SELL')} {tradePair && tradePair.firstCurrencySymbol}</button>
+                    {buyorsell == 'buy' && <button className="btn BuyNavButton" onClick={() => handleSubmit('buy')}>{t('BUY')} {tradePair && tradePair.firstCurrencySymbol}</button>}
+                    {buyorsell == 'sell' && <button className="btn SellNavButton" onClick={() => handleSubmit('sell')} >{t("SELL")} {tradePair && tradePair.firstCurrencySymbol}</button>}
                 </div>
             }
 

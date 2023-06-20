@@ -1434,7 +1434,7 @@ export const decryptTradeOrder = (req, res, next) => {
 */
 export const getOpenOrder = async (req, res) => {
     try {
-        console.log("getOpenOrder",req.body,req.user    )
+        console.log("getOpenOrder",req.body,req.user)
         let pagination = paginationQuery(req.query);
         console.log("open",req.body)
         let count = await SpotTrade.countDocuments({
