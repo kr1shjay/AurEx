@@ -34,7 +34,7 @@ const CryptoWallet = () => {
   const [originalData, setOriginal] = useState([]);
   const [checkValue, setCheckValue] = useState(false);
   const [pairList, setPairList] = useState([]);
-
+console.log("pairList",pairList)
   const [model, setModal] = useState({
     type: "",
     assetData: {},
@@ -45,7 +45,7 @@ const CryptoWallet = () => {
   const walletData = useSelector((state) => state.wallet);
   const currencyDoc = useSelector((state) => state.currency);
   console.log('currency',currencyDoc)
-
+  
   // function
   const handleChange = (e) => {
     e.preventDefault();
@@ -295,9 +295,11 @@ const CryptoWallet = () => {
                       )}
 
                       <div className="Subscribe">
+                      { pairList.find((el) => el.firstCurrencySymbol == item.coin) ||  pairList.find((el) => el.secondCurrencySymbol == item.coin)?
                         <Button className="btn-primary">
                           <Link to={`/spot/${pair}`}>{t("TRADE")}</Link>
-                        </Button>
+                        </Button>:  <Button className="btn-primary" disabled="true">{t("TRADE")}</Button>
+            }
                       </div>
                       {/* <div className="Subscribe">
                                   <Button className="btn-primary" onClick={() => {
@@ -400,9 +402,11 @@ const CryptoWallet = () => {
                       )}
 
                       <div className="Subscribe">
+                        {pairList.find((el) => el.firstCurrencySymbol == item.coin) ||  pairList.find((el) => el.secondCurrencySymbol == item.coin)?
                         <Button className="btn-primary">
                           <Link to={`/spot/${pair}`}>{t("TRADE")}</Link>
-                        </Button>
+                        </Button>:  <Button className="btn-primary" disabled="true">{t("TRADE")}</Button>
+            }
                       </div>
                       {/* <div className="Subscribe">
                                             <Button className="btn-primary" onClick={() => {
