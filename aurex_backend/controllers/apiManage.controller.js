@@ -303,20 +303,7 @@ export const apikey = async (apikey, next, req, res) => {
                                 res.status(401).json({ 'statusCode': 401,'success': false, 'message': "Secret key does not exist" });
                             }
                         } else {
-                        //     // let datas = {
-                        //     //     id: userDetails.userId._id,
-                        //     //     userId: userDetails.userId.userId,
-                        //     //     type: userDetails.userId.type,
-                        //     //     email: userDetails.userId.email,
-                        //     //     google2Fa: userDetails.userId.google2Fa,
-                        //     //     withdraw: userDetails.withdraw,
-                        //     //     deposit: userDetails.deposit,
-                        //     //     trade: userDetails.trade
-                        //     // }
-                        //     // req.user = datas
-                        //     // console.log("data", datas)
-                        //     // return next();
-                            res.status(401).json({ 'statusCode': 401,'success': false, 'message': "Hash is required" });
+                            res.status(401).json({ 'statusCode': 401, 'message': "Hash is required" });
 
                          }
                     } else {
@@ -358,20 +345,7 @@ export const apikey = async (apikey, next, req, res) => {
                             res.status(401).json({ 'statusCode': 401, 'success': false,'message': "Signature does not match" });
                         }
                     } else {
-                        // let datas = {
-                        //     id: userDetails.userId._id,
-                        //     userId: userDetails.userId.userId,
-                        //     type: userDetails.userId.type,
-                        //     email: userDetails.userId.email,
-                        //     google2Fa: userDetails.userId.google2Fa,
-                        //     withdraw: userDetails.withdraw,
-                        //     deposit: userDetails.deposit,
-                        //     trade: userDetails.trade
-                        // }
-                        // req.user = datas
-                        // console.log("data", datas)
-                        // return next();
-                        res.status(401).json({ 'statusCode': 401, 'success': false, 'message': "Hash is required" });
+                        res.status(401).json({ 'statusCode': 401, 'message': "Hash is required" });
                     }
                 }
 

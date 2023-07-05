@@ -89,8 +89,8 @@ app.get('/testAPI', (req, res) => {
   return res.send("Successfully Testing")
 })
 
-
-if (myip == '139.162.66.242') {
+// 139.162.66.242
+if (myip == '143.42.18.186') {
   const options = {
     key: fs.readFileSync('/var/www/sslkeys/aurexchange_com.key'),
     cert: fs.readFileSync('/var/www/sslkeys/aurexchange_com.csr')
