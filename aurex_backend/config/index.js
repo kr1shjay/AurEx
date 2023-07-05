@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === "production") {
     secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
     cryptoSecretKey: "1234567812345678",
     DATABASE_URL:
-    "mongodb://NcgFbT:xMAgsK@139.162.66.242:53818/wXZeko",
+    "mongodb://NcgFbT:xMAgsK@143.42.18.186:53818/wXZeko",
     RUN_CRON: true,
     PORT: PORT,
     FRONT_URL: "https://aurexchange.com",
