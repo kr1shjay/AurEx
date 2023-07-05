@@ -137,6 +137,9 @@ export const chart = async ({ pairName, timeType,startDateTimestamp }) => {
     // S
     try {
         let pairList = await getSymbol();
+        if(timeType === "Invalid Parameter"){
+            return {'timeType':timeType}
+        }
         if (pairList && pairList.length > 0) {
             let pairData = pairList.find(el => el.name == pairName)
             if (pairData) {
@@ -164,6 +167,7 @@ export const chart = async ({ pairName, timeType,startDateTimestamp }) => {
             }
             return []
         }
+    
         return []
     } catch (err) {
         return []

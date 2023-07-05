@@ -26096,7 +26096,7 @@ export const marketPrice = async (pairId) => {
 */
 export const triggerStopLimitOrder = async (spotPairData) => {
     try {
-        console.log("checking",spotPairData)
+        // console.log("checking",spotPairData)
         if (!isEmpty(spotPairData) && !isEmpty(spotPairData.markPrice)) {
             let takeProfitOrder = await SpotTrade.find({
                 'pairId': ObjectId(spotPairData._id),
@@ -26146,7 +26146,7 @@ export const triggerStopLimitOrder = async (spotPairData) => {
 */
 export const triggerStopMarketOrder = async (spotPairData) => {
     try {
-        console.log("checking",spotPairData)
+        // console.log("checking",spotPairData)
 
         if (!isEmpty(spotPairData) && !isEmpty(spotPairData.markPrice)) {
             let takeProfitOrder = await SpotTrade.find({

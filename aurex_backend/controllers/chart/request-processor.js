@@ -550,6 +550,10 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 		var toCacheTime = data && data.t ? data.t[data.t.length - 1] : null;
 		//console.log(dateForLogs() + "Return abcd result" + (isCached ? " from cache" : "") + ": " + key + ", from " + secondsToISO(fromCacheTime) + " to " + secondsToISO(toCacheTime));
 	}
+	console.log(new Date(parseFloat(startDateTimestamp)),startDateTimestamp,new Date(parseFloat(endDateTimestamp)),endDateTimestamp,'new Date(startDateTimestamp)')
+	if(new Date(parseFloat(startDateTimestamp)) =="Invalid Date" || new Date(parseFloat(endDateTimestamp))=='Invalid Date'){
+		sendResult(JSON.stringify({ 'statusCode': 400, 'status': false, 'message': "Invalid Parameter" }))
+	}
 
 	function resolutionType(type) {
 		switch (type) {
@@ -560,7 +564,8 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 			case '60': return "1h";
 			case '1d': return "1d";
 			case 'd': return "1M";
-			default: return "1m";
+		    // default: return "1m";
+			default : return "Invalid Parameter"
 		}
 	}
 
@@ -570,6 +575,7 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 	var from = abcdMinimumDate;
 	// var to = dateToYMD(Date.now());
 	const today = new Date()
+	console.log("today",typeof(today))
 	const tomorrow = new Date(today)
 	tomorrow.setDate(tomorrow.getDate() + 1)
 	var to = dateToYMD(tomorrow);
@@ -624,9 +630,10 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 		res.json({ "message": "End date parameter not found" });
 		return false;
 	}
+	
 
 	let timeType = resolutionType(resol)
-
+    console.log('timeType',timeType)
 	let tradeChart;
 
 	if (tradeType == 'spot') {
@@ -659,6 +666,12 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 
 	} else {
 		// res.json([]);
+		console.log()
+		if(tradeChart.timeType == 'Invalid Parameter'){
+			console.log("tradeChart_timeType",tradeChart)
+			sendResult(JSON.stringify({ 'statusCode': 400, 'status': false, 'message': "Invalid Parameter" }))
+		    // res.json();
+		}
 		console.log("null1");
 	}
 };
