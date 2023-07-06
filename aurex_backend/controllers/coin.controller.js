@@ -352,6 +352,7 @@ export const isCryptoAddr = async (coin, address, currencyId) => {
             return false
         }
         let currency = await Currency.findOne({ _id: currencyId })
+        console.log("currency_currency",currency)
         let currencySymbol = currency.coin
         if(currencySymbol && currency.type == "token"){
             currencySymbol = (currency.tokenType == 'erc20' || currency.tokenType == 'bep20') ? 'ETH' : 'TRX'; 

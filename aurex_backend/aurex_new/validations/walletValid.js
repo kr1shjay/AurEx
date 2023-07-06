@@ -3,7 +3,11 @@ import mongoose from 'mongoose';
 
 // import controller
 import { isCryptoAddr } from '../../controllers/coin.controller'
-
+// import model
+import {
+    Currency,
+   
+} from '../../models';
 // import lib
 import isEmpty from '../../lib/isEmpty';
 
@@ -44,12 +48,17 @@ export const tokenValid = (req, res, next) => {
 export const coinWithdrawValid = async (req, res, next) => {
     let errors = {}, reqBody = req.body;
 
-    if (isEmpty(reqBody.currencyId)) {
-        errors.currencyId = "REQUIRED";
-    } else if (!mongoose.Types.ObjectId.isValid(reqBody.currencyId)) {
-        errors.currencyId = "Invalid currency id";
-    }
-    let addressCheck  = await  isCryptoAddr(reqBody.coin, reqBody.receiverAddress, reqBody.currencyId)
+    // if (isEmpty(reqBody.currencyId)) {
+    //     errors.currencyId = "REQUIRED";
+    // } else if (!mongoose.Types.ObjectId.isValid(reqBody.currencyId)) {
+    //     errors.currencyId = "Invalid currency id";
+    // }
+    let currencyData =  await Currency.findOne({ 'coin': reqBody.coin })
+    console.log("currencyData", currencyData)
+    let currencyId = currencyData._id
+    console.log("currencyId",currencyId)
+    let addressCheck  = await  isCryptoAddr(reqBody.coin, reqBody.receiverAddress, currencyId)
+    console.log("addressCheck",addressCheck)
     if (isEmpty(reqBody.receiverAddress)) {
         errors.receiverAddress = "REQUIRED";
     } else if (!addressCheck) {

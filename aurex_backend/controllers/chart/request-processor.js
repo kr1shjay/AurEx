@@ -666,11 +666,14 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 
 	} else {
 		// res.json([]);
-		console.log()
+		console.log(tradeChart)
 		if(tradeChart.timeType == 'Invalid Parameter'){
 			console.log("tradeChart_timeType",tradeChart)
 			sendResult(JSON.stringify({ 'statusCode': 400, 'status': false, 'message': "Invalid Parameter" }))
 		    // res.json();
+		}else if(tradeChart == ""){
+			console.log("tradeChart_tradechart",tradeChart)
+			sendResult(JSON.stringify({ 'statusCode': 400, 'status': false, 'message': "Invalid Parameter" }))
 		}
 		console.log("null1");
 	}

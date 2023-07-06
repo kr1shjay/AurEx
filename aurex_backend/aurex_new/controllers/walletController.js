@@ -41,11 +41,13 @@ const ObjectId = mongoose.Types.ObjectId;
 
 export const withdrawfee = async (req, res) => {
     try {
-        var currencyId = req.body.currencyId
-        console.log("currencyId", currencyId)
+        // var currencyId = req.body.currencyId
+        // console.log("currencyId", currencyId)
+        var coin = req.body.coin;
+        console.log("coin", coin)
         var withdrawamount = req.body.amount
         console.log("withdrawamount", withdrawamount)
-        let CurrencyData = await Currency.findOne({ '_id': currencyId })
+        let CurrencyData = await Currency.findOne({ 'coin': coin })
         console.log("Data", CurrencyData)
         let finalAmount = parseFloat(CurrencyData.withdrawFee)
         console.log("withdrawfee", finalAmount)
@@ -154,7 +156,7 @@ export const withdrawCoinRequest = async (req, res) => {
             }, {
                 '_id': 1,
                 'binSubAcctId': 1,
-                "assets._id": 1,
+                // "assets._id": 1,
                 "assets.coin": 1,
                 "assets.address": 1,
                 "assets.destTag": 1,
@@ -179,7 +181,7 @@ export const withdrawCoinRequest = async (req, res) => {
                 return res.status(400).json({ 'statusCode': 400, 'success': false, 'message': 'Reciever tag should differ' })
             }
 
-            let curData = await Currency.findOne({ '_id': reqBody.currencyId })
+            let curData = await Currency.findOne({ 'coin': reqBody.coin })
             console.log("curData", curData)
             var status = curData.withdrawStatus
             if (!curData) {
