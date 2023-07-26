@@ -21,7 +21,20 @@ import { socketEmitOne, socketEmitAll } from '../../config/socketIO';
 // import controller
 import * as binanceCtrl from '../../controllers/binance.controller'
 import { createPassBook } from '../../controllers/passbook.controller';
-import {getOpenOrderSocket , getOrderHistorySocket , getTradeHistorySocket ,getOrderBookSocket , calculateServiceFee  ,assetUpdate ,marketPriceSocket ,recentTradeSocket ,orderBookData, recentTrade, matchEngine,marketTradeMatch} from '../../controllers/spotTrade.controller'
+import {
+    getOpenOrderSocket,
+    getOrderHistorySocket,
+    getTradeHistorySocket,
+    getOrderBookSocket,
+    calculateServiceFee,
+    assetUpdate,
+    marketPriceSocket,
+    recentTradeSocket,
+    orderBookData,
+    recentTrade,
+    tradeList,
+    marketTradeMatch
+} from '../../controllers/spotTrade.controller'
 
 // import lib
 import isEmpty from '../../lib/isEmpty';
@@ -129,11 +142,13 @@ export const limitOrderPlace = async (req, res) => {
 
         let usrWallet = await Wallet.findOne({ '_id': req.user.id });
         if (!usrWallet) {
+            console.log('!usrWallet')
             return res.status(500).json({ 'statusCode':500, 'status': false, 'message': "System error" });
         }
 
         let usrAsset = usrWallet.assets.id(currencyId)
         if (!usrAsset) {
+            console.log('!usrAsset')
             return res.status(500).json({'statusCode':500,'status': false, 'message': "System error" });
         }
 
@@ -253,55 +268,55 @@ export const limitOrderPlace = async (req, res) => {
         return res.status(200).json({ 'statusCode':200,'status': true, 'message': "Your order placed successfully.",'orderId':newOrder._id});
 
     } catch (err) {
-        // console.log('err', err)
+        console.log('limitOrderPlace__err', err)
         return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
     }
 }
 
 
-// /** 
-//  * Match Engine (QUEUE CONCEPT)
-// */
-// export const matchEngine = async () => {
-//     try {
-//         if (tradeMatchCall) {
-//             return
-//         }
-//         tradeMatchCall = true
-//         // console.log(orderIds, '---orderIds')
-//         if (marketOrderIds && Array.isArray(marketOrderIds) && marketOrderIds.length > 0) {
-//             let newOrder = await SpotTrade.findOne({ '_id': marketOrderIds[0], 'orderType': 'market', 'status': { "$in": ['open'] } })
-//             if (newOrder) {
-//                 let pairData = await SpotPair.findOne({ "_id": newOrder.pairId, 'status': 'active' });
-//                 if (pairData) {
-//                     await tradeList(newOrder, pairData)
-//                 }
-//             }
-//             marketOrderIds.shift()
-//             tradeMatchCall = false
-//             matchEngine()
-//             return
-//         } else if (orderIds && Array.isArray(orderIds) && orderIds.length > 0) {
-//             let newOrder = await SpotTrade.findOne({ '_id': orderIds[0], 'status': { "$in": ['open', 'pending'] } })
-//             if (newOrder) {
-//                 let pairData = await SpotPair.findOne({ "_id": newOrder.pairId, 'status': 'active' });
-//                 if (pairData) {
-//                     await tradeList(newOrder, pairData)
-//                 }
-//             }
-//             orderIds.shift()
-//             tradeMatchCall = false
-//             matchEngine()
-//             return
-//         }
-//         tradeMatchCall = false
-//         // console.log(orderIds, '---orderIds')
-//         // matchEngine()
-//         return
-//     } catch (err) {
-//         return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
-//     }
-// }
+/** 
+ * Match Engine (QUEUE CONCEPT)
+*/
+export const matchEngine = async () => {
+    try {
+        if (tradeMatchCall) {
+            return
+        }
+        tradeMatchCall = true
+        // console.log(orderIds, '---orderIds')
+        if (marketOrderIds && Array.isArray(marketOrderIds) && marketOrderIds.length > 0) {
+            let newOrder = await SpotTrade.findOne({ '_id': marketOrderIds[0], 'orderType': 'market', 'status': { "$in": ['open'] } })
+            if (newOrder) {
+                let pairData = await SpotPair.findOne({ "_id": newOrder.pairId, 'status': 'active' });
+                if (pairData) {
+                    await tradeList(newOrder, pairData)
+                }
+            }
+            marketOrderIds.shift()
+            tradeMatchCall = false
+            matchEngine()
+            return
+        } else if (orderIds && Array.isArray(orderIds) && orderIds.length > 0) {
+            let newOrder = await SpotTrade.findOne({ '_id': orderIds[0], 'status': { "$in": ['open', 'pending'] } })
+            if (newOrder) {
+                let pairData = await SpotPair.findOne({ "_id": newOrder.pairId, 'status': 'active' });
+                if (pairData) {
+                    await tradeList(newOrder, pairData)
+                }
+            }
+            orderIds.shift()
+            tradeMatchCall = false
+            matchEngine()
+            return
+        }
+        tradeMatchCall = false
+        // console.log(orderIds, '---orderIds')
+        // matchEngine()
+        return
+    } catch (err) {
+        return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
+    }
+}
 
 
 /**
@@ -1430,12 +1445,14 @@ export const decryptTradeOrder = (req, res, next) => {
  * Get User Open Order
  * URL : /api/new/spot/openOrder/{{pairId}}
  * METHOD : GET
- * Query : page, limit
+ * Query : page
 */
 export const getOpenOrder = async (req, res) => {
     try {
         console.log("getOpenOrder",req.body,req.user)
-        let pagination = paginationQuery(req.query);
+        // let pagination = paginationQuery(req.query);
+        let limit =  10 
+        let skip = (req.query.page - 1) * limit;
         console.log("open",req.body)
         let count = await SpotTrade.countDocuments({
             "userId": req.user.id,
@@ -1451,8 +1468,8 @@ export const getOpenOrder = async (req, res) => {
                 }
             },
             { "$sort": { '_id': -1 } },
-            { "$skip": pagination.skip },
-            { "$limit": pagination.limit },
+            { "$skip": skip },
+            { "$limit":limit },
             {
                 "$project": {
                     "orderDate": 1,
@@ -1472,9 +1489,9 @@ export const getOpenOrder = async (req, res) => {
 
         let result = {
             count,
-            'currentPage': pagination.page,
+            'currentPage': req.query.page,
             'nextPage': count > data.length,
-            'limit': pagination.limit,
+            'limit': limit,
             data
         }
          console.log("openorder",result)
@@ -1561,8 +1578,9 @@ export const cancelOrder = async (req, res) => {
 */
 export const getOrderHistory = async (req, res) => {
     try {
-        let pagination = paginationQuery(req.query);
-
+        // let pagination = paginationQuery(req.query);
+        let limit =  10 
+        let skip = (req.query.page - 1) * limit;
         let count = await SpotTrade.countDocuments({
             "userId": req.user.id,
             'pairId': req.body.pairId,
@@ -1583,8 +1601,8 @@ export const getOrderHistory = async (req, res) => {
             },
             // { "$unwind": "$filled" },
             { "$sort": { '_id': -1 } },
-            { "$skip": pagination.skip },
-            { "$limit": pagination.limit },
+            { "$skip": skip },
+            { "$limit": limit },
             {
                 "$project": {
                     "orderDate": 1,
@@ -1619,9 +1637,9 @@ export const getOrderHistory = async (req, res) => {
         ])
         let result = {
             count,
-            'currentPage': pagination.page,
+            'currentPage': req.query.page,
             'nextPage': count > data.length,
-            'limit': pagination.limit,
+            'limit': limit,
             data
         }
         console.log("orderhistory",result)
@@ -1639,8 +1657,10 @@ export const getOrderHistory = async (req, res) => {
 */
 export const getTradeHistory = async (req, res) => {
     try {
-        let pagination = paginationQuery(req.query);
-
+        // let pagination = paginationQuery(req.query);
+        let limit =  10 
+        let skip = (req.query.page - 1) * limit;
+        
         let count = await SpotTrade.aggregate([
             {
                 "$match": {
@@ -1667,8 +1687,8 @@ export const getTradeHistory = async (req, res) => {
             },
             { "$unwind": "$filled" },
             { "$sort": { 'createdAt': -1 } },
-            { "$skip": pagination.skip },
-            { "$limit": pagination.limit },
+            { "$skip": skip},
+            { "$limit":limit},
 
             {
                 "$project": {
@@ -1687,9 +1707,9 @@ export const getTradeHistory = async (req, res) => {
 
         let result = {
             count: count.length,
-            'currentPage': pagination.page,
+            'currentPage': req.query.page,
             'nextPage': count.length > data.length,
-            'limit': pagination.limit,
+            'limit': limit,
             data
         }
         console.log("TradeHistory",result)
@@ -1831,7 +1851,7 @@ export const getPairList = async (req, res) => {
             },
         ])
         console.log("tradepair",spotPairData)
-        return res.status(200).json({ 'statusCode':200,'success': true, 'messages': "success", 'result': spotPairData })
+        return res.status(200).json({ 'statusCode':200,'success': true, 'message': "success", 'result': spotPairData })
     } catch (err) {
         return res.status(500).json({ 'statusCode':500,'status': false,  'message': "System error" });
     }
@@ -1846,7 +1866,9 @@ export const getPairList = async (req, res) => {
 export const allOpenOrder = async (req, res) => {
     try {
         console.log('allOpenOrder')
-        let pagination = paginationQuery(req.query);
+        // let pagination = paginationQuery(req.query);
+        let limit =  10 
+        let skip = (req.query.page - 1) * limit;
         let filter, reqQuery = req.query;
 
         filter = {
@@ -1866,8 +1888,8 @@ export const allOpenOrder = async (req, res) => {
         let data = await SpotTrade.aggregate([
             { "$match": filter },
             { "$sort": { '_id': -1 } },
-            { "$skip": pagination.skip },
-            { "$limit": pagination.limit },
+            { "$skip": skip },
+            { "$limit":limit },
             {
                 "$project": {
                     "orderDate": 1,
@@ -1904,7 +1926,9 @@ export const allOpenOrder = async (req, res) => {
 */
 export const allTradeOrder = async (req, res) => {
     try {
-        let pagination = paginationQuery(req.query);
+        // let pagination = paginationQuery(req.query);
+        let limit =  10 
+        let skip = (req.query.page - 1) * limit;
         let filter = {}, reqQuery = req.query;
 
         filter = {
@@ -1928,8 +1952,8 @@ export const allTradeOrder = async (req, res) => {
             { "$match": filter },
             { "$unwind": "$filled" },
             { "$sort": { 'filled.createdAt': -1 } },
-            { "$skip": pagination.skip },
-            { "$limit": pagination.limit },
+            { "$skip": skip },
+            { "$limit": limit },
             {
                 "$project": {
                     "createdAt": "$filled.createdAt",
@@ -1966,9 +1990,9 @@ export const getOrderStatus = async (req, res) => {
         let orderStatus = await SpotTrade.findOne({ "_id": req.body.id });
         console.log("orderStatus", orderStatus)
         if (!orderStatus) {
-            return res.status(400).json({ 'statusCode': 400, 'success': false, 'messages': "Order Id not found" })
+            return res.status(400).json({ 'statusCode': 400, 'success': false, 'message': "Order Id not found" })
         }
-        return res.status(200).json({ 'statusCode': 200, 'success': true, 'messages': "success", 'result': orderStatus })
+        return res.status(200).json({ 'statusCode': 200, 'success': true, 'message': "success", 'result': orderStatus })
 
     }
     catch (err) {
