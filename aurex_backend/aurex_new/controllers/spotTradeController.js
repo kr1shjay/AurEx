@@ -68,7 +68,7 @@ async function decryy() {
 export const orderPlace = async (req, res) => {
     try {
         let api_key = req.header("x-api-key");
-        console.log("orderreq",req.user)
+        console.log("OrderPlace api hit",new Date(),api_key)
         if(api_key!==null && api_key!== undefined && req.user.trade !==true){
              return res.status(400).json({  'statusCode':400, 'status': false, 'message': "You don't have permission to trade" });      
         }

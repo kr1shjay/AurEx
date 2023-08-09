@@ -115,7 +115,7 @@ export const spotOrderBookWS = async () => {
                         }
 
 
-                        
+
                         sellOrder = sellOrder.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
 
                         if (sellOrder.length > 0) {
@@ -1050,87 +1050,89 @@ export const checkOrder = async () => {
                     if (pairData && binOrder.data.status == "PARTIALLY_FILLED") {
                         let uniqueId = Math.floor(Math.random() * 1000000000);
                         let filledQty = Math.abs(orderData.filledQuantity - binData.executedQty)
-
-                        await SpotTrade.findOneAndUpdate({
-                            '_id': orderData._id
-                        }, {
-                            'status': 'pending',
-                            'filledQuantity': orderData.filledQuantity + filledQty,
-                            "$push": {
-                                "filled": {
-                                    "pairId": orderData.pairId,
-                                    // "sellUserId": orderData.buyorsell == 'sell' ? orderData.userId : newOrder.userId,
-                                    // "buyUserId": orderData[count].buyorsell == 'buy' ? orderData[count].userId : newOrder.userId,
-                                    "userId": orderData.userId,
-                                    // "sellOrderId": orderData.buyorsell == 'sell' ? orderData._id : newOrder._id,
-                                    // "buyOrderId": orderData[count].buyorsell == 'buy' ? orderData[count]._id : newOrder._id,
-                                    "uniqueId": uniqueId,
-                                    "price": orderData.price,
-                                    "filledQuantity": filledQty,
-                                    "Fees": calculateServiceFee({
-                                        'price': orderData.buyorsell == 'sell' ? orderData.price * filledQty : filledQty,
-                                        'serviceFee': pairData.taker_fees
-                                    }),
-                                    "status": "filled",
-                                    "Type": orderData.buyorsell,
-                                    "createdAt": new Date(),
-                                    "orderValue": orderData.price * filledQty,
+                        let remainingQuantity = parseFloat(orderData.quantity) - parseFloat(orderData.filledQuantity)
+                        if (remainingQuantity > 0) {
+                            await SpotTrade.findOneAndUpdate({
+                                '_id': orderData._id
+                            }, {
+                                'status': 'pending',
+                                'filledQuantity': orderData.filledQuantity + filledQty,
+                                "$push": {
+                                    "filled": {
+                                        "pairId": orderData.pairId,
+                                        // "sellUserId": orderData.buyorsell == 'sell' ? orderData.userId : newOrder.userId,
+                                        // "buyUserId": orderData[count].buyorsell == 'buy' ? orderData[count].userId : newOrder.userId,
+                                        "userId": orderData.userId,
+                                        // "sellOrderId": orderData.buyorsell == 'sell' ? orderData._id : newOrder._id,
+                                        // "buyOrderId": orderData[count].buyorsell == 'buy' ? orderData[count]._id : newOrder._id,
+                                        "uniqueId": uniqueId,
+                                        "price": orderData.price,
+                                        "filledQuantity": filledQty,
+                                        "Fees": calculateServiceFee({
+                                            'price': orderData.buyorsell == 'sell' ? orderData.price * filledQty : filledQty,
+                                            'serviceFee': pairData.taker_fees
+                                        }),
+                                        "status": "filled",
+                                        "Type": orderData.buyorsell,
+                                        "createdAt": new Date(),
+                                        "orderValue": orderData.price * filledQty,
+                                    }
                                 }
-                            }
-                        }, { 'new': true });
+                            }, { 'new': true });
+                            await assetUpdate({
+                                'currencyId': orderData.buyorsell == 'sell' ? orderData.secondCurrencyId : orderData.firstCurrencyId,
+                                'userId': orderData.userId,
+                                'balance': withoutServiceFee({
+                                    'price': orderData.buyorsell == 'sell' ? orderData.price * filledQty : filledQty,
+                                    'serviceFee': pairData.taker_fees
+                                }),
+                            })
+                        }
 
-
-                        await assetUpdate({
-                            'currencyId': orderData.buyorsell == 'sell' ? orderData.secondCurrencyId : orderData.firstCurrencyId,
-                            'userId': orderData.userId,
-                            'balance': withoutServiceFee({
-                                'price': orderData.buyorsell == 'sell' ? orderData.price * filledQty : filledQty,
-                                'serviceFee': pairData.taker_fees
-                            }),
-                        })
 
                     } else if (pairData && binOrder.data.status == "FILLED") {
                         let uniqueId = Math.floor(Math.random() * 1000000000);
                         let filledQty = Math.abs(orderData.filledQuantity - binData.executedQty)
-
-                        await SpotTrade.findOneAndUpdate({
-                            '_id': orderData._id
-                        }, {
-                            'status': 'completed',
-                            'filledQuantity': orderData.filledQuantity + filledQty,
-                            "$push": {
-                                "filled": {
-                                    "pairId": orderData.pairId,
-                                    // "sellUserId": orderData.buyorsell == 'sell' ? orderData.userId : newOrder.userId,
-                                    // "buyUserId": orderData[count].buyorsell == 'buy' ? orderData[count].userId : newOrder.userId,
-                                    "userId": orderData.userId,
-                                    // "sellOrderId": orderData.buyorsell == 'sell' ? orderData._id : newOrder._id,
-                                    // "buyOrderId": orderData[count].buyorsell == 'buy' ? orderData[count]._id : newOrder._id,
-                                    "uniqueId": uniqueId,
-                                    "price": orderData.price,
-                                    "filledQuantity": filledQty,
-                                    "Fees": calculateServiceFee({
-                                        'price': orderData.buyorsell == 'sell' ? orderData.price * filledQty : filledQty,
-                                        'serviceFee': pairData.taker_fees
-                                    }),
-                                    "status": "filled",
-                                    "Type": orderData.buyorsell,
-                                    "createdAt": new Date(),
-                                    "orderValue": orderData.price * filledQty,
+                        if (orderData.status !== 'completed') {
+                            await SpotTrade.findOneAndUpdate({
+                                '_id': orderData._id
+                            }, {
+                                'status': 'completed',
+                                'filledQuantity': orderData.filledQuantity + filledQty,
+                                "$push": {
+                                    "filled": {
+                                        "pairId": orderData.pairId,
+                                        // "sellUserId": orderData.buyorsell == 'sell' ? orderData.userId : newOrder.userId,
+                                        // "buyUserId": orderData[count].buyorsell == 'buy' ? orderData[count].userId : newOrder.userId,
+                                        "userId": orderData.userId,
+                                        // "sellOrderId": orderData.buyorsell == 'sell' ? orderData._id : newOrder._id,
+                                        // "buyOrderId": orderData[count].buyorsell == 'buy' ? orderData[count]._id : newOrder._id,
+                                        "uniqueId": uniqueId,
+                                        "price": orderData.price,
+                                        "filledQuantity": filledQty,
+                                        "Fees": calculateServiceFee({
+                                            'price': orderData.buyorsell == 'sell' ? orderData.price * filledQty : filledQty,
+                                            'serviceFee': pairData.taker_fees
+                                        }),
+                                        "status": "filled",
+                                        "Type": orderData.buyorsell,
+                                        "createdAt": new Date(),
+                                        "orderValue": orderData.price * filledQty,
+                                    }
                                 }
-                            }
-                        }, { 'new': true });
+                            }, { 'new': true });
 
 
-                        await assetUpdate({
-                            'currencyId': orderData.buyorsell == 'sell' ? orderData.secondCurrencyId : orderData.firstCurrencyId,
-                            'userId': orderData.userId,
-                            'balance': withoutServiceFee({
-                                'price': orderData.buyorsell == 'sell' ? orderData.price * filledQty : filledQty,
-                                'serviceFee': pairData.taker_fees
-                            }),
-                        })
+                            await assetUpdate({
+                                'currencyId': orderData.buyorsell == 'sell' ? orderData.secondCurrencyId : orderData.firstCurrencyId,
+                                'userId': orderData.userId,
+                                'balance': withoutServiceFee({
+                                    'price': orderData.buyorsell == 'sell' ? orderData.price * filledQty : filledQty,
+                                    'serviceFee': pairData.taker_fees
+                                }),
+                            })
 
+                        }
 
                     } else if (pairData && binOrder.data.status == "CANCELED") {
 
