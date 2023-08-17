@@ -258,7 +258,7 @@ export const apikey = async (apikey, next, req, res) => {
         if (userDetails.status === 'active') {
             console.log("viewcount", userDetails.viewCount)
             console.log("minutes",new Date().getMinutes())
-            userDetails.viewCount = userDetails.lastUpdate === new Date().getMinutes() ? userDetails.viewCount + 1 : userDetails.viewCount > 0 && userDetails.viewCount - userDetails.viewCount + 1
+            userDetails.viewCount = userDetails.lastUpdate === new Date().getMinutes() ? userDetails.viewCount + 1 : userDetails.viewCount > 0 ? userDetails.viewCount - userDetails.viewCount + 1 : 1 
             if (userDetails.viewCount <= limit_check.ApiLimit) {
                 // userDetails.viewCount= userDetails.viewCount+1
                 // userDetails.lastUpdate = new Date()   

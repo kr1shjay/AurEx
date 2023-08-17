@@ -90,7 +90,7 @@ app.get('/testAPI', (req, res) => {
 })
 
 // 139.162.66.242
-if (myip == '143.42.18.186') {
+if (myip == '172.104.117.66') {
   const options = {
     key: fs.readFileSync('/var/www/sslkeys/aurexchange_com.key'),
     cert: fs.readFileSync('/var/www/sslkeys/aurexchange_com.csr')
