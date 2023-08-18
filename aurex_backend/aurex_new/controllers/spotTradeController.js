@@ -1486,14 +1486,19 @@ export const getOpenOrder = async (req, res) => {
                 }
             }
         ])
-
-        let result = {
+        // data.length>0 ? true : false
+        let result ={}
+       {data.length>0 ? 
+         result = {
             count,
             'currentPage': req.query.page,
             'nextPage': count > data.length,
             'limit': limit,
             data
-        }
+        } : result = {
+            'message': "No data found"
+        }}
+
          console.log("openorder",result)
         return res.status(200).json({ 'statusCode':200,'success': true, result })
     } catch (err) {
@@ -1635,13 +1640,25 @@ export const getOrderHistory = async (req, res) => {
                 }
             }
         ])
-        let result = {
-            count,
-            'currentPage': req.query.page,
-            'nextPage': count > data.length,
-            'limit': limit,
-            data
-        }
+
+        let result ={}
+        {data.length>0 ? 
+          result = {
+             count,
+             'currentPage': req.query.page,
+             'nextPage': count > data.length,
+             'limit': limit,
+             data
+         } : result = {
+             'message': "No data found"
+         }}
+        // let result = {
+        //     count,
+        //     'currentPage': req.query.page,
+        //     'nextPage': count > data.length,
+        //     'limit': limit,
+        //     data
+        // }
         console.log("orderhistory",result)
         return res.status(200).json({ 'statusCode':200,'success': true, result })
     } catch (err) {
@@ -1704,14 +1721,24 @@ export const getTradeHistory = async (req, res) => {
                 }
             }
         ])
-
-        let result = {
-            count: count.length,
-            'currentPage': req.query.page,
-            'nextPage': count.length > data.length,
-            'limit': limit,
-            data
-        }
+        let result ={}
+        {data.length>0 ? 
+          result = {
+            count : count.length,
+             'currentPage': req.query.page,
+             'nextPage': count.length > data.length,
+             'limit': limit,
+             data
+         } : result = {
+             'message': "No data found"
+         }}
+        // let result = {
+        //     count: count.length,
+        //     'currentPage': req.query.page,
+        //     'nextPage': count.length > data.length,
+        //     'limit': limit,
+        //     data
+        // }
         console.log("TradeHistory",result)
         return res.status(200).json({'statusCode':200, 'success': true, result })
     } catch (err) {
