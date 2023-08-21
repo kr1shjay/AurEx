@@ -1453,6 +1453,7 @@ export const getOpenOrder = async (req, res) => {
         // let pagination = paginationQuery(req.query);
         let limit =  10 
         let skip = (req.query.page - 1) * limit;
+        let pageCount= limit+skip
         console.log("open",req.body)
         let count = await SpotTrade.countDocuments({
             "userId": req.user.id,
@@ -1492,7 +1493,7 @@ export const getOpenOrder = async (req, res) => {
          result = {
             count,
             'currentPage': req.query.page,
-            'nextPage': count > data.length,
+            'nextPage': count > pageCount,
             'limit': limit,
             data
         } : result = {
@@ -1586,6 +1587,7 @@ export const getOrderHistory = async (req, res) => {
         // let pagination = paginationQuery(req.query);
         let limit =  10 
         let skip = (req.query.page - 1) * limit;
+        let pageCount= limit+skip
         let count = await SpotTrade.countDocuments({
             "userId": req.user.id,
             'pairId': req.body.pairId,
@@ -1646,7 +1648,7 @@ export const getOrderHistory = async (req, res) => {
           result = {
              count,
              'currentPage': req.query.page,
-             'nextPage': count > data.length,
+             'nextPage': count > pageCount,
              'limit': limit,
              data
          } : result = {
@@ -1677,7 +1679,7 @@ export const getTradeHistory = async (req, res) => {
         // let pagination = paginationQuery(req.query);
         let limit =  10 
         let skip = (req.query.page - 1) * limit;
-        
+        let pageCount= limit+skip
         let count = await SpotTrade.aggregate([
             {
                 "$match": {
@@ -1726,7 +1728,7 @@ export const getTradeHistory = async (req, res) => {
           result = {
             count : count.length,
              'currentPage': req.query.page,
-             'nextPage': count.length > data.length,
+             'nextPage': count.length > pageCount,
              'limit': limit,
              data
          } : result = {
