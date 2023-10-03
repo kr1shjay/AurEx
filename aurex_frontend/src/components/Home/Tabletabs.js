@@ -202,11 +202,11 @@ const MarketTable = (props) => {
                                                              <span>{item.firstCurrencySymbol}/{item.secondCurrencySymbol}</span>
                                                          </div>
                                                      </td>
-                                                     <td><span className="amount_section">{item.markPrice}</span></td>
+                                                     <td><span className="amount_section">{toFixed(item.markPrice, item.pip_size)}</span></td>
                                                      <td><span className={clsx('amount_section', {
                                                          "green_text": item.change > 0,
                                                          "red_text": item.change <= 0
-                                                     })}>{toFixed(item.change, 2)}</span></td>
+                                                     })}>{toFixed(item.change, item.pip_size)}</span></td>
                                                      <td>
                                                          <a href={isAuth ? "/spot" : "login"} class="btn greenButton btn_flex_ce mr-2" id="BTC-USDT">Trade</a> 
                                                      </td>
