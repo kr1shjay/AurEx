@@ -128,8 +128,8 @@ const TradeHistory = () => {
                         {
                             !loader && data && data.length > 0 && data.map((item, key) => {
                                 console.log(item, '---item')
-                                let curFloat = item.buyorsell == 'sell' ? tradePair.firstFloatDigit : tradePair.secondFloatDigit;
-
+                                // let curFloat = item.buyorsell == 'sell' ? tradePair.firstFloatDigit : tradePair.secondFloatDigit;
+                                let curFloat = tradePair.pip_size
                                 return (
                                     <tr key={key} className="rowpad"> 
                                         <td>{momentFormat(item.createdAt, 'YYYY-MM-DD HH:mm')}</td>

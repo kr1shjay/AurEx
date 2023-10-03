@@ -126,7 +126,8 @@ const OrderHistory = () => {
                     <tbody>
                         {
                             data && data.length > 0 && data.map((item, key) => {
-                                let curFloat = item.buyorsell == 'sell' ? tradePair.firstFloatDigit : tradePair.secondFloatDigit;
+                                // let curFloat = item.buyorsell == 'sell' ? tradePair.firstFloatDigit : tradePair.secondFloatDigit;
+                                let curFloat = tradePair.pip_size
                                 let Remaining = Number(item.quantity) - Number(item.filledQuantity)
                                 return (
                                     <tr key={key} className="rowpad">

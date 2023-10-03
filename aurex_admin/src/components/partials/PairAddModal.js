@@ -27,6 +27,7 @@ const initialFormValue = {
     "markupPercentage": "",
     "markPrice": "",
     "botstatus": "off",
+    "pip_size":0,
     "status": "active", //active ,Inactive
 }
 
@@ -90,7 +91,7 @@ class PairAddModal extends React.Component {
     render() {
         const { errors, loader } = this.state;
         const { markupPercentage, markPrice, maker_rebate, taker_fees, minPricePercentage, maxPricePercentage, maxQuantity, minQuantity, firstCurrencyId,
-            firstFloatDigit, secondCurrencyId, secondFloatDigit, botstatus } = this.state.formValue
+            firstFloatDigit, secondCurrencyId, secondFloatDigit, botstatus,pip_size } = this.state.formValue
 
         const { isShow, currencyOptions } = this.props;
 
@@ -341,6 +342,25 @@ class PairAddModal extends React.Component {
                                         })}
                                     />
                                     <span className="text-danger">{errors.markPrice}</span>
+                                </div>
+                            </div>
+                            <div className="row mt-2">
+                                <div className="col-md-3">
+                                    <label htmlFor="maxQuantity">Pip size</label>
+                                </div>
+                                <div className="col-md-9">
+                                    <input
+                                        onChange={this.handleChange}
+                                        value={pip_size}
+                                        name="markPrice"
+                                        error={errors.pip_size}
+                                        id="pip_size"
+                                        type="text"
+                                        className={classnames("form-control", {
+                                            invalid: errors.pip_size
+                                        })}
+                                    />
+                                    <span className="text-danger">{errors.pip_size}</span>
                                 </div>
                             </div>
                             {

@@ -22668,6 +22668,7 @@ export const getPairList = async (req, res) => {
                     'secondVolume': 1,
                     'changePrice': 1,
                     'change': 1,
+                    'pip_size':1
                 }
             },
         ])

@@ -107,7 +107,6 @@ export const addSpotPairValid = (req, res, next) => {
     }
 
 
-
     if (isEmpty(reqBody.botstatus)) {
         errors.botstatus = "botstatus field is required";
     } else if (!['off', 'binance'.includes(reqBody.botstatus)]) {
@@ -123,6 +122,12 @@ export const addSpotPairValid = (req, res, next) => {
             errors.markupPercentage = "invalid value";
         }
 
+    }
+
+    if (isEmpty(reqBody.pip_size)) {
+        errors.pip_size = "quoteCurrency floatDigit field is required";
+    } else if (isNaN(reqBody.pip_size)) {
+        errors.pip_size = "Allows only numeric";
     }
 
     if (!isEmpty(errors)) {
@@ -258,6 +263,12 @@ export const editSpotPairValid = (req, res, next) => {
             errors.markupPercentage = "invalid value";
         }
 
+    }
+
+    if (isEmpty(reqBody.pip_size)) {
+        errors.pip_size = "quoteCurrency floatDigit field is required";
+    } else if (isNaN(reqBody.pip_size)) {
+        errors.pip_size = "Allows only numeric";
     }
 
     if (!isEmpty(errors)) {

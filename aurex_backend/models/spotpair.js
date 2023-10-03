@@ -107,6 +107,10 @@ let spotPairsSchema = new Schema({
 		enum: ['active', 'Inactive'],
 		default: "active",  //active, Inactive
 	},
+	pip_size:{
+		type: Number,
+		default: 0,
+	}
 }, {
 	timestamps: true
 });

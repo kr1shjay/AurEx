@@ -143,7 +143,8 @@ const OpenOrder = (props) => {
                     <tbody>
                         {
                             !loader && data && data.length > 0 && data.map((item, key) => {
-                                let curFloat = item.buyorsell == 'sell' ? tradePair.firstFloatDigit : tradePair.secondFloatDigit;
+                                // let curFloat = item.buyorsell == 'sell' ? tradePair.firstFloatDigit : tradePair.secondFloatDigit;
+                                let curFloat = tradePair.pip_size
                                 return (
                                     <tr key={key}>
                                         <td>{momentFormat(item.orderDate, 'YYYY-MM-DD HH:mm')}</td>

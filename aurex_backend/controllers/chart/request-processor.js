@@ -494,7 +494,7 @@ RequestProcessor.prototype._sendSymbolSearchResults = function (query, type, exc
 
 RequestProcessor.prototype._prepareSymbolInfo = function (symbolName, tradeType) {
 	var symbolInfo = this._symbolsDatabase.symbolInfo(symbolName, tradeType);
-
+	console.log(symbolInfo,"symbolInfo")
 	if (!symbolInfo) {
 		throw "unknown_symbol " + symbolName;
 	}
@@ -513,7 +513,7 @@ RequestProcessor.prototype._prepareSymbolInfo = function (symbolName, tradeType)
 		"description": symbolInfo.description.length > 0 ? symbolInfo.description : symbolInfo.name,
 		"type": symbolInfo.type,
 		"supported_resolutions": ["1", "5", "15", "30", "60", "1D", "1W", "1M"],
-		"pricescale": 100000000,
+		"pricescale":  Math.pow(10,symbolInfo.pip_size),
 		"ticker": symbolInfo.name.toUpperCase()
 	};
 };

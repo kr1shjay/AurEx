@@ -68,7 +68,8 @@ export const addSpotPair = async (req, res) => {
             "markPrice": reqBody.markPrice,
             'taker_fees': reqBody.taker_fees,
             'markupPercentage': reqBody.markupPercentage,
-            'botstatus': reqBody.botstatus
+            'botstatus': reqBody.botstatus,
+            "pip_size":reqBody.pip_size
         })
         let addedDoc = await newDoc.save();
 
@@ -82,6 +83,7 @@ export const addSpotPair = async (req, res) => {
 
         return res.status(200).json({ 'message': 'Pair added successfully. Refreshing data...' })
     } catch (err) {
+        console.log(err,"err")
         return res.status(500).json({ "success": false, 'message': "Error on server" })
     }
 }
@@ -131,7 +133,8 @@ export const editSpotPair = async (req, res) => {
             pairData.markPrice= reqBody.markPrice,
             pairData.markupPercentage= reqBody.markupPercentage,
             pairData.botstatus= reqBody.botstatus,
-            pairData.status= reqBody.status
+            pairData.status= reqBody.status,
+            pairData.pip_size = reqBody.pip_size
 
             let updateSpotPair = await pairData.save();
         
@@ -188,7 +191,8 @@ export const spotPairList = async (req, res) => {
             "markPrice": 1,
             'markupPercentage': 1,
             'botstatus': 1,
-            'status': 1
+            'status': 1,
+            'pip_size':1
         }).skip(pagination.skip).limit(pagination.limit)
 
         let result = {

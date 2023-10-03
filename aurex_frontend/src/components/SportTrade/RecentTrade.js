@@ -86,7 +86,7 @@ const RecentTrade = (props) => {
                                     { ['greenText']: item.Type === 'buy' },
                                     { ['pinkText']: item.Type === 'sell' })}
                                 >
-                                    {currencyFormat(toFixed(item.price, tradePair.secondFloatDigit))}
+                                    {currencyFormat(toFixed(item.price, tradePair.pip_size))}
                                 </span>
                                 <span className="col-4 text-center">{item.filledQuantity}</span>
                                 <span className="col-4 text-right">{time}</span>

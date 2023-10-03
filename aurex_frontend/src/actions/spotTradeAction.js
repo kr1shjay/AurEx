@@ -68,7 +68,8 @@ export const setTradePair = ({
     secondCurrencyId,
     secondFloatDigit,
     botstatus,
-    _id
+    _id,
+    pip_size
 }, dispatch) => {
     dispatch({
         type: SET_SPOT_PAIR_TRADE,
@@ -80,7 +81,8 @@ export const setTradePair = ({
             secondCurrencyId,
             secondFloatDigit,
             botstatus,
-            pairId: _id
+            pairId: _id,
+            pip_size
         }
     })
     return true

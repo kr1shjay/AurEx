@@ -121,7 +121,7 @@ export default function ScrollableTabsButtonAuto() {
             history.replace('/spot/' + pair)
 
             // history.push('/spot/' + pair)
-            
+
             setSelectCurrency(result[0].secondCurrencySymbol)
             await fetchAssetByCurrency(result[0].firstCurrencyId, 'firstCurrency')
             await fetchAssetByCurrency(result[0].secondCurrencyId, 'secondCurrency')
@@ -144,27 +144,27 @@ export default function ScrollableTabsButtonAuto() {
     catch (err) { }
   }
 
-  const handlePairChange = async (pairData,event) => {
-    console.log(event.target.closest("tr"),"event");
+  const handlePairChange = async (pairData, event) => {
+    console.log(event.target.closest("tr"), "event");
     var allDivTd = document.getElementsByClassName("all_pair_tr");
 
-for(var i = 0; i < allDivTd.length; i++){
-    var td = allDivTd[i];
-    // td.getElementsByTagName("tr").classList.remove("active_pair")
-    console.log(td.getElementsByTagName("tr"),"fdsf");
-  var alltd = td.getElementsByTagName("tr");
-    for(var j = 0; j < alltd.length; j++){
-      var tdnew = alltd[j];
+    for (var i = 0; i < allDivTd.length; i++) {
+      var td = allDivTd[i];
       // td.getElementsByTagName("tr").classList.remove("active_pair")
-      // console.log(td.getElementsByTagName("tr"),"fdsf")
-      tdnew.classList.remove("active_pair")
-  }
-    // td.getElementsByTagName("tr").classList.remove("active_pair")
-}
-   
+      console.log(td.getElementsByTagName("tr"), "fdsf");
+      var alltd = td.getElementsByTagName("tr");
+      for (var j = 0; j < alltd.length; j++) {
+        var tdnew = alltd[j];
+        // td.getElementsByTagName("tr").classList.remove("active_pair")
+        // console.log(td.getElementsByTagName("tr"),"fdsf")
+        tdnew.classList.remove("active_pair")
+      }
+      // td.getElementsByTagName("tr").classList.remove("active_pair")
+    }
+
     event.target.closest("tr").classList.add("active_pair");
 
-   
+
     let pair = `${pairData.firstCurrencySymbol}_${pairData.secondCurrencySymbol}`
     history.push('/spot/' + pair)
     if (tikerRoot != pair) {
@@ -263,85 +263,87 @@ for(var i = 0; i < allDivTd.length; i++){
         
       </div> */}
       <div className='pairColumn'>
-      
-      <nav>
-       
-					<div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+        <nav>
+
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
             {
-              secondCurrencyList && secondCurrencyList.length > 0 && secondCurrencyList.map((item,i)=>{
-               
-               return(
-                <>
-                <a class="nav-item nav-link" 
-                 // <a class={`nav-item nav-link py-2 ${item == selectCurrency  ? 'active' : ''}`}  */}
-                // id="nav-ETH-tab" 
-                id={`nav-${item}-tab`} 
-                data-toggle="tab" 
-                href= {`#nav-${item}`}
-                // href="#nav-ETH" 
-                // role="tab" aria-controls={`nav-${item}`}
-                role="tab" aria-controls="nav-ETH" 
-                aria-selected="false">  {item}</a>
-                </>
-               )
-                
+              secondCurrencyList && secondCurrencyList.length > 0 && secondCurrencyList.map((item, i) => {
+
+                return (
+                  <>
+                    <a class="nav-item nav-link"
+                      // <a class={`nav-item nav-link py-2 ${item == selectCurrency  ? 'active' : ''}`}  */}
+                      // id="nav-ETH-tab" 
+                      id={`nav-${item}-tab`}
+                      data-toggle="tab"
+                      href={`#nav-${item}`}
+                      // href="#nav-ETH" 
+                      // role="tab" aria-controls={`nav-${item}`}
+                      role="tab" aria-controls="nav-ETH"
+                      aria-selected="false">  {item}</a>
+                  </>
+                )
+
 
               })
             }
-						{/* <a class="nav-item nav-link active" id="nav-USDT-tab" data-toggle="tab" href="#nav-USDT" role="tab" aria-controls="nav-USDT" aria-selected="true">USDT</a>
+            {/* <a class="nav-item nav-link active" id="nav-USDT-tab" data-toggle="tab" href="#nav-USDT" role="tab" aria-controls="nav-USDT" aria-selected="true">USDT</a>
 						<a class="nav-item nav-link" id="nav-ETH-tab" data-toggle="tab" href="#nav-ETH" role="tab" aria-controls="nav-ETH" aria-selected="false">ETH</a>
 						<a class="nav-item nav-link" id="nav-BUSD-tab" data-toggle="tab" href="#nav-BUSD" role="tab" aria-controls="nav-BUSD" aria-selected="false">BUSD</a>
 						<a class="nav-item nav-link" id="nav-INR-tab" data-toggle="tab" href="#nav-INR" role="tab" aria-controls="nav-INR" aria-selected="false">INR</a> */}
-					</div>
-				</nav>
-				<div class="tab-content" id="nav-tabContent">
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
 
-        {
-                                secondCurrencyList && secondCurrencyList.length > 0 && secondCurrencyList.map((el, index) => {
-                                    return (
-                                        <div class={`tab-pane fade show ${el == selectCurrency ? 'active' : ''}`} id={`nav-${el}`} role="tabpanel" aria-labelledby={`nav-${el}-tab`}>
-                                              <Scrollbars style={{ width: "100%", height: 455 }}>
-                                            <table className="table">
-                                                <thead>
-                                                    <tr>
-                                                    <th>{t('PAIR')}</th>
-                                                   <th>{t('LATEST_PRICE')}</th>
-                                                   <th>{t('CHANGE')}</th>
+          {
+            secondCurrencyList && secondCurrencyList.length > 0 && secondCurrencyList.map((el, index) => {
+              return (
+                <div class={`tab-pane fade show ${el == selectCurrency ? 'active' : ''}`} id={`nav-${el}`} role="tabpanel" aria-labelledby={`nav-${el}-tab`}>
+                  <Scrollbars style={{ width: "100%", height: 455 }}>
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>{t('PAIR')}</th>
+                          <th>{t('LATEST_PRICE')}</th>
+                          <th>{t('CHANGE')}</th>
 
-                                                        {/* <th>24h Volume</th> */}
-                                                    </tr>
-                                                </thead>
-                                                <tbody className="all_pair_tr">
-                                                    {
-                                                        pairLists && pairLists.length > 0 && pairLists.map((item, key) => {
-                                                            if (el == item.secondCurrencySymbol) {
-                                                                return (
-                                                                    <tr key={key} onClick={(e) => handlePairChange(item,e)}>
-                                                                        <td>
-                                                                            <p className="mb-0">{/* <i class="fas fa-star"></i> */}{item.firstCurrencySymbol}<span>/{item.secondCurrencySymbol}</span></p></td>
-                                                                        <td className="balance_amt_detail">
-                                                                            <p className="mb-0"><span className="price_increase">{item.markPrice}</span>{/* <span>/$314.5</span> */}</p>
-                                                                        </td>
-                                                                        <td className={clsx({
-                                                                            "span_menu_gerrn": item.change > 0,
-                                                                            "span_menu_red": item.change <= 0
-                                                                        })}>{toFixed(item.change,2)}%</td>
-                                                                        {/* <td className="buy_button_op">0</td> */}
-                                                                    </tr>
-                                                                )
-                                                            }
-                                                        })
-                                                    }
-                                                </tbody>
-                                            </table>
-                                            </Scrollbars>
-
-                                        </div>
-                                    )
-                                })
+                          {/* <th>24h Volume</th> */}
+                        </tr>
+                      </thead>
+                      <tbody className="all_pair_tr">
+                        {console.log(pairLists,"pairLists")}
+                        {
+                          pairLists && pairLists.length > 0 && pairLists.map((item, key) => {
+                            
+                            if (el == item.secondCurrencySymbol) {
+                              return (
+                                <tr key={key} onClick={(e) => handlePairChange(item, e)}>
+                                  <td>
+                                    <p className="mb-0">{/* <i class="fas fa-star"></i> */}{item.firstCurrencySymbol}<span>/{item.secondCurrencySymbol}</span></p></td>
+                                  <td className="balance_amt_detail">
+                                    <p className="mb-0"><span className="price_increase">{item.markPrice}</span>{/* <span>/$314.5</span> */}</p>
+                                  </td>
+                                  <td className={clsx({
+                                    "span_menu_gerrn": item.change > 0,
+                                    "span_menu_red": item.change <= 0
+                                  })}>{toFixed(item.change, 2)}%</td>
+                                  {/* <td className="buy_button_op">0</td> */}
+                                </tr>
+                              )
                             }
-      
-					{/* <div class="tab-pane fade show active" id="nav-ETH" role="tabpanel" aria-labelledby="nav-ETH-tab">
+                          })
+                        }
+                      </tbody>
+                    </table>
+                  </Scrollbars>
+
+                </div>
+              )
+            })
+          }
+
+          {/* <div class="tab-pane fade show active" id="nav-ETH" role="tabpanel" aria-labelledby="nav-ETH-tab">
           <Scrollbars style={{ width: "100%", height: 455 }}>
 					{
           secondCurrencyList && secondCurrencyList.length > 0 && secondCurrencyList.map((el, index) => {
@@ -517,9 +519,9 @@ for(var i = 0; i < allDivTd.length; i++){
         }
         </Scrollbars>
 					</div> */}
-				</div>
-        
-     </div>
+        </div>
+
+      </div>
     </div>
   )
 }

@@ -184,18 +184,18 @@ const OrderBook = forwardRef((props, ref) => {
                                     >
                                         <span
                                             className={clsx({ "col-4": showTotal }, { "col-6": !showTotal }, 'pinkText')}
-                                            onClick={() => { orderBookDetail(dispatch, {'price': toFixed(item._id, tradePair.secondFloatDigit),'quantity':toFixed(item.quantity,tradePair.firstFloatDigit)}) }}
+                                            onClick={() => { orderBookDetail(dispatch, {'price': toFixed(item._id, tradePair.pip_size),'quantity':toFixed(item.quantity,tradePair.pip_size)}) }}
                                         >
-                                            {toFixed(item._id, tradePair.secondFloatDigit)}
+                                            {toFixed(item._id, tradePair.pip_size)}
                                         </span>
                                         <span
                                             className={clsx({ "col-4": showTotal }, { "col-6": !showTotal }, 'text-right')}
-                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.secondFloatDigit),'quantity':toFixed(item.quantity, tradePair.firstFloatDigit)}) }}
+                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.pip_size),'quantity':toFixed(item.quantity, tradePair.pip_size)}) }}
                                         >
-                                            {toFixed(item.quantity, tradePair.firstFloatDigit)}
+                                            {toFixed(item.quantity, tradePair.pip_size)}
                                         </span>
                                         {
-                                            showTotal && <span className={"col-4 text-right"}>{toFixed(item.total, tradePair.firstFloatDigit)}</span>
+                                            showTotal && <span className={"col-4 text-right"}>{toFixed(item.total, tradePair.pip_size)}</span>
                                         }
 
                                     </div>
@@ -205,7 +205,7 @@ const OrderBook = forwardRef((props, ref) => {
                     </div>
                     <div className="tradeTableBodyRow even highLight row mx-auto w-100">
                         <span className="col-12 pinkText pl-3 font-size-16">
-                            <i className="fas fa-caret-down"></i> {toFixed(tickerData.markPrice, pairData.secondFloatDigit)}
+                            <i className="fas fa-caret-down"></i> {toFixed(tickerData.markPrice, pairData.pip_size)}
                         </span>
                     </div>
                     <div className="redColumn">
@@ -227,18 +227,18 @@ const OrderBook = forwardRef((props, ref) => {
                                         title="order price">
                                         <span
                                             className={clsx({ "col-4": showTotal }, { "col-6": !showTotal }, 'greenText')}
-                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.secondFloatDigit),'quantity':toFixed(item.quantity,tradePair.firstFloatDigit) }) }}
+                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.pip_size),'quantity':toFixed(item.quantity,tradePair.pip_size) }) }}
                                         >
-                                            {toFixed(item._id, tradePair.secondFloatDigit)}
+                                            {toFixed(item._id, tradePair.pip_size)}
                                         </span>
                                         <span
                                             className={clsx({ "col-4": showTotal }, { "col-6": !showTotal }, 'text-right')}
-                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.secondFloatDigit) ,'quantity':toFixed(item.quantity,tradePair.firstFloatDigit)}) }}
+                                            onClick={() => { orderBookDetail(dispatch, { 'price': toFixed(item._id, tradePair.pip_size) ,'quantity':toFixed(item.quantity,tradePair.pip_size)}) }}
                                         >
-                                            {toFixed(item.quantity, tradePair.firstFloatDigit)}
+                                            {toFixed(item.quantity, tradePair.pip_size)}
                                         </span>
                                         {
-                                            showTotal && <span className={"col-4 text-right"}>{toFixed(item.total, tradePair.firstFloatDigit)}</span>
+                                            showTotal && <span className={"col-4 text-right"}>{toFixed(item.total, tradePair.pip_size)}</span>
                                         }
                                     </div>
                                 )

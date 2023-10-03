@@ -57,6 +57,7 @@ export const addPerpetualPair = async (req, res) => {
         await newDoc.save();
         return res.status(200).json({ 'message': 'Pair added successfully. Refreshing data...' })
     } catch (err) {
+        console.log(err,"err")
         return res.status(500).json({ "success": false, 'message': "Error on server" })
     }
 }
@@ -111,6 +112,7 @@ export const editPerpetualPair = async (req, res) => {
 
         return res.status(200).json({ 'message': 'Pair updated successfully. Refreshing data...' })
     } catch (err) {
+        console.log(err,"err")
         return res.status(500).json({ "success": false, 'message': "Error on server" })
     }
 }

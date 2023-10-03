@@ -166,7 +166,8 @@ export const initialChartSymbol = async () => {
 					},
 					"exchange": 'Trading',
 					"type": 'crypto',
-					"botstatus": 1
+					"botstatus": 1,
+					'pip_size':1
 				}
 			}
 		])
