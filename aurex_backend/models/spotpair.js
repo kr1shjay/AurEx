@@ -7,6 +7,7 @@ const ObjectId = Schema.ObjectId;
 let spotPairsSchema = new Schema({
 	tikerRoot: {
 		type: String,
+		index:true,
 		required: true,
 	},
 	firstCurrencyId: {

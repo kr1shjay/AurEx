@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === "production") {
     secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
     cryptoSecretKey: "1234567812345678",
     DATABASE_URL:
-    "mongodb://NcgFbT:xMAgsK@143.42.18.186:53818/wXZeko",
+    "mongodb+srv://aurex-prod:JiT6Gy2ngjB5C2DO@aurex-production.wvbvo.mongodb.net/wXZeko",
     RUN_CRON: true,
     PORT: PORT,
     FRONT_URL: "https://aurexchange.com",
@@ -434,7 +434,7 @@ if (process.env.NODE_ENV === "production") {
     secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
     cryptoSecretKey: "1234567812345678",
     // DATABASE_URL: "mongodb://localhost:27017/cluxold",
-    DATABASE_URL: "mongodb://localhost:27017/CluxChange",
+    DATABASE_URL: "mongodb://localhost:27017/wXZeko",
 
     // DATABASE_URL: "mongodb://cluxdb:Fvdhcdcedhf6wed34sxdz@172.105.40.100:10730/cluxdb",
     // DATABASE_URL: "mongodb://clux:Password__2022__PasworD@23.239.23.84:10330/clux",

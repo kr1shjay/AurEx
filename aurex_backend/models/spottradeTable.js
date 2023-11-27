@@ -11,7 +11,8 @@ const filledSchema = new Schema({
 	},
 	userId: {
 		type: ObjectId,
-		ref: 'users'
+		ref: 'users',
+		index: true,
 	},
 	buyUserId: {
 		type: ObjectId,
@@ -84,16 +85,19 @@ const SpotOrderSchema = new Schema({
 	userId: {
 		type: ObjectId,
 		required: true,
+		index: true,
 		ref: 'users'
 	},
 	pairId: {
 		type: ObjectId,
 		required: true,
+		index: true,
 		ref: 'spotpairs'
 	},
 	pairName: {
 		type: String,
 		required: true,
+		index: true,
 		default: ''
 	},
 	firstCurrencyId: {
@@ -118,6 +122,7 @@ const SpotOrderSchema = new Schema({
 	},
 	buyorsell: {
 		type: String,
+		index: true,
 		default: ''     //buy or sell
 	},
 	orderType: {
@@ -194,6 +199,7 @@ const SpotOrderSchema = new Schema({
 	status: {
 		type: String,
 		required: true,
+		index: true,
 		enum: ['open', 'pending', 'completed', 'cancel', 'conditional'],
 		default: 'open', //0-new, 1-completed, 2-partial, 3- Cancel, 4- Conditional
 	},

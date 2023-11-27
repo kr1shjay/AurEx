@@ -264,7 +264,7 @@ router.route("/p2p/orderHistoryDoc").get(apiKeyCtrl.authorization, p2pCtrl.order
 router.route("/newsLetter/subscribe").post(newsLetterCtrl.newSubscribe);//
 
 // Webhook
-router.route('/depositwebhook').post(coinpaymentCtrl.verifySign, coinpaymentCtrl.depositwebhook)
+router.route('/depositwebhook').post(coinpaymentCtrl.verifySign,coinpaymentCtrl.depositwebhook)
 router.route('/getMySpotHistory').post(apiKeyCtrl.authorization, spotTradeCtrl.getMySpotHistory);
 router.route('/getFilledOrderHistory').post(apiKeyCtrl.authorization, spotTradeCtrl.getFilledOrderHistory);
 //chechemail
