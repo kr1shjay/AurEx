@@ -452,7 +452,7 @@ class CurrencyAddModal extends React.Component {
                       <option value={' '}>Select Type</option>
                       <option value={'erc20'}>ERC20</option>
                       <option value={'bep20'}>BEP20</option>
-                      <option value={'trc20'}>TRC20</option>
+                      {/* <option value={'trc20'}>TRC20</option> */}
                     </Form.Control>
                     <span className="text-danger">
                       {errors.tokenType}
