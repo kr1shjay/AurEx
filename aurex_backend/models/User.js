@@ -344,7 +344,7 @@ UserSchema.methods.generateJWT = function (payload) {
 };
 UserSchema.methods.decodejwt = function (data) {
   var decode = jwt.verify(data, config.secretOrKey);
-  console.log(decode,"decode")
+  // console.log(decode,"decode")
   return decode ;
 };
 

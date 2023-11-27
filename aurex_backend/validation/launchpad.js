@@ -2,7 +2,7 @@ const Validator = require("validator");
 const isEmpty = require("is-empty");
 
 module.exports = function validateLaunchpadInput(data) {
-    console.log("data!!!!!!!",data)
+    // console.log("data!!!!!!!",data)
     let errors = {};
     data.tokenname         = !isEmpty(data.tokenname) ? data.tokenname : "";
     data.symbol            = !isEmpty(data.symbol) ? data.symbol : "";

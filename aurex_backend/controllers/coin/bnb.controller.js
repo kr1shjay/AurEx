@@ -9,9 +9,7 @@ import Common from "@ethereumjs/common";
 import mongoose from "mongoose";
 
 //controller
-import { createPassBook } from '../passbook.controller';
-
-
+import { createPassBook } from "../passbook.controller";
 
 // import new modal
 import { Currency, User, Wallet, UserReference } from "../../models";
@@ -48,14 +46,14 @@ export const createAddress = async () => {
 };
 
 export const deposit = async (userId) => {
-  console.log("BNB Deposit Cron... etnter ...........", userId);
+  // console.log("BNB Deposit Cron... etnter ...........", userId);
   try {
     let userWalletData = await Wallet.findOne({ userId: userId }).populate(
       "_id"
     );
     let walletData = userWalletData.assets.find((el) => el.coin == "BNB");
     let walletCurrency = await Currency.findOne({ _id: walletData._id });
-    console.log(walletCurrency, "walletCurrencywalletCurrency");
+    // console.log(walletCurrency, "walletCurrencywalletCurrency");
 
     const latest = await web3.eth.getBlockNumber();
     var startBlock = config.COIN_GATE_WAY.BNB.START_BLOCK;
@@ -71,6 +69,7 @@ export const deposit = async (userId) => {
         url: url,
         method: "post",
       });
+      // console.log(url, "BNB-URL");
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
           var result = respData.data.result[y];
@@ -82,16 +81,17 @@ export const deposit = async (userId) => {
 
             "assets.coin": "BNB",
           });
-          // let assetData =
-          //   userAssetData &&
-          //   userAssetData.assets &&
-          //   userAssetData.assets.find((el) => el.coin == "BNB");
-
           if (userAssetData) {
             let transactionExist = await TransactionDB.findOne({
               txid: result.hash,
             });
+            // console.log(transactionExist, "transactionExist-BNB");
             let amount = parseInt(result.value, 10) / 1000000000000000000;
+            // console.log(
+            //   parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit),
+            //   "parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit-BNB)"
+            // );
+
             if (
               !transactionExist &&
               parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)
@@ -103,9 +103,8 @@ export const deposit = async (userId) => {
                 userprivatekey: walletData.privateKey,
                 adminAddress: config.COIN_GATE_WAY.BNB.ADDRESS,
               });
-
+              // console.log(status, "BNB-status");
               if (status) {
-
                 //referralcommission
                 let UserB = await TransactionDB.find({
                   $and: [
@@ -122,73 +121,6 @@ export const deposit = async (userId) => {
                   let referTable = await UserReference.find({
                     "referChild._id": userData._id,
                   });
-                  // if (!isEmpty(referTable)) {
-                  //   let data = await User.findOne(
-                  //     { _id: referTable[0]._id },
-                  //     { userId: 1 }
-                  //   );
-                  //   let UserA = await TransactionDB.find({
-                  //     $and: [
-                  //       { userId: data.userId },
-                  //       {
-                  //         paymentType: { $in: ["coin_deposit", "fiat_deposit"] },
-                  //       },
-                  //     ],
-                  //   });
-
-                  //   if (!isEmpty(UserA)) {
-
-                  //     let currencyId = await Currency.find({ "name": "cluxcoin" })
-                  //     console.log(currencyId, '--------000')
-                  //     let usrWallet = await Wallet.findOne({
-                  //       _id: data._id,
-                  //     })
-                  //     console.log(usrWallet, '---------001')
-
-                  //     let usrAsset = usrWallet.assets.id(currencyId[0]._id);
-                  //     console.log(usrAsset, '---------002')
-
-                  //     let beforeBalance = parseFloat(usrAsset.spotBal);
-                  //     let referralamount = 5;
-                  //     //usrAsset.spotBal = parseFloat(usrAsset.spotBal) + (referralamount);
-                  //     let updateWallet = await usrWallet.save();
-                  //     console.log(updateWallet, '---------003')
-
-                  //     // let assestdata = await Wallet.updateOne(
-                  //     //   {
-                  //     //     _id: data._id,
-                  //     //     "assets.coin": "CLUX",
-                  //     //   },
-                  //     //   {
-                  //     //     $inc: {
-                  //     //       "assets.$.spotBal": +referralamount,
-                  //     //     },
-                  //     //   }
-                  //     // );
-
-
-                  //     if (updateWallet) {
-                  //       // let referData = await UserReference.updateOne(
-                  //       //   { _id: data._id, "referChild._id": userData._id },
-                  //       //   { $inc: { "referChild.$.amount": +referralamount } }
-                  //       // );
-                  //       // Referral CREATE PASS_BOOK
-                  //       createPassBook({
-                  //         'userId': data._id,
-                  //         'coin': "CLUX",
-                  //         'currencyId': currencyId[0]._id,
-                  //         'tableId': usrWallet._id,
-                  //         'beforeBalance': beforeBalance,
-                  //         'afterBalance': parseFloat(usrAsset.spotBal),
-                  //         'amount': parseFloat(referralamount),
-                  //         'type': 'referral_amount',
-                  //         'category': 'credit'
-                  //       })
-
-                  //     }
-
-                  //   }
-                  // }
                 }
 
                 let transaction = new TransactionDB({
@@ -206,64 +138,37 @@ export const deposit = async (userId) => {
                 let tran = await transaction.save();
 
                 let userData = await Wallet.findOne({
-                  userId: userId
-                })
-                console.log(userData, '---------004')
+                  userId: userId,
+                });
+                // console.log(userData, "---------004");
                 let AssetData = userData.assets.id(walletData._id);
-                console.log(AssetData, '---------005')
+                // console.log(AssetData, "---------005");
 
                 let beforeBalance = parseFloat(AssetData.spotBal);
-                AssetData.spotBal = parseFloat(AssetData.spotBal) + parseFloat(amount);
+                AssetData.spotBal =
+                  parseFloat(AssetData.spotBal) + parseFloat(amount);
                 let WalletData = await userData.save();
-                console.log(WalletData, '---------006')
-
-                // await Wallet.updateOne(
-                //   {
-                //     userId: userId,
-                //     "assets._id": walletData._id,
-                //   },
-                //   {
-                //     $inc: {
-                //       "assets.$.spotBal": amount,
-                //       "amount.$.blockNo": latest,
-                //     },
-                //   }
-                // );
-
+                // console.log(WalletData, "---------006");
                 // CREATE PASS_BOOK
                 createPassBook({
-                  'userId': userData._id,
-                  'coin': "BNB",
-                  'currencyId': walletCurrency._id,
-                  'tableId': transaction._id,
-                  'beforeBalance': beforeBalance,
-                  'afterBalance': parseFloat(AssetData.spotBal),
-                  'amount': parseFloat(amount),
-                  'type': 'coin_deposit',
-                  'category': 'credit'
-                })
-
-
+                  userId: userData._id,
+                  coin: "BNB",
+                  currencyId: walletCurrency._id,
+                  tableId: transaction._id,
+                  beforeBalance: beforeBalance,
+                  afterBalance: parseFloat(AssetData.spotBal),
+                  amount: parseFloat(amount),
+                  type: "coin_deposit",
+                  category: "credit",
+                });
               }
             }
-            // else if (transactionExist.status == "completed") {
-            //   let newUserData = await TransactionDB.findOneAndUpdate(
-            //     { _id: transactionExist._id },
-            //     {
-            //       $set: {
-            //         txid: result.hash,
-            //       },
-            //     }
-            //   );
-            //   console.log(newUserData, "newUserDatanewUserData");
-            // }
           }
         }
       }
     }
   } catch (err) {
     //  res.status(200).json({"message":"errr"})
-
     console.log("Erron on BNB Deposit ", err);
   }
 };
@@ -275,7 +180,7 @@ export const bnbMovetoAdmin = async ({
   adminAddress,
 }) => {
   try {
-    console.log("BNB Amount Move to Admin");
+    // console.log("BNB Amount Move to Admin");
     var userprivatekey = decryptString(userprivatekey);
     let balance = await web3.eth.getBalance(useraddress);
     let getGasPrice = await web3.eth.getGasPrice();
@@ -284,7 +189,9 @@ export const bnbMovetoAdmin = async ({
     var fee = web3.utils.toHex(getGasPrice) * gaslimit;
 
     amount = amount * 1000000000000000000 - fee;
-
+    // console.log(balance, "balancebalancebalance");
+    // console.log(amount, "amountamountamount");
+    // console.log(balance > amount, "balance > amount");
     if (balance > amount) {
       var updateVal = {};
       const txObject = {
@@ -317,18 +224,11 @@ export const bnbMovetoAdmin = async ({
       const raw1 = "0x" + serializedTx.toString("hex");
 
       let responseData = await web3.eth.sendSignedTransaction(raw1);
-
+      // console.log(responseData, "responseDataresponseData");
       return {
         status: true,
         message: "success",
       };
-      // console.log(responseData,'--------------transactionHash')
-      //     var recamount = web3.utils.fromWei(
-      //       amount.toString(),
-      //       "ether"
-      //     );
-
-      // console.log(responseData.transactionHash,'--------------transactionHash')
     } else {
       console.log("USER BNB BALNCE NOT FOUND");
       return {
@@ -352,20 +252,20 @@ export const bnbMovetoUser = async ({
   userAddress,
 }) => {
   try {
-    console.log("BNB Amount Move to User");
+    // console.log("BNB Amount Move to User");
     var adminPrivatekey = decryptString(adminPrivatekey);
     // var adminPrivatekey = adminPrivatekey
 
-    console.log(
-      amount,
-      "amount",
-      adminAddress,
-      "adminAddress",
-      adminPrivatekey,
-      "adminPrivatekey",
-      userAddress,
-      "userAddress"
-    );
+    // console.log(
+    //   amount,
+    //   "amount",
+    //   adminAddress,
+    //   "adminAddress",
+    //   adminPrivatekey,
+    //   "adminPrivatekey",
+    //   userAddress,
+    //   "userAddress"
+    // );
     let balance = await web3.eth.getBalance(adminAddress);
     let getGasPrice = await web3.eth.getGasPrice();
     let txCount = await web3.eth.getTransactionCount(adminAddress);
@@ -377,12 +277,12 @@ export const bnbMovetoUser = async ({
 
     // Convert to wei value
 
-    console.log(
-      balance,
-      "balance",
-      amount1,
-      "amount---------------------------------------"
-    );
+    // console.log(
+    //   balance,
+    //   "balance",
+    //   amount1,
+    //   "amount---------------------------------------"
+    // );
     if (balance > amount1) {
       // const amountToSend = web3.toWei(amount1, "ether");
       var updateVal = {};
@@ -394,7 +294,7 @@ export const bnbMovetoUser = async ({
         // value: amountToSend ,
         value: web3.utils.toHex(amount1),
       };
-      console.log(txObject, "txobjectttttttttttttttttt");
+      // console.log(txObject, "txobjectttttttttttttttttt");
       const common = await Common.forCustomChain(
         "mainnet",
         {
@@ -447,7 +347,7 @@ export const bnbMovetoUser = async ({
 };
 
 export const tokenDeposit = async (userId, currencySymbol) => {
-  console.log("BNB Token Deposit Cron...", userId, currencySymbol);
+  // console.log("BNB Token Deposit Cron...", userId, currencySymbol);
   try {
     let userWalletData = await Wallet.findOne({ userId: userId }).populate(
       "_id"
@@ -477,29 +377,22 @@ export const tokenDeposit = async (userId, currencySymbol) => {
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
           var result = respData.data.result[y];
-
           let userAssetData = await Wallet.findOne({
             "assets.address": {
               $regex: new RegExp(".*" + result.to.toLowerCase() + ".*", "i"),
             },
             "assets.coin": currencySymbol,
           });
-          // console.log(userAssetData,'userAssetDatauserAssetDatauserAssetData--------------------')
           if (userAssetData) {
             let transactionExist = await TransactionDB.findOne({
               txid: result.hash,
             });
             let amount =
               result.value / 10 ** parseInt(walletCurrency.contractDecimal);
-            // console.log(transactionExist,'transactionExisttransactionExist')
-
             if (
               !transactionExist &&
               parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)
             ) {
-              // user data object
-              // console.log(userAssetData,'userAssetDatauserAssetDatauserAssetDatauserAssetData')
-              // console.log(result.value,'userrrrrrrrrrrrrrrrrrrrrrrr')
               const { status, message } = await tokenMoveToAdmin({
                 minAbi: walletCurrency.minABI,
                 contractAddress: walletCurrency.contractAddress,
@@ -509,9 +402,9 @@ export const tokenDeposit = async (userId, currencySymbol) => {
                 userPrivateKey: walletData.privateKey,
                 userAddress: walletData.address,
               });
-              // console.log(status,message,'statataatatatatatat')
+              // console.log(status, message, "statusstatus");
               if (status) {
-                console.log("result.hashresult.hash", result.hash);
+                // console.log("result.hashresult.hash", result.hash);
                 //referralcommission
                 let UserB = await TransactionDB.find({
                   $and: [
@@ -527,77 +420,6 @@ export const tokenDeposit = async (userId, currencySymbol) => {
                   let referTable = await UserReference.find({
                     "referChild._id": userData._id,
                   });
-                  // if (!isEmpty(referTable)) {
-                  //   let data = await User.findOne(
-                  //     { _id: referTable[0]._id },
-                  //     { userId: 1 }
-                  //   );
-
-                  //   let UserA = await TransactionDB.find({
-                  //     $and: [
-                  //       { userId: data.userId },
-                  //       {
-                  //         paymentType: {
-                  //           $in: ["coin_deposit", "fiat_deposit"],
-                  //         },
-                  //       },
-                  //     ],
-                  //   });
-                  //   console.log(UserA, "UserA");
-
-                  //   if (!isEmpty(UserA)) {
-                  //     let currencyId = await Currency.find({ "name": "cluxcoin" })
-                  //     console.log(currencyId, '--------000')
-                  //     let usrWallet = await Wallet.findOne({
-                  //       _id: data._id,
-                  //     })
-                  //     console.log(usrWallet, '---------001')
-
-                  //     let usrAsset = usrWallet.assets.id(currencyId[0]._id);
-                  //     console.log(usrAsset, '---------002')
-
-                  //     let beforeBalance = parseFloat(usrAsset.spotBal);
-                  //     let referralamount = 5;
-                  //     usrAsset.spotBal = parseFloat(usrAsset.spotBal) + (referralamount);
-                  //     let updateWallet = await usrWallet.save();
-                  //     console.log(updateWallet, '---------003')
-
-
-                  //     // let assestdata = await Wallet.updateOne(
-                  //     //   {
-                  //     //     _id: data._id,
-                  //     //     "assets.coin": "CLUX",
-                  //     //   },
-                  //     //   {
-                  //     //     $inc: {
-                  //     //       "assets.$.spotBal": +referralamount,
-                  //     //     },
-                  //     //   }
-                  //     // );
-
-
-                  //     if (assestdata) {
-                  //       let referData = await UserReference.updateOne(
-                  //         { _id: data._id, "referChild._id": userData._id },
-                  //         { $inc: { "referChild.$.amount": +referralamount } }
-                  //       );
-
-
-                  //        // Referral CREATE PASS_BOOK
-                  //        createPassBook({
-                  //         'userId': data._id,
-                  //         'coin': "CLUX",
-                  //         'currencyId': currencyId[0]._id,
-                  //         'tableId': usrWallet._id,
-                  //         'beforeBalance': beforeBalance,
-                  //         'afterBalance': parseFloat(usrAsset.spotBal),
-                  //         'amount': parseFloat(referralamount),
-                  //         'type': 'referral_amount',
-                  //         'category': 'credit'
-                  //       })
-                  //     }
-                  //   }
-                  // }
                 }
 
                 let transaction = new TransactionDB({
@@ -615,43 +437,31 @@ export const tokenDeposit = async (userId, currencySymbol) => {
                 let tran = await transaction.save();
 
                 let userData = await Wallet.findOne({
-                  userId: userId
-                })
-                console.log(userData, '---------004')
+                  userId: userId,
+                });
+                // console.log(userData, "---------004");
                 let AssetData = userData.assets.id(walletData._id);
-                console.log(AssetData, '---------005')
+                // console.log(AssetData, "---------005");
 
                 let beforeBalance = parseFloat(AssetData.spotBal);
-                AssetData.spotBal = parseFloat(AssetData.spotBal) + parseFloat(amount);
+                AssetData.spotBal =
+                  parseFloat(AssetData.spotBal) +
+                  parseFloat(amount) / 10 ** walletCurrency.decimal;
                 let WalletData = await userData.save();
-                console.log(WalletData, '---------006')
+                // console.log(WalletData, "---------006");
 
-                 // CREATE PASS_BOOK
-                 createPassBook({
-                  'userId': userData._id,
-                  'coin': "BNB",
-                  'currencyId': walletCurrency._id,
-                  'tableId': transaction._id,
-                  'beforeBalance': beforeBalance,
-                  'afterBalance': parseFloat(AssetData.spotBal),
-                  'amount': parseFloat(amount),
-                  'type': 'coin_deposit',
-                  'category': 'credit'
-                })
-
-
-                // await Wallet.updateOne(
-                //   {
-                //     userId: userId,
-                //     "assets._id": walletData._id,
-                //   },
-                //   {
-                //     $inc: {
-                //       "assets.$.spotBal": amount,
-                //       "amount.$.blockNo": latest,
-                //     },
-                //   }
-                // );
+                // CREATE PASS_BOOK
+                createPassBook({
+                  userId: userData._id,
+                  coin: "BNB",
+                  currencyId: walletCurrency._id,
+                  tableId: transaction._id,
+                  beforeBalance: beforeBalance,
+                  afterBalance: parseFloat(AssetData.spotBal),
+                  amount: parseFloat(amount),
+                  type: "coin_deposit",
+                  category: "credit",
+                });
               }
             } else if (transactionExist.status == "completed") {
               let newUserData = await TransactionDB.findOneAndUpdate(
@@ -682,13 +492,8 @@ export const tokenMoveToAdmin = async ({
   amount,
 }) => {
   try {
-    // console.log(amount,'amount88888888888888888888888')
     userPrivateKey = decryptString(userPrivateKey);
-    // console.log(userPrivateKey,'userPrivateKeyuserPrivateKeyuserPrivateKeyuserPrivateKey')
-    // let userPrivateKey1 = Buffer.from(userPrivateKey, "hex");
-    // console.log("-------admin privateKey",userPrivateKey);
-    // return
-    console.log(contractAddress, userAddress, "testsarantestsaran");
+
     let contract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
     let tokenbalance = await contract.methods.balanceOf(userAddress).call();
 
@@ -717,14 +522,14 @@ export const tokenMoveToAdmin = async ({
       let getGasPrice = await web3.eth.getGasPrice();
       let gaslimit = web3.utils.toHex(500000);
       let fee = web3.utils.toHex(getGasPrice) * gaslimit;
-      console.log(getBalance, "------------>>>>getBalance");
-      console.log(fee, "------------>>>>fee");
+      // console.log(getBalance, "------------>>>>getBalance");
+      // console.log(fee, "------------>>>>fee");
 
       if (getBalance > fee) {
-        console.log(
-          "-------------->>>>>>>>>>-----------------<<<<<<<<<<<",
-          amount
-        );
+        // console.log(
+        //   "-------------->>>>>>>>>>-----------------<<<<<<<<<<<",
+        //   amount
+        // );
 
         let tokenAmount = web3.utils.toHex(
           web3.utils.toWei(amount.toString(), "ether")
@@ -774,10 +579,10 @@ export const tokenMoveToAdmin = async ({
           parseFloat(getBalance) +
           parseFloat(web3.utils.toWei("0.00041", "ether"));
 
-        console.log(
-          "<<<<-----------SEND BNB ADMIN TO USER AMOUNT----------->>>>",
-          amopunttosend / 1000000000000000000
-        );
+        // console.log(
+        //   "<<<<-----------SEND BNB ADMIN TO USER AMOUNT----------->>>>",
+        //   amopunttosend / 1000000000000000000
+        // );
         let { status, message, result } = await bnbMovetoUser({
           amount: amopunttosend / 1000000000000000000,
           adminAddress: config.COIN_GATE_WAY.BNB.ADDRESS,
@@ -823,15 +628,15 @@ export function convert(n) {
       .split(/e|\./);
     return +pow < 0
       ? sign +
-      "0." +
-      "0".repeat(Math.max(Math.abs(pow) - 1 || 0, 0)) +
-      lead +
-      decimal
+          "0." +
+          "0".repeat(Math.max(Math.abs(pow) - 1 || 0, 0)) +
+          lead +
+          decimal
       : sign +
-      lead +
-      (+pow >= decimal.length
-        ? decimal + "0".repeat(Math.max(+pow - decimal.length || 0, 0))
-        : decimal.slice(0, +pow) + "." + decimal.slice(+pow));
+          lead +
+          (+pow >= decimal.length
+            ? decimal + "0".repeat(Math.max(+pow - decimal.length || 0, 0))
+            : decimal.slice(0, +pow) + "." + decimal.slice(+pow));
   } catch (err) {
     return 0;
   }
@@ -848,14 +653,14 @@ export const tokenMoveToUser = async ({
 }) => {
   try {
     // console.log(amount,',amountamountamount',adminAddress,',adminAddressadminAddressadminAddress',userAddress,',userAddressuserAddressuserAddress',contractAddress,',contractAddresscontractAddresscontractAddress',adminPrivateKey,',adminPrivateKeyadminPrivateKeyadminPrivateKey',minAbi,',minAbiminAbiminAbi',decimals,',decimalsdecimalsdecimals')
-    console.log(decimals, "---------------decimal", amount);
+    // console.log(decimals, "---------------decimal", amount);
     adminPrivateKey = decryptString(adminPrivateKey);
     // let adminPrivateKey1 = Buffer.from(adminPrivateKey, "hex");
-    console.log("-------admin privateKey", adminPrivateKey);
+    // console.log("-------admin privateKey", adminPrivateKey);
     // return
     let contract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
     let tokenbalance = await contract.methods.balanceOf(adminAddress).call();
-    console.log(tokenbalance, "tokenbalancetokenbalancetokenbalance");
+    // console.log(tokenbalance, "tokenbalancetokenbalancetokenbalance");
     let muldecimal = 2;
     if (decimals == 0) {
       muldecimal = 1;
@@ -872,10 +677,10 @@ export const tokenMoveToUser = async ({
     } else if (decimals == 18) {
       muldecimal = 1000000000000000000;
     }
-
+    // console.log(muldecimal, "parseFloat(muldecimal)");
     amount = parseFloat(amount) * parseFloat(muldecimal);
     // amount = convert(amount)
-    console.log(amount, "--------------amount");
+    // console.log(amount, "--------------amount");
     if (tokenbalance > 0) {
       let getBalance = await web3.eth.getBalance(adminAddress);
       let txCount = await web3.eth.getTransactionCount(adminAddress);
@@ -891,6 +696,7 @@ export const tokenMoveToUser = async ({
         let data = contract.methods
           .transfer(userAddress, amount.toString())
           .encodeABI();
+        // console.log("🚀 ~ file: bnb.controller.js:883 ~ data:", data);
         let transactionObject = {
           gasLimit: web3.utils.toHex(500000),
           gasPrice: web3.utils.toHex(getGasPrice),

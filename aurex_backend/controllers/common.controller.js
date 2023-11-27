@@ -57,7 +57,7 @@ export const getSocialMedia = async (req, res) => {
             "discordlink":1,
             "mediumlink":1
         })
-        console.log(settingData, '-------------settingData')
+        // console.log(settingData, '-------------settingData')
         if (settingData) {
             return res.status(200).json({ 'success': true, 'message': "Fetch success", 'result': settingData })
         }

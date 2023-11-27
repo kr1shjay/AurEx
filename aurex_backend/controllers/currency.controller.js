@@ -59,6 +59,7 @@ export const uploadCurrency = (req, res, next) => {
         .status(400)
         .json({ success: false, errors: { [err.field]: "TOO_LARGE" } });
     } else if (err) {
+      console.log(err, "Multer_err");
       return res
         .status(500)
         .json({ success: false, message: "SOMETHING_WRONG" });
@@ -128,6 +129,7 @@ export const currencyList = async (req, res) => {
       "type",
       "status",
     ]);
+    console.log(filter, "filter");
     let Export = req.query.export;
     const header = ["Name", "Type", "Coin", "status"];
     let count = await Currency.countDocuments(filter);
@@ -240,7 +242,7 @@ export const currencyList = async (req, res) => {
         data,
         imageUrl: `${config.SERVER_URL}${config.IMAGE.CURRENCY_URL_PATH}`,
       };
-
+      console.log(result, "result");
       return res
         .status(200)
         .json({ success: true, message: "FETCH_SUCCESS", result });
@@ -286,7 +288,7 @@ export const addCurrency = async (req, res) => {
     if (reqBody.type == "token") {
       newDoc["contractAddress"] = reqBody.contractAddress;
       newDoc["minABI"] = reqBody.minABI;
-      newDoc["decimals"] = reqBody.decimals;
+      newDoc["decimal"] = reqBody.decimals;
       newDoc["tokenType"] = reqBody.tokenType;
     } else if (reqBody.type == "fiat") {
       newDoc["bankDetails"] = {
@@ -306,6 +308,7 @@ export const addCurrency = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Coin added successfully" });
   } catch (err) {
+    console.log(err, "ADD_err");
     return res
       .status(500)
       .json({ success: false, message: "Something went wrong" });

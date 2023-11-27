@@ -48,7 +48,7 @@ export const withdrawfee = async (req, res) => {
         var withdrawamount = req.body.amount
         console.log("withdrawamount", withdrawamount)
         let CurrencyData = await Currency.findOne({ 'coin': coin })
-        console.log("Data", CurrencyData)
+        // console.log("Data", CurrencyData)
         let finalAmount = parseFloat(CurrencyData.withdrawFee)
         console.log("withdrawfee", finalAmount)
         return res.status(200).json({ 'statusCode': 200, 'success': true, 'messages': "success", 'result': finalAmount })

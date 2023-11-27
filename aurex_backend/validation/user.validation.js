@@ -80,7 +80,7 @@ export const registerValidate = (req, res, next) => {
 export const loginValidate = (req, res, next) => {
     let errors = {}, reqBody = req.body;
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/;
-    console.log("🚀 ~ file: user.validation.js ~ line 83 ~ loginValidate ~ reqBody", reqBody)
+    // console.log("🚀 ~ file: user.validation.js ~ line 83 ~ loginValidate ~ reqBody", reqBody)
 
     if (isEmpty(reqBody.formType)) {
         errors.formType = "Form Type field is required";
