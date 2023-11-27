@@ -826,7 +826,7 @@ function referralfee(amount, currency) {
               if (err) {
                 console.log("Error in finding currency", err);
               }
-              console.log("Dataa from perpetual table", result);
+              // console.log("Dataa from perpetual table", result);
               markprice = result.markprice;
               console.log("Markprice==", markprice);
               done();

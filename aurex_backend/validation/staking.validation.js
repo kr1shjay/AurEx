@@ -12,8 +12,8 @@ import isEmpty from '../lib/isEmpty';
 */
 export const addStakeValid = (req, res, next) => {
     let errors = {}, reqBody = req.body;
-    console.log('reqBody.minimumAmount',)
-    console.log('reqBody.maximumAmount', reqBody)
+    // console.log('reqBody.minimumAmount',)
+    // console.log('reqBody.maximumAmount', reqBody)
     if (isEmpty(reqBody.currencyId)) {
         errors.currencyId = "Currency id field is required";
     } else if (!(mongoose.Types.ObjectId.isValid(reqBody.currencyId))) {

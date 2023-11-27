@@ -9,8 +9,8 @@ import isEmpty from '../lib/isEmpty';
 */
 
 export const createNewTicket = (req, res, next) => {
-    console.log('reqFile', req.files, req.file)
-    console.log('reqBody', req.body)
+    // console.log('reqFile', req.files, req.file)
+    // console.log('reqBody', req.body)
     let errors = {}, reqBody = req.body, reqFile = req.files;
     // console.log(reqBody,'reqBody---------')
     // console.log(file,'file---------')
@@ -55,8 +55,8 @@ export const usrReplyMsg = (req, res, next) => {
 
     try {
         let errors = {}, reqBody = req.body, reqFile = req.files;
-        console.log("🚀 ~ file: support.validation.js ~ line 58 ~ usrReplyMsg ~ reqBody", reqBody)
-        console.log("🚀 ~ file: support.validation.js ~ line 59 ~ usrReplyMsg ~ reqFile", reqFile)
+        // console.log("🚀 ~ file: support.validation.js ~ line 58 ~ usrReplyMsg ~ reqBody", reqBody)
+        // console.log("🚀 ~ file: support.validation.js ~ line 59 ~ usrReplyMsg ~ reqFile", reqFile)
 
         let allowedExtension = ['jpeg', 'jpg', 'png', 'pdf', 'mp4'];
         // let allowedFileExtension = ['pdf', 'odt', 'doc'];

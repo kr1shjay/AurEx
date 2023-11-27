@@ -343,9 +343,9 @@ if (process.env.NODE_ENV === "production") {
           "U2FsdGVkX1+/1hKILbKT3dz4lt/P8xtGLR6hmvkm5azp5PaCIUtDa53HGxoLh+XQOVqMORbjdgvAjxt6FNtePjmov7t+wGfOQHRZSzh0ZN4iRciSDnveGYDGJbMvxn6g",
         ADDRESS: "TKSjgi7i4MX5Bg1NBtKA5XD7c8vmqE2BHF",
         TRANSACTIONURL:
-          "https://api.shasta.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
+          "https://nile.trongrid.iov1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
         TRANSACTIONCONTRACTURL:
-          "https://api.shasta.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
+          "https://nile.trongrid.iov1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
         DECIMAL: 100000000, //8
         TRONDECIMAL: 1000000, //6
         ADMINAMTSENTTOUSER: 2.00004,
@@ -377,9 +377,9 @@ if (process.env.NODE_ENV === "production") {
           "U2FsdGVkX1+/1hKILbKT3dz4lt/P8xtGLR6hmvkm5azp5PaCIUtDa53HGxoLh+XQOVqMORbjdgvAjxt6FNtePjmov7t+wGfOQHRZSzh0ZN4iRciSDnveGYDGJbMvxn6g",
         address: "TKSjgi7i4MX5Bg1NBtKA5XD7c8vmqE2BHF",
         transactionUrl:
-          "https://api.shasta.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
+          "https://nile.trongrid.iov1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
         transactionContractUrl:
-          "https://api.shasta.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
+          "https://nile.trongrid.iov1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
         decimal: 100000000, //8
         tronDecimal: 1000000, //6
         adminAmtSentToUser: 2.00004,

@@ -18,11 +18,10 @@ if (process.env.NODE_ENV === "production") {
     SERVER_URL: `${API_URL}`,
     IMAGE_URL: `${API_URL}`,
     RECAPTCHA_SECRET_KEY: "6LfCM7kgAAAAABRF1c3QnDWCs_TEqyKOI_6Su_B9",
-    IPN_URL:`${API_URL}/api/depositwebhook`,
+    IPN_URL: `${API_URL}/api/depositwebhook`,
     NUM_VERIFY: {
       API_KEY: "",
     },
-    
 
     //Sms Gateway
     smsGateway: {
@@ -75,9 +74,8 @@ if (process.env.NODE_ENV === "production") {
       P2P_SIZE: 2 * 1024 * 1024, // 2 MB
       P2P_PATH: "public/p2p",
       P2P_URL_PATH: "/p2p/",
-      ACCOUMENT_PATH:"public/images/anouncement",
-      ACCOUMENT_URL_PATH:"/anouncement/",      
-
+      ACCOUMENT_PATH: "public/images/anouncement",
+      ACCOUMENT_URL_PATH: "/anouncement/",
     },
     WAZIRIX: {
       API: "34234rff", //using for orderplace
@@ -138,7 +136,7 @@ if (process.env.NODE_ENV === "production") {
           "https://api.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
         DECIMAL: 100000000, //8
         TRONDECIMAL: 1000000, //6
-        ADMINAMTSENTTOUSER: 10,
+        ADMINAMTSENTTOUSER: 50,
       },
     },
 
@@ -174,7 +172,7 @@ if (process.env.NODE_ENV === "production") {
           "https://api.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
         decimal: 1000000, //18
         tronDecimal: 1000000, //6
-        adminAmtSentToUser: 10,
+        adminAmtSentToUser: 50,
       },
     },
     BINANCE_GATE_WAY: {
@@ -202,9 +200,8 @@ if (process.env.NODE_ENV === "production") {
       API_KEY: "",
       PRICE_CONVERSION: "",
     },
-  }
- } 
- else if (process.env.NODE_ENV === "demo") {
+  };
+} else if (process.env.NODE_ENV === "demo") {
   console.log("\x1b[35m%s\x1b[0m", `Set Demo Config`);
 
   const API_URL = "https://backend-aurex.maticz.in/";
@@ -213,8 +210,7 @@ if (process.env.NODE_ENV === "production") {
     SITE_NAME: "tradingone",
     secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
     cryptoSecretKey: "1234567812345678",
-    DATABASE_URL:
-      "mongodb://XMxnWnAlra:LLtgjmidvw@127.0.0.1:27017/CluxChange",
+    DATABASE_URL: "mongodb://XMxnWnAlra:LLtgjmidvw@127.0.0.1:27017/CluxChange",
     RUN_CRON: true,
     PORT: PORT,
     FRONT_URL: "https://aurex.maticz.in/",
@@ -299,10 +295,18 @@ if (process.env.NODE_ENV === "production") {
         URL: "",
       },
       ETH: {
-        URL: "http://173.230.156.107:3000",
+        URL: "https://rpc.sepolia.org",
         ADDRESS: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
         PRIVATE_KEY:
           "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",
+
+        START_BLOCK: 0,
+        DEPOSIT_URL:
+          "https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=5RJWEAZM1FHHFBST9HBNZP1H4EAZWF8SUG",
+        DEPOSIT_TOKEN_URL:
+          "https://api-sepolia.etherscan.io/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=5RJWEAZM1FHHFBST9HBNZP1H4EAZWF8SUG",
+        NETWORK_ID: 11155111,
+        CHAIN_ID: 11155111,
       },
       // BNB: {
       //     URL: "https://bsc-dataseed.binance.org/",
@@ -348,36 +352,49 @@ if (process.env.NODE_ENV === "production") {
       //     ADMINAMTSENTTOUSER: 10,
       // }
       TRON: {
-        FULLNODE: "https://api.shasta.trongrid.io",
-        SOLIDITYNODE: "https://api.shasta.trongrid.io",
-        EVENTSERVER: "https://api.shasta.trongrid.io",
+        FULLNODE: "https://nile.trongrid.io",
+        SOLIDITYNODE: "https://nile.trongrid.io",
+        EVENTSERVER: "https://nile.trongrid.io",
         contractAddress: "TTtYtVVekf9GG3UvmZouKeeEao8HFe1AcA",
         PRIVATEKEY:
           "U2FsdGVkX1+/1hKILbKT3dz4lt/P8xtGLR6hmvkm5azp5PaCIUtDa53HGxoLh+XQOVqMORbjdgvAjxt6FNtePjmov7t+wGfOQHRZSzh0ZN4iRciSDnveGYDGJbMvxn6g",
         ADDRESS: "TKSjgi7i4MX5Bg1NBtKA5XD7c8vmqE2BHF",
         TRANSACTIONURL:
-          "https://api.shasta.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
+          "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
         TRANSACTIONCONTRACTURL:
-          "https://api.shasta.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
+          "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
         DECIMAL: 100000000, //8
         TRONDECIMAL: 1000000, //6
-        ADMINAMTSENTTOUSER: 2.00004,
+        ADMINAMTSENTTOUSER: 5.00004,
       },
     },
 
     coinGateway: {
+      // eth: {
+      //   url: "http://139.162.1.152:3000",
+      //   startBlock: 11504800,
+      //   mode: "ropsten", // ropsten
+      //   address: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
+      //   privateKey:
+      //     "U2FsdGVkX1+qPHe80YXasGLBvZaovbS0o8AShWZrDZ4ja2Xt3j553iM260o+sJFjyZTC2ohXhwGK91MyTAaITTn3iq2kZs8wroYiQ5QkGJM+x3+MAgSskcFJLxGP1PfP",
+      //   etherscanUrl: "https://api.etherscan.io/api?", // https://api-ropsten.etherscan.io/api?
+      //   ethDepositUrl:
+      //     "https://api.etherscan.io/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=CSM5YXQG5MTE8XWM57UWH6DBXQRS8SQP3K",
+      //   ethTokenDepositUrl:
+      //     "https://api.etherscan.io/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=CSM5YXQG5MTE8XWM57UWH6DBXQRS8SQP3K",
+      // },
       eth: {
-        url: "http://139.162.1.152:3000",
-        startBlock: 11504800,
-        mode: "ropsten", // ropsten
+        url: "https://rpc.sepolia.org",
         address: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
         privateKey:
-          "U2FsdGVkX1+qPHe80YXasGLBvZaovbS0o8AShWZrDZ4ja2Xt3j553iM260o+sJFjyZTC2ohXhwGK91MyTAaITTn3iq2kZs8wroYiQ5QkGJM+x3+MAgSskcFJLxGP1PfP",
-        etherscanUrl: "https://api.etherscan.io/api?", // https://api-ropsten.etherscan.io/api?
+          "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",
+        startBlock: 0,
         ethDepositUrl:
-          "https://api.etherscan.io/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=CSM5YXQG5MTE8XWM57UWH6DBXQRS8SQP3K",
+          "https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=5RJWEAZM1FHHFBST9HBNZP1H4EAZWF8SUG",
         ethTokenDepositUrl:
-          "https://api.etherscan.io/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=CSM5YXQG5MTE8XWM57UWH6DBXQRS8SQP3K",
+          "https://api-sepolia.etherscan.io/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=5RJWEAZM1FHHFBST9HBNZP1H4EAZWF8SUG",
+        NETWORK_ID: 11155111,
+        CHAIN_ID: 11155111,
       },
       btc: {
         url: "http://3.1.6.100:3003",
@@ -396,7 +413,7 @@ if (process.env.NODE_ENV === "production") {
           "https://api.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
         decimal: 1000000, //18
         tronDecimal: 1000000, //6
-        adminAmtSentToUser: 10,
+        adminAmtSentToUser: 50,
       },
     },
 
@@ -424,8 +441,7 @@ if (process.env.NODE_ENV === "production") {
       PRICE_CONVERSION: "",
     },
   };
-} 
- else {
+} else {
   console.log("\x1b[35m%s\x1b[0m", `Set Development Config`);
   const API_URL = "http://localhost";
   const PORT = 2053;
@@ -440,7 +456,7 @@ if (process.env.NODE_ENV === "production") {
     // DATABASE_URL: "mongodb://clux:Password__2022__PasworD@23.239.23.84:10330/clux",
     RUN_CRON: false,
     PORT: PORT,
-    FRONT_URL: "http://localhost:3000",
+    FRONT_URL: "http://localhost:3001",
     ADMIN_URL: "http://localhost:3000/admin",
     SERVER_URL: `${API_URL}:${PORT}`,
     RECAPTCHA_SECRET_KEY: "6LeHezUfAAAAABKS-mUfSrqlHD9jBQbmevozwzgr",
@@ -473,18 +489,18 @@ if (process.env.NODE_ENV === "production") {
     // },
 
     IMAGE: {
-      DEFAULT_SIZE: 1  *1024 * 1024, // 1 MB,
+      DEFAULT_SIZE: 1 * 1024 * 1024, // 1 MB,
       URL_PATH: "/images/profile/",
-      PROFILE_SIZE: 1 * 1024  *1024, // 1 MB
+      PROFILE_SIZE: 1 * 1024 * 1024, // 1 MB
       PROFILE_PATH: "public/profile",
       PROFILE_URL_PATH: "/profile/",
 
-      ID_DOC_SIZE: 12  *1024 * 1024, // 12 MB,
+      ID_DOC_SIZE: 12 * 1024 * 1024, // 12 MB,
       KYC_PATH: "public/images/kyc",
       KYC_URL_PATH: "/images/kyc/",
       CMS_PATH: "public/images/cms/",
 
-      CURRENCY_SIZE: 0.02  *1024 * 1024, // 20 KB
+      CURRENCY_SIZE: 0.02 * 1024 * 1024, // 20 KB
       CURRENCY_PATH: "public/images/currency",
       CURRENCY_URL_PATH: "/images/currency/",
       DEPOSIT_PATH: "public/deposit",
@@ -495,10 +511,10 @@ if (process.env.NODE_ENV === "production") {
       LAUNCHPAD_URL_PATH: "/launchpad/",
       SUPPORT_PATH: "public/images/support",
       SUPPORT_URL_PATH: "/images/support/",
-      ACCOUMENT_PATH:"public/images/anouncement",
-      ACCOUMENT_URL_PATH:"/images/anouncement/",      
+      ACCOUMENT_PATH: "public/images/anouncement",
+      ACCOUMENT_URL_PATH: "/images/anouncement/",
 
-      P2P_SIZE: 2  *1024 * 1024, // 2 MB
+      P2P_SIZE: 2 * 1024 * 1024, // 2 MB
       P2P_PATH: "public/p2p",
       P2P_URL_PATH: "/p2p/",
     },
@@ -530,7 +546,18 @@ if (process.env.NODE_ENV === "production") {
         URL: "http://45.33.1.14:3000",
       },
       ETH: {
-        URL: "http://173.230.156.107:3000",
+        URL: "https://rpc.sepolia.org",
+        ADDRESS: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
+        PRIVATE_KEY:
+          "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",
+
+        START_BLOCK: 0,
+        DEPOSIT_URL:
+          "https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=5RJWEAZM1FHHFBST9HBNZP1H4EAZWF8SUG",
+        DEPOSIT_TOKEN_URL:
+          "https://api-sepolia.etherscan.io/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=5RJWEAZM1FHHFBST9HBNZP1H4EAZWF8SUG",
+        NETWORK_ID: 11155111,
+        CHAIN_ID: 11155111,
       },
       BNB: {
         URL: "https://data-seed-prebsc-1-s1.binance.org:8545",
@@ -556,20 +583,20 @@ if (process.env.NODE_ENV === "production") {
         URL: "http://173.255.221.129:3000",
       },
       TRON: {
-        FULLNODE: "https://api.shasta.trongrid.io",
-        SOLIDITYNODE: "https://api.shasta.trongrid.io",
-        EVENTSERVER: "https://api.shasta.trongrid.io",
+        FULLNODE: "https://nile.trongrid.io",
+        SOLIDITYNODE: "https://nile.trongrid.io",
+        EVENTSERVER: "https://nile.trongrid.io",
         contractAddress: "TTtYtVVekf9GG3UvmZouKeeEao8HFe1AcA",
         PRIVATEKEY:
           "U2FsdGVkX1+/1hKILbKT3dz4lt/P8xtGLR6hmvkm5azp5PaCIUtDa53HGxoLh+XQOVqMORbjdgvAjxt6FNtePjmov7t+wGfOQHRZSzh0ZN4iRciSDnveGYDGJbMvxn6g",
         ADDRESS: "TKSjgi7i4MX5Bg1NBtKA5XD7c8vmqE2BHF",
         TRANSACTIONURL:
-          "https://api.shasta.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
+          "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
         TRANSACTIONCONTRACTURL:
-          "https://api.shasta.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
+          "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
         DECIMAL: 100000000, //8
         TRONDECIMAL: 1000000, //6
-        ADMINAMTSENTTOUSER: 2.00004,
+        ADMINAMTSENTTOUSER: 5.00004,
       },
     },
 
@@ -590,20 +617,20 @@ if (process.env.NODE_ENV === "production") {
         url: "http://3.1.6.100:3003",
       },
       tron: {
-        fullNode: "https://api.shasta.trongrid.io",
-        solidityNode: "https://api.shasta.trongrid.io",
-        eventServer: "https://api.shasta.trongrid.io",
+        fullNode: "https://nile.trongrid.io",
+        solidityNode: "https://nile.trongrid.io",
+        eventServer: "https://nile.trongrid.io",
         contractAddress: "TTtYtVVekf9GG3UvmZouKeeEao8HFe1AcA",
         privateKey:
           "U2FsdGVkX1+/1hKILbKT3dz4lt/P8xtGLR6hmvkm5azp5PaCIUtDa53HGxoLh+XQOVqMORbjdgvAjxt6FNtePjmov7t+wGfOQHRZSzh0ZN4iRciSDnveGYDGJbMvxn6g",
         address: "TKSjgi7i4MX5Bg1NBtKA5XD7c8vmqE2BHF",
         transactionUrl:
-          "https://api.shasta.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
+          "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
         transactionContractUrl:
-          "https://api.shasta.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
+          "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
         decimal: 100000000, //8
         tronDecimal: 1000000, //6
-        adminAmtSentToUser: 2.00004,
+        adminAmtSentToUser: 5.00004,
       },
     },
 
@@ -634,8 +661,8 @@ if (process.env.NODE_ENV === "production") {
     },
   };
 }
- 
+
 export default {
   ...key,
   emailGateway: require("./smtpConfig.json"),
-}
+};

@@ -297,7 +297,7 @@ export const apikey = async (apikey, next, req, res) => {
                                     trade: userDetails.trade
                                 }
                                 req.user = datas
-                                console.log("data", datas)
+                                // console.log("data", datas)
                                 return next();
                             } else {
                                 res.status(401).json({ 'statusCode': 401,'success': false, 'message': "Secret key does not exist" });
@@ -339,7 +339,7 @@ export const apikey = async (apikey, next, req, res) => {
 
                             }
                             req.user = datas
-                            console.log("data", datas)
+                            // console.log("data", datas)
                             return next();
                         } else {
                             res.status(401).json({ 'statusCode': 401, 'success': false,'message': "Signature does not match" });
@@ -372,9 +372,9 @@ export const verifyToken = async (req, res, next) => {
     try {
 
         let decoding = new User().decodejwt(token)
-        console.log("decoding", decoding, req.header('Authorization'));
+        // console.log("decoding", decoding, req.header('Authorization'));
         let userDoc = await UserToken.findOne({ 'userId': decoding._id, 'token': req.header('Authorization') }).populate({ path: "userId", select: "_id userId type email google2Fa status" })
-        console.log("userDoc", userDoc)
+        // console.log("userDoc", userDoc)
         let data = {
             id: userDoc.userId._id,
             userId: userDoc.userId.userId,
@@ -383,7 +383,7 @@ export const verifyToken = async (req, res, next) => {
             google2Fa: userDoc.userId.google2Fa
         }
         req.user = data
-        console.log("data", data)
+        // console.log("data", data)
         return next();
         // var decrypt = jwt.decode(token);
         // console.log(decrypt);
@@ -399,7 +399,7 @@ export const verifyToken = async (req, res, next) => {
 
 export const authorization = async (req, res, next) => {
     let api_key = req.header("x-api-key");
-    console.log("passport--->", api_key, api_key !== undefined)
+    // console.log("passport--->", api_key, api_key !== undefined)
 
     if (api_key !== null && api_key !== undefined) {
         console.log("key--->", api_key, api_key !== undefined)

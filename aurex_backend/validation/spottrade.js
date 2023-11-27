@@ -46,7 +46,7 @@ router.get('/asset-data-first', (req, res) => {
   currency.find({}).then(user => {
     if (user) {
       return res.status(200).send(user);
-      console.log(user, 'uesrezzzzzzz');
+      // console.log(user, 'uesrezzzzzzz');
     }
   });
 })
@@ -71,15 +71,15 @@ router.post("/stakinggethistory", (req, res) => {
     findData.createdDate['$lte'] = new Date(endDate);
   }
 
-  console.log('findData : ', findData);
+  // console.log('findData : ', findData);
   var userID = findData.userid;
-  console.log("userdata", userID)
+  // console.log("userdata", userID)
   stakingOrder.find(findData)
     .populate('currencyRef')
     .populate('settledList')
     .exec(function (err, record) {
       console.log("err", err)
-      console.log("record", record)
+      // console.log("record", record)
 
       if (record) {
         var retJsonObj = {};
@@ -94,7 +94,7 @@ router.post("/stackingClose", (req, res) => {
   var retJsonObj = {};
   retJsonObj.target = 'stackingClose';
   var bodyData = req.body;
-  console.log('bodyData : ', bodyData);
+  // console.log('bodyData : ', bodyData);
   var findData = {};
   findData._id = bodyData._id;
   stakingOrder.findOne(findData)
@@ -153,7 +153,7 @@ router.post("/stackingClose", (req, res) => {
         hours = hours - (days * 24);
         minutes = minutes - (days * 24 * 60) - (hours * 60);
         seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
-        console.log(hours + ' - ' + minutes + ' - ' + seconds + ' - ' + days);
+        // console.log(hours + ' - ' + minutes + ' - ' + seconds + ' - ' + days);
 
         var amount = items.amount;
         var apy = items.apy;
@@ -162,10 +162,10 @@ router.post("/stackingClose", (req, res) => {
         var daySettleAmt = fullSettleAmt / 365;
         var settleAmt = daySettleAmt * days;
 
-        console.log('diffDays : ', days);
-        console.log('fullSettleAmt : ', fullSettleAmt);
-        console.log('daySettleAmt : ', daySettleAmt);
-        console.log('settleAmt : ', settleAmt);
+        // console.log('diffDays : ', days);
+        // console.log('fullSettleAmt : ', fullSettleAmt);
+        // console.log('daySettleAmt : ', daySettleAmt);
+        // console.log('settleAmt : ', settleAmt);
 
         var userid = items.userid;
 
@@ -173,7 +173,7 @@ router.post("/stackingClose", (req, res) => {
 
         var updData = {};
 
-        console.log('----- days : ', days);
+        // console.log('----- days : ', days);
 
         if (days != 0) {
           var insertData = {};
@@ -236,7 +236,7 @@ router.get('/pair-data-first', (req, res) => {
   });
 });
 router.post('/stakingOrder', (req, res) => {
-  console.log('stakingOrder : ');
+  // console.log('stakingOrder : ');
   var retJsonObj = {};
   retJsonObj.target = 'stakingOrder';
   var bodyData = req.body;
@@ -262,7 +262,7 @@ router.post('/stakingOrder', (req, res) => {
   insertData.status = 1;
   retJsonObj.insertData = insertData;
 
-  console.log('insertData : ', insertData);
+  // console.log('insertData : ', insertData);
 
   var balance = 0;
 
@@ -336,7 +336,7 @@ router.post('/stakingOrder', (req, res) => {
       }
 
       newStakingOrder.nextSettleDate = date.setDate(date.getDate() + newStakingOrder.nextSettleDayCount);
-      console.log('newStakingOrder : ', newStakingOrder);
+      // console.log('newStakingOrder : ', newStakingOrder);
       done();
     },
     function (done) {
@@ -353,7 +353,7 @@ router.post('/stakingOrder', (req, res) => {
 });
 
 router.post('/staking', (req, res) => {
-  console.log('staking : ');
+  // console.log('staking : ');
   var retJsonObj = {};
   staking.find({})
     .populate('currencyRef')
@@ -371,7 +371,7 @@ router.post('/staking', (req, res) => {
             if (result.length - 1 == i) {
               retJsonObj.list = result;
               retJsonObj.target = 'stakingList';
-              console.log('retJsonObj : ', retJsonObj);
+              // console.log('retJsonObj : ', retJsonObj);
               return res.json(retJsonObj);
             }
           }
@@ -482,13 +482,13 @@ router.post('/staking_add', (req, res) => {
     return res.status(400).json(errors);
   }
   var bodyData = req.body;
-  console.log(bodyData, 'bodyData');
+  // console.log(bodyData, 'bodyData');
   var findData = {};
   findData.currencyRef = bodyData.currencyRef;
-  console.log('findData : ', findData);
+  // console.log('findData : ', findData);
   staking.findOne(findData)
     .then(stakingdata => {
-      console.log('stakingdata : ', stakingdata);
+      // console.log('stakingdata : ', stakingdata);
       if (stakingdata) {
         return res.status(400).json({
           currencyRef: 'Staking currency already exists'
@@ -496,7 +496,7 @@ router.post('/staking_add', (req, res) => {
       } else {
         var periodList = bodyData.periodList;
         for (var i = 0; i < periodList.length; i++) {
-          console.log('periodList[i] : ', periodList[i]);
+          // console.log('periodList[i] : ', periodList[i]);
           if (periodList[i].days == '' || periodList[i].apy == '') {
             periodList.splice(i, 1);
           }
@@ -537,7 +537,7 @@ router.post('/staking_add', (req, res) => {
         newStaking
           .save()
           .then(staking => {
-            console.log(staking, 'staking');
+            // console.log(staking, 'staking');
             // staking_data(staking);
             return res.status(200).json({
               message: 'Staking added successfully. Refreshing data...'
@@ -547,14 +547,14 @@ router.post('/staking_add', (req, res) => {
     });
 });
 router.post('/staking-delete', (req, res) => {
-  console.log(req.body, 'resssss');
+  // console.log(req.body, 'resssss');
   var id = req.body._id;
   staking.deleteOne({
     _id: req.body._id
   }).then(stakingdata => {
-    console.log(stakingdata, 'stakingdatarfgfhgjyghj');
+    // console.log(stakingdata, 'stakingdatarfgfhgjyghj');
     if (stakingdata) {
-      console.log(id, 'idsssssssssss');
+      // console.log(id, 'idsssssssssss');
       delete_assets(id)
       return res.status(200).json({
         message: 'Staking deleted successfully. Refreshing data...'
@@ -635,7 +635,7 @@ router.post("/staking_update", (req, res) => {
         stakingName: req.body.stakingName,
       })
       .then((stakingdata) => {
-        console.log(stakingdata, "stakingdata");
+        // console.log(stakingdata, "stakingdata");
         if (stakingdata) {
           return res.status(400).json({
             stakingName: "Staking Name already exists",
@@ -686,7 +686,7 @@ router.post('/asset-add', (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  console.log(req.body.pair, 'pair');
+  // console.log(req.body.pair, 'pair');
   if (req.body.first_currency == req.body.second_currency) {
     return res.status(400).json({
       first_currency: 'Currency pair is invalid'
@@ -695,13 +695,13 @@ router.post('/asset-add', (req, res) => {
     AssetExchange.findOne({
       pair: req.body.pair
     }).then(assetexchangedata => {
-      console.log("assetExchangedata")
+      // console.log("assetExchangedata")
       if (assetexchangedata) {
         return res.status(400).json({
           second_currency: 'Currency pair is already exists'
         });
       } else {
-        console.log("req.body========", req.body)
+        // console.log("req.body========", req.body)
         const newassetexchange = new AssetExchange({
           pair: req.body.pair,
           from_currency: req.body.first_currency,
@@ -1833,7 +1833,7 @@ function referralfee(amount, currency) {
           if (err) {
             console.log("Error in finding currency", err)
           }
-          console.log("Dataa from perpetual table", result)
+          // console.log("Dataa from perpetual table", result)
           markprice = result.markprice
           console.log("Markprice==", markprice)
           done();

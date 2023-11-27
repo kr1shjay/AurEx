@@ -16,13 +16,13 @@ opts.passReqToCallback = true
 import { UserToken, Admin, ApiKey } from '../models';
 
 export const usersAuth = (passport) => {
-         console.log("demo passport >>>>>>>>>>>>>>>>>>>>>>",passport)
+        //  console.log("demo passport >>>>>>>>>>>>>>>>>>>>>>",passport)
    passport("usersAuth",
         new JwtStrategy(opts, async function (req,jwt_payload, done) {
             try {
-                console.log(req.rawHeaders[1],'passport >>>>>>>>>>>>>>>>>>>>>>')
+                // console.log(req.rawHeaders[1],'passport >>>>>>>>>>>>>>>>>>>>>>')
                 this.getToken = ExtractJwt.fromHeader('authorization')
-                console.log(this.getToken,"auth777")
+                // console.log(this.getToken,"auth777")
                 this.token = this.getToken(req)
                 let userDoc = await UserToken.findOne({ 'userId': jwt_payload._id, 'token': this.token }).populate({ path: "userId", select: "_id userId type email google2Fa status" })
                 if (userDoc && userDoc.userId && userDoc.userId.status == 'verified') {

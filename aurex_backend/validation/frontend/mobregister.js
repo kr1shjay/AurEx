@@ -1,7 +1,7 @@
 const Validator = require("validator");
 const isEmpty = require("is-empty");
 module.exports = function validateRegisterInput(data,type) {
-  console.log(data);
+  // console.log(data);
     let errors = {};
   if(type == 'register'){
      data.phone = !isEmpty(data.phone) ? data.phone : "";
