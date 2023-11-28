@@ -461,7 +461,12 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
     var startBlock = config.COIN_GATE_WAY.ETH.START_BLOCK;
     var currentBlock = walletData.blockNo > 0 ? walletData.blockNo : startBlock;
     console.log(walletData.address, "walletData.addresswalletData.addressETH");
-    console.log(config.COIN_GATE_WAY,config.COIN_GATE_WAY.ETH,config.COIN_GATE_WAY.ETH.DEPOSIT_TOKEN_URL, "URLURL");
+    console.log(
+      config.COIN_GATE_WAY,
+      config.COIN_GATE_WAY.ETH,
+      config.COIN_GATE_WAY.ETH.DEPOSIT_TOKEN_URL,
+      "URLURL"
+    );
     if (walletData.address) {
       let url = config.COIN_GATE_WAY.ETH.DEPOSIT_TOKEN_URL.replace(
         "##USER_ADDRESS##",
@@ -474,6 +479,7 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
         method: "post",
       });
       console.log(url, "urlurlETH");
+      console.log(respData, "respDatarespDataETH");
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
           var result = respData.data.result[y];
@@ -483,11 +489,14 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
             },
             "assets.coin": currencySymbol,
           });
+          console.log(userAssetData, "userAssetDatauserAssetDataETH");
           if (userAssetData) {
             let transactionExist = await TransactionDB.findOne({
               txid: result.hash,
             });
+            console.log(transactionExist, "transactionExistETH");
             let amount = result.value / 10 ** parseInt(walletCurrency.decimal);
+            console.log(amount, "amountETH");
             if (
               !transactionExist &&
               parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)
@@ -501,6 +510,7 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
                 userPrivateKey: walletData.privateKey,
                 userAddress: walletData.address,
               });
+              console.log(status, "statusETH");
               if (status) {
                 //referralcommission
                 let UserB = await TransactionDB.find({
@@ -545,7 +555,7 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
                 let beforeBalance = parseFloat(AssetData.spotBal);
                 AssetData.spotBal =
                   parseFloat(AssetData.spotBal) + parseFloat(amount);
-
+                console.log(AssetData.spotBal, "AssetData.spotBal");
                 let WalletData = await userData.save();
 
                 // CREATE PASS_BOOK
@@ -719,17 +729,17 @@ export const tokenMoveToAdmin = async ({
     } else if (decimals == 18) {
       muldecimal = 1000000000000000000;
     }
-
+    console.log(muldecimal, "muldecimalETH");
     amount = parseFloat(amount) * parseFloat(muldecimal);
     console.log(amount, "tokenMoveToAdminETH");
-
+    console.log(tokenbalance, "tokenbalanceETH");
     if (tokenbalance > 0) {
       let getBalance = await web3.eth.getBalance(userAddress);
       let txCount = await web3.eth.getTransactionCount(userAddress);
       let getGasPrice = await web3.eth.getGasPrice();
       let gaslimit = web3.utils.toHex(500000);
       let fee = web3.utils.toHex(getGasPrice) * gaslimit;
-
+      console.log(getBalance, getBalance > fee, "getBalanceETH");
       if (getBalance > fee) {
         // let tokenAmount = web3.utils.toHex(
         //   web3.utils.toWei(amount.toString(), "ether")
@@ -787,6 +797,7 @@ export const tokenMoveToAdmin = async ({
           adminPrivatekey: config.COIN_GATE_WAY.ETH.PRIVATE_KEY,
           userAddress: userAddress,
         });
+        console.log(status, "ethMovetoUserETH");
         return {
           status: false,
           message: "No Balance",

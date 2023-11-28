@@ -283,6 +283,7 @@ export const bnbMovetoUser = async ({
       amount1,
       "amount---------------------------------------"
     );
+    console.log(balance > amount1, "balance > amount1BNB");
     if (balance > amount1) {
       // const amountToSend = web3.toWei(amount1, "ether");
       var updateVal = {};
@@ -359,9 +360,12 @@ export const tokenDeposit = async (userId, currencySymbol) => {
     const latest = await web3.eth.getBlockNumber();
     var startBlock = config.COIN_GATE_WAY.BNB.START_BLOCK;
     var currentBlock = walletData.blockNo > 0 ? walletData.blockNo : startBlock;
-    console.log(walletData.address,'currencyAddresscurrencyAddressBNB')
+    console.log(walletData.address, "currencyAddresscurrencyAddressBNB");
     if (walletData.address) {
-      // console.log(config.COIN_GATE_WAY.BNB.depositCheckUrl,'config.COIN_GATE_WAY.BNB.depositCheckUrl')
+      console.log(
+        config.COIN_GATE_WAY.BNB.depositCheckUrl,
+        "config.COIN_GATE_WAY.BNB.depositCheckUrl"
+      );
       let url = config.COIN_GATE_WAY.BNB.DEPOSIT_TOKEN_URL.replace(
         "##USER_ADDRESS##",
         walletData.address
@@ -372,7 +376,12 @@ export const tokenDeposit = async (userId, currencySymbol) => {
         url: url,
         method: "post",
       });
-      console.log(respData.data.status,'respDatarespDatarespDatarespDataBNB')
+      console.log(url, "URLBNB");
+      console.log(
+        respData.data,
+        respData.data.status,
+        "respDatarespDatarespDatarespDataBNB"
+      );
 
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
@@ -387,8 +396,10 @@ export const tokenDeposit = async (userId, currencySymbol) => {
             let transactionExist = await TransactionDB.findOne({
               txid: result.hash,
             });
+            console.log(transactionExist, "BNBtransactionExist");
             let amount =
               result.value / 10 ** parseInt(walletCurrency.contractDecimal);
+              console.log(amount,transactionExist,"amountBNB")
             if (
               !transactionExist &&
               parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)
@@ -652,7 +663,22 @@ export const tokenMoveToUser = async ({
   decimals,
 }) => {
   try {
-    console.log(amount,',amountamountamount',adminAddress,',adminAddressadminAddressadminAddress',userAddress,',userAddressuserAddressuserAddress',contractAddress,',contractAddresscontractAddresscontractAddress',adminPrivateKey,',adminPrivateKeyadminPrivateKeyadminPrivateKey',minAbi,',minAbiminAbiminAbi',decimals,',decimalsdecimalsdecimals')
+    console.log(
+      amount,
+      ",amountamountamount",
+      adminAddress,
+      ",adminAddressadminAddressadminAddress",
+      userAddress,
+      ",userAddressuserAddressuserAddress",
+      contractAddress,
+      ",contractAddresscontractAddresscontractAddress",
+      adminPrivateKey,
+      ",adminPrivateKeyadminPrivateKeyadminPrivateKey",
+      minAbi,
+      ",minAbiminAbiminAbi",
+      decimals,
+      ",decimalsdecimalsdecimals"
+    );
     console.log(decimals, "---------------decimal", amount);
     adminPrivateKey = decryptString(adminPrivateKey);
     // let adminPrivateKey1 = Buffer.from(adminPrivateKey, "hex");

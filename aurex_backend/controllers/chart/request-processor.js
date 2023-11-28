@@ -226,7 +226,7 @@ function convertabcdHistoryToUDFFormat(data, callBy) {
 	} catch (error) {
 		return null;
 	}
-	console.log("resultudf",result)
+	// console.log("resultudf",result)
 	return result;
 	
 }

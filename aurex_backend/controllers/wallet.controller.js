@@ -200,6 +200,7 @@ export const getWallet = async (req, res) => {
       assetList && assetList.length > 0,
       "assetList && assetList.length > 0"
     );
+    console.log(walletData, "walletDataGETGET");
     if (assetList && assetList.length > 0) {
       let updateAsset = await updateAddress(assetList, req.user.userId, {
         walletId: walletData._id,
