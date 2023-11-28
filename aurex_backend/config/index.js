@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === "production") {
     secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
     cryptoSecretKey: "1234567812345678",
     DATABASE_URL:
-      "mongodb+srv://aurex-prod:JiT6Gy2ngjB5C2DO@aurex-production.wvbvo.mongodb.net/wXZeko",
+    "mongodb+srv://aurex-prod:JiT6Gy2ngjB5C2DO@aurex-production.wvbvo.mongodb.net/wXZeko",
     RUN_CRON: true,
     PORT: PORT,
     FRONT_URL: "https://aurexchange.com",
@@ -98,23 +98,32 @@ if (process.env.NODE_ENV === "production") {
         URL: "http://45.33.1.14:3000",
       },
       ETH: {
-        URL: "http://173.230.156.107:3000",
+        URL: "https://rpc.sepolia.org",
         ADDRESS: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
         PRIVATE_KEY:
           "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",
-      },
-      BNB: {
-        URL: "https://bsc-dataseed.binance.org/",
+
         START_BLOCK: 0,
         DEPOSIT_URL:
-          "https://api.bscscan.com/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=EWRUSHE7B64KNR5S5J7IQBT43PSTXTWHSI",
+          "https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=5RJWEAZM1FHHFBST9HBNZP1H4EAZWF8SUG",
         DEPOSIT_TOKEN_URL:
-          "https://api.bscscan.com/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=EWRUSHE7B64KNR5S5J7IQBT43PSTXTWHSI",
-        NETWORK_ID: 56,
-        CHAIN_ID: 56,
+          "https://api-sepolia.etherscan.io/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=5RJWEAZM1FHHFBST9HBNZP1H4EAZWF8SUG",
+        NETWORK_ID: 11155111,
+        CHAIN_ID: 11155111,
+      },
+      BNB: {
+        URL: "https://data-seed-prebsc-1-s1.binance.org:8545",
+        START_BLOCK: 0,
+        DEPOSIT_URL:
+          "https://api-testnet.bscscan.com/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=15YENF4YFTS1N8SWJWX8X4WTKTM17M8I49",
+        DEPOSIT_TOKEN_URL:
+          "https://api-testnet.bscscan.com/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=15YENF4YFTS1N8SWJWX8X4WTKTM17M8I49",
+        NETWORK_ID: 97,
+        CHAIN_ID: 97,
         ADDRESS: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
         PRIVATE_KEY:
           "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",
+        // privateKey: 'U2FsdGVkX1+/WJmhPLIsNFWGGR4QO8trtIhrljMvR3opvf3DStEFHskqSBrNTwUHVOF2Y9/ddiVL7TDpYijbBMxsWX0OSddX4uM2X/BBhtD93s9G89xv7460U8ea7N4o',
       },
       XRP: {
         URL: "wss://s1.ripple.com",
@@ -123,20 +132,20 @@ if (process.env.NODE_ENV === "production") {
           "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
       },
       TRON: {
-        FULLNODE: "https://api.trongrid.io",
-        SOLIDITYNODE: "https://api.trongrid.io",
-        EVENTSERVER: "https://api.trongrid.io",
-        contractAddress: "TBpfYjBhLTRW5cFKtLkqG2XvJwRjqSaXyU",
+        FULLNODE: "https://nile.trongrid.io",
+        SOLIDITYNODE: "https://nile.trongrid.io",
+        EVENTSERVER: "https://nile.trongrid.io",
+        contractAddress: "TTtYtVVekf9GG3UvmZouKeeEao8HFe1AcA",
         PRIVATEKEY:
-          "U2FsdGVkX1804FveNbJaF1sGyBEtiW76UF2TDxLlzi0lk63z7Bcs1RIAcpVF9Fk8Am97h1ukICcG9EGCmTfvaRM50C0cfuOuQ3M0RfIFs+jrJUOBAh85/wOE+ogOmNgr",
-        ADDRESS: "TKfmsKc7RFjNHGAJf8WUVLxhoEixySpwyk",
+          "U2FsdGVkX1+/1hKILbKT3dz4lt/P8xtGLR6hmvkm5azp5PaCIUtDa53HGxoLh+XQOVqMORbjdgvAjxt6FNtePjmov7t+wGfOQHRZSzh0ZN4iRciSDnveGYDGJbMvxn6g",
+        ADDRESS: "TKSjgi7i4MX5Bg1NBtKA5XD7c8vmqE2BHF",
         TRANSACTIONURL:
-          "https://api.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
+          "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
         TRANSACTIONCONTRACTURL:
-          "https://api.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
+          "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
         DECIMAL: 100000000, //8
         TRONDECIMAL: 1000000, //6
-        ADMINAMTSENTTOUSER: 50,
+        ADMINAMTSENTTOUSER: 5.00004,
       },
     },
 
@@ -144,35 +153,33 @@ if (process.env.NODE_ENV === "production") {
       eth: {
         url: "http://139.162.1.152:3000",
         startBlock: 11504800,
-        mode: "ropsten", // ropsten
         address: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
         privateKey:
           "U2FsdGVkX1+qPHe80YXasGLBvZaovbS0o8AShWZrDZ4ja2Xt3j553iM260o+sJFjyZTC2ohXhwGK91MyTAaITTn3iq2kZs8wroYiQ5QkGJM+x3+MAgSskcFJLxGP1PfP",
         etherscanUrl: "https://api.etherscan.io/api?", // https://api-ropsten.etherscan.io/api?
         ethDepositUrl:
-          "https://api.etherscan.io/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=CSM5YXQG5MTE8XWM57UWH6DBXQRS8SQP3K",
+          "https://api-ropsten.etherscan.io/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=CSM5YXQG5MTE8XWM57UWH6DBXQRS8SQP3K",
         ethTokenDepositUrl:
-          "https://api.etherscan.io/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=CSM5YXQG5MTE8XWM57UWH6DBXQRS8SQP3K",
+          "https://api-ropsten.etherscan.io/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=CSM5YXQG5MTE8XWM57UWH6DBXQRS8SQP3K",
       },
       btc: {
         url: "http://3.1.6.100:3003",
       },
       tron: {
-        fullNode: "https://api.trongrid.io",
-        solidityNode: "https://api.trongrid.io",
-        eventServer: "https://api.trongrid.io",
-        contractAddress: "TBpfYjBhLTRW5cFKtLkqG2XvJwRjqSaXyU",
+        fullNode: "https://nile.trongrid.io",
+        solidityNode: "https://nile.trongrid.io",
+        eventServer: "https://nile.trongrid.io",
+        contractAddress: "TTtYtVVekf9GG3UvmZouKeeEao8HFe1AcA",
         privateKey:
-          "U2FsdGVkX1804FveNbJaF1sGyBEtiW76UF2TDxLlzi0lk63z7Bcs1RIAcpVF9Fk8Am97h1ukICcG9EGCmTfvaRM50C0cfuOuQ3M0RfIFs+jrJUOBAh85/wOE+ogOmNgr",
-        // privateKey: "45365BE9280C6066E65857004F932DE9A90F7EF60387533D6AFFDB4A3608A2AC", // original privatekey
-        address: "TKfmsKc7RFjNHGAJf8WUVLxhoEixySpwyk",
+          "U2FsdGVkX1+/1hKILbKT3dz4lt/P8xtGLR6hmvkm5azp5PaCIUtDa53HGxoLh+XQOVqMORbjdgvAjxt6FNtePjmov7t+wGfOQHRZSzh0ZN4iRciSDnveGYDGJbMvxn6g",
+        address: "TKSjgi7i4MX5Bg1NBtKA5XD7c8vmqE2BHF",
         transactionUrl:
-          "https://api.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
+          "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
         transactionContractUrl:
-          "https://api.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
-        decimal: 1000000, //18
+          "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
+        decimal: 100000000, //8
         tronDecimal: 1000000, //6
-        adminAmtSentToUser: 50,
+        adminAmtSentToUser: 5.00004,
       },
     },
     BINANCE_GATE_WAY: {
