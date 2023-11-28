@@ -287,6 +287,7 @@ export const addCurrency = async (req, res) => {
 
     if (reqBody.type == "token") {
       newDoc["contractAddress"] = reqBody.contractAddress;
+      newDoc["contractDecimal"] = reqBody.contractDecimal;
       newDoc["minABI"] = reqBody.minABI;
       newDoc["decimal"] = reqBody.decimals;
       newDoc["tokenType"] = reqBody.tokenType;
