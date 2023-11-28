@@ -459,20 +459,20 @@ const adminSentUser = async ({
     } else {
       // checkTransaction
       console.log(privateKey, "checkTransaction");
-      // let adminSentUserTrxId = await sentTransaction({
-      //   fromAddress: adminCurrencyAddress,
-      //   toAddress: userCurrencyAddress,
-      //   privateKey: adminPrivateKey,
-      //   amount: config.coinGateway.tron.adminAmtSentToUser,
-      //   // 'decimal':decimals,
-      // });
-      // if (adminSentUserTrxId) {
-      let adminSendEnergy = await sendEnergyToUser({
-        owner_address: adminCurrencyAddress,
-        receiver_address: userCurrencyAddress,
+      let adminSentUserTrxId = await sentTransaction({
+        fromAddress: adminCurrencyAddress,
+        toAddress: userCurrencyAddress,
         privateKey: adminPrivateKey,
-        userPrivateKey: privateKey,
+        amount: config.coinGateway.tron.adminAmtSentToUser,
+        // 'decimal':decimals,
       });
+      // if (adminSentUserTrxId) {
+      // let adminSendEnergy = await sendEnergyToUser({
+      //   owner_address: adminCurrencyAddress,
+      //   receiver_address: userCurrencyAddress,
+      //   privateKey: adminPrivateKey,
+      //   userPrivateKey: privateKey,
+      // });
       // }
     }
   } catch (err) {
@@ -816,105 +816,105 @@ export const tokenMoveToUser = async ({
 
 // checkTokenBal()
 
-export const sendEnergyToUser = async ({
-  owner_address,
-  receiver_address,
-  privateKey,
-  userPrivateKey,
-}) => {
-  try {
-    // let privateKey = userPrivateKey;
-    console.log(privateKey, "privateKeyprivateKey");
-    const tronWeb = new TronWeb({
-      fullHost: config.coinGateway.tron.fullNode,
-      privateKey: userPrivateKey,
-    });
-    // axios
-    //   .post("https://nile.trongrid.io/wallet/freezebalancev2", {
-    //     owner_address: receiver_address,
-    //     frozen_balance: 3000000,
-    //     resource: "ENERGY",
-    //     visible: true,
-    //   })
-    //   .then(async (response) => {
-    //     console.log(response.data, "responseresponse");
-    //     let signedtx = await tronWeb.trx.sign(response.data, userPrivateKey);
-    //     console.log(signedtx, "signedtxsignedtx");
-    //     let result2 = await tronWeb.trx.sendRawTransaction(signedtx);
-    //     console.log("result2result2 ", result2);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error, "errorerror");
-    //   });
-    // main();
-    axios
-      .post("https://nile.trongrid.io/wallet/triggerconstantcontract", {
-        owner_address: receiver_address,
-        contract_address: "TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj",
-        function_selector: "transfer(address,uint256)",
-        parameter:
-          "0000000000000000000000003930fbd8e1efec58b104d3487f045a2a6ba4fb8c00000000000000000000000000000000000000000000000000000000000f4240",
-        visible: true,
-      })
-      .then(async (response) => {
-        console.log(response.data.energy_used, "response.data.energy_used");
-        // let signedtx = await tronWeb.trx.sign(response.data, userPrivateKey);
-        // console.log(signedtx, "signedtxsignedtx");
-        // let result2 = await tronWeb.trx.sendRawTransaction(signedtx);
-        // console.log("result2result2 ", result2);
-      })
-      .catch(function (error) {
-        console.log(error, "errorerror");
-      });
-  } catch (err) {
-    console.log("sendEnergyToUser", err);
-    return false;
-  }
-};
+// export const sendEnergyToUser = async ({
+//   owner_address,
+//   receiver_address,
+//   privateKey,
+//   userPrivateKey,
+// }) => {
+//   try {
+//     // let privateKey = userPrivateKey;
+//     console.log(privateKey, "privateKeyprivateKey");
+//     const tronWeb = new TronWeb({
+//       fullHost: config.coinGateway.tron.fullNode,
+//       privateKey: userPrivateKey,
+//     });
+//     // axios
+//     //   .post("https://nile.trongrid.io/wallet/freezebalancev2", {
+//     //     owner_address: receiver_address,
+//     //     frozen_balance: 3000000,
+//     //     resource: "ENERGY",
+//     //     visible: true,
+//     //   })
+//     //   .then(async (response) => {
+//     //     console.log(response.data, "responseresponse");
+//     //     let signedtx = await tronWeb.trx.sign(response.data, userPrivateKey);
+//     //     console.log(signedtx, "signedtxsignedtx");
+//     //     let result2 = await tronWeb.trx.sendRawTransaction(signedtx);
+//     //     console.log("result2result2 ", result2);
+//     //   })
+//     //   .catch(function (error) {
+//     //     console.log(error, "errorerror");
+//     //   });
+//     // main();
+//     axios
+//       .post("https://nile.trongrid.io/wallet/triggerconstantcontract", {
+//         owner_address: receiver_address,
+//         contract_address: "TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj",
+//         function_selector: "transfer(address,uint256)",
+//         parameter:
+//           "0000000000000000000000003930fbd8e1efec58b104d3487f045a2a6ba4fb8c00000000000000000000000000000000000000000000000000000000000f4240",
+//         visible: true,
+//       })
+//       .then(async (response) => {
+//         console.log(response.data.energy_used, "response.data.energy_used");
+//         // let signedtx = await tronWeb.trx.sign(response.data, userPrivateKey);
+//         // console.log(signedtx, "signedtxsignedtx");
+//         // let result2 = await tronWeb.trx.sendRawTransaction(signedtx);
+//         // console.log("result2result2 ", result2);
+//       })
+//       .catch(function (error) {
+//         console.log(error, "errorerror");
+//       });
+//   } catch (err) {
+//     console.log("sendEnergyToUser", err);
+//     return false;
+//   }
+// };
 
-async function encodeParams(inputs) {
-  let typesValues = inputs;
-  let parameters = "";
+// async function encodeParams(inputs) {
+//   let typesValues = inputs;
+//   let parameters = "";
 
-  if (typesValues.length == 0) return parameters;
-  const { utils } = require("ethers");
-  const abiCoder = new AbiCoder();
-  let types = [];
-  const values = [];
+//   if (typesValues.length == 0) return parameters;
+//   const { utils } = require("ethers");
+//   const abiCoder = new AbiCoder();
+//   let types = [];
+//   const values = [];
 
-  for (let i = 0; i < typesValues.length; i++) {
-    let { type, value } = typesValues[i];
-    if (type == "address") value = value.replace(ADDRESS_PREFIX_REGEX, "0x");
-    else if (type == "address[]")
-      value = value.map((v) => toHex(v).replace(ADDRESS_PREFIX_REGEX, "0x"));
-    types.push(type);
-    values.push(value);
-  }
+//   for (let i = 0; i < typesValues.length; i++) {
+//     let { type, value } = typesValues[i];
+//     if (type == "address") value = value.replace(ADDRESS_PREFIX_REGEX, "0x");
+//     else if (type == "address[]")
+//       value = value.map((v) => toHex(v).replace(ADDRESS_PREFIX_REGEX, "0x"));
+//     types.push(type);
+//     values.push(value);
+//   }
 
-  console.log(types, values);
-  try {
-    parameters = abiCoder.encode(types, values).replace(/^(0x)/, "");
-  } catch (ex) {
-    console.log(ex);
-  }
-  return parameters;
-}
+//   console.log(types, values);
+//   try {
+//     parameters = abiCoder.encode(types, values).replace(/^(0x)/, "");
+//   } catch (ex) {
+//     console.log(ex);
+//   }
+//   return parameters;
+// }
 
-async function main() {
-  const tronWeb = new TronWeb({
-    fullHost: config.coinGateway.tron.fullNode,
-    privateKey:
-      "4485C17CDEE019D9395DA790E439A86F65589E742FDBE30034CBAFDC3A281318",
-  });
+// async function main() {
+//   const tronWeb = new TronWeb({
+//     fullHost: config.coinGateway.tron.fullNode,
+//     privateKey:
+//       "4485C17CDEE019D9395DA790E439A86F65589E742FDBE30034CBAFDC3A281318",
+//   });
 
-  let baseAddress = await tronWeb.address.toHex(
-    "TFBcCSpGkDgYZ5HMbqFLF1RNya9uLmkDvg"
-  );
-  console.log(baseAddress, "baseAddressbaseAddress");
-  let inputs = [
-    { type: "address", value: baseAddress },
-    { type: "uint256", value: 1000000 },
-  ];
-  let parameters = await encodeParams(inputs);
-  console.log(parameters);
-}
+//   let baseAddress = await tronWeb.address.toHex(
+//     "TFBcCSpGkDgYZ5HMbqFLF1RNya9uLmkDvg"
+//   );
+//   console.log(baseAddress, "baseAddressbaseAddress");
+//   let inputs = [
+//     { type: "address", value: baseAddress },
+//     { type: "uint256", value: 1000000 },
+//   ];
+//   let parameters = await encodeParams(inputs);
+//   console.log(parameters);
+// }

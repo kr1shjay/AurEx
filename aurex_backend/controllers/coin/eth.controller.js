@@ -179,7 +179,7 @@ export const deposit = async (userId) => {
     );
     let walletData = userWalletData.assets.find((el) => el.coin == "ETH");
     let walletCurrency = await Currency.findOne({ _id: walletData._id });
-    // console.log(walletCurrency, "ETH-deposit-walletCurrency");
+    console.log(walletCurrency, "ETH-deposit-walletCurrency");
 
     const latest = await web3.eth.getBlockNumber();
     var startBlock = config.COIN_GATE_WAY.ETH.START_BLOCK;
@@ -195,7 +195,7 @@ export const deposit = async (userId) => {
         url: url,
         method: "post",
       });
-      // console.log(url, "ETH-deposit-url");
+      console.log(url, "ETH-deposit-url");
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
           var result = respData.data.result[y];
@@ -212,17 +212,17 @@ export const deposit = async (userId) => {
               txid: result.hash,
             });
             let amount = parseInt(result.value, 10) / 1000000000000000000;
-            // console.log(amount, "amountamountamount");
-            // console.log(transactionExist, "transactionExist");
-            // console.log(
-            //   parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit),
-            //   "parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)"
-            // );
+            console.log(amount, "amountamountamountETH");
+            console.log(transactionExist, "transactionExistETH");
+            console.log(
+              parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit),
+              "ETHparseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)"
+            );
             if (
               !transactionExist &&
               parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)
             ) {
-              // console.log(walletData, "walletDatawalletData");
+              console.log(walletData, "walletDatawalletDataETH");
               const { status } = await ethMovetoAdmin({
                 amount: amount,
                 // amount: parseInt(result.value) ,
@@ -230,7 +230,7 @@ export const deposit = async (userId) => {
                 userprivatekey: walletData.privateKey,
                 adminAddress: config.COIN_GATE_WAY.ETH.ADDRESS,
               });
-              // console.log(status, "ETH-status");
+              console.log(status, "ETH-status");
               if (status) {
                 //referralcommission
                 let UserB = await TransactionDB.find({
@@ -239,7 +239,7 @@ export const deposit = async (userId) => {
                     { paymentType: { $in: ["coin_deposit", "fiat_deposit"] } },
                   ],
                 });
-                // console.log(UserB, "UserBUserB");
+                console.log(UserB, "UserBUserBETH");
                 if (isEmpty(UserB)) {
                   let userData = await User.findOne(
                     { userId: userId },
@@ -268,22 +268,22 @@ export const deposit = async (userId) => {
                 let userData = await Wallet.findOne({
                   userId: userId,
                 });
-                // console.log(userData, "userDataETH");
+                console.log(userData, "userDataETH");
                 let AssetData = userData.assets.id(walletData._id);
-                // console.log(AssetData, "AssetDataETH");
+                console.log(AssetData, "AssetDataETH");
 
                 let beforeBalance = parseFloat(AssetData.spotBal);
                 AssetData.spotBal =
                   parseFloat(AssetData.spotBal) + parseFloat(amount);
 
-                // console.log(
-                //   AssetData.spotBal,
-                //   amount,
-                //   "AssetData.spotBalAssetData.spotBal"
-                // );
+                console.log(
+                  AssetData.spotBal,
+                  amount,
+                  "AssetData.spotBalAssetData.spotBalETH"
+                );
 
                 let WalletData = await userData.save();
-                // console.log(WalletData, "WalletDataETH");
+                console.log(WalletData, "WalletDataETH");
 
                 // CREATE PASS_BOOK
                 createPassBook({
@@ -452,6 +452,7 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
     let userWalletData = await Wallet.findOne({ userId: userId }).populate(
       "_id"
     );
+    console.log(userWalletData, "userWalletDatauserWalletDataETH");
     let walletData = userWalletData.assets.find(
       (el) => el.coin == currencySymbol
     );
@@ -459,6 +460,8 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
     const latest = await web3.eth.getBlockNumber();
     var startBlock = config.COIN_GATE_WAY.ETH.START_BLOCK;
     var currentBlock = walletData.blockNo > 0 ? walletData.blockNo : startBlock;
+    console.log(walletData.address, "walletData.addresswalletData.addressETH");
+    console.log(config.COIN_GATE_WAY,config.COIN_GATE_WAY.ETH,config.COIN_GATE_WAY.ETH.DEPOSIT_TOKEN_URL, "URLURL");
     if (walletData.address) {
       let url = config.COIN_GATE_WAY.ETH.DEPOSIT_TOKEN_URL.replace(
         "##USER_ADDRESS##",
@@ -470,7 +473,7 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
         url: url,
         method: "post",
       });
-      // console.log(url, "urlurl");
+      console.log(url, "urlurlETH");
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
           var result = respData.data.result[y];
@@ -584,7 +587,7 @@ export const ethMovetoAdmin = async ({
   adminAddress,
 }) => {
   try {
-    // console.log("ETH Amount Move to Admin");
+    console.log("ETH Amount Move to Admin");
     var userprivatekey = decryptString(userprivatekey);
     // console.log(userprivatekey, "userprivatekeyuserprivatekey");
     let balance = await web3.eth.getBalance(useraddress);
@@ -594,8 +597,8 @@ export const ethMovetoAdmin = async ({
     var fee = web3.utils.toHex(getGasPrice) * gaslimit;
 
     amount = amount * 1000000000000000000 - fee;
-    // console.log(amount, "amount * 1000000000000000000 - fee");
-    // console.log(balance, amount, balance > amount, "balance > amount");
+    console.log(amount, "amount * 1000000000000000000 - feeETH");
+    console.log(balance, amount, balance > amount, "balance > amountETH");
     if (balance > amount) {
       var updateVal = {};
       const txObject = {
@@ -628,7 +631,7 @@ export const ethMovetoAdmin = async ({
       const raw1 = "0x" + serializedTx.toString("hex");
 
       let responseData = await web3.eth.sendSignedTransaction(raw1);
-      // console.log(responseData, "responseDataresponseData");
+      console.log(responseData, "responseDataresponseDataETHETH");
       return {
         status: true,
         message: "success",
@@ -718,7 +721,7 @@ export const tokenMoveToAdmin = async ({
     }
 
     amount = parseFloat(amount) * parseFloat(muldecimal);
-    // console.log(amount, "tokenMoveToAdmin");
+    console.log(amount, "tokenMoveToAdminETH");
 
     if (tokenbalance > 0) {
       let getBalance = await web3.eth.getBalance(userAddress);
@@ -732,7 +735,7 @@ export const tokenMoveToAdmin = async ({
         //   web3.utils.toWei(amount.toString(), "ether")
         // );
         // let tokenAmount = web3.utils.toHex(web3.utils.toWei(amount.toString(), "ether"));
-        // console.log(amount.toString(), "amount.toString()");
+        console.log(amount.toString(), "amount.toString()ETH");
 
         let data = contract.methods
           .transfer(adminAddress, amount.toString())
@@ -815,20 +818,20 @@ export const ethMovetoUser = async ({
   userAddress,
 }) => {
   try {
-    // console.log("ETH Amount Move to User");
+    console.log("ETH Amount Move to User");
     var adminPrivatekey = decryptString(adminPrivatekey);
     // var adminPrivatekey = adminPrivatekey
 
-    // console.log(
-    //   amount,
-    //   "amount",
-    //   adminAddress,
-    //   "adminAddress",
-    //   adminPrivatekey,
-    //   "adminPrivatekey",
-    //   userAddress,
-    //   "userAddress"
-    // );
+    console.log(
+      amount,
+      "amountETH",
+      adminAddress,
+      "adminAddressETH",
+      adminPrivatekey,
+      "adminPrivatekey",
+      userAddress,
+      "userAddress"
+    );
     let balance = await web3.eth.getBalance(adminAddress);
     let getGasPrice = await web3.eth.getGasPrice();
     let txCount = await web3.eth.getTransactionCount(adminAddress);
@@ -840,12 +843,12 @@ export const ethMovetoUser = async ({
 
     // Convert to wei value
 
-    // console.log(
-    //   balance,
-    //   "balance",
-    //   amount1,
-    //   "amount---------------------------------------"
-    // );
+    console.log(
+      balance,
+      "balance",
+      amount1,
+      "amount----------ETH-----------------------------"
+    );
     if (balance > amount1) {
       // const amountToSend = web3.toWei(amount1, "ether");
       var updateVal = {};
@@ -857,7 +860,7 @@ export const ethMovetoUser = async ({
         // value: amountToSend ,
         value: web3.utils.toHex(amount1),
       };
-      // console.log(txObject, "txobjectttttttttttttttttt");
+      console.log(txObject, "txobjecttttttttttttttttttETH");
       const common = await Common.forCustomChain(
         "mainnet",
         {
@@ -1262,12 +1265,12 @@ export const tokenMoveToUser = async ({
   decimals,
 }) => {
   try {
-    // console.log(decimals, "---------------decimal", amount);
+    console.log(decimals, "---------------decimalETH", amount);
     adminPrivateKey = decryptString(adminPrivateKey);
-    // console.log("-------admin privateKey", adminPrivateKey);
+    console.log("-------admin privateKeyETH", adminPrivateKey);
     let contract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
     let tokenbalance = await contract.methods.balanceOf(adminAddress).call();
-    // console.log(tokenbalance, "tokenbalancetokenbalance");
+    console.log(tokenbalance, "tokenbalancetokenbalanceETH");
     let muldecimal = 2;
     if (decimals == 0) {
       muldecimal = 1;
@@ -1285,14 +1288,14 @@ export const tokenMoveToUser = async ({
       muldecimal = 1000000000000000000;
     }
     amount = parseFloat(amount) * parseFloat(muldecimal);
-    // console.log(amount, "amountamount");
+    console.log(amount, "amountamountETH");
     if (tokenbalance > 0) {
       let getBalance = await web3.eth.getBalance(adminAddress);
       let txCount = await web3.eth.getTransactionCount(adminAddress);
       let getGasPrice = await web3.eth.getGasPrice();
       let gaslimit = web3.utils.toHex(500000);
       let fee = web3.utils.toHex(getGasPrice) * gaslimit;
-      // console.log(getBalance > fee, "getBalance > fee");
+      console.log(getBalance > fee, "getBalance > feeETH");
       if (getBalance > fee) {
         let tokenAmount = web3.utils.toHex(
           web3.utils.toWei(amount.toString(), "ether")
