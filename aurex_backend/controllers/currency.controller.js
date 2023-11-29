@@ -344,9 +344,9 @@ export const addCurrency = async (req, res) => {
       };
     }
 
-    // let newData = await newDoc.save();
-    // addPriceCNV(newData);
-    // newAssetAllUsr(newData);
+    let newData = await newDoc.save();
+    addPriceCNV(newData);
+    newAssetAllUsr(newData);
     return res
       .status(200)
       .json({ success: true, message: "Coin added successfully" });

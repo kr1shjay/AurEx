@@ -347,7 +347,7 @@ export const bnbMovetoUser = async ({
 };
 
 export const tokenDeposit = async (userId, currencySymbol) => {
-  // console.log("BNB Token Deposit Cron...", userId, currencySymbol);
+  console.log("BNB Token Deposit Cron...", userId, currencySymbol);
   try {
     let userWalletData = await Wallet.findOne({ userId: userId }).populate(
       "_id"
@@ -359,9 +359,9 @@ export const tokenDeposit = async (userId, currencySymbol) => {
     const latest = await web3.eth.getBlockNumber();
     var startBlock = config.COIN_GATE_WAY.BNB.START_BLOCK;
     var currentBlock = walletData.blockNo > 0 ? walletData.blockNo : startBlock;
-    // console.log(walletData.address,'currencyAddresscurrencyAddress')
+    console.log(walletData.address,'currencyAddresscurrencyAddress')
     if (walletData.address) {
-      // console.log(config.COIN_GATE_WAY.BNB.depositCheckUrl,'config.COIN_GATE_WAY.BNB.depositCheckUrl')
+      console.log(config.COIN_GATE_WAY.BNB.depositCheckUrl,'config.COIN_GATE_WAY.BNB.depositCheckUrl')
       let url = config.COIN_GATE_WAY.BNB.DEPOSIT_TOKEN_URL.replace(
         "##USER_ADDRESS##",
         walletData.address
@@ -372,7 +372,7 @@ export const tokenDeposit = async (userId, currencySymbol) => {
         url: url,
         method: "post",
       });
-      // console.log(respData.data.status,'respDatarespDatarespDatarespData')
+      console.log(respData.data.status,'respDatarespDatarespDatarespData')
 
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
@@ -402,9 +402,9 @@ export const tokenDeposit = async (userId, currencySymbol) => {
                 userPrivateKey: walletData.privateKey,
                 userAddress: walletData.address,
               });
-              // console.log(status, message, "statusstatus");
+              console.log(status, message, "statusstatus");
               if (status) {
-                // console.log("result.hashresult.hash", result.hash);
+                console.log("result.hashresult.hash", result.hash);
                 //referralcommission
                 let UserB = await TransactionDB.find({
                   $and: [
@@ -439,16 +439,16 @@ export const tokenDeposit = async (userId, currencySymbol) => {
                 let userData = await Wallet.findOne({
                   userId: userId,
                 });
-                // console.log(userData, "---------004");
+                console.log(userData, "---------004");
                 let AssetData = userData.assets.id(walletData._id);
-                // console.log(AssetData, "---------005");
+                console.log(AssetData, "---------005");
 
                 let beforeBalance = parseFloat(AssetData.spotBal);
                 AssetData.spotBal =
                   parseFloat(AssetData.spotBal) +
-                  parseFloat(amount) / 10 ** walletCurrency.decimal;
+                  parseFloat(amount) / 10 ** walletCurrency.contractDecimal;
                 let WalletData = await userData.save();
-                // console.log(WalletData, "---------006");
+                console.log(WalletData, "---------006");
 
                 // CREATE PASS_BOOK
                 createPassBook({
@@ -522,14 +522,14 @@ export const tokenMoveToAdmin = async ({
       let getGasPrice = await web3.eth.getGasPrice();
       let gaslimit = web3.utils.toHex(500000);
       let fee = web3.utils.toHex(getGasPrice) * gaslimit;
-      // console.log(getBalance, "------------>>>>getBalance");
-      // console.log(fee, "------------>>>>fee");
+      console.log(getBalance, "------------>>>>getBalance");
+      console.log(fee, "------------>>>>fee");
 
       if (getBalance > fee) {
-        // console.log(
-        //   "-------------->>>>>>>>>>-----------------<<<<<<<<<<<",
-        //   amount
-        // );
+        console.log(
+          "-------------->>>>>>>>>>-----------------<<<<<<<<<<<",
+          amount
+        );
 
         let tokenAmount = web3.utils.toHex(
           web3.utils.toWei(amount.toString(), "ether")
@@ -579,10 +579,10 @@ export const tokenMoveToAdmin = async ({
           parseFloat(getBalance) +
           parseFloat(web3.utils.toWei("0.00041", "ether"));
 
-        // console.log(
-        //   "<<<<-----------SEND BNB ADMIN TO USER AMOUNT----------->>>>",
-        //   amopunttosend / 1000000000000000000
-        // );
+        console.log(
+          "<<<<-----------SEND BNB ADMIN TO USER AMOUNT----------->>>>",
+          amopunttosend / 1000000000000000000
+        );
         let { status, message, result } = await bnbMovetoUser({
           amount: amopunttosend / 1000000000000000000,
           adminAddress: config.COIN_GATE_WAY.BNB.ADDRESS,
@@ -652,15 +652,15 @@ export const tokenMoveToUser = async ({
   decimals,
 }) => {
   try {
-    // console.log(amount,',amountamountamount',adminAddress,',adminAddressadminAddressadminAddress',userAddress,',userAddressuserAddressuserAddress',contractAddress,',contractAddresscontractAddresscontractAddress',adminPrivateKey,',adminPrivateKeyadminPrivateKeyadminPrivateKey',minAbi,',minAbiminAbiminAbi',decimals,',decimalsdecimalsdecimals')
-    // console.log(decimals, "---------------decimal", amount);
+    console.log(amount,',amountamountamount',adminAddress,',adminAddressadminAddressadminAddress',userAddress,',userAddressuserAddressuserAddress',contractAddress,',contractAddresscontractAddresscontractAddress',adminPrivateKey,',adminPrivateKeyadminPrivateKeyadminPrivateKey',minAbi,',minAbiminAbiminAbi',decimals,',decimalsdecimalsdecimals')
+    console.log(decimals, "---------------decimal", amount);
     adminPrivateKey = decryptString(adminPrivateKey);
     // let adminPrivateKey1 = Buffer.from(adminPrivateKey, "hex");
-    // console.log("-------admin privateKey", adminPrivateKey);
+    console.log("-------admin privateKey", adminPrivateKey);
     // return
     let contract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
     let tokenbalance = await contract.methods.balanceOf(adminAddress).call();
-    // console.log(tokenbalance, "tokenbalancetokenbalancetokenbalance");
+    console.log(tokenbalance, "tokenbalancetokenbalancetokenbalance");
     let muldecimal = 2;
     if (decimals == 0) {
       muldecimal = 1;
@@ -677,10 +677,10 @@ export const tokenMoveToUser = async ({
     } else if (decimals == 18) {
       muldecimal = 1000000000000000000;
     }
-    // console.log(muldecimal, "parseFloat(muldecimal)");
+    console.log(muldecimal, "parseFloat(muldecimal)");
     amount = parseFloat(amount) * parseFloat(muldecimal);
     // amount = convert(amount)
-    // console.log(amount, "--------------amount");
+    console.log(amount, "--------------amount");
     if (tokenbalance > 0) {
       let getBalance = await web3.eth.getBalance(adminAddress);
       let txCount = await web3.eth.getTransactionCount(adminAddress);
@@ -696,7 +696,7 @@ export const tokenMoveToUser = async ({
         let data = contract.methods
           .transfer(userAddress, amount.toString())
           .encodeABI();
-        // console.log("🚀 ~ file: bnb.controller.js:883 ~ data:", data);
+        console.log("🚀 ~ file: bnb.controller.js:883 ~ data:", data);
         let transactionObject = {
           gasLimit: web3.utils.toHex(500000),
           gasPrice: web3.utils.toHex(getGasPrice),
