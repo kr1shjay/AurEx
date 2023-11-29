@@ -379,6 +379,7 @@ class CurrencyUpdateModal extends React.Component {
                       className={classnames("form-control", {
                         invalid: errors.contractAddress,
                       })}
+                      disabled
                     />
                     <span className="text-danger">
                       {errors.contractAddress}
@@ -667,8 +668,13 @@ class CurrencyUpdateModal extends React.Component {
                     custom
                   >
                     <option value={"local"}>Local</option>
-                    <option value={"binance"}>Binance</option>
-                    <option value={"coin_payment"}>Coinpayment</option>
+                    {
+                      type != "token" &&
+                      <>
+                        <option value={"binance"}>Binance</option>
+                        <option value={"coin_payment"}>Coinpayment</option>
+                      </>
+                    }
                   </Form.Control>
                   <span className="text-danger">{errors.depositType}</span>
                 </div>

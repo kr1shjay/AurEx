@@ -553,7 +553,8 @@ if (process.env.NODE_ENV === "production") {
         URL: "http://45.33.1.14:3000",
       },
       ETH: {
-        URL: "https://rpc.sepolia.org",
+        // URL: "https://rpc.sepolia.org",
+        URL: "https://rpc.notadegen.com/eth/sepolia",
         ADDRESS: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
         PRIVATE_KEY:
           "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",

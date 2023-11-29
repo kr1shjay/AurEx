@@ -433,7 +433,7 @@ class CurrencyAddModal extends React.Component {
                 </div>
               }
 
-              {
+              {/* {
                 type == 'token' && <div className="row mt-2">
                   <div className="col-md-3">
                     <label>Min ABI</label>
@@ -452,7 +452,7 @@ class CurrencyAddModal extends React.Component {
                     <span className="text-danger">{errors.minABI}</span>
                   </div>
                 </div>
-              }
+              } */}
 
               {
                 type == 'token' && <div className="row mt-2">
@@ -713,7 +713,11 @@ class CurrencyAddModal extends React.Component {
                   >
                     <option value={'local'}>Local</option>
                     {/* <option value={'binance'}>Binance</option> */}
-                    <option value={'coin_payment'}>Coin Payment</option>
+                    {
+                      type != "token"  && 
+                      <option value={'coin_payment'}>Coin Payment</option>
+                    }
+                    
 
                   </Form.Control>
                   <span className="text-danger">

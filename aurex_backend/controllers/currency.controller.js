@@ -1,7 +1,7 @@
 // import package
 import multer from "multer";
 import path from "path";
-
+import Web3 from 'web3'
 // import model
 import { Currency } from "../models";
 
@@ -21,6 +21,7 @@ import {
   filterSearchQuery,
 } from "../lib/adminHelpers";
 import isEmpty from "../lib/isEmpty";
+import { ABI } from "../config/erc20";
 
 /**
  * Multer Image Uploade
@@ -252,6 +253,34 @@ export const currencyList = async (req, res) => {
   }
 };
 
+const useToken = async (type, address) => {
+  try {
+    let details = {}
+    const RPC = type.toUpperCase() == ('ERC20').toUpperCase() ? config.COIN_GATE_WAY.ETH.URL : config.COIN_GATE_WAY.BNB.URL
+    const web3 = new Web3(RPC);
+    console.log('useToken_payload', type, address, RPC);
+    const checkIsValid = web3.utils.isAddress(address);
+    console.log('useToken_checkIsValid_data', checkIsValid);
+    if (checkIsValid) {
+      const token = await new web3.eth.Contract(ABI, address);
+      details.tokenName = await token.methods.name().call();
+      details.tokenSymbol = await token.methods.symbol().call();
+      details.tokenDecimal = await token.methods.decimals().call();
+      console.log('useToken_tokenDetails_data', details);
+      return {
+        status: true,
+        data: details
+      }
+    }
+  } catch (e) {
+    console.log('useToken_err', e);
+    return {
+      status: false,
+      data: {}
+    }
+  }
+}
+
 /**
  * Add Currency
  * URL : /adminapi/currency
@@ -262,6 +291,13 @@ export const addCurrency = async (req, res) => {
   try {
     let reqBody = req.body,
       reqFile = req.files;
+    const checkIstokenValid = await useToken(reqBody.tokenType,reqBody.contractAddress);
+    console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
+    if (!checkIstokenValid.status) {
+      return res
+        .status(400)
+        .json({ success: false, errors: { contractAddress: "Invalid contract address" } });
+    }
     let checkCurrency = await Currency.findOne({ coin: reqBody.coin });
     if (checkCurrency) {
       return res
@@ -285,10 +321,16 @@ export const addCurrency = async (req, res) => {
       withdrawStatus: reqBody.withdrawStatus,
     });
 
-    if (reqBody.type == "token") {
+    if (reqBody.type == "token" && reqBody.depositType == "local") {
+      newDoc["contractAddress"] = reqBody.contractAddress;
+      newDoc["contractDecimal"] = checkIstokenValid.data.tokenDecimal;
+      newDoc["minABI"] = '';
+      newDoc["decimal"] = reqBody.decimals;
+      newDoc["tokenType"] = reqBody.tokenType;
+    } else if (reqBody.type == "token" && reqBody.depositType == "coin_payment") {
       newDoc["contractAddress"] = reqBody.contractAddress;
       newDoc["contractDecimal"] = reqBody.contractDecimal;
-      newDoc["minABI"] = reqBody.minABI;
+      newDoc["minABI"] = '';
       newDoc["decimal"] = reqBody.decimals;
       newDoc["tokenType"] = reqBody.tokenType;
     } else if (reqBody.type == "fiat") {
@@ -302,9 +344,9 @@ export const addCurrency = async (req, res) => {
       };
     }
 
-    let newData = await newDoc.save();
-    addPriceCNV(newData);
-    newAssetAllUsr(newData);
+    // let newData = await newDoc.save();
+    // addPriceCNV(newData);
+    // newAssetAllUsr(newData);
     return res
       .status(200)
       .json({ success: true, message: "Coin added successfully" });
