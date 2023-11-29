@@ -485,7 +485,7 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
             let transactionExist = await TransactionDB.findOne({
               txid: result.hash,
             });
-            let amount = result.value / 10 ** parseInt(walletCurrency.decimal);
+            let amount = result.value / 10 ** parseInt(walletCurrency.contractDecimal);
             if (
               !transactionExist &&
               parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)
@@ -494,7 +494,7 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
                 minAbi: walletCurrency.minABI,
                 contractAddress: walletCurrency.contractAddress,
                 adminAddress: config.COIN_GATE_WAY.ETH.ADDRESS,
-                decimals: walletCurrency.decimal,
+                decimals: walletCurrency.contractDecimal,
                 amount: amount,
                 userPrivateKey: walletData.privateKey,
                 userAddress: walletData.address,
