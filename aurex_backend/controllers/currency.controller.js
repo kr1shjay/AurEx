@@ -324,13 +324,13 @@ export const addCurrency = async (req, res) => {
     if (reqBody.type == "token" && reqBody.depositType == "local") {
       newDoc["contractAddress"] = reqBody.contractAddress;
       newDoc["contractDecimal"] = checkIstokenValid.data.tokenDecimal;
-      newDoc["minABI"] = '';
+      newDoc["minABI"] = JSON.stringify(ABI);
       newDoc["decimal"] = reqBody.decimals;
       newDoc["tokenType"] = reqBody.tokenType;
     } else if (reqBody.type == "token" && reqBody.depositType == "coin_payment") {
       newDoc["contractAddress"] = reqBody.contractAddress;
       newDoc["contractDecimal"] = reqBody.contractDecimal;
-      newDoc["minABI"] = '';
+      newDoc["minABI"] = JSON.stringify(ABI);
       newDoc["decimal"] = reqBody.decimals;
       newDoc["tokenType"] = reqBody.tokenType;
     } else if (reqBody.type == "fiat") {
