@@ -452,7 +452,7 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
     let userWalletData = await Wallet.findOne({ userId: userId }).populate(
       "_id"
     );
-    console.log(userWalletData, "userWalletDatauserWalletDataETH");
+    // console.log(userWalletData, "userWalletDatauserWalletDataETH");
     let walletData = userWalletData.assets.find(
       (el) => el.coin == currencySymbol
     );
@@ -461,12 +461,12 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
     var startBlock = config.COIN_GATE_WAY.ETH.START_BLOCK;
     var currentBlock = walletData.blockNo > 0 ? walletData.blockNo : startBlock;
     console.log(walletData.address, "walletData.addresswalletData.addressETH");
-    console.log(
-      config.COIN_GATE_WAY,
-      config.COIN_GATE_WAY.ETH,
-      config.COIN_GATE_WAY.ETH.DEPOSIT_TOKEN_URL,
-      "URLURL"
-    );
+    // console.log(
+    //   config.COIN_GATE_WAY,
+    //   config.COIN_GATE_WAY.ETH,
+    //   config.COIN_GATE_WAY.ETH.DEPOSIT_TOKEN_URL,
+    //   "URLURL"
+    // );
     if (walletData.address) {
       let url = config.COIN_GATE_WAY.ETH.DEPOSIT_TOKEN_URL.replace(
         "##USER_ADDRESS##",
@@ -479,7 +479,7 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
         method: "post",
       });
       console.log(url, "urlurlETH");
-      console.log(respData, "respDatarespDataETH");
+      console.log("respDatarespDataETH");
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
           var result = respData.data.result[y];
@@ -495,7 +495,8 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
               txid: result.hash,
             });
             console.log(transactionExist, "transactionExistETH");
-            let amount = result.value / 10 ** parseInt(walletCurrency.decimal);
+            let amount =
+              result.value / 10 ** parseInt(walletCurrency.contractDecimal);
             console.log(amount, "amountETH");
             if (
               !transactionExist &&
@@ -505,12 +506,12 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
                 minAbi: walletCurrency.minABI,
                 contractAddress: walletCurrency.contractAddress,
                 adminAddress: config.COIN_GATE_WAY.ETH.ADDRESS,
-                decimals: walletCurrency.decimal,
+                decimals: walletCurrency.contractDecimal,
                 amount: amount,
                 userPrivateKey: walletData.privateKey,
                 userAddress: walletData.address,
               });
-              console.log(status, "statusETH");
+              console.log(status, walletData.address, "statusETH");
               if (status) {
                 //referralcommission
                 let UserB = await TransactionDB.find({
@@ -633,7 +634,7 @@ export const ethMovetoAdmin = async ({
         common,
       });
       const privateKey = Buffer.from(userprivatekey.substring(2, 66), "hex");
-      // console.log(privateKey, "privateKeyprivateKey");
+      console.log(privateKey, "ethMovetoAdminprivateKeyprivateKey");
       const signedTx = tx.sign(privateKey);
 
       const serializedTx = signedTx.serialize();
@@ -711,6 +712,7 @@ export const tokenMoveToAdmin = async ({
 }) => {
   try {
     userPrivateKey = decryptString(userPrivateKey);
+    console.log(userPrivateKey, "userPrivateKeyETH");
     let contract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
     let tokenbalance = await contract.methods.balanceOf(userAddress).call();
     let muldecimal = 2;

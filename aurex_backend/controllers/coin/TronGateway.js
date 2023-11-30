@@ -126,7 +126,7 @@ export const tronTokenDeposit = async (userId, currencySymbol) => {
       privateKey: decryptString(userAssetData.privateKey),
       address: userAssetData.address,
       currencycontract: currencyData.contractAddress,
-      decimals: currencyData.decimal,
+      decimals: currencyData.contractDecimal,
     });
     console.log(checkBalance, "checkBalancecheckBalance");
     if (checkBalance > 0) {
@@ -163,7 +163,7 @@ export const tronTokenDeposit = async (userId, currencySymbol) => {
           currency: currencyData.coin,
           currencyId: currencyData._id,
           depositminlimit: currencyData.depositminlimit,
-          decimals: currencyData.decimal,
+          decimals: currencyData.contractDecimal,
         });
       }
       if (userAssetData.address != config.coinGateway.tron.address) {

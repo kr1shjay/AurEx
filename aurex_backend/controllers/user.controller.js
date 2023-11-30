@@ -340,6 +340,11 @@ export const checkDeposit = async (req, res) => {
             "currency.tokenType"
           );
           if (currency.tokenType == "bep20") {
+            console.log(
+              currency.tokenType,
+              currency.contractAddress,
+              "bep20bep20"
+            );
             bnbCtrl.tokenDeposit(userData.userId, currency.coin);
           }
           if (currency.tokenType == "trc20") {

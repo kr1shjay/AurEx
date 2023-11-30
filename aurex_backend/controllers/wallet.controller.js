@@ -200,7 +200,7 @@ export const getWallet = async (req, res) => {
       assetList && assetList.length > 0,
       "assetList && assetList.length > 0"
     );
-    console.log(walletData, "walletDataGETGET");
+    console.log(assetList, "walletDataGETGET");
     if (assetList && assetList.length > 0) {
       let updateAsset = await updateAddress(assetList, req.user.userId, {
         walletId: walletData._id,
@@ -299,7 +299,7 @@ export const updateAddress = async (assetList, userId, option = {}) => {
     ]);
     // console.log("USer option : ", option)
     let walletData;
-    console.log(currencyList, "currencyListcurrencyList");
+    // console.log(currencyList, "currencyListcurrencyList");
     if (currencyList && currencyList.length > 0) {
       if (currencyList[0].crypto && currencyList[0].crypto.length > 0) {
         for (let cryptoData of currencyList[0].crypto) {

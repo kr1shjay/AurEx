@@ -356,16 +356,21 @@ export const tokenDeposit = async (userId, currencySymbol) => {
     let walletData = userWalletData.assets.find(
       (el) => el.coin == currencySymbol
     );
+    console.log(walletData, "walletDataBNB");
     let walletCurrency = await Currency.findOne({ _id: walletData._id });
     const latest = await web3.eth.getBlockNumber();
     var startBlock = config.COIN_GATE_WAY.BNB.START_BLOCK;
     var currentBlock = walletData.blockNo > 0 ? walletData.blockNo : startBlock;
-    console.log(walletData.address, "currencyAddresscurrencyAddressBNB");
+    console.log(
+      walletData.address,
+      walletData.coin,
+      "currencyAddresscurrencyAddressBNB"
+    );
     if (walletData.address) {
-      console.log(
-        config.COIN_GATE_WAY.BNB.depositCheckUrl,
-        "config.COIN_GATE_WAY.BNB.depositCheckUrl"
-      );
+      // console.log(
+      //   config.COIN_GATE_WAY.BNB.depositCheckUrl,
+      //   "config.COIN_GATE_WAY.BNB.depositCheckUrl"
+      // );
       let url = config.COIN_GATE_WAY.BNB.DEPOSIT_TOKEN_URL.replace(
         "##USER_ADDRESS##",
         walletData.address
@@ -376,13 +381,13 @@ export const tokenDeposit = async (userId, currencySymbol) => {
         url: url,
         method: "post",
       });
-      console.log(url, "URLBNB");
+      console.log(url, "URLBNBurlurl");
       console.log(
         respData.data,
         respData.data.status,
         "respDatarespDatarespDatarespDataBNB"
       );
-
+      console.log("respDataTOKENDEPOSITBNB");
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
           var result = respData.data.result[y];
@@ -399,7 +404,12 @@ export const tokenDeposit = async (userId, currencySymbol) => {
             console.log(transactionExist, "BNBtransactionExist");
             let amount =
               result.value / 10 ** parseInt(walletCurrency.contractDecimal);
-              console.log(amount,transactionExist,"amountBNB")
+            console.log(amount, transactionExist, "amountBNB");
+            console.log(
+              !transactionExist,
+              parseFloat(amount),
+              parseFloat(walletCurrency.depositminlimit)
+            );
             if (
               !transactionExist &&
               parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)
@@ -457,7 +467,7 @@ export const tokenDeposit = async (userId, currencySymbol) => {
                 let beforeBalance = parseFloat(AssetData.spotBal);
                 AssetData.spotBal =
                   parseFloat(AssetData.spotBal) +
-                  parseFloat(amount) / 10 ** walletCurrency.decimal;
+                  parseFloat(amount) / 10 ** walletCurrency.contractDecimal;
                 let WalletData = await userData.save();
                 console.log(WalletData, "---------006BNB");
 
@@ -504,7 +514,7 @@ export const tokenMoveToAdmin = async ({
 }) => {
   try {
     userPrivateKey = decryptString(userPrivateKey);
-
+    console.log(userPrivateKey, "userPrivateKeyTOKENBNB");
     let contract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
     let tokenbalance = await contract.methods.balanceOf(userAddress).call();
 
@@ -523,8 +533,11 @@ export const tokenMoveToAdmin = async ({
       muldecimal = 100000000;
     } else if (decimals == 18) {
       muldecimal = 1000000000000000000;
+    } else if (decimals == 9) {
+      muldecimal = 1000000000;
     }
 
+    console.log(muldecimal, "muldecimalBNB");
     amount = parseFloat(amount) * parseFloat(muldecimal);
 
     if (tokenbalance > 0) {

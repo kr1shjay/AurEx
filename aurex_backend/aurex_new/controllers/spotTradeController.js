@@ -1879,7 +1879,7 @@ export const getPairList = async (req, res) => {
                 }
             },
         ])
-        console.log("tradepair",spotPairData)
+        // console.log("tradepair",spotPairData)
         return res.status(200).json({ 'statusCode':200,'success': true, 'message': "success", 'result': spotPairData })
     } catch (err) {
         return res.status(500).json({ 'statusCode':500,'status': false,  'message': "System error" });

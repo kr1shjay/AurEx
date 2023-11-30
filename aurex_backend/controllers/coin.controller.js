@@ -202,7 +202,7 @@ export const generateCryptoAddr = async ({
       return [];
     }
     let assetList = [];
-    console.log(currencyList, "currencyListcurrencyList");
+    // console.log(currencyList, "currencyListcurrencyList");
     for (let currency of currencyList) {
       console.log(
         currency.depositType == "local",

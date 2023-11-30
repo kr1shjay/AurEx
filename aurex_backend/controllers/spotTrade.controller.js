@@ -22672,7 +22672,7 @@ export const getPairList = async (req, res) => {
                 }
             },
         ])
-        console.log("tradepair",spotPairData)
+        // console.log("tradepair",spotPairData)
         return res.status(200).json({ 'success': true, 'messages': "success", 'result': spotPairData })
     } catch (err) {
         return res.status(500).json({ 'status': false, 'message': "Error occured" });

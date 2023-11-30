@@ -211,6 +211,6 @@ const perpetualSymbol = async () => {
 perpetualSymbol();
 
 export const getSymbol = () => {
-	console.log("getSymbol",symbols);
+	// console.log("getSymbol",symbols);
 	return symbols
 }
