@@ -11,6 +11,9 @@ import Select from 'react-select';
 import { addCurrency } from '../../actions/currency';
 import isEmpty from "../../lib/isEmpty";
 
+//import config
+import { NETWORK_BINANCE } from "../../config/network";
+
 const initialFormValue = {
   'name': '',
   'coin': '',
@@ -33,7 +36,8 @@ const initialFormValue = {
   'decimals': 0,
   'isPrimary': false,
   'payment': [],
- 'upiInputValue':0
+  'upiInputValue': 0,
+  'contractDecimal':0
 
 }
 
@@ -45,7 +49,12 @@ class CurrencyAddModal extends React.Component {
       formValue: initialFormValue,
       errors: {},
       //upi: false,
-      //bank:false
+      //bank:false,
+      addressRegex:{
+        "bep20":"^(0x)[0-9A-Fa-f]{40}$",
+        "erc20":"^(0x)[0-9A-Fa-f]{40}$"
+      },
+      currentNetworkInfo:{}
     };
     this.paymentOption = [
       { 'label': 'BankTransaction', 'value': 'bank' },
@@ -55,49 +64,49 @@ class CurrencyAddModal extends React.Component {
   }
 
   styles = {
-		option: (provided, state) => ({
-		  ...provided,
-		  color: "white",
-		  backgroundColor: "#242827",
-		}),
-		valueContainer: (provided, state) => ({
-		  ...provided,
-		  height: '52px',
-		  padding: '0 6px',
-		  backgroundColor: "#1a1b1c",
-		  borderColor: '#59615f',
-		borderRadius: 8,
-		borderStyle: 'solid',
-		borderWidth: '1px'
-		 
-		}),
-		control: (provided, state) => ({
-		  ...provided,
-		  height: '52px',
-		  borderRadius:8,
-		  backgroundColor: "#1a1b1c",
-		  border:'none'
-		 
-		}),
-		indicatorsContainer: (provided, state) => ({
-		  ...provided,
-		  height: '52px',
-		  position: 'absolute',
-		  right: 0,
-		  top: 0,
-		  color:'#fff' 
-		}),    
-		singleValue: (provided, state) => ({
-		  ...provided,
-		  color: "#fff"
-		})
-	  };
+    option: (provided, state) => ({
+      ...provided,
+      color: "white",
+      backgroundColor: "#242827",
+    }),
+    valueContainer: (provided, state) => ({
+      ...provided,
+      height: '52px',
+      padding: '0 6px',
+      backgroundColor: "#1a1b1c",
+      borderColor: '#59615f',
+      borderRadius: 8,
+      borderStyle: 'solid',
+      borderWidth: '1px'
+
+    }),
+    control: (provided, state) => ({
+      ...provided,
+      height: '52px',
+      borderRadius: 8,
+      backgroundColor: "#1a1b1c",
+      border: 'none'
+
+    }),
+    indicatorsContainer: (provided, state) => ({
+      ...provided,
+      height: '52px',
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      color: '#fff'
+    }),
+    singleValue: (provided, state) => ({
+      ...provided,
+      color: "#fff"
+    })
+  };
 
   handlePayment(selectedOption) {
     if (selectedOption && selectedOption.length > 0) {
       let formData = { ...this.state.formValue, 'payment': selectedOption.map((el) => { return el.value; }) };
 
-   
+
       this.setState({ formValue: formData });
     } else {
       let formData = { ...this.state.formValue, 'payment': [] };
@@ -107,6 +116,13 @@ class CurrencyAddModal extends React.Component {
   handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
+    const {tokenType} = this.state.formValue
+    console.log(this.state.addressRegex[tokenType],"this.state.addressRegex[this.state.tokenType]")
+    if (name == "contractAddress") {
+      var pattern = new RegExp(this.state.addressRegex[tokenType])
+      if (!(pattern.test(value)))
+        return
+    }
     let formData = { ...this.state.formValue, ...{ [name]: value } };
     this.setState({ formValue: formData });
   };
@@ -148,7 +164,8 @@ class CurrencyAddModal extends React.Component {
       payment,
       upiInputValue,
       depositStatus,
-      withdrawStatus
+      withdrawStatus,
+      contractDecimal
 
     } = this.state.formValue;
     const { fetchData } = this.props;
@@ -180,9 +197,10 @@ class CurrencyAddModal extends React.Component {
     formData.append("bankcode", bankcode);
     formData.append("country", country);
     formData.append("image", image);
-    formData.append("upiInputValue",upiInputValue)
-    formData.append("depositStatus",depositStatus)
-    formData.append("withdrawStatus",withdrawStatus)
+    formData.append("upiInputValue", upiInputValue)
+    formData.append("depositStatus", depositStatus)
+    formData.append("withdrawStatus", withdrawStatus)
+    formData.append("contractDecimal", contractDecimal)
     this.setState({ loader: true })
     try {
       const { status, loading, message, error } = await addCurrency(formData);
@@ -224,8 +242,8 @@ class CurrencyAddModal extends React.Component {
       payment,
       upiInputValue,
       depositStatus,
-      withdrawStatus
-      
+      withdrawStatus,
+      contractDecimal
 
     } = this.state.formValue;
     const { errors, loader, upi } = this.state;
@@ -369,74 +387,6 @@ class CurrencyAddModal extends React.Component {
                 </div>
               </div>
 
-
-              {
-                type == 'token' && <div className="row mt-2">
-                  <div className="col-md-3">
-                    <label>Contract Address</label>
-                  </div>
-                  <div className="col-md-9">
-                    <input
-                      name="contractAddress"
-                      type="text"
-                      onChange={this.handleChange}
-                      value={contractAddress}
-                      error={errors.contractAddress}
-                      className={classnames("form-control", {
-                        invalid: errors.contractAddress,
-                      })}
-                    />
-                    <span className="text-danger">
-                      {errors.contractAddress}
-                    </span>
-                  </div>
-                </div>
-              }
-
-              {
-                type == 'token' && <div className="row mt-2">
-                  <div className="col-md-3">
-                    <label>Min ABI</label>
-                  </div>
-                  <div className="col-md-9">
-                    <textarea
-                      name="minABI"
-                      type="text"
-                      value={minABI}
-                      onChange={this.handleChange}
-                      error={errors.minABI}
-                      className={classnames("form-control", {
-                        invalid: errors.minABI,
-                      })}
-                    />
-                    <span className="text-danger">{errors.minABI}</span>
-                  </div>
-                </div>
-              }
-
-              {
-                type == 'token' && <div className="row mt-2">
-                  <div className="col-md-3">
-                    <label>Decimals</label>
-                  </div>
-                  <div className="col-md-9">
-                    <input
-                      name="decimals"
-                      type="number"
-                      value={decimals}
-                      onChange={this.handleChange}
-                      error={errors.decimals}
-                      className={classnames("form-control", {
-                        invalid: errors.decimals,
-                      })}
-                    />
-                    <span className="text-danger">
-                      {errors.decimals}
-                    </span>
-                  </div>
-                </div>
-              }
-
               {
                 type == 'token' && <div className="row mt-2">
                   <div className="col-md-3">
@@ -460,6 +410,96 @@ class CurrencyAddModal extends React.Component {
                   </div>
                 </div>
               }
+              {
+                type == 'token' && <div className="row mt-2">
+                  <div className="col-md-3">
+                    <label>Contract Address</label>
+                  </div>
+                  <div className="col-md-9">
+                    <input
+                      name="contractAddress"
+                      type="text"
+                      onChange={this.handleChange}
+                      value={contractAddress}
+                      error={errors.contractAddress}
+                      className={classnames("form-control", {
+                        invalid: errors.contractAddress,
+                      })}
+                    />
+                    <span className="text-danger">
+                      {errors.contractAddress}
+                    </span>
+                  </div>
+                </div>
+              }
+
+              {/* {
+                type == 'token' && <div className="row mt-2">
+                  <div className="col-md-3">
+                    <label>Min ABI</label>
+                  </div>
+                  <div className="col-md-9">
+                    <textarea
+                      name="minABI"
+                      type="text"
+                      value={minABI}
+                      onChange={this.handleChange}
+                      error={errors.minABI}
+                      className={classnames("form-control", {
+                        invalid: errors.minABI,
+                      })}
+                    />
+                    <span className="text-danger">{errors.minABI}</span>
+                  </div>
+                </div>
+              } */}
+
+              {
+                type == 'token' && <div className="row mt-2">
+                  <div className="col-md-3">
+                    <label>Decimals</label>
+                  </div>
+                  <div className="col-md-9">
+                    <input
+                      name="decimals"
+                      type="number"
+                      value={decimals}
+                      onChange={this.handleChange}
+                      error={errors.decimals}
+                      className={classnames("form-control", {
+                        invalid: errors.decimals,
+                      })}
+                    />
+                    <span className="text-danger">
+                      {errors.decimals}
+                    </span>
+                  </div>
+                </div>
+              }
+              {type == "token" && (
+                <div className="row mt-2">
+                  <div className="col-md-3">
+                    <label>Contract Decimal</label>
+                  </div>
+                  <div className="col-md-9">
+                    <input
+                      name="contractDecimal"
+                      type="number"
+                      value={contractDecimal}
+                      onChange={this.handleChange}
+                      placeholder="Enter the token decimal"
+                      error={errors.contractDecimal}
+                      className={classnames("form-control", {
+                        invalid: errors.contractDecimal,
+                      })}
+                    />
+                    <span className="text-danger">
+                      {errors.contractDecimal}
+                    </span>
+                  </div>
+                </div>
+              )}
+             
               {
                 type == 'fiat' && <div className="row mt-2">
                   <div className="col-md-3">
@@ -485,21 +525,21 @@ class CurrencyAddModal extends React.Component {
                 </div>
               }
               {
-                ( type == 'fiat' && (!isEmpty(payment)) && payment.includes('upi')) ? <div className="row">
+                (type == 'fiat' && (!isEmpty(payment)) && payment.includes('upi')) ? <div className="row">
                   <div className="col-md-3">
                     <label>UPI</label>
                   </div>
                   <div className="col-md-9">
-                    <input 
-                    type='text' 
-                    className="form-control" 
-                    name="upiInputValue"
-                   value={upiInputValue}
-                    onChange={this.handleChange}
+                    <input
+                      type='text'
+                      className="form-control"
+                      name="upiInputValue"
+                      value={upiInputValue}
+                      onChange={this.handleChange}
                     />
-                     <span  className="text-danger">{errors.upiInputValue}</span>
+                    <span className="text-danger">{errors.upiInputValue}</span>
                   </div>
-                 
+
 
                 </div>
                   : ''
@@ -530,7 +570,7 @@ class CurrencyAddModal extends React.Component {
               }
 
               {
-                type == 'fiat' && (!isEmpty(payment))&& payment.includes('bank') && <div className="row mt-2">
+                type == 'fiat' && (!isEmpty(payment)) && payment.includes('bank') && <div className="row mt-2">
                   <div className="col-md-3">
                     <label>Account No.</label>
                   </div>
@@ -553,7 +593,7 @@ class CurrencyAddModal extends React.Component {
               }
 
               {
-                type == 'fiat' && (!isEmpty(payment))&& payment.includes('bank') && <div className="row mt-2">
+                type == 'fiat' && (!isEmpty(payment)) && payment.includes('bank') && <div className="row mt-2">
                   <div className="col-md-3">
                     <label>Holder Name</label>
                   </div>
@@ -576,7 +616,7 @@ class CurrencyAddModal extends React.Component {
               }
 
               {
-                type == 'fiat' && (!isEmpty(payment))&& payment.includes('bank') && <div className="row mt-2">
+                type == 'fiat' && (!isEmpty(payment)) && payment.includes('bank') && <div className="row mt-2">
                   <div className="col-md-3">
                     <label>IBAN Code</label>
                   </div>
@@ -599,7 +639,7 @@ class CurrencyAddModal extends React.Component {
               }
 
               {
-                type == 'fiat' && (!isEmpty(payment))&& payment.includes('bank') && <div className="row mt-2">
+                type == 'fiat' && (!isEmpty(payment)) && payment.includes('bank') && <div className="row mt-2">
                   <div className="col-md-3">
                     <label>Country</label>
                   </div>
@@ -673,7 +713,11 @@ class CurrencyAddModal extends React.Component {
                   >
                     <option value={'local'}>Local</option>
                     {/* <option value={'binance'}>Binance</option> */}
-                    <option value={'coin_payment'}>Coin Payment</option>
+                    {
+                      type != "token"  && 
+                      <option value={'coin_payment'}>Coin Payment</option>
+                    }
+                    
 
                   </Form.Control>
                   <span className="text-danger">
@@ -688,25 +732,25 @@ class CurrencyAddModal extends React.Component {
                 </div>
                 <div className="col-md-9">
 
-                <label class="custom-file-upload">
-                <input
-                    name="image"
-                    type="file"
-                    onChange={this.handleFile}
-                    accept="image/x-png,image/gif,image/jpeg, image/png"
-                    aria-describedby="fileHelp"
-                  />
-                Choose File
-            </label>
+                  <label class="custom-file-upload">
+                    <input
+                      name="image"
+                      type="file"
+                      onChange={this.handleFile}
+                      accept="image/x-png,image/gif,image/jpeg, image/png"
+                      aria-describedby="fileHelp"
+                    />
+                    Choose File
+                  </label>
 
-                 
-                
+
+
                   <img
                     className="img-fluid proofThumb"
                     src={fileObjectUrl(image)}
                   />
                   <div>
-                  <span className="text-danger">{errors.image}</span>
+                    <span className="text-danger">{errors.image}</span>
                   </div>
                 </div>
               </div>

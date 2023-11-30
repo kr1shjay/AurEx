@@ -23,7 +23,8 @@ import config from "../../config";
 import isEmpty from "../../lib/isEmpty";
 import isJsonParse from "../../lib/isJsonParse";
 import { encryptString, decryptString } from "../../lib/cryptoJS";
-const web3 = new Web3("https://rpc.notadegen.com/eth/sepolia");
+// const web3 = new Web3("https://rpc.notadegen.com/eth/sepolia");
+const web3 = new Web3(config.COIN_GATE_WAY.ETH.URL);
 
 const ObjectId = mongoose.Types.ObjectId;
 

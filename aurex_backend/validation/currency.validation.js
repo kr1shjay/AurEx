@@ -78,9 +78,9 @@ export const addValid = (req, res, next) => {
         if (isEmpty(reqBody.contractAddress)) {
             errors.contractAddress = "REQUIRED";
         }
-        if (isEmpty(reqBody.minABI)) {
-            errors.minABI = "Min ABI field is required";
-        }
+        // if (isEmpty(reqBody.minABI)) {
+        //     errors.minABI = "Min ABI field is required";
+        // }
         if (isEmpty(reqBody.decimals) || reqBody.decimals == 0) {
             errors.decimals = "Decimals field is required";
         } else if (isNaN(reqBody.decimals)) {

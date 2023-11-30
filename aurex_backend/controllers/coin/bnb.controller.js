@@ -735,7 +735,7 @@ export const tokenMoveToUser = async ({
         let data = contract.methods
           .transfer(userAddress, amount.toString())
           .encodeABI();
-        // console.log("🚀 ~ file: bnb.controller.js:883 ~ data:", data);
+        console.log("🚀 ~ file: bnb.controller.js:883 ~ data:", data);
         let transactionObject = {
           gasLimit: web3.utils.toHex(500000),
           gasPrice: web3.utils.toHex(getGasPrice),
