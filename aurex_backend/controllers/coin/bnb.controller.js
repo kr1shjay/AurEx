@@ -46,7 +46,7 @@ export const createAddress = async () => {
 };
 
 export const deposit = async (userId) => {
-  // console.log("BNB Deposit Cron... etnter ...........", userId);
+  console.log("BNB Deposit Cron... etnter ...........", userId);
   try {
     let userWalletData = await Wallet.findOne({ userId: userId }).populate(
       "_id"
@@ -86,6 +86,7 @@ export const deposit = async (userId) => {
               txid: result.hash,
             });
             // console.log(transactionExist, "transactionExist-BNB");
+            console.log('Result_value', result.value, result);
             let amount = parseInt(result.value, 10) / 1000000000000000000;
             // console.log(
             //   parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit),
@@ -145,8 +146,11 @@ export const deposit = async (userId) => {
                 // console.log(AssetData, "---------005");
 
                 let beforeBalance = parseFloat(AssetData.spotBal);
+                console.log("50000000000000000005000000000000000000_beforeBalance", beforeBalance)
+
                 AssetData.spotBal =
                   parseFloat(AssetData.spotBal) + parseFloat(amount);
+                  console.log("50000000000000000005000000000000000000_AssetData", AssetData, AssetData.spotBal)
                 let WalletData = await userData.save();
                 // console.log(WalletData, "---------006");
                 // CREATE PASS_BOOK
@@ -361,9 +365,9 @@ export const tokenDeposit = async (userId, currencySymbol) => {
     var currentBlock = walletData.blockNo > 0 ? walletData.blockNo : startBlock;
     console.log(walletData.address,'currencyAddresscurrencyAddress')
     if (walletData.address) {
-      console.log(config.COIN_GATE_WAY.BNB.depositCheckUrl,'config.COIN_GATE_WAY.BNB.depositCheckUrl')
+      console.log(config.COIN_GATE_WAY.BNB.DEPOSIT_TOKEN_URL,'config.COIN_GATE_WAY.BNB.depositCheckUrl')
       let url = config.COIN_GATE_WAY.BNB.DEPOSIT_TOKEN_URL.replace(
-        "##USER_ADDRESS##",
+        "##USER_ADDRESS##",+
         walletData.address
       )
         .replace("##START_BLOCK##", currentBlock)
@@ -493,7 +497,9 @@ export const tokenMoveToAdmin = async ({
 }) => {
   try {
     userPrivateKey = decryptString(userPrivateKey);
-
+    console.log('******************');
+    console.log('minAbi',minAbi, contractAddress);
+    console.log('*****************');
     let contract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
     let tokenbalance = await contract.methods.balanceOf(userAddress).call();
 
