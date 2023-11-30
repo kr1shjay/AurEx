@@ -46,14 +46,14 @@ export const createAddress = async () => {
 };
 
 export const deposit = async (userId) => {
-  console.log("BNB Deposit Cron... etnter ...........", userId);
+  // console.log("BNB Deposit Cron... etnter ...........", userId);
   try {
     let userWalletData = await Wallet.findOne({ userId: userId }).populate(
       "_id"
     );
     let walletData = userWalletData.assets.find((el) => el.coin == "BNB");
     let walletCurrency = await Currency.findOne({ _id: walletData._id });
-    console.log(walletCurrency, "walletCurrencywalletCurrencyBNB");
+    // console.log(walletCurrency, "walletCurrencywalletCurrency");
 
     const latest = await web3.eth.getBlockNumber();
     var startBlock = config.COIN_GATE_WAY.BNB.START_BLOCK;
@@ -69,7 +69,7 @@ export const deposit = async (userId) => {
         url: url,
         method: "post",
       });
-      console.log(url, "BNB-URL");
+      // console.log(url, "BNB-URL");
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
           var result = respData.data.result[y];
@@ -85,12 +85,12 @@ export const deposit = async (userId) => {
             let transactionExist = await TransactionDB.findOne({
               txid: result.hash,
             });
-            console.log(transactionExist, "transactionExist-BNB");
+            // console.log(transactionExist, "transactionExist-BNB");
             let amount = parseInt(result.value, 10) / 1000000000000000000;
-            console.log(
-              parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit),
-              "parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit-BNB)"
-            );
+            // console.log(
+            //   parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit),
+            //   "parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit-BNB)"
+            // );
 
             if (
               !transactionExist &&
@@ -103,7 +103,7 @@ export const deposit = async (userId) => {
                 userprivatekey: walletData.privateKey,
                 adminAddress: config.COIN_GATE_WAY.BNB.ADDRESS,
               });
-              console.log(status, "BNB-status");
+              // console.log(status, "BNB-status");
               if (status) {
                 //referralcommission
                 let UserB = await TransactionDB.find({
@@ -140,15 +140,15 @@ export const deposit = async (userId) => {
                 let userData = await Wallet.findOne({
                   userId: userId,
                 });
-                console.log(userData, "---------004BNB");
+                // console.log(userData, "---------004");
                 let AssetData = userData.assets.id(walletData._id);
-                console.log(AssetData, "---------005BNB");
+                // console.log(AssetData, "---------005");
 
                 let beforeBalance = parseFloat(AssetData.spotBal);
                 AssetData.spotBal =
                   parseFloat(AssetData.spotBal) + parseFloat(amount);
                 let WalletData = await userData.save();
-                console.log(WalletData, "---------006BNB");
+                // console.log(WalletData, "---------006");
                 // CREATE PASS_BOOK
                 createPassBook({
                   userId: userData._id,
@@ -180,7 +180,7 @@ export const bnbMovetoAdmin = async ({
   adminAddress,
 }) => {
   try {
-    console.log("BNB Amount Move to Admin");
+    // console.log("BNB Amount Move to Admin");
     var userprivatekey = decryptString(userprivatekey);
     let balance = await web3.eth.getBalance(useraddress);
     let getGasPrice = await web3.eth.getGasPrice();
@@ -189,9 +189,9 @@ export const bnbMovetoAdmin = async ({
     var fee = web3.utils.toHex(getGasPrice) * gaslimit;
 
     amount = amount * 1000000000000000000 - fee;
-    console.log(balance, "balancebalancebalanceBNB");
-    console.log(amount, "amountamountamountBNB");
-    console.log(balance > amount, "balance > amountBNB");
+    // console.log(balance, "balancebalancebalance");
+    // console.log(amount, "amountamountamount");
+    // console.log(balance > amount, "balance > amount");
     if (balance > amount) {
       var updateVal = {};
       const txObject = {
@@ -224,7 +224,7 @@ export const bnbMovetoAdmin = async ({
       const raw1 = "0x" + serializedTx.toString("hex");
 
       let responseData = await web3.eth.sendSignedTransaction(raw1);
-      console.log(responseData, "responseDataresponseDataBNB");
+      // console.log(responseData, "responseDataresponseData");
       return {
         status: true,
         message: "success",
@@ -252,20 +252,20 @@ export const bnbMovetoUser = async ({
   userAddress,
 }) => {
   try {
-    console.log("BNB Amount Move to User");
+    // console.log("BNB Amount Move to User");
     var adminPrivatekey = decryptString(adminPrivatekey);
     // var adminPrivatekey = adminPrivatekey
 
-    console.log(
-      amount,
-      "amountBNB",
-      adminAddress,
-      "adminAddressBNB",
-      adminPrivatekey,
-      "adminPrivatekeyBNB",
-      userAddress,
-      "userAddressBNB"
-    );
+    // console.log(
+    //   amount,
+    //   "amount",
+    //   adminAddress,
+    //   "adminAddress",
+    //   adminPrivatekey,
+    //   "adminPrivatekey",
+    //   userAddress,
+    //   "userAddress"
+    // );
     let balance = await web3.eth.getBalance(adminAddress);
     let getGasPrice = await web3.eth.getGasPrice();
     let txCount = await web3.eth.getTransactionCount(adminAddress);
@@ -277,13 +277,12 @@ export const bnbMovetoUser = async ({
 
     // Convert to wei value
 
-    console.log(
-      balance,
-      "balanceBNB",
-      amount1,
-      "amount---------------------------------------"
-    );
-    console.log(balance > amount1, "balance > amount1BNB");
+    // console.log(
+    //   balance,
+    //   "balance",
+    //   amount1,
+    //   "amount---------------------------------------"
+    // );
     if (balance > amount1) {
       // const amountToSend = web3.toWei(amount1, "ether");
       var updateVal = {};
@@ -295,7 +294,7 @@ export const bnbMovetoUser = async ({
         // value: amountToSend ,
         value: web3.utils.toHex(amount1),
       };
-      console.log(txObject, "txobjecttttttttttttttttttBNB");
+      // console.log(txObject, "txobjectttttttttttttttttt");
       const common = await Common.forCustomChain(
         "mainnet",
         {
@@ -356,21 +355,13 @@ export const tokenDeposit = async (userId, currencySymbol) => {
     let walletData = userWalletData.assets.find(
       (el) => el.coin == currencySymbol
     );
-    console.log(walletData, "walletDataBNB");
     let walletCurrency = await Currency.findOne({ _id: walletData._id });
     const latest = await web3.eth.getBlockNumber();
     var startBlock = config.COIN_GATE_WAY.BNB.START_BLOCK;
     var currentBlock = walletData.blockNo > 0 ? walletData.blockNo : startBlock;
-    console.log(
-      walletData.address,
-      walletData.coin,
-      "currencyAddresscurrencyAddressBNB"
-    );
+    console.log(walletData.address,'currencyAddresscurrencyAddress')
     if (walletData.address) {
-      // console.log(
-      //   config.COIN_GATE_WAY.BNB.depositCheckUrl,
-      //   "config.COIN_GATE_WAY.BNB.depositCheckUrl"
-      // );
+      console.log(config.COIN_GATE_WAY.BNB.depositCheckUrl,'config.COIN_GATE_WAY.BNB.depositCheckUrl')
       let url = config.COIN_GATE_WAY.BNB.DEPOSIT_TOKEN_URL.replace(
         "##USER_ADDRESS##",
         walletData.address
@@ -381,13 +372,8 @@ export const tokenDeposit = async (userId, currencySymbol) => {
         url: url,
         method: "post",
       });
-      console.log(url, "URLBNBurlurl");
-      console.log(
-        respData.data,
-        respData.data.status,
-        "respDatarespDatarespDatarespDataBNB"
-      );
-      console.log("respDataTOKENDEPOSITBNB");
+      console.log(respData.data.status,'respDatarespDatarespDatarespData')
+
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
           var result = respData.data.result[y];
@@ -401,15 +387,8 @@ export const tokenDeposit = async (userId, currencySymbol) => {
             let transactionExist = await TransactionDB.findOne({
               txid: result.hash,
             });
-            console.log(transactionExist, "BNBtransactionExist");
             let amount =
               result.value / 10 ** parseInt(walletCurrency.contractDecimal);
-            console.log(amount, transactionExist, "amountBNB");
-            console.log(
-              !transactionExist,
-              parseFloat(amount),
-              parseFloat(walletCurrency.depositminlimit)
-            );
             if (
               !transactionExist &&
               parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)
@@ -423,7 +402,7 @@ export const tokenDeposit = async (userId, currencySymbol) => {
                 userPrivateKey: walletData.privateKey,
                 userAddress: walletData.address,
               });
-              console.log(status, message, "statusstatusBNB");
+              console.log(status, message, "statusstatus");
               if (status) {
                 console.log("result.hashresult.hash", result.hash);
                 //referralcommission
@@ -460,20 +439,16 @@ export const tokenDeposit = async (userId, currencySymbol) => {
                 let userData = await Wallet.findOne({
                   userId: userId,
                 });
-                console.log(userData, "---------004BNB");
+                console.log(userData, "---------004");
                 let AssetData = userData.assets.id(walletData._id);
-                console.log(AssetData, "---------005BNB");
+                console.log(AssetData, "---------005");
 
                 let beforeBalance = parseFloat(AssetData.spotBal);
-                console.log(parseFloat(amount));
-                console.log(walletCurrency.contractDecimal);
-                console.log(
-                  parseFloat(amount) / 10 ** walletCurrency.contractDecimal
-                );
                 AssetData.spotBal =
-                  parseFloat(AssetData.spotBal) + parseFloat(amount);
+                  parseFloat(AssetData.spotBal) +
+                  parseFloat(amount) / 10 ** walletCurrency.contractDecimal;
                 let WalletData = await userData.save();
-                console.log(WalletData, "---------006BNB");
+                console.log(WalletData, "---------006");
 
                 // CREATE PASS_BOOK
                 createPassBook({
@@ -518,12 +493,7 @@ export const tokenMoveToAdmin = async ({
 }) => {
   try {
     userPrivateKey = decryptString(userPrivateKey);
-    console.log(
-      userPrivateKey,
-      decimals,
-      contractAddress,
-      "userPrivateKeyTOKENBNB"
-    );
+
     let contract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
     let tokenbalance = await contract.methods.balanceOf(userAddress).call();
 
@@ -542,25 +512,22 @@ export const tokenMoveToAdmin = async ({
       muldecimal = 100000000;
     } else if (decimals == 18) {
       muldecimal = 1000000000000000000;
-    } else if (decimals == 9) {
-      muldecimal = 1000000000;
     }
 
-    console.log(muldecimal, "muldecimalBNB");
     amount = parseFloat(amount) * parseFloat(muldecimal);
-    console.log(tokenbalance, "tokenbalancetokenbalance");
+
     if (tokenbalance > 0) {
       let getBalance = await web3.eth.getBalance(userAddress);
       let txCount = await web3.eth.getTransactionCount(userAddress);
       let getGasPrice = await web3.eth.getGasPrice();
       let gaslimit = web3.utils.toHex(500000);
       let fee = web3.utils.toHex(getGasPrice) * gaslimit;
-      console.log(getBalance, "------------>>>>getBalanceBNB");
-      console.log(fee, "------------>>>>feeBNB");
+      console.log(getBalance, "------------>>>>getBalance");
+      console.log(fee, "------------>>>>fee");
 
       if (getBalance > fee) {
         console.log(
-          "-------------->>>>>>>>>>BNB-----------------<<<<<<<<<<<",
+          "-------------->>>>>>>>>>-----------------<<<<<<<<<<<",
           amount
         );
 
@@ -685,22 +652,7 @@ export const tokenMoveToUser = async ({
   decimals,
 }) => {
   try {
-    console.log(
-      amount,
-      ",amountamountamount",
-      adminAddress,
-      ",adminAddressadminAddressadminAddress",
-      userAddress,
-      ",userAddressuserAddressuserAddress",
-      contractAddress,
-      ",contractAddresscontractAddresscontractAddress",
-      adminPrivateKey,
-      ",adminPrivateKeyadminPrivateKeyadminPrivateKey",
-      minAbi,
-      ",minAbiminAbiminAbi",
-      decimals,
-      ",decimalsdecimalsdecimals"
-    );
+    console.log(amount,',amountamountamount',adminAddress,',adminAddressadminAddressadminAddress',userAddress,',userAddressuserAddressuserAddress',contractAddress,',contractAddresscontractAddresscontractAddress',adminPrivateKey,',adminPrivateKeyadminPrivateKeyadminPrivateKey',minAbi,',minAbiminAbiminAbi',decimals,',decimalsdecimalsdecimals')
     console.log(decimals, "---------------decimal", amount);
     adminPrivateKey = decryptString(adminPrivateKey);
     // let adminPrivateKey1 = Buffer.from(adminPrivateKey, "hex");

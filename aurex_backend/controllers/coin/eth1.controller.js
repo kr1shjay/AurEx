@@ -29,6 +29,33 @@ const web3 = new Web3(config.COIN_GATE_WAY.ETH.URL);
 const ObjectId = mongoose.Types.ObjectId;
 
 export const createAddress = async () => {
+  // try {
+  //     let respData = await axios({
+  //         'method': 'get',
+  //         'timeout': 1000,
+  //         'url': `${config.COIN_GATE_WAY.ETH.URL}/getnewaddress`,
+  //     });
+
+  //     if (respData && respData.status == 200 && !isEmpty(respData.data.data)) {
+  //         const { address, privateKey } = respData.data.data;
+  //         return {
+  //             address,
+  //             privateKey
+  //         }
+  //     } else {
+  //         return {
+  //             address: '',
+  //             privateKey: ''
+  //         }
+  //     }
+  // }
+  // catch (err) {
+  //     return {
+  //         address: '',
+  //         privateKey: ''
+  //     }
+  // }
+
   try {
     let account = await web3.eth.accounts.create();
     // console.log(account, "accountaccount");
@@ -49,14 +76,111 @@ export const createAddress = async () => {
  * Deposit ETH
  */
 export const deposit = async (userId) => {
-  
+  // try {
+  //   let userWalletData = await Wallet.findOne({ _id: userId }).populate("_id");
+  //   let walletData = userWalletData.assets.find((el) => el.coin == "ETH");
+  //   let { latestBlockNumber } = await getLatestBlock();
+
+  //   var startBlock = config.coinGateway.eth.startBlock;
+  //   let currentBlock = walletData.blockNo > 0 ? walletData.blockNo : startBlock;
+
+  //   let depositUrl = config.coinGateway.eth.ethDepositUrl
+  //     .replace("##USER_ADDRESS##", walletData.address)
+  //     .replace("##START_BLOCK##", currentBlock)
+  //     .replace("##END_BLOCK##", latestBlockNumber);
+  //   console.log(depositUrl, "depositUrl");
+  //   let respData = await axios({
+  //     url: depositUrl,
+  //     method: "post",
+  //   });
+
+  //   if (respData && respData.data && respData.data.status == "1") {
+  //     for (let y in respData.data.result) {
+  //       let result = respData.data.result[y];
+  //       console.log(result, "----------result");
+  //       let userAssetData = await Wallet.findOne({
+  //         "assets.address": {
+  //           $regex: new RegExp(".*" + result.to.toLowerCase() + ".*", "i"),
+  //         },
+  //         "assets.coin": "ETH",
+  //       });
+  //       // console.log(userAssetData,'userAssetDatauserAssetDatauserAssetData--------------------')
+  //       if (userAssetData) {
+  //         // console.log(typeof result.value,'*******************************************')
+  //         let transactionExist = await Transaction.findOne({
+  //           txid: result.hash,
+  //         });
+
+  //         if (!transactionExist) {
+  //           // console.log('*********************')
+
+  //           let responseData = await amountMoveToAdmin({
+  //             toAddress: config.coinGateway.eth.address,
+  //             privateKey: decryptString(walletData.privateKey),
+  //             fromAddress: walletData.address,
+  //             // amount: result.value/1000000000000000000,
+  //           });
+
+  //           if (responseData && responseData.status) {
+  //             let amount = parseFloat(result.value) / 10 ** 18;
+  //             let transaction = new Transaction({
+  //               userId: userId,
+  //               currencyId: walletData._id,
+  //               fromAddress: result.from,
+  //               toAddress: result.to,
+  //               txid: result.hash,
+  //               coin: walletData.coin,
+  //               paymentType: "coin_deposit",
+  //               amount: amount,
+  //               status: "completed",
+  //             });
+  //             let newTransaction = await transaction.save();
+
+  //             // userAssetData.spotwallet = userAssetData.spotwallet + result.value/1000000000000000000;
+  //             // userAssetData.blockNo = latestBlockNumber;
+  //             // await userAssetData.save();
+
+  //             await Wallet.updateOne(
+  //               {
+  //                 _id: userId,
+  //                 "assets._id": walletData._id,
+  //               },
+  //               {
+  //                 $inc: {
+  //                   "assets.$.spotBal": amount,
+  //                   "amount.$.blockNo": latestBlockNumber,
+  //                 },
+  //               }
+  //             );
+
+  //             let content = {
+  //               email: userWalletData._id.email,
+  //               currency: "ETH",
+  //               amount: amount,
+  //               tranactionId: result.hash,
+  //               date: new Date(),
+  //             };
+
+  //             mailTemplateLang({
+  //               userId: userId,
+  //               identifier: "User_deposit",
+  //               toEmail: userWalletData._id.email,
+  //               content,
+  //             });
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+
   try {
     let userWalletData = await Wallet.findOne({ userId: userId }).populate(
       "_id"
     );
     let walletData = userWalletData.assets.find((el) => el.coin == "ETH");
     let walletCurrency = await Currency.findOne({ _id: walletData._id });
-    console.log(walletCurrency, "ETH-deposit-walletCurrency");
+    // console.log(walletCurrency, "ETH-deposit-walletCurrency");
 
     const latest = await web3.eth.getBlockNumber();
     var startBlock = config.COIN_GATE_WAY.ETH.START_BLOCK;
@@ -72,7 +196,7 @@ export const deposit = async (userId) => {
         url: url,
         method: "post",
       });
-      console.log(url, "ETH-deposit-url");
+      // console.log(url, "ETH-deposit-url");
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
           var result = respData.data.result[y];
@@ -89,17 +213,17 @@ export const deposit = async (userId) => {
               txid: result.hash,
             });
             let amount = parseInt(result.value, 10) / 1000000000000000000;
-            console.log(amount, "amountamountamountETH");
-            console.log(transactionExist, "transactionExistETH");
-            console.log(
-              parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit),
-              "ETHparseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)"
-            );
+            // console.log(amount, "amountamountamount");
+            // console.log(transactionExist, "transactionExist");
+            // console.log(
+            //   parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit),
+            //   "parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)"
+            // );
             if (
               !transactionExist &&
               parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)
             ) {
-              console.log(walletData, "walletDatawalletDataETH");
+              // console.log(walletData, "walletDatawalletData");
               const { status } = await ethMovetoAdmin({
                 amount: amount,
                 // amount: parseInt(result.value) ,
@@ -107,7 +231,7 @@ export const deposit = async (userId) => {
                 userprivatekey: walletData.privateKey,
                 adminAddress: config.COIN_GATE_WAY.ETH.ADDRESS,
               });
-              console.log(status, "ETH-status");
+              // console.log(status, "ETH-status");
               if (status) {
                 //referralcommission
                 let UserB = await TransactionDB.find({
@@ -116,7 +240,7 @@ export const deposit = async (userId) => {
                     { paymentType: { $in: ["coin_deposit", "fiat_deposit"] } },
                   ],
                 });
-                console.log(UserB, "UserBUserBETH");
+                // console.log(UserB, "UserBUserB");
                 if (isEmpty(UserB)) {
                   let userData = await User.findOne(
                     { userId: userId },
@@ -145,22 +269,22 @@ export const deposit = async (userId) => {
                 let userData = await Wallet.findOne({
                   userId: userId,
                 });
-                console.log(userData, "userDataETH");
+                // console.log(userData, "userDataETH");
                 let AssetData = userData.assets.id(walletData._id);
-                console.log(AssetData, "AssetDataETH");
+                // console.log(AssetData, "AssetDataETH");
 
                 let beforeBalance = parseFloat(AssetData.spotBal);
                 AssetData.spotBal =
                   parseFloat(AssetData.spotBal) + parseFloat(amount);
 
-                console.log(
-                  AssetData.spotBal,
-                  amount,
-                  "AssetData.spotBalAssetData.spotBalETH"
-                );
+                // console.log(
+                //   AssetData.spotBal,
+                //   amount,
+                //   "AssetData.spotBalAssetData.spotBal"
+                // );
 
                 let WalletData = await userData.save();
-                console.log(WalletData, "WalletDataETH");
+                // console.log(WalletData, "WalletDataETH");
 
                 // CREATE PASS_BOOK
                 createPassBook({
@@ -190,12 +314,145 @@ export const deposit = async (userId) => {
  * Deposit ERC20_TOEKEN
  */
 export const ERC20_Deposit = async (userId, currencySymbol) => {
+  //   try {
+  //     let getUsers = await User.aggregate([
+  //       { $match: { _id: ObjectId(userId) } },
+  //       {
+  //         $lookup: {
+  //           from: "Assets",
+  //           localField: "_id",
+  //           foreignField: "userId",
+  //           as: "userAssetsInfo",
+  //         },
+  //       },
+  //       {
+  //         $unwind: "$userAssetsInfo",
+  //       },
+  //       { $match: { "userAssetsInfo.currencySymbol": currencySymbol } },
+  //       {
+  //         $lookup: {
+  //           from: "currency",
+  //           localField: "userAssetsInfo.currency",
+  //           foreignField: "_id",
+  //           as: "currencyInfo",
+  //         },
+  //       },
+  //       {
+  //         $unwind: "$currencyInfo",
+  //       },
+  //       {
+  //         $project: {
+  //           _id: 1,
+  //           blockNo: "$userAssetsInfo.blockNo",
+  //           userAssetId: "$userAssetsInfo.userId",
+  //           currencySymbol: "$userAssetsInfo.currencySymbol",
+  //           currencyAddress: "$userAssetsInfo.currencyAddress",
+  //           privateKey: "$userAssetsInfo.privateKey",
+  //           currencyId: "$userAssetsInfo.currency",
+  //           contractAddress: "$currencyInfo.contractAddress",
+  //           minABI: "$currencyInfo.minABI",
+  //           decimals: "$currencyInfo.decimals",
+  //         },
+  //       },
+  //     ]);
+
+  //     let { latestBlockNumber } = await getLatestBlock();
+  //     for (let x in getUsers) {
+  //       var user = getUsers[x];
+
+  //       // console.log('user',user)
+  //       // console.log('latestBlockNumber',latestBlockNumber)
+  //       var startBlock = config.coinGateway.eth.startBlock;
+  //       let currentBlock = user.blockNo > 0 ? user.blockNo : startBlock;
+
+  //       let depositUrl = config.coinGateway.eth.ethTokenDepositUrl
+  //         .replace("##USER_ADDRESS##", user.currencyAddress)
+  //         .replace("##START_BLOCK##", currentBlock)
+  //         .replace("##END_BLOCK##", latestBlockNumber);
+  //       // console.log(depositUrl,'depositUrldepositUrl')
+  //       let respData = await axios({
+  //         url: depositUrl,
+  //         method: "post",
+  //       });
+
+  //       if (respData && respData.data && respData.data.status == "1") {
+  //         for (let y in respData.data.result) {
+  //           let result = respData.data.result[y];
+
+  //           let userAssetData = await Assets.findOne({
+  //             currencyAddress: {
+  //               $regex: new RegExp(".*" + result.to.toLowerCase() + ".*", "i"),
+  //             },
+  //             currencySymbol: currencySymbol,
+  //           });
+
+  //           if (userAssetData) {
+  //             // console.log(typeof result.value,'*******************************************')
+  //             let transactionExist = await Transaction.findOne({
+  //               txid: result.hash,
+  //             });
+
+  //             if (!transactionExist) {
+  //               let responseData = await tokenMoveToAdmin({
+  //                 userPrivateKey: decryptString(userAssetData.privateKey),
+  //                 adminPrivateKey: decryptString(
+  //                   config.coinGateway.eth.privateKey
+  //                 ),
+  //                 fromAddress: userAssetData.currencyAddress,
+  //                 toAddress: config.coinGateway.eth.address,
+  //                 minAbi: user.minABI,
+  //                 contractAddress: user.contractAddress,
+  //                 decimals: user.decimals,
+  //                 amount: result.value / 10 ** parseInt(user.decimals),
+  //               });
+
+  //               if (responseData && responseData.status) {
+  //                 let transaction = new Transaction({
+  //                   userId: userAssetData.userId,
+  //                   currencyId: user.currencyId,
+  //                   fromaddress: result.from,
+  //                   toaddress: result.to,
+  //                   txid: result.hash,
+  //                   currencySymbol: userAssetData.currencySymbol,
+  //                   paymentType: "coin_deposit",
+  //                   amount: result.value / 10 ** parseInt(user.decimals),
+  //                   status: "completed",
+  //                 });
+  //                 let newTransaction = await transaction.save();
+  //                 userAssetData.spotwallet =
+  //                   userAssetData.spotwallet + result.value / 1000000000000000000;
+  //                 userAssetData.blockNo = latestBlockNumber;
+  //                 await userAssetData.save();
+
+  //                 let content = {
+  //                   email: user.email,
+  //                   currencySymbol: currencySymbol,
+  //                   amount: result.value / 1000000000000000000,
+  //                   txid: result.hash,
+  //                   date: new Date(),
+  //                 };
+
+  //                 mailTemplateLang({
+  //                   userId: userAssetData.userId,
+  //                   identifier: "User_deposit",
+  //                   toEmail: user.email,
+  //                   content,
+  //                 });
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.log("Error on  ethGateway(deposit)", err);
+  //     return;
+  //   }
+
   try {
-    console.log("ERC20_Deposit");
     let userWalletData = await Wallet.findOne({ userId: userId }).populate(
       "_id"
     );
-    // console.log(userWalletData, "userWalletDatauserWalletDataETH");
     let walletData = userWalletData.assets.find(
       (el) => el.coin == currencySymbol
     );
@@ -203,13 +460,6 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
     const latest = await web3.eth.getBlockNumber();
     var startBlock = config.COIN_GATE_WAY.ETH.START_BLOCK;
     var currentBlock = walletData.blockNo > 0 ? walletData.blockNo : startBlock;
-    console.log(walletData.address, "walletData.addresswalletData.addressETH");
-    // console.log(
-    //   config.COIN_GATE_WAY,
-    //   config.COIN_GATE_WAY.ETH,
-    //   config.COIN_GATE_WAY.ETH.DEPOSIT_TOKEN_URL,
-    //   "URLURL"
-    // );
     if (walletData.address) {
       let url = config.COIN_GATE_WAY.ETH.DEPOSIT_TOKEN_URL.replace(
         "##USER_ADDRESS##",
@@ -221,8 +471,7 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
         url: url,
         method: "post",
       });
-      console.log(url, "urlurlETH");
-      console.log("respDatarespDataETH");
+      // console.log(url, "urlurl");
       if (respData && respData.data && respData.data.status == "1") {
         for (let y in respData.data.result) {
           var result = respData.data.result[y];
@@ -232,15 +481,11 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
             },
             "assets.coin": currencySymbol,
           });
-          console.log(userAssetData, "userAssetDatauserAssetDataETH");
           if (userAssetData) {
             let transactionExist = await TransactionDB.findOne({
               txid: result.hash,
             });
-            console.log(transactionExist, "transactionExistETH");
-            let amount =
-              result.value / 10 ** parseInt(walletCurrency.contractDecimal);
-            console.log(amount, "amountETH");
+            let amount = result.value / 10 ** parseInt(walletCurrency.contractDecimal);
             if (
               !transactionExist &&
               parseFloat(amount) >= parseFloat(walletCurrency.depositminlimit)
@@ -254,7 +499,6 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
                 userPrivateKey: walletData.privateKey,
                 userAddress: walletData.address,
               });
-              console.log(status, walletData.address, "statusETH");
               if (status) {
                 //referralcommission
                 let UserB = await TransactionDB.find({
@@ -299,7 +543,7 @@ export const ERC20_Deposit = async (userId, currencySymbol) => {
                 let beforeBalance = parseFloat(AssetData.spotBal);
                 AssetData.spotBal =
                   parseFloat(AssetData.spotBal) + parseFloat(amount);
-                console.log(AssetData.spotBal, "AssetData.spotBal");
+
                 let WalletData = await userData.save();
 
                 // CREATE PASS_BOOK
@@ -341,7 +585,7 @@ export const ethMovetoAdmin = async ({
   adminAddress,
 }) => {
   try {
-    console.log("ETH Amount Move to Admin");
+    // console.log("ETH Amount Move to Admin");
     var userprivatekey = decryptString(userprivatekey);
     // console.log(userprivatekey, "userprivatekeyuserprivatekey");
     let balance = await web3.eth.getBalance(useraddress);
@@ -351,8 +595,8 @@ export const ethMovetoAdmin = async ({
     var fee = web3.utils.toHex(getGasPrice) * gaslimit;
 
     amount = amount * 1000000000000000000 - fee;
-    console.log(amount, "amount * 1000000000000000000 - feeETH");
-    console.log(balance, amount, balance > amount, "balance > amountETH");
+    // console.log(amount, "amount * 1000000000000000000 - fee");
+    // console.log(balance, amount, balance > amount, "balance > amount");
     if (balance > amount) {
       var updateVal = {};
       const txObject = {
@@ -377,7 +621,7 @@ export const ethMovetoAdmin = async ({
         common,
       });
       const privateKey = Buffer.from(userprivatekey.substring(2, 66), "hex");
-      console.log(privateKey, "ethMovetoAdminprivateKeyprivateKey");
+      // console.log(privateKey, "privateKeyprivateKey");
       const signedTx = tx.sign(privateKey);
 
       const serializedTx = signedTx.serialize();
@@ -385,7 +629,7 @@ export const ethMovetoAdmin = async ({
       const raw1 = "0x" + serializedTx.toString("hex");
 
       let responseData = await web3.eth.sendSignedTransaction(raw1);
-      console.log(responseData, "responseDataresponseDataETHETH");
+      // console.log(responseData, "responseDataresponseData");
       return {
         status: true,
         message: "success",
@@ -406,6 +650,44 @@ export const ethMovetoAdmin = async ({
   }
 };
 
+// export const amountMoveToAdmin = async (data) => {
+//   try {
+//     let respData = await axios({
+//       method: "post",
+//       url: `${config.COIN_GATE_WAY.ETH.URL}/eth-move-to-admin`,
+//       data,
+//     });
+
+//     if (respData && respData.data) {
+//       return respData.data;
+//     }
+//   } catch (err) {
+//     return {
+//       status: false,
+//       message: "Error on Server",
+//     };
+//   }
+// };
+
+// export const tokenMoveToAdmin = async (data) => {
+//   try {
+//     let respData = await axios({
+//       method: "post",
+//       url: `${config.COIN_GATE_WAY.ETH.URL}/erc20-token-move-to-admin`,
+//       data,
+//     });
+
+//     if (respData && respData.data) {
+//       return respData.data;
+//     }
+//   } catch (err) {
+//     return {
+//       status: false,
+//       message: "Error on Server",
+//     };
+//   }
+// };
+
 export const tokenMoveToAdmin = async ({
   userPrivateKey,
   minAbi,
@@ -417,7 +699,6 @@ export const tokenMoveToAdmin = async ({
 }) => {
   try {
     userPrivateKey = decryptString(userPrivateKey);
-    console.log(userPrivateKey, "userPrivateKeyETH");
     let contract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
     let tokenbalance = await contract.methods.balanceOf(userAddress).call();
     let muldecimal = 2;
@@ -436,23 +717,23 @@ export const tokenMoveToAdmin = async ({
     } else if (decimals == 18) {
       muldecimal = 1000000000000000000;
     }
-    console.log(muldecimal, "muldecimalETH");
+
     amount = parseFloat(amount) * parseFloat(muldecimal);
-    console.log(amount, "tokenMoveToAdminETH");
-    console.log(tokenbalance, "tokenbalanceETH");
+    // console.log(amount, "tokenMoveToAdmin");
+
     if (tokenbalance > 0) {
       let getBalance = await web3.eth.getBalance(userAddress);
       let txCount = await web3.eth.getTransactionCount(userAddress);
       let getGasPrice = await web3.eth.getGasPrice();
       let gaslimit = web3.utils.toHex(500000);
       let fee = web3.utils.toHex(getGasPrice) * gaslimit;
-      console.log(getBalance, getBalance > fee, "getBalanceETH");
+
       if (getBalance > fee) {
         // let tokenAmount = web3.utils.toHex(
         //   web3.utils.toWei(amount.toString(), "ether")
         // );
         // let tokenAmount = web3.utils.toHex(web3.utils.toWei(amount.toString(), "ether"));
-        console.log(amount.toString(), "amount.toString()ETH");
+        // console.log(amount.toString(), "amount.toString()");
 
         let data = contract.methods
           .transfer(adminAddress, amount.toString())
@@ -504,7 +785,6 @@ export const tokenMoveToAdmin = async ({
           adminPrivatekey: config.COIN_GATE_WAY.ETH.PRIVATE_KEY,
           userAddress: userAddress,
         });
-        console.log(status, "ethMovetoUserETH");
         return {
           status: false,
           message: "No Balance",
@@ -536,20 +816,20 @@ export const ethMovetoUser = async ({
   userAddress,
 }) => {
   try {
-    console.log("ETH Amount Move to User");
+    // console.log("ETH Amount Move to User");
     var adminPrivatekey = decryptString(adminPrivatekey);
     // var adminPrivatekey = adminPrivatekey
 
-    console.log(
-      amount,
-      "amountETH",
-      adminAddress,
-      "adminAddressETH",
-      adminPrivatekey,
-      "adminPrivatekey",
-      userAddress,
-      "userAddress"
-    );
+    // console.log(
+    //   amount,
+    //   "amount",
+    //   adminAddress,
+    //   "adminAddress",
+    //   adminPrivatekey,
+    //   "adminPrivatekey",
+    //   userAddress,
+    //   "userAddress"
+    // );
     let balance = await web3.eth.getBalance(adminAddress);
     let getGasPrice = await web3.eth.getGasPrice();
     let txCount = await web3.eth.getTransactionCount(adminAddress);
@@ -561,19 +841,14 @@ export const ethMovetoUser = async ({
 
     // Convert to wei value
 
-    console.log(
-      balance,
-      "balance",
-      amount1,
-      "amount----------ETH-----------------------------"
-    );
-    console.log(balance > amount1, "balance > amount1");
+    // console.log(
+    //   balance,
+    //   "balance",
+    //   amount1,
+    //   "amount---------------------------------------"
+    // );
     if (balance > amount1) {
-      // const amountToSend = web3.utils.toWei(amount1, "ether");
-      // console.log(amountToSend, "amountToSendamountToSend");
-      // console.log(web3.utils.toHex(492498003500000.06));
-      console.log(typeof amount1, "Typeeeeeee");
-
+      // const amountToSend = web3.toWei(amount1, "ether");
       var updateVal = {};
       const txObject = {
         nonce: web3.utils.toHex(txCount),
@@ -583,7 +858,7 @@ export const ethMovetoUser = async ({
         // value: amountToSend ,
         value: web3.utils.toHex(amount1),
       };
-      console.log(txObject, "txobjecttttttttttttttttttETH");
+      // console.log(txObject, "txobjectttttttttttttttttt");
       const common = await Common.forCustomChain(
         "mainnet",
         {
@@ -988,12 +1263,12 @@ export const tokenMoveToUser = async ({
   decimals,
 }) => {
   try {
-    console.log(decimals, "---------------decimalETH", amount);
+    // console.log(decimals, "---------------decimal", amount);
     adminPrivateKey = decryptString(adminPrivateKey);
-    console.log("-------admin privateKeyETH", adminPrivateKey);
+    // console.log("-------admin privateKey", adminPrivateKey);
     let contract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
     let tokenbalance = await contract.methods.balanceOf(adminAddress).call();
-    console.log(tokenbalance, "tokenbalancetokenbalanceETH");
+    // console.log(tokenbalance, "tokenbalancetokenbalance");
     let muldecimal = 2;
     if (decimals == 0) {
       muldecimal = 1;
@@ -1011,14 +1286,14 @@ export const tokenMoveToUser = async ({
       muldecimal = 1000000000000000000;
     }
     amount = parseFloat(amount) * parseFloat(muldecimal);
-    console.log(amount, "amountamountETH");
+    // console.log(amount, "amountamount");
     if (tokenbalance > 0) {
       let getBalance = await web3.eth.getBalance(adminAddress);
       let txCount = await web3.eth.getTransactionCount(adminAddress);
       let getGasPrice = await web3.eth.getGasPrice();
       let gaslimit = web3.utils.toHex(500000);
       let fee = web3.utils.toHex(getGasPrice) * gaslimit;
-      console.log(getBalance > fee, "getBalance > feeETH");
+      // console.log(getBalance > fee, "getBalance > fee");
       if (getBalance > fee) {
         let tokenAmount = web3.utils.toHex(
           web3.utils.toWei(amount.toString(), "ether")
