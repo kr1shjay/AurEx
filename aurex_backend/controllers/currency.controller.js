@@ -291,13 +291,17 @@ export const addCurrency = async (req, res) => {
   try {
     let reqBody = req.body,
       reqFile = req.files;
-    const checkIstokenValid = await useToken(reqBody.tokenType,reqBody.contractAddress);
-    console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
-    if (!checkIstokenValid.status) {
-      return res
-        .status(400)
-        .json({ success: false, errors: { contractAddress: "Invalid contract address" } });
-    }
+      // let checkIstokenValid = {}
+      if(!isEmpty(reqBody.tokenType)){
+        const checkIstokenValid = await useToken(reqBody.tokenType,reqBody.contractAddress);
+        console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
+        if (!checkIstokenValid.status) {
+          return res
+            .status(400)
+            .json({ success: false, errors: { contractAddress: "Invalid contract address" } });
+        }
+      }
+      
     let checkCurrency = await Currency.findOne({ coin: reqBody.coin });
     if (checkCurrency) {
       return res
