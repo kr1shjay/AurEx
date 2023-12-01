@@ -152,7 +152,7 @@ export const localWithdraw = async ({
           contractAddress: currencyDetails.contractAddress,
           adminPrivateKey: config.COIN_GATE_WAY.BNB.PRIVATE_KEY,
           minAbi: currencyDetails.minABI,
-          decimals: currencyDetails.decimal,
+          decimals: currencyDetails.contractDecimal,
         });
       }
       if (currencyDetails.tokenType == "trc20") {
@@ -162,7 +162,7 @@ export const localWithdraw = async ({
           toAddress: toAddress,
           currencycontract: currencyDetails.contractAddress,
           privateKey: decryptString(config.COIN_GATE_WAY.TRON.PRIVATEKEY),
-          decimals: currencyDetails.decimal,
+          decimals: currencyDetails.contractDecimal,
         });
       }
       if (currencyDetails.tokenType == "erc20") {
@@ -173,7 +173,7 @@ export const localWithdraw = async ({
           contractAddress: currencyDetails.contractAddress,
           adminPrivateKey: config.COIN_GATE_WAY.ETH.PRIVATE_KEY,
           minAbi: currencyDetails.minABI,
-          decimals: currencyDetails.decimal,
+          decimals: currencyDetails.contractDecimal,
         });
       }
     }
