@@ -37,7 +37,7 @@ const initialFormValue = {
   'isPrimary': false,
   'payment': [],
   'upiInputValue': 0,
-  'contractDecimal':0
+  // 'contractDecimal':0
 
 }
 
@@ -165,7 +165,7 @@ class CurrencyAddModal extends React.Component {
       upiInputValue,
       depositStatus,
       withdrawStatus,
-      contractDecimal
+      // contractDecimal
 
     } = this.state.formValue;
     const { fetchData } = this.props;
@@ -200,7 +200,7 @@ class CurrencyAddModal extends React.Component {
     formData.append("upiInputValue", upiInputValue)
     formData.append("depositStatus", depositStatus)
     formData.append("withdrawStatus", withdrawStatus)
-    formData.append("contractDecimal", contractDecimal)
+    // formData.append("contractDecimal", contractDecimal)
     this.setState({ loader: true })
     try {
       const { status, loading, message, error } = await addCurrency(formData);
@@ -243,7 +243,7 @@ class CurrencyAddModal extends React.Component {
       upiInputValue,
       depositStatus,
       withdrawStatus,
-      contractDecimal
+      // contractDecimal
 
     } = this.state.formValue;
     const { errors, loader, upi } = this.state;
@@ -476,7 +476,7 @@ class CurrencyAddModal extends React.Component {
                   </div>
                 </div>
               }
-              {type == "token" && (
+              {/* {type == "token" && (
                 <div className="row mt-2">
                   <div className="col-md-3">
                     <label>Contract Decimal</label>
@@ -498,7 +498,7 @@ class CurrencyAddModal extends React.Component {
                     </span>
                   </div>
                 </div>
-              )}
+              )} */}
              
               {
                 type == 'fiat' && <div className="row mt-2">

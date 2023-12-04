@@ -793,7 +793,9 @@ export const withdrawCoinRequest = async (req, res) => {
       }
 
       // let finalAmount = reqBody.amount + precentConvetPrice(reqBody.amount, curData.withdrawFee)
-      let finalAmount = reqBody.amount + parseFloat(curData.withdrawFee);
+      let feePerc =  parseFloat(reqBody.amount) * (parseFloat(curData.withdrawFee)/100)
+      console.log(feePerc,"handleChange__err")
+      let finalAmount = reqBody.amount + parseFloat(feePerc);
       if (usrAsset.spotBal < finalAmount) {
         return res.status(400).json({
           success: false,

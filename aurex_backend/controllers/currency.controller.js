@@ -291,9 +291,9 @@ export const addCurrency = async (req, res) => {
   try {
     let reqBody = req.body,
       reqFile = req.files;
-      // let checkIstokenValid = {}
+      let checkIstokenValid = {}
       if(!isEmpty(reqBody.tokenType)){
-        const checkIstokenValid = await useToken(reqBody.tokenType,reqBody.contractAddress);
+        checkIstokenValid = await useToken(reqBody.tokenType,reqBody.contractAddress);
         console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
         if (!checkIstokenValid.status) {
           return res
@@ -333,7 +333,7 @@ export const addCurrency = async (req, res) => {
       newDoc["tokenType"] = reqBody.tokenType;
     } else if (reqBody.type == "token" && reqBody.depositType == "coin_payment") {
       newDoc["contractAddress"] = reqBody.contractAddress;
-      newDoc["contractDecimal"] = reqBody.contractDecimal;
+      // newDoc["contractDecimal"] = reqBody.contractDecimal;
       newDoc["minABI"] = '';
       newDoc["decimal"] = reqBody.decimals;
       newDoc["tokenType"] = reqBody.tokenType;
@@ -407,7 +407,7 @@ export const updateCurrency = async (req, res) => {
     if (reqBody.type == "token") {
       currencyDoc.contractAddress = reqBody.contractAddress;
       currencyDoc.minABI = reqBody.minABI;
-      currencyDoc.contractDecimal = reqBody.contractDecimal;
+      // currencyDoc.contractDecimal = reqBody.contractDecimal;
       currencyDoc.tokenType = reqBody.tokenType;
     } else if (reqBody.type == "fiat") {
       currencyDoc.bankDetails.bankName = reqBody.bankName;
