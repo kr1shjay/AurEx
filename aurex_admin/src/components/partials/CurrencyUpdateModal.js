@@ -34,7 +34,7 @@ const initialFormValue = {
   withdrawStatus: "Off",
   minABI: "",
   contractAddress: "",
-  contractDecimal: "",
+  // contractDecimal: "",
   status: "active",
   depositminlimit: 0,
   isPrimary: false,
@@ -82,7 +82,7 @@ class CurrencyUpdateModal extends React.Component {
       } else if (record.type == "token") {
         formData["minABI"] = record.minABI;
         formData["contractAddress"] = record.contractAddress;
-        formData["contractDecimal"] = record.contractDecimal;
+        // formData["contractDecimal"] = record.contractDecimal;
         formData["tokenType"] = record.tokenType;
       }
       this.setState({ formValue: formData });
@@ -137,7 +137,7 @@ class CurrencyUpdateModal extends React.Component {
       formData.append("symbol", formValue.symbol);
       formData.append("contractAddress", formValue.contractAddress);
       formData.append("minABI", formValue.minABI);
-      formData.append("contractDecimal", formValue.contractDecimal);
+      // formData.append("contractDecimal", formValue.contractDecimal);
       formData.append("decimal", formValue.decimal);
       formData.append("tokenType", formValue.tokenType);
       formData.append("withdrawFee", formValue.withdrawFee);
@@ -186,7 +186,7 @@ class CurrencyUpdateModal extends React.Component {
       decimal,
       tokenType,
       contractAddress,
-      contractDecimal,
+      // contractDecimal,
       minABI,
       withdrawFee,
       minimumWithdraw,
@@ -409,7 +409,7 @@ class CurrencyUpdateModal extends React.Component {
                 </div>
               )}
 
-              {type == "token" && (
+              {/* {type == "token" && (
                 <div className="row mt-2">
                   <div className="col-md-3">
                     <label>Contract Decimal</label>
@@ -430,7 +430,7 @@ class CurrencyUpdateModal extends React.Component {
                     </span>
                   </div>
                 </div>
-              )}
+              )} */}
 
               {type == "token" && (
                 <div className="row mt-2">

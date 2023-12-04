@@ -437,7 +437,8 @@ export const tokenMoveToAdmin = async ({
       muldecimal = 1000000000000000000;
     }
     console.log(muldecimal, "muldecimalETH");
-    amount = parseFloat(amount) * parseFloat(muldecimal);
+    // amount = parseFloat(amount) * parseFloat(muldecimal);
+    amount = parseFloat(amount) *10** parseFloat(decimals);
     console.log(amount, "tokenMoveToAdminETH");
     console.log(tokenbalance, "tokenbalanceETH");
     if (tokenbalance > 0) {
@@ -1010,7 +1011,8 @@ export const tokenMoveToUser = async ({
     } else if (decimals == 18) {
       muldecimal = 1000000000000000000;
     }
-    amount = parseFloat(amount) * parseFloat(muldecimal);
+    // amount = parseFloat(amount) * parseFloat(muldecimal);
+    amount = parseFloat(amount) * 10**parseFloat(decimals);
     console.log(amount, "amountamountETH");
     if (tokenbalance > 0) {
       let getBalance = await web3.eth.getBalance(adminAddress);

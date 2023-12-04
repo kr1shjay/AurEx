@@ -56,7 +56,7 @@ const CryptoWithdraw = (props) => {
   };
 
   const handleChange = (e) => {
-    e.preventDefault();
+    try{e.preventDefault();
     const { name, value } = e.target;
     if (!isEmpty(validateError)) {
       setValidateError({});
@@ -66,7 +66,10 @@ const CryptoWithdraw = (props) => {
       if (!/^\d*\.?\d*$/.test(value)) {
         return;
       }
-      let finalAmountBal = parseFloat(value) + parseFloat(currency.withdrawFee);
+      let feePerc =  parseFloat(value) * (parseFloat(currency.withdrawFee)/100)
+      console.log(feePerc,"handleChange__err")
+      let finalAmountBal = parseFloat(value)+ + +parseFloat(feePerc);
+      console.log(finalAmountBal,"handleChange__err")
       let formData = {
         ...formValue,
         ...{ [name]: value, finalAmount: finalAmountBal },
@@ -81,7 +84,9 @@ const CryptoWithdraw = (props) => {
       }
     }
     let formData = { ...formValue, ...{ [name]: value } };
-    setFormValue(formData);
+    setFormValue(formData);}catch(err){
+      console.log(err,"handleChange__err")
+    }
   };
 
   const handleSubmit = async () => {

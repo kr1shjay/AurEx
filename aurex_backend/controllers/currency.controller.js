@@ -411,7 +411,7 @@ export const updateCurrency = async (req, res) => {
     if (reqBody.type == "token") {
       currencyDoc.contractAddress = reqBody.contractAddress;
       currencyDoc.minABI = reqBody.minABI;
-      currencyDoc.contractDecimal = reqBody.contractDecimal;
+      // currencyDoc.contractDecimal = reqBody.contractDecimal;
       currencyDoc.tokenType = reqBody.tokenType;
     } else if (reqBody.type == "fiat") {
       currencyDoc.bankDetails.bankName = reqBody.bankName;
