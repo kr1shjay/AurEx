@@ -671,7 +671,7 @@ class CurrencyUpdateModal extends React.Component {
                     {
                       type != "token" &&
                       <>
-                        <option value={"binance"}>Binance</option>
+                        {/* <option value={"binance"}>Binance</option> */}
                         <option value={"coin_payment"}>Coinpayment</option>
                       </>
                     }

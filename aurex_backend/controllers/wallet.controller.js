@@ -299,6 +299,7 @@ export const updateAddress = async (assetList, userId, option = {}) => {
     // console.log("USer option : ", option)
     let walletData;
     console.log(currencyList, "currencyListcurrencyList");
+    console.log(currencyList[0].token, "currencyListcurrencyList_new", currencyList[0].token && currencyList[0].token.length > 0);
     if (currencyList && currencyList.length > 0) {
       if (currencyList[0].crypto && currencyList[0].crypto.length > 0) {
         for (let cryptoData of currencyList[0].crypto) {
@@ -337,8 +338,9 @@ export const updateAddress = async (assetList, userId, option = {}) => {
         }
       }
       if (currencyList[0].token && currencyList[0].token.length > 0) {
+        console.log(tokenData, "tokenData_inside_condition",'**************');
         for (let tokenData of currencyList[0].token) {
-          // console.log(tokenData, "tokenData");
+          console.log(tokenData, "tokenData_insidefor");
           walletData = await Wallet.findOne({ userId: userId });
           let tokenDoc = await coinCtrl.generateTokenAddr({
             currencyList: [tokenData],
@@ -372,8 +374,8 @@ export const updateAddress = async (assetList, userId, option = {}) => {
             }
           );
         }
+        console.log(currencyList[0].token, "tokenData");
       }
-
       if (currencyList[0].fiat && currencyList[0].fiat.length > 0) {
         for (let fiatData of currencyList[0].fiat) {
           let fiatDoc = await coinCtrl.generateFiatAddr({

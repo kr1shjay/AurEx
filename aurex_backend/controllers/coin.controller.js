@@ -30,6 +30,10 @@ const ObjectId = mongoose.Types.ObjectId;
 
 var WAValidator = require("multicoin-address-validator");
 
+
+
+
+
 /**
  * Response
  * status, trxId
@@ -202,7 +206,7 @@ export const generateCryptoAddr = async ({
       return [];
     }
     let assetList = [];
-    console.log(currencyList, "currencyListcurrencyList");
+    // console.log(currencyList, "currencyListcurrencyList");
     for (let currency of currencyList) {
       console.log(
         currency.depositType == "local",
@@ -248,7 +252,7 @@ export const generateCryptoAddr = async ({
             assetObj["destTag"] = ntwAddDoc.destTag ? ntwAddDoc.destTag : "";
           }
           assetList.push(assetObj);
-        } else if (currency.depositType == "coin_payment") {
+        } else if (currency.depositType == "  ") {
           console.log("option.emailId", option.emailId);
           let emailId = "AUREX" + option.emailId; // user registered address
           let ipnUrl = config.IPN_URL; // config ipn url
@@ -281,7 +285,7 @@ export const generateCryptoAddr = async ({
  * currencyList[{_id(currencyId), coin, depositType, tokenType}]
  */
 export const generateTokenAddr = async ({ currencyList = [], walletData }) => {
-  // console.log(currencyList, walletData, "currencyListcurrencyListcurrencyList");
+  console.log(currencyList, walletData, "currencyListcurrencyListcurrencyList");
   try {
     if (!Array.isArray(currencyList)) {
       return [];

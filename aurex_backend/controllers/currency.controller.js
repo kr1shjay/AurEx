@@ -2,6 +2,7 @@
 import multer from "multer";
 import path from "path";
 import Web3 from 'web3'
+
 // import model
 import { Currency } from "../models";
 
@@ -22,6 +23,7 @@ import {
 } from "../lib/adminHelpers";
 import isEmpty from "../lib/isEmpty";
 import { ABI } from "../config/erc20";
+import { currencyCoinList } from "./coin/coinpaymentGateway";
 
 /**
  * Multer Image Uploade
@@ -123,6 +125,8 @@ export const getCurrency = (req, res) => {
  */
 export const currencyList = async (req, res) => {
   try {
+    // const getCoinPaymnetCurrencyies = await currencyCoinList()
+    // console.log('getCoinPaymnetCurrencyies', getCoinPaymnetCurrencyies);
     let pagination = paginationQuery(req.query);
     let filter = filterSearchQuery(req.query, [
       "name",
@@ -291,9 +295,9 @@ export const addCurrency = async (req, res) => {
   try {
     let reqBody = req.body,
       reqFile = req.files;
-      // let checkIstokenValid = {}
+      let checkIstokenValid = {}
       if(!isEmpty(reqBody.tokenType)){
-        const checkIstokenValid = await useToken(reqBody.tokenType,reqBody.contractAddress);
+        checkIstokenValid = await useToken(reqBody.tokenType,reqBody.contractAddress);
         console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
         if (!checkIstokenValid.status) {
           return res
