@@ -45,7 +45,7 @@ export const addSpotPair = async (req, res) => {
         if (checkSpotPair) {
             return res.status(400).json({ "success": false, 'errors': { 'firstCurrencyId': "Currency pair is already exists" } })
         }
-        if (pairName) {
+        if (pairName && reqBody.botstatus != 'off') {
             const checkPair = await nodeBinanceAPI.exchangeInfo();
             const pairDetails = checkPair?.symbols.find(el => el.symbol == pairName)
             if(pairDetails == undefined ||pairDetails ==  null || pairDetails == {}){
