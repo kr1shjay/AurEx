@@ -372,7 +372,7 @@ if (process.env.NODE_ENV === "production") {
           "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
         DECIMAL: 100000000, //8
         TRONDECIMAL: 1000000, //6
-        ADMINAMTSENTTOUSER: 5.00004,
+        ADMINAMTSENTTOUSER: 20,
       },
     },
 
@@ -407,20 +407,20 @@ if (process.env.NODE_ENV === "production") {
         url: "http://3.1.6.100:3003",
       },
       tron: {
-        fullNode: "https://api.trongrid.io",
-        solidityNode: "https://api.trongrid.io",
-        eventServer: "https://api.trongrid.io",
-        contractAddress: "TBpfYjBhLTRW5cFKtLkqG2XvJwRjqSaXyU",
+        fullNode: "https://nile.trongrid.io",
+        solidityNode: "https://nile.trongrid.io",
+        eventServer: "https://nile.trongrid.io",
+        contractAddress: "TTtYtVVekf9GG3UvmZouKeeEao8HFe1AcA",
         privateKey:
-          "U2FsdGVkX1804FveNbJaF1sGyBEtiW76UF2TDxLlzi0lk63z7Bcs1RIAcpVF9Fk8Am97h1ukICcG9EGCmTfvaRM50C0cfuOuQ3M0RfIFs+jrJUOBAh85/wOE+ogOmNgr",
-        address: "TKfmsKc7RFjNHGAJf8WUVLxhoEixySpwyk",
+          "U2FsdGVkX1+/1hKILbKT3dz4lt/P8xtGLR6hmvkm5azp5PaCIUtDa53HGxoLh+XQOVqMORbjdgvAjxt6FNtePjmov7t+wGfOQHRZSzh0ZN4iRciSDnveGYDGJbMvxn6g",
+        address: "TKSjgi7i4MX5Bg1NBtKA5XD7c8vmqE2BHF",
         transactionUrl:
-          "https://api.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
+          "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions?only_to=true&limit=50",
         transactionContractUrl:
-          "https://api.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
-        decimal: 1000000, //18
+          "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
+        decimal: 100000000, //8
         tronDecimal: 1000000, //6
-        adminAmtSentToUser: 50,
+        adminAmtSentToUser: 20,
       },
     },
 
@@ -604,7 +604,7 @@ if (process.env.NODE_ENV === "production") {
           "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
         DECIMAL: 100000000, //8
         TRONDECIMAL: 1000000, //6
-        ADMINAMTSENTTOUSER: 5.00004,
+        ADMINAMTSENTTOUSER: 20,
       },
     },
 
@@ -638,7 +638,7 @@ if (process.env.NODE_ENV === "production") {
           "https://nile.trongrid.io/v1/accounts/##USER_ADDRESS##/transactions/trc20?limit=100&contract_address=##CONTRACT_ADDRESS##",
         decimal: 100000000, //8
         tronDecimal: 1000000, //6
-        adminAmtSentToUser: 5.00004,
+        adminAmtSentToUser: 20,
       },
     },
 

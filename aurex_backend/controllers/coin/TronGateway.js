@@ -108,7 +108,6 @@ export const tronDeposit = async (userId) => {
 export const tronTokenDeposit = async (userId, currencySymbol) => {
   try {
     console.log("---------tron");
-
     let currencyData = await Currency.findOne({
       coin: currencySymbol,
       tokenType: "trc20",
@@ -182,11 +181,8 @@ export const tronTokenDeposit = async (userId, currencySymbol) => {
         });
       }
     }
-
-    // return res.status(200).json({ "messages": "success" })
   } catch (err) {
     console.log("---err", err);
-    // return res.status(500).json({ "messages": "Error" })
     return { messages: "Error" };
   }
 };
@@ -199,21 +195,21 @@ const getContractBalance = async ({
 }) => {
   const tronWeb = new TronWeb(fullNode, solidityNode, eventServer, privateKey);
   try {
-    // console.log(
-    //   currencycontract,
-    //   "currencycontract",
-    //   privateKey,
-    //   "privateKey",
-    //   address,
-    //   "address",
-    //   decimals,
-    //   "decimals",
-    //   typeof decimals,
-    //   "typeofdecimals"
-    // );
+    console.log(
+      currencycontract,
+      "currencycontract",
+      privateKey,
+      "privateKey",
+      address,
+      "address",
+      decimals,
+      "decimals",
+      typeof decimals,
+      "typeofdecimals"
+    );
     let accountDetail = await tronWeb.contract().at(currencycontract);
     let result = await accountDetail.balanceOf(address).call();
-    // console.log(result, address, "resultresult");
+    console.log(result, address, "resultresult");
     return JSON.parse(result) / 10 ** parseInt(decimals);
   } catch (err) {
     console.log("---TokenBalanceErr", err);
@@ -448,6 +444,7 @@ const adminSentUser = async ({
           config.coinGateway.tron.tronDecimal
     ) {
       console.log("userTokenMoveToAdminuserTokenMoveToAdmin");
+
       userTokenMoveToAdmin({
         contractAddress,
         privateKey,
@@ -459,21 +456,14 @@ const adminSentUser = async ({
     } else {
       // checkTransaction
       console.log(privateKey, "checkTransaction");
-      // let adminSentUserTrxId = await sentTransaction({
-      //   fromAddress: adminCurrencyAddress,
-      //   toAddress: userCurrencyAddress,
-      //   privateKey: adminPrivateKey,
-      //   amount: config.coinGateway.tron.adminAmtSentToUser,
-      //   // 'decimal':decimals,
-      // });
-      // if (adminSentUserTrxId) {
-      let adminSendEnergy = await sendEnergyToUser({
-        owner_address: adminCurrencyAddress,
-        receiver_address: userCurrencyAddress,
+      let adminSentUserTrxId = await sentTransaction({
+        fromAddress: adminCurrencyAddress,
+        toAddress: userCurrencyAddress,
         privateKey: adminPrivateKey,
-        userPrivateKey: privateKey,
+        amount: config.coinGateway.tron.adminAmtSentToUser,
+        // 'decimal':decimals,
       });
-      // }
+      console.log(adminSentUserTrxId, "adminSentUserTrxIdadminSentUserTrxId");
     }
   } catch (err) {
     console.log(err, "------------errr");
@@ -499,7 +489,7 @@ const userTokenMoveToAdmin = async ({
       decimals: decimals,
     });
 
-    // console.log("----userTrokenSentAdminTrxId---", userTrokenSentAdminTrxId);
+    console.log("----userTrokenSentAdminTrxId---", userTrokenSentAdminTrxId);
 
     if (!userTrokenSentAdminTrxId) {
       return false;
@@ -511,6 +501,61 @@ const userTokenMoveToAdmin = async ({
     return false;
   }
 };
+
+// const sendToaddressContract = async ({
+//   currencycontract,
+//   fromAddress,
+//   toAddress,
+//   privateKey,
+//   amount,
+//   decimals,
+// }) => {
+//   let tronWeb = new TronWeb(fullNode, solidityNode, eventServer, privateKey);
+//   try {
+//     let balance = await getContractBalance({
+//       currencycontract,
+//       address: fromAddress,
+//       privateKey,
+//       decimals,
+//     });
+
+//     console.log("-----balance", balance);
+//     console.log("-----amount", amount);
+//     console.log("-----fromAddress", fromAddress);
+//     console.log("-----toAddress", toAddress);
+//     console.log("-----privateKey", privateKey);
+//     console.log("-----currencycontract", currencycontract);
+
+//     if (balance >= amount) {
+//       var value = await tronWeb.toBigNumber(amount * 10 ** decimals);
+//       let contract = await tronWeb.contract().at(currencycontract);
+//       console.log(
+//         value,
+//         amount,
+//         decimals,
+//         currencycontract,
+//         toAddress,
+//         value.toString(10),
+//         "********************************"
+//       );
+//       let transaction = await contract
+//         .transfer(
+//           toAddress, //address _to
+//           value.toString(10) //amount
+//         )
+//         .send({
+//           feeLimit: 420000000,
+//         });
+
+//       console.log("----Token Send TXHASH Id", transaction);
+//       return transaction;
+//     }
+//     return false;
+//   } catch (err) {
+//     console.log("---sendToaddressContract", err);
+//     return false;
+//   }
+// };
 
 const sendToaddressContract = async ({
   currencycontract,
@@ -535,34 +580,39 @@ const sendToaddressContract = async ({
     console.log("-----toAddress", toAddress);
     console.log("-----privateKey", privateKey);
     console.log("-----currencycontract", currencycontract);
-
+    console.log(decimals, "decimalsdecimals");
+    console.log(balance >= amount, "balance >= amountbalance >= amount");
     if (balance >= amount) {
-      var value = await tronWeb.toBigNumber(amount * 10 ** decimals);
-      let contract = await tronWeb.contract().at(currencycontract);
-      console.log(
-        value,
-        amount,
-        decimals,
+      var value = amount * 10 ** decimals;
+      console.log(value, "valuevalue");
+      var parameter = [
+        { type: "address", value: toAddress },
+        { type: "uint256", value: value },
+      ];
+      var options = {
+        feeLimit: 100000000,
+      };
+      let baseAddress = await tronWeb.address.toHex(fromAddress);
+      const transaction = await tronWeb.transactionBuilder.triggerSmartContract(
         currencycontract,
-        toAddress,
-        value.toString(10),
-        "********************************"
+        "transfer(address,uint256)",
+        options,
+        parameter,
+        baseAddress
       );
-      let transaction = await contract
-        .transfer(
-          toAddress, //address _to
-          value.toString(10) //amount
-        )
-        .send({
-          feeLimit: 420000000,
-        });
-
-      console.log("----Token Send TXHASH Id", transaction);
-      return transaction;
+      console.log(transaction.transaction, "transactiontransaction");
+      let signedTx = await tronWeb.trx.sign(
+        transaction.transaction,
+        privateKey
+      );
+      console.log(signedTx, "triggerSmartContract-signedTxsignedTx");
+      let broastTx = await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log(broastTx, "triggerSmartContract-broastTxbroastTx");
+      return broastTx.txid;
     }
     return false;
   } catch (err) {
-    console.log("---sendToaddressContract", err);
+    console.log("triggerSmartContractsendToaddressContract", err);
     return false;
   }
 };
@@ -752,7 +802,7 @@ export const tokenMoveToUser = async ({
       privateKey,
       decimals,
     });
-    // console.log(balance, "balancebalance");
+    console.log(balance, "tokenMoveToUserbalancebalance");
     if (balance >= amount) {
       var value = await tronWeb.toBigNumber(amount * 10 ** decimals);
       let contract = await tronWeb.contract().at(currencycontract);
@@ -765,10 +815,10 @@ export const tokenMoveToUser = async ({
           feeLimit: 1000000000,
         });
 
-      // console.log(
-      //   "---------------TOKEN SENT SUCCESSFULLY---------------",
-      //   transaction
-      // );
+      console.log(
+        "---------------tokenMoveToUserTOKEN SENT SUCCESSFULLY---------------",
+        transaction
+      );
       return {
         status: true,
         message: "Transaction successfully",
@@ -780,7 +830,7 @@ export const tokenMoveToUser = async ({
       message: "Transaction Failed",
     };
   } catch (err) {
-    console.log("---sendToaddressContract", err);
+    console.log("tokenMoveToUser", err);
     return {
       status: false,
       message: "Error on Occured",
@@ -858,10 +908,6 @@ export const sendEnergyToUser = async ({
       })
       .then(async (response) => {
         console.log(response.data.energy_used, "response.data.energy_used");
-        // let signedtx = await tronWeb.trx.sign(response.data, userPrivateKey);
-        // console.log(signedtx, "signedtxsignedtx");
-        // let result2 = await tronWeb.trx.sendRawTransaction(signedtx);
-        // console.log("result2result2 ", result2);
       })
       .catch(function (error) {
         console.log(error, "errorerror");
@@ -904,11 +950,11 @@ async function main() {
   const tronWeb = new TronWeb({
     fullHost: config.coinGateway.tron.fullNode,
     privateKey:
-      "4485C17CDEE019D9395DA790E439A86F65589E742FDBE30034CBAFDC3A281318",
+      "3A97C935D4033BA97E4C3229115494147BB1CF77A6763FA00261A4FF13B569E4",
   });
 
   let baseAddress = await tronWeb.address.toHex(
-    "TFBcCSpGkDgYZ5HMbqFLF1RNya9uLmkDvg"
+    "TBxPXCHHrgifXu8Jme1w47WLb5Kv8i1gR9"
   );
   console.log(baseAddress, "baseAddressbaseAddress");
   let inputs = [
@@ -916,5 +962,5 @@ async function main() {
     { type: "uint256", value: 1000000 },
   ];
   let parameters = await encodeParams(inputs);
-  console.log(parameters);
+  return parameters;
 }

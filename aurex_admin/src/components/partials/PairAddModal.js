@@ -402,7 +402,7 @@ class PairAddModal extends React.Component {
                                         value={botstatus}
                                         onChange={this.handleChange}
                                     >
-                                        <option value={''}>{"Bot Status"}</option>
+                                        {/* <option value={''}>{"Bot Status"}</option> */}
                                         {
                                             options && options.length > 0 && options.map((item, key) => {
                                                 return (
