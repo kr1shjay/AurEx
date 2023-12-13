@@ -236,11 +236,11 @@ export const editValid = (req, res, next) => {
             errors.minABI = "Min ABI field is required";
         }
 
-        if (isEmpty(reqBody.contractDecimal)) {
-            errors.contractDecimal = "Contract Decimal field is required";
-        } else if (isNaN(reqBody.contractDecimal)) {
-            errors.contractDecimal = "ALLOW_NUMERIC";
-        }
+        // if (isEmpty(reqBody.contractDecimal)) {
+        //     errors.contractDecimal = "Contract Decimal field is required";
+        // } else if (isNaN(reqBody.contractDecimal)) {
+        //     errors.contractDecimal = "ALLOW_NUMERIC";
+        // }
 
         if (isEmpty(reqBody.tokenType)) {
             errors.tokenType = "REQUIRED";

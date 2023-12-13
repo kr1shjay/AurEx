@@ -313,33 +313,39 @@ class CurrencyAddModal extends React.Component {
                   <label>Currency Name</label>
                 </div>
                 <div className="col-md-9">
-                  {/* <input
-                    name="name"
-                    type="text"
-                    value={name}
-                    onChange={this.handleChange}
-                    error={errors.name}
-                    className={classnames("form-control", {
-                      invalid: errors.name,
-                    })}
-                  /> */}
-                   <Form.Control
-                    name="name"
-                    value={name}
-                    onChange={this.handleChange}
-                    as="select" custom
-                  >
-                    <option value={'Select currecy'} selected>Select currency</option>
-                    {
-                      coinList.map((val,ind)=> (
-                        <option value={val.name}>{val.name}</option>
+                  {
+                    type == 'token' ?
+                      <input
+                        name="name"
+                        type="text"
+                        value={name}
+                        onChange={this.handleChange}
+                        error={errors.name}
+                        className={classnames("form-control", {
+                          invalid: errors.name,
+                        })}
+                      /> :
 
-                      ))
-                    }
-                  </Form.Control>
+                      <Form.Control
+                        name="name"
+                        value={name}
+                        onChange={this.handleChange}
+                        as="select" custom
+                      >
+                        <option value={'Select currecy'} selected>Select currency</option>
+                        {
+                          coinList.map((val, ind) => (
+                            <option value={val.name}>{val.name}</option>
+
+                          ))
+                        }
+                      </Form.Control>
+                  }
                   <span className="text-danger">{errors.name}</span>
                 </div>
               </div>
+
+
               <div className="row mt-2">
                 <div className="col-md-3">
                   <label>Coin</label>

@@ -299,6 +299,12 @@ export const addCurrency = async (req, res) => {
       if(!isEmpty(reqBody.tokenType)){
         checkIstokenValid = await useToken(reqBody.tokenType,reqBody.contractAddress);
         console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
+        let checkContractAddress = await Currency.findOne({ contractAddress: reqBody.contractAddress });
+        if(checkContractAddress){
+          return res
+          .status(400)
+          .json({ success: false, errors: { contractAddress: "ContractAddress already exists" } });
+        }
         if (!checkIstokenValid.status) {
           return res
             .status(400)
@@ -307,6 +313,7 @@ export const addCurrency = async (req, res) => {
       }
       
     let checkCurrency = await Currency.findOne({ coin: reqBody.coin });
+    
     if (checkCurrency) {
       return res
         .status(400)
