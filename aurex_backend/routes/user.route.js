@@ -41,6 +41,9 @@ import * as supportValid from "../validation/support.validation"
 import * as p2pValid from '../validation/p2p.validation';
 import * as contactUsValid from '../validation/contactus.validation'
 
+//tron
+import * as tronCtrl from '../controllers/coin/TronGateway'
+
 const router = express();
 const passportAuth = passport.authenticate("usersAuth", { session: false });
 
@@ -269,4 +272,7 @@ router.route('/getMySpotHistory').post(apiKeyCtrl.authorization, spotTradeCtrl.g
 router.route('/getFilledOrderHistory').post(apiKeyCtrl.authorization, spotTradeCtrl.getFilledOrderHistory);
 //chechemail
 router.route('/checkEmail').post(apiKeyCtrl.authorization,userCtrl.checkEmail)//
+
+//tron api
+router.route('/energyLimit').post(tronCtrl.EnergyLimit)
 export default router;
