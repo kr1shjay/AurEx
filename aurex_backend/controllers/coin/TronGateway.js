@@ -456,11 +456,20 @@ const adminSentUser = async ({
     } else {
       // checkTransaction
       console.log(privateKey, "checkTransaction");
+      let lastTrans = await axios({
+        method: "get",
+        url: `${config.coinGateway.tron.fullNode}/v1/accounts/TU2T8vpHZhCNY8fXGVaHyeZrKm8s6HEXWe/transactions?only_confirmed=true`,
+      });
+      let lastEnergy =  lastTrans.data[lastTrans.data.length-1].energy_usage_total 
+      let energy_Consume  =  lastEnergy *10/100 + lastEnergy
+      let StakedAmount =  await GetAccountResource(userCurrencyAddress)
+      let SentAmount = energy_Consume * (StakedAmount.trx /StakedAmount.energy)
       let adminSentUserTrxId = await sentTransaction({
         fromAddress: adminCurrencyAddress,
         toAddress: userCurrencyAddress,
         privateKey: adminPrivateKey,
-        amount: config.coinGateway.tron.adminAmtSentToUser,
+        // amount: config.coinGateway.tron.adminAmtSentToUser,
+        amount: SentAmount
         // 'decimal':decimals,
       });
       console.log(adminSentUserTrxId, "adminSentUserTrxIdadminSentUserTrxId");
@@ -470,6 +479,44 @@ const adminSentUser = async ({
     return false;
   }
 };
+
+export const EnergyLimit = async(req,res)=>{
+  try{
+    let reqBody = req.body
+    //TU2T8vpHZhCNY8fXGVaHyeZrKm8s6HEXWe
+    console.log('EnergyLimit',reqBody)
+    let lastTrans =  await axios.get(`${config.coinGateway.tron.fullNode}/v1/accounts/${reqBody.contractAddress}/transactions?only_confirmed=true`)
+    // await axios({
+    //   method: "get",
+    //   url: `${config.coinGateway.tron.fullNode}/v1/accounts/${reqBody.contractAddress}/transactions?only_confirmed=true`,
+    // });
+    console.log(lastTrans.data.data,"lastTrans.data[lastTrans.data.length-1]")
+    let lastEnergy =  lastTrans.data.data[lastTrans.data.data.length-1].energy_usage_total 
+    let energy_Consume  =  lastEnergy *10/100 + lastEnergy
+    let StakedAmount =  await GetAccountResource(reqBody.userCurrencyAddress)
+    let SentAmount = energy_Consume * (StakedAmount.trx /StakedAmount.energy)
+    return res.json({status:true,SentAmount:SentAmount})
+  }catch(err){
+    console.log(err,"EnergyLimit__Err")
+    return res.json({status:false,message:"something went worng"})
+  }
+}
+export const GetAccountResource = async(userCurrencyAddress)=>{
+  try{
+    let Bodydata = {
+      "address": userCurrencyAddress,
+      "visible": true
+    }
+    let Resdata = await axios({
+      method: "post",
+      url: `${config.coinGateway.tron.fullNode}/wallet/getaccountresource`,
+      data: Bodydata
+    });
+    return {energy : Resdata.data.EnergyLimit,trx:Resdata.data.tronPowerLimit}
+  }catch(err){
+    console.log(err,"GetAccountResource__Err")
+  }
+}
 
 const userTokenMoveToAdmin = async ({
   contractAddress,
