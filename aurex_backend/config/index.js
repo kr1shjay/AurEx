@@ -192,11 +192,11 @@ if (process.env.NODE_ENV === "production") {
     },
     coinpaymentGateway: {
       PUBLIC_KEY:
-        "5299072eb40c2e4f259acacf20f1bfc283c07f177c662f388bf0943ce91e4517",
+        "987decdb6456ad95b81ceadedb36e50e1514579e5724afac022a456bdc5899d5",
       PRIVATE_KEY:
-        "FE760285a5cFd6c7F1eB6d8c593cF0E91A531B3458Dea547fAc4a618D4dAe658",
+        "F117aeF7381C134ce1ff004839f446b77bbD9f24D849aa1EB1db6cF35d8703c8",
       IPN_SECRET: "erhoryptic",
-      MERCHANT_ID: "19aa9c53f994083147f93e8e9cd50d5f",
+      MERCHANT_ID: "06184966ce25972a0ac58f00cd0d997b",
     },
     CLOUDINARY_GATE_WAY: {
       CLOUD_NAME: "",
