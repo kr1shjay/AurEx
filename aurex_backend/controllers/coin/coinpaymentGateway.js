@@ -30,6 +30,23 @@ var coinPayment = new coinpayments({
     secret: config.coinpaymentGateway.PRIVATE_KEY,
 });
 
+
+
+/**
+ * Responce
+ * CoinList for coinPayment
+ */
+export const currencyCoinList = async () => {
+    try {
+        console.log("===============IN===============");
+        const getData = await coinPayment.rates();
+        console.log('currencyCoinList_getRates', getData)
+        console.log("===============OUT===============")
+    } catch (e) {
+        console.log('currencyCoinList_err', e);
+    }
+}
+
 export const createAddress = async (currencySymbol, emailId, ipnUrl) => {
     console.log('currencySymbol',currencySymbol)
     console.log('emailId 1', emailId)

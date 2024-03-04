@@ -104,7 +104,7 @@ class Pairmanagement extends Component {
             editFormModal: false,
             currencyOptions:[],            
             editRecord: {},
-            loader: "",
+            loader: false,
             page: 1,
             limit: 10,
             count: 0,
@@ -189,7 +189,7 @@ class Pairmanagement extends Component {
 
 
     render() {
-        const { addFormModal, editRecord, editFormModal ,currencyOptions} = this.state;
+        const { addFormModal, editRecord, editFormModal ,currencyOptions, loader, count} = this.state;
 
         return (
             <div>
@@ -218,6 +218,9 @@ class Pairmanagement extends Component {
                                 config={this.config}
                                 records={this.state.records}
                                 columns={this.columns}
+                                dynamic={true}
+                                total_record={count}
+                                loading={loader}
                                 onChange={this.handlePagination}
                             />
                         </div>

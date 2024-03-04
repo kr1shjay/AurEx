@@ -54,7 +54,12 @@ class CurrencyAddModal extends React.Component {
         "bep20":"^(0x)[0-9A-Fa-f]{40}$",
         "erc20":"^(0x)[0-9A-Fa-f]{40}$"
       },
-      currentNetworkInfo:{}
+      currentNetworkInfo:{},
+      coinList:[
+        {name: 'Binance',symbol:'BTC'},
+        {name: 'Etherem',symbol:'ETH '},
+        {name: 'TRON',symbol:'TRC'},
+      ]
     };
     this.paymentOption = [
       { 'label': 'BankTransaction', 'value': 'bank' },
@@ -220,6 +225,21 @@ class CurrencyAddModal extends React.Component {
     }
   };
 
+  // getCoinList = async () => {
+  //   try {
+  //     const getData = await getCoinListApi();
+  //     if(getData.status){
+  //       this.setState({coinList: getData.data})
+  //     }
+  //   } catch (e) {
+  //     console.log('**GetCoinList_From_CoinPayment_err', e);
+  //   }
+  // }
+
+  // componentDidMount(){
+    // getCoinList()
+  // }
+ 
   render() {
     const {
       type,
@@ -243,10 +263,11 @@ class CurrencyAddModal extends React.Component {
       upiInputValue,
       depositStatus,
       withdrawStatus,
-      // contractDecimal
+      contractDecimal,
+      coi
 
     } = this.state.formValue;
-    const { errors, loader, upi } = this.state;
+    const { errors, loader, upi, coinList } = this.state;
 
     const { isShow } = this.props;
 
@@ -292,19 +313,39 @@ class CurrencyAddModal extends React.Component {
                   <label>Currency Name</label>
                 </div>
                 <div className="col-md-9">
-                  <input
-                    name="name"
-                    type="text"
-                    value={name}
-                    onChange={this.handleChange}
-                    error={errors.name}
-                    className={classnames("form-control", {
-                      invalid: errors.name,
-                    })}
-                  />
+                  {
+                    type == 'token' ?
+                      <input
+                        name="name"
+                        type="text"
+                        value={name}
+                        onChange={this.handleChange}
+                        error={errors.name}
+                        className={classnames("form-control", {
+                          invalid: errors.name,
+                        })}
+                      /> :
+
+                      <Form.Control
+                        name="name"
+                        value={name}
+                        onChange={this.handleChange}
+                        as="select" custom
+                      >
+                        <option value={'Select currecy'} selected>Select currency</option>
+                        {
+                          coinList.map((val, ind) => (
+                            <option value={val.name}>{val.name}</option>
+
+                          ))
+                        }
+                      </Form.Control>
+                  }
                   <span className="text-danger">{errors.name}</span>
                 </div>
               </div>
+
+
               <div className="row mt-2">
                 <div className="col-md-3">
                   <label>Coin</label>

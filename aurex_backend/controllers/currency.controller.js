@@ -2,6 +2,7 @@
 import multer from "multer";
 import path from "path";
 import Web3 from 'web3'
+
 // import model
 import { Currency } from "../models";
 
@@ -22,6 +23,7 @@ import {
 } from "../lib/adminHelpers";
 import isEmpty from "../lib/isEmpty";
 import { ABI } from "../config/erc20";
+import { currencyCoinList } from "./coin/coinpaymentGateway";
 
 /**
  * Multer Image Uploade
@@ -123,6 +125,8 @@ export const getCurrency = (req, res) => {
  */
 export const currencyList = async (req, res) => {
   try {
+    // const getCoinPaymnetCurrencyies = await currencyCoinList()
+    // console.log('getCoinPaymnetCurrencyies', getCoinPaymnetCurrencyies);
     let pagination = paginationQuery(req.query);
     let filter = filterSearchQuery(req.query, [
       "name",
@@ -296,6 +300,12 @@ export const addCurrency = async (req, res) => {
       if(!isEmpty(reqBody.tokenType)){
         checkIstokenValid = await useToken(reqBody.tokenType,reqBody.contractAddress);
         console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
+        let checkContractAddress = await Currency.findOne({ contractAddress: reqBody.contractAddress });
+        if(checkContractAddress){
+          return res
+          .status(400)
+          .json({ success: false, errors: { contractAddress: "ContractAddress already exists" } });
+        }
         if (!checkIstokenValid.status) {
           return res
             .status(400)
@@ -304,6 +314,7 @@ export const addCurrency = async (req, res) => {
       }
       
     let checkCurrency = await Currency.findOne({ coin: reqBody.coin });
+    
     if (checkCurrency) {
       return res
         .status(400)
@@ -334,8 +345,8 @@ export const addCurrency = async (req, res) => {
       newDoc["tokenType"] = reqBody.tokenType;
     } else if (reqBody.type == "token" && reqBody.depositType == "coin_payment") {
       newDoc["contractAddress"] = reqBody.contractAddress;
-      // newDoc["contractDecimal"] = reqBody.contractDecimal;
-      newDoc["minABI"] = '';
+      newDoc["contractDecimal"] = reqBody.contractDecimal;
+      newDoc["minABI"] = JSON.stringify(ABI);
       newDoc["decimal"] = reqBody.decimals;
       newDoc["tokenType"] = reqBody.tokenType;
     } else if (reqBody.type == "fiat") {

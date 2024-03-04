@@ -145,8 +145,11 @@ export const deposit = async (userId) => {
                 console.log(AssetData, "---------005BNB");
 
                 let beforeBalance = parseFloat(AssetData.spotBal);
+                console.log("50000000000000000005000000000000000000_beforeBalance", beforeBalance)
+
                 AssetData.spotBal =
                   parseFloat(AssetData.spotBal) + parseFloat(amount);
+                console.log("50000000000000000005000000000000000000_AssetData", AssetData, AssetData.spotBal)
                 let WalletData = await userData.save();
                 console.log(WalletData, "---------006BNB");
                 // CREATE PASS_BOOK
@@ -662,15 +665,15 @@ export function convert(n) {
       .split(/e|\./);
     return +pow < 0
       ? sign +
-          "0." +
-          "0".repeat(Math.max(Math.abs(pow) - 1 || 0, 0)) +
-          lead +
-          decimal
+      "0." +
+      "0".repeat(Math.max(Math.abs(pow) - 1 || 0, 0)) +
+      lead +
+      decimal
       : sign +
-          lead +
-          (+pow >= decimal.length
-            ? decimal + "0".repeat(Math.max(+pow - decimal.length || 0, 0))
-            : decimal.slice(0, +pow) + "." + decimal.slice(+pow));
+      lead +
+      (+pow >= decimal.length
+        ? decimal + "0".repeat(Math.max(+pow - decimal.length || 0, 0))
+        : decimal.slice(0, +pow) + "." + decimal.slice(+pow));
   } catch (err) {
     return 0;
   }
