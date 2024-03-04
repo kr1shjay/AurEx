@@ -13,6 +13,7 @@ import isEmpty from "../../lib/isEmpty";
 const initialFormValue = {
   currencyId: "",
   name: "",
+  preference:"",
   coin: "",
   symbol: "",
   type: "crypto",
@@ -47,14 +48,17 @@ class CurrencyUpdateModal extends React.Component {
       loader: false,
       formValue: initialFormValue,
       errors: {},
+      count:''
     };
   }
 
   componentWillReceiveProps(nextProps) {
     const { record, imageUrl } = nextProps;
     if (record) {
+      console.log("recordrecord",record);
       let formData = {
         currencyId: record._id,
+        preference:record.preference,
         name: record.name,
         coin: record.coin,
         symbol: record.symbol,
@@ -85,13 +89,21 @@ class CurrencyUpdateModal extends React.Component {
         // formData["contractDecimal"] = record.contractDecimal;
         formData["tokenType"] = record.tokenType;
       }
-      this.setState({ formValue: formData });
+      this.setState({ formValue: formData,count:nextProps.count });
     }
   }
 
   handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
+    
+    console.log("value",value,'valuevaluevalue',this.state.count,this.state.formValue?.preference);
+    if (name == 'preference') {
+      if (this.state.count < value && value != '') {
+        return false
+      }
+    }
+
     let formData = { ...this.state.formValue, ...{ [name]: value } };
     this.setState({ formValue: formData });
   };
@@ -133,6 +145,7 @@ class CurrencyUpdateModal extends React.Component {
       formData.append("currencyId", formValue.currencyId);
       formData.append("type", formValue.type);
       formData.append("name", formValue.name);
+      formData.append("preference", formValue.preference);
       formData.append("coin", formValue.coin);
       formData.append("symbol", formValue.symbol);
       formData.append("contractAddress", formValue.contractAddress);
@@ -204,6 +217,7 @@ class CurrencyUpdateModal extends React.Component {
       status,
       depositStatus,
       withdrawStatus,
+      preference
     } = this.state.formValue;
     console.log(
       "🚀 ~ file: CurrencyUpdateModal.js ~ line 199 ~ CurrencyUpdateModal ~ render ~ type",
@@ -246,6 +260,26 @@ class CurrencyUpdateModal extends React.Component {
                   </Form.Control>
 
                   <span className="text-danger">{errors.type}</span>
+                </div>
+              </div>
+
+              <div className="row mt-2">
+                <div className="col-md-3">
+                  <label>Preference</label>
+                </div>
+                <div className="col-md-9">
+                  <input
+                    name="preference"
+                    type="text"
+                    value={preference}
+                    id="preference"
+                    onChange={this.handleChange}
+                    error={errors.preference}
+                    className={classnames("form-control", {
+                      invalid: errors.preference,
+                    })}
+                  />
+                  <span className="text-danger">{errors.preference}</span>
                 </div>
               </div>
 

@@ -1,2 +1,0 @@
-# AurEx
-A Centralised Exchnage

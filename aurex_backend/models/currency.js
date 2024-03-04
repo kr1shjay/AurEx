@@ -98,6 +98,9 @@ let CurrencySchema = new Schema(
       type: Number,
       default: 0,
     },
+    preference: {
+      type: String
+    },
     isPrimary: {
       type: Boolean,
       default: false,

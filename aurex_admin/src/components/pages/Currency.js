@@ -156,7 +156,7 @@ class Currency extends Component {
         this.setState({ addFormModal: true })
     }
 
-    editRecord(record) {
+    editRecord(record,length) {
         this.setState({
             editFormModal: true,
             editRecord: record
@@ -256,8 +256,8 @@ class Currency extends Component {
     }
 
     render() {
-        const { addFormModal, editFormModal, editRecord, loader, count, imageUrl ,records } = this.state;
-
+        const { addFormModal, editFormModal,length, editRecord, loader, count, imageUrl ,records } = this.state;
+console.log("thisstate",this.state.length);
         return (
             <div>
                 <Navbar />
@@ -273,6 +273,7 @@ class Currency extends Component {
                         onHide={this.handleCloseEditForm}
                         fetchData={this.refetch}
                         record={editRecord}
+                        count={count}
                         imageUrl={imageUrl}
                     />
 

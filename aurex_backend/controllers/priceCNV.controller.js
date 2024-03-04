@@ -183,7 +183,7 @@ export const addPriceCNV = async (currencyData) => {
                                 'baseSymbol': currencyData.coin,
                                 'convertSymbol': item.coin,
                             })
-                            console.log(binancePrice,'binancePrice')
+                            // console.log(binancePrice,'binancePrice')
                             if (!checkPrice) {
                                 let newDoc = new PriceConversion({
                                     'baseSymbol': currencyData.coin,

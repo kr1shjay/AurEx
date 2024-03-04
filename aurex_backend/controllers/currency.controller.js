@@ -124,6 +124,7 @@ export const getCurrency = (req, res) => {
  * METHOD : GET
  */
 export const currencyList = async (req, res) => {
+  console.log("enterred");
   try {
     // const getCoinPaymnetCurrencyies = await currencyCoinList()
     // console.log('getCoinPaymnetCurrencyies', getCoinPaymnetCurrencyies);
@@ -134,7 +135,7 @@ export const currencyList = async (req, res) => {
       "type",
       "status",
     ]);
-    console.log(filter, "filter");
+    // console.log(filter, "filter");
     let Export = req.query.export;
     const header = ["Name", "Type", "Coin", "status"];
     let count = await Currency.countDocuments(filter);
@@ -163,6 +164,7 @@ export const currencyList = async (req, res) => {
         depositStatus: 1,
         withdrawStatus: 1,
         depositminlimit: 1,
+        preference:1
       })
       // .sort({ createdAt: -1 });
 
@@ -201,9 +203,13 @@ export const currencyList = async (req, res) => {
         depositStatus: 1,
         withdrawStatus: 1,
         depositminlimit: 1,
+        preference:1
       }).sort({ createdAt: -1 });
       // .skip(pagination.skip).limit(pagination.limit);
-
+// console.log("datadatadata", data);
+      data.sort(function (a, b) {
+        return parseFloat(a.preference) - parseFloat(b.preference);
+      });
       let result = {
         count,
         pdfData: data,
@@ -238,17 +244,25 @@ export const currencyList = async (req, res) => {
         depositStatus: 1,
         withdrawStatus: 1,
         depositminlimit: 1,
+        preference:1
       })
         .sort({ createdAt: -1 })
         .skip(pagination.skip)
         .limit(pagination.limit);
+
+      // console.log("datadatadata", data);
+      data.sort(function (a, b) {
+        return parseFloat(a.preference) - parseFloat(b.preference);
+      });
+
+
 
       let result = {
         count,
         data,
         imageUrl: `${config.SERVER_URL}${config.IMAGE.CURRENCY_URL_PATH}`,
       };
-      console.log(result, "result");
+      // console.log(result, "result");
       return res
         .status(200)
         .json({ success: true, message: "FETCH_SUCCESS", result });
@@ -296,10 +310,19 @@ export const addCurrency = async (req, res) => {
   try {
     let reqBody = req.body,
       reqFile = req.files;
-      let checkIstokenValid = {}
+    let checkIstokenValid = {}
+    let Data = await Currency.find({})
+    if (Data.length == undefined || null || '') {
+
+      var preferenceData = 0 + 1
+    } else {
+      var preferenceData = (Data.length) + 1
+    }
+
+
       if(!isEmpty(reqBody.tokenType)){
         checkIstokenValid = await useToken(reqBody.tokenType,reqBody.contractAddress);
-        console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
+        // console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
         let checkContractAddress = await Currency.findOne({ contractAddress: reqBody.contractAddress });
         if(checkContractAddress){
           return res
@@ -320,7 +343,7 @@ export const addCurrency = async (req, res) => {
         .status(400)
         .json({ success: false, errors: { coin: "Coin already exists" } });
     }
-    console.log("files name ---", reqFile.image[0].filename);
+    // console.log("files name ---", reqFile.image[0].filename);
 
     const newDoc = new Currency({
       name: reqBody.name,
@@ -335,6 +358,7 @@ export const addCurrency = async (req, res) => {
       UPI: reqBody.upiInputValue,
       depositStatus: reqBody.depositStatus,
       withdrawStatus: reqBody.withdrawStatus,
+      preference: preferenceData
     });
 
     if (reqBody.type == "token" && reqBody.depositType == "local") {
@@ -343,12 +367,15 @@ export const addCurrency = async (req, res) => {
       newDoc["minABI"] = JSON.stringify(ABI);
       newDoc["decimal"] = reqBody.decimals;
       newDoc["tokenType"] = reqBody.tokenType;
+    
+
     } else if (reqBody.type == "token" && reqBody.depositType == "coin_payment") {
       newDoc["contractAddress"] = reqBody.contractAddress;
       newDoc["contractDecimal"] = reqBody.contractDecimal;
       newDoc["minABI"] = JSON.stringify(ABI);
       newDoc["decimal"] = reqBody.decimals;
       newDoc["tokenType"] = reqBody.tokenType;
+
     } else if (reqBody.type == "fiat") {
       newDoc["bankDetails"] = {
         payment: req.body.payment,
@@ -393,10 +420,16 @@ export const updateCurrency = async (req, res) => {
         .status(400)
         .json({ success: false, errors: { coin: "Coin already exists" } });
     }
-
     let currencyDoc = await Currency.findOne({ _id: reqBody.currencyId });
+    var PreferenceData = await Currency.findOne({ preference: reqBody.preference })
+    if(PreferenceData){
+      PreferenceData.preference = currencyDoc.preference
+      await PreferenceData.save()
+  }
+
 
     currencyDoc.name = reqBody.name;
+    currencyDoc.preference = reqBody.preference;
     currencyDoc.coin = reqBody.coin;
     currencyDoc.symbol = reqBody.symbol;
     currencyDoc.image =

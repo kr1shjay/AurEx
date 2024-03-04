@@ -10,8 +10,13 @@ dist/
 aurex_admin/node_modules
 aurex_backend/node_modules
 aurex_frontend/node_modules
+
+#aurex_admin/package-lock.json
+#aurex_backend/package-lock.json
+
 # aurex_frontend/build
 # aurex_admin/build
+
 
 # Compiled Java class files
 *.class
