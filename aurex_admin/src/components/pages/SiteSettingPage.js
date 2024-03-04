@@ -73,6 +73,13 @@ class SiteSettingPage extends Component {
 		borderWidth: '1px'
 		 
 		}),
+        menulist: (provided, state) => ({
+            ...provided,
+            height: '100px',
+           
+           
+          }),
+        
 		control: (provided, state) => ({
 		  ...provided,
 		  height: '52px',
@@ -289,6 +296,7 @@ class SiteSettingPage extends Component {
                                                 name="colors"
                                                 options={pairListOption}
                                                 onChange={this.handlePairChange}
+                                                // menuIsOpen
                                                 styles={this.styles} className="border_blue_select basic-multi-select"
                                                 classNamePrefix="select"
                                             />

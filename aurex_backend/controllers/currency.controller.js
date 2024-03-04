@@ -159,7 +159,8 @@ export const currencyList = async (req, res) => {
         depositStatus: 1,
         withdrawStatus: 1,
         depositminlimit: 1,
-      }).sort({ createdAt: -1 });
+      })
+      // .sort({ createdAt: -1 });
 
       let csvData = [header];
 
