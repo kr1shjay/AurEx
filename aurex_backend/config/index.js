@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === "production") {
     secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
     cryptoSecretKey: "1234567812345678",
     DATABASE_URL:
-    "mongodb+srv://aurex-prod:JiT6Gy2ngjB5C2DO@aurex-production.wvbvo.mongodb.net/wXZeko",
+    "mongodb+srv://aurex-prod:sf5vmllmkyccgunm@aurex-production.wvbvo.mongodb.net/wXZeko",
     RUN_CRON: true,
     PORT: PORT,
     FRONT_URL: "https://aurexchange.com",
@@ -99,9 +99,9 @@ if (process.env.NODE_ENV === "production") {
       },
       ETH: {
         URL: "https://rpc.notadegen.com/eth/sepolia",
-        ADDRESS: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
+        ADDRESS: "0x10A0F4712445934960ffad7DEdd0d0D6657c7f55",
         PRIVATE_KEY:
-          "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",
+          "U2FsdGVkX19p6oLIyM3CvGqaYp5Hk27YDZL6HpMnd1Xsi61gGuMlyQYCNtAauWwVgqBfuUtKWp8Le2CK30lth0/0qg5dogGl8wbUrqlQ25WYDxwYwJn3JLR2zYpLqrRz",
 
         START_BLOCK: 0,
         DEPOSIT_URL:
@@ -112,7 +112,7 @@ if (process.env.NODE_ENV === "production") {
         CHAIN_ID: 11155111,
       },
       BNB: {
-        URL: "https://data-seed-prebsc-1-s1.binance.org:8545",
+        URL: "https://bsc-rpc.publicnode.com",
         START_BLOCK: 0,
         DEPOSIT_URL:
           "https://api-testnet.bscscan.com/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=15YENF4YFTS1N8SWJWX8X4WTKTM17M8I49",
@@ -120,16 +120,17 @@ if (process.env.NODE_ENV === "production") {
           "https://api-testnet.bscscan.com/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=15YENF4YFTS1N8SWJWX8X4WTKTM17M8I49",
         NETWORK_ID: 97,
         CHAIN_ID: 97,
-        ADDRESS: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
+        ADDRESS: "0x10A0F4712445934960ffad7DEdd0d0D6657c7f55",
         PRIVATE_KEY:
-          "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",
+          "U2FsdGVkX19p6oLIyM3CvGqaYp5Hk27YDZL6HpMnd1Xsi61gGuMlyQYCNtAauWwVgqBfuUtKWp8Le2CK30lth0/0qg5dogGl8wbUrqlQ25WYDxwYwJn3JLR2zYpLqrRz",
         // privateKey: 'U2FsdGVkX1+/WJmhPLIsNFWGGR4QO8trtIhrljMvR3opvf3DStEFHskqSBrNTwUHVOF2Y9/ddiVL7TDpYijbBMxsWX0OSddX4uM2X/BBhtD93s9G89xv7460U8ea7N4o',
       },
       XRP: {
         URL: "wss://s1.ripple.com",
-        ADDRESS: "rKJfjNZporeg4AMZAczpTkVyTwWbVzy1if",
-        PRIVATE_KEY:
-          "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
+        ADDRESS:"" ,
+        // "rKJfjNZporeg4AMZAczpTkVyTwWbVzy1if",
+        PRIVATE_KEY:"",
+          // "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
       },
       TRON: {
         FULLNODE: "https://nile.trongrid.io",
@@ -153,7 +154,7 @@ if (process.env.NODE_ENV === "production") {
       eth: {
         url: "http://139.162.1.152:3000",
         startBlock: 11504800,
-        address: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
+        address: "0x10A0F4712445934960ffad7DEdd0d0D6657c7f55",
         privateKey:
           "U2FsdGVkX1+qPHe80YXasGLBvZaovbS0o8AShWZrDZ4ja2Xt3j553iM260o+sJFjyZTC2ohXhwGK91MyTAaITTn3iq2kZs8wroYiQ5QkGJM+x3+MAgSskcFJLxGP1PfP",
         etherscanUrl: "https://api.etherscan.io/api?", // https://api-ropsten.etherscan.io/api?
@@ -309,9 +310,9 @@ if (process.env.NODE_ENV === "production") {
       },
       ETH: {
         URL: "https://rpc.sepolia.org",
-        ADDRESS: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
+        ADDRESS: "0x10A0F4712445934960ffad7DEdd0d0D6657c7f55",
         PRIVATE_KEY:
-          "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",
+          "U2FsdGVkX19p6oLIyM3CvGqaYp5Hk27YDZL6HpMnd1Xsi61gGuMlyQYCNtAauWwVgqBfuUtKWp8Le2CK30lth0/0qg5dogGl8wbUrqlQ25WYDxwYwJn3JLR2zYpLqrRz",
 
         START_BLOCK: 0,
         DEPOSIT_URL:
@@ -328,8 +329,8 @@ if (process.env.NODE_ENV === "production") {
       //     DEPOSIT_TOKEN_URL: "https://api.bscscan.com/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=EWRUSHE7B64KNR5S5J7IQBT43PSTXTWHSI",
       //     NETWORK_ID: 56,
       //     CHAIN_ID: 56,
-      //     ADDRESS: '0x836f583975FFC53599Eb07619e7D514d1FF5Bf62',
-      //     PRIVATE_KEY: "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9"
+      //     ADDRESS: '0x10A0F4712445934960ffad7DEdd0d0D6657c7f55',
+      //     PRIVATE_KEY: "U2FsdGVkX19p6oLIyM3CvGqaYp5Hk27YDZL6HpMnd1Xsi61gGuMlyQYCNtAauWwVgqBfuUtKWp8Le2CK30lth0/0qg5dogGl8wbUrqlQ25WYDxwYwJn3JLR2zYpLqrRz"
       // },
       BNB: {
         URL: "https://data-seed-prebsc-1-s1.binance.org:8545",
@@ -340,16 +341,17 @@ if (process.env.NODE_ENV === "production") {
           "https://api-testnet.bscscan.com/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=15YENF4YFTS1N8SWJWX8X4WTKTM17M8I49",
         NETWORK_ID: 97,
         CHAIN_ID: 97,
-        ADDRESS: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
+        ADDRESS: "0x10A0F4712445934960ffad7DEdd0d0D6657c7f55",
         PRIVATE_KEY:
-          "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",
+          "U2FsdGVkX19p6oLIyM3CvGqaYp5Hk27YDZL6HpMnd1Xsi61gGuMlyQYCNtAauWwVgqBfuUtKWp8Le2CK30lth0/0qg5dogGl8wbUrqlQ25WYDxwYwJn3JLR2zYpLqrRz",
         // privateKey: 'U2FsdGVkX1+/WJmhPLIsNFWGGR4QO8trtIhrljMvR3opvf3DStEFHskqSBrNTwUHVOF2Y9/ddiVL7TDpYijbBMxsWX0OSddX4uM2X/BBhtD93s9G89xv7460U8ea7N4o',
       },
       XRP: {
         URL: "wss://s1.ripple.com",
-        ADDRESS: "rKJfjNZporeg4AMZAczpTkVyTwWbVzy1if",
-        PRIVATE_KEY:
-          "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
+        ADDRESS: "",
+        // "rKJfjNZporeg4AMZAczpTkVyTwWbVzy1if",
+        PRIVATE_KEY:"",
+          // "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
       },
       // TRON: {
       //     FULLNODE: "https://api.trongrid.io",
@@ -387,7 +389,7 @@ if (process.env.NODE_ENV === "production") {
       //   url: "http://139.162.1.152:3000",
       //   startBlock: 11504800,
       //   mode: "ropsten", // ropsten
-      //   address: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
+      //   address: "0x10A0F4712445934960ffad7DEdd0d0D6657c7f55",
       //   privateKey:
       //     "U2FsdGVkX1+qPHe80YXasGLBvZaovbS0o8AShWZrDZ4ja2Xt3j553iM260o+sJFjyZTC2ohXhwGK91MyTAaITTn3iq2kZs8wroYiQ5QkGJM+x3+MAgSskcFJLxGP1PfP",
       //   etherscanUrl: "https://api.etherscan.io/api?", // https://api-ropsten.etherscan.io/api?
@@ -398,9 +400,9 @@ if (process.env.NODE_ENV === "production") {
       // },
       eth: {
         url: "https://rpc.sepolia.org",
-        address: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
+        address: "0x10A0F4712445934960ffad7DEdd0d0D6657c7f55",
         privateKey:
-          "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",
+          "U2FsdGVkX19p6oLIyM3CvGqaYp5Hk27YDZL6HpMnd1Xsi61gGuMlyQYCNtAauWwVgqBfuUtKWp8Le2CK30lth0/0qg5dogGl8wbUrqlQ25WYDxwYwJn3JLR2zYpLqrRz",
         startBlock: 0,
         ethDepositUrl:
           "https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=5RJWEAZM1FHHFBST9HBNZP1H4EAZWF8SUG",
@@ -464,8 +466,8 @@ if (process.env.NODE_ENV === "production") {
     cryptoSecretKey: "1234567812345678",
     // DATABASE_URL: "mongodb://localhost:27017/cluxold",
     // DATABASE_URL: "mongodb://localhost:27017/wXZeko",
-    DATABASE_URL: "mongodb://localhost:27017/aurex",
-
+    DATABASE_URL: "mongodb://localhost:27017/wXZeko",
+    IPN_URL: `${API_URL}:${PORT}/api/depositwebhook`,
     // DATABASE_URL: "mongodb://cluxdb:Fvdhcdcedhf6wed34sxdz@172.105.40.100:10730/cluxdb",
     // DATABASE_URL: "mongodb://clux:Password__2022__PasworD@23.239.23.84:10330/clux",
     RUN_CRON: false,
@@ -562,9 +564,9 @@ if (process.env.NODE_ENV === "production") {
       ETH: {
         // URL: "https://rpc.sepolia.org",
         URL: "https://rpc.notadegen.com/eth/sepolia",
-        ADDRESS: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
+        ADDRESS: "0x10A0F4712445934960ffad7DEdd0d0D6657c7f55",
         PRIVATE_KEY:
-          "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",
+          "U2FsdGVkX19p6oLIyM3CvGqaYp5Hk27YDZL6HpMnd1Xsi61gGuMlyQYCNtAauWwVgqBfuUtKWp8Le2CK30lth0/0qg5dogGl8wbUrqlQ25WYDxwYwJn3JLR2zYpLqrRz",
 
         START_BLOCK: 0,
         DEPOSIT_URL:
@@ -575,7 +577,7 @@ if (process.env.NODE_ENV === "production") {
         CHAIN_ID: 11155111,
       },
       BNB: {
-        URL: "https://data-seed-prebsc-1-s1.binance.org:8545",
+        URL: "https://bsc-rpc.publicnode.com", //"https://data-seed-prebsc-1-s1.binance.org:8545",
         START_BLOCK: 0,
         DEPOSIT_URL:
           "https://api-testnet.bscscan.com/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=15YENF4YFTS1N8SWJWX8X4WTKTM17M8I49",
@@ -583,16 +585,17 @@ if (process.env.NODE_ENV === "production") {
           "https://api-testnet.bscscan.com/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=15YENF4YFTS1N8SWJWX8X4WTKTM17M8I49",
         NETWORK_ID: 97,
         CHAIN_ID: 97,
-        ADDRESS: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
+        ADDRESS: "0x10A0F4712445934960ffad7DEdd0d0D6657c7f55",
         PRIVATE_KEY:
-          "U2FsdGVkX1++Gdq0OxzFCBSMsq+gceH7PskUPhYo4A+1t2qoE5ipcrsu6Xw0XOhIqNGR3TAFOhvaZxAVpWBiX1/N+TUWWHyl8rbimH6XgHXeArhrN7EXKpm/2lXAU6h9",
+          "U2FsdGVkX19p6oLIyM3CvGqaYp5Hk27YDZL6HpMnd1Xsi61gGuMlyQYCNtAauWwVgqBfuUtKWp8Le2CK30lth0/0qg5dogGl8wbUrqlQ25WYDxwYwJn3JLR2zYpLqrRz",
         // privateKey: 'U2FsdGVkX1+/WJmhPLIsNFWGGR4QO8trtIhrljMvR3opvf3DStEFHskqSBrNTwUHVOF2Y9/ddiVL7TDpYijbBMxsWX0OSddX4uM2X/BBhtD93s9G89xv7460U8ea7N4o',
       },
       XRP: {
         URL: "wss://s1.ripple.com",
-        ADDRESS: "rKJfjNZporeg4AMZAczpTkVyTwWbVzy1if",
-        PRIVATE_KEY:
-          "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
+        ADDRESS: "",
+        // "rKJfjNZporeg4AMZAczpTkVyTwWbVzy1if",
+        PRIVATE_KEY:"",
+          // "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
       },
       ETC: {
         URL: "http://173.255.221.129:3000",
@@ -619,7 +622,7 @@ if (process.env.NODE_ENV === "production") {
       eth: {
         url: "http://139.162.1.152:3000",
         startBlock: 11504800,
-        address: "0x836f583975FFC53599Eb07619e7D514d1FF5Bf62",
+        address: "0x10A0F4712445934960ffad7DEdd0d0D6657c7f55",
         privateKey:
           "U2FsdGVkX1+qPHe80YXasGLBvZaovbS0o8AShWZrDZ4ja2Xt3j553iM260o+sJFjyZTC2ohXhwGK91MyTAaITTn3iq2kZs8wroYiQ5QkGJM+x3+MAgSskcFJLxGP1PfP",
         etherscanUrl: "https://api.etherscan.io/api?", // https://api-ropsten.etherscan.io/api?

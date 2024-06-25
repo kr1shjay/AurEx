@@ -322,7 +322,7 @@ export const addCurrency = async (req, res) => {
 
       if(!isEmpty(reqBody.tokenType)){
         checkIstokenValid = await useToken(reqBody.tokenType,reqBody.contractAddress);
-        // console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
+        console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
         let checkContractAddress = await Currency.findOne({ contractAddress: reqBody.contractAddress });
         if(checkContractAddress){
           return res

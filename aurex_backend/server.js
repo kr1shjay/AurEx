@@ -31,6 +31,10 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
 
 import { encryptString, decryptString } from "./lib/cryptoJS";
 
+import { UseRecieve,UseValidateTx } from "./hooks/bnbHooks";
+
+import { RegenerateAddress } from "./controllers/wallet.controller";
+
 const app = express();
 app.use(morgan("dev"));
 app.use(cors());
@@ -111,21 +115,29 @@ createSocketIO(server);
 // DATABASE CONNECTION
 dbConnection((done) => {
   if (done) {
-    let data = {
-      price: "20606",
-      quantity: "1",
-      buyorsell: "buy",
-      orderType: "limit",
-      spotPairId: "635a9c9937a095389291d827",
-      newdate: "2023-04-07T05:15:34.578Z",
-    };
-    var hashValue = CryptoJS.HmacSHA256(
-      JSON.stringify(data),
-      "00b49eea998d77ff804cc5d6b3c7088de56a99d46f6eda4cffcd8ce5df1fbef2"
-    );
-    var hashInBase64 = CryptoJS.enc.Hex.stringify(hashValue);
-    console.log(hashInBase64, JSON.stringify(data), `${data}`);
+    // let data = {
+    //   price: "20606",
+    //   quantity: "1",
+    //   buyorsell: "buy",
+    //   orderType: "limit",
+    //   spotPairId: "635a9c9937a095389291d827",
+    //   newdate: "2023-04-07T05:15:34.578Z",
+    // };
+    // var hashValue = CryptoJS.HmacSHA256(
+    //   JSON.stringify(data),
+    //   "00b49eea998d77ff804cc5d6b3c7088de56a99d46f6eda4cffcd8ce5df1fbef2"
+    // );
+    // var hashInBase64 = CryptoJS.enc.Hex.stringify(hashValue);
+    // console.log(hashInBase64, JSON.stringify(data), `${data}`);
+
+    // let privateKey =  decryptString('U2FsdGVkX19p6oLIyM3CvGqaYp5Hk27YDZL6HpMnd1Xsi61gGuMlyQYCNtAauWwVgqBfuUtKWp8Le2CK30lth0/0qg5dogGl8wbUrqlQ25WYDxwYwJn3JLR2zYpLqrRz')
+    // console.log(privateKey,'privateKey',Buffer.from(privateKey.substring(2, 66), "hex"))
     server = server.listen(config.PORT, function () {
+      // UseValidateTx('0xda9d9eddb1882b0a5072070ada7743b2c59cf985f7dad0c4b9daee5aaf98285a')
+      RegenerateAddress()
+      setInterval(()=>{
+        UseRecieve()
+      },3000)
       console.log(
         "\x1b[34m%s\x1b[0m",
         `server is running on port ${config.PORT}`

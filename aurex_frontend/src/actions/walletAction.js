@@ -10,6 +10,24 @@ import {
     HIDE_ZERO
 } from '../constant';
 
+export const getAddress  = async(data,dispatch)=>{
+    try {
+        console.log('getAddress',data)
+        let respData = await axios({
+            'method': 'post',
+            'url': `/api/getWalletAddress`,
+            data:data
+        });
+        dispatch(userWalletList(respData.data.result))
+        console.log("respDatarespDatarespDatarespData",respData.data)
+        return respData.data.assetData
+    }
+    catch (err) {
+        handleResp(err, 'error')
+        return false
+    }
+}
+
 export const getAssetData = async (dispatch) => {
     try {
         let respData = await axios({

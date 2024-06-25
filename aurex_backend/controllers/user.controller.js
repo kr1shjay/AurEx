@@ -328,7 +328,7 @@ export const checkDeposit = async (req, res) => {
           if (currency.coin == "ETH") {
             ethCtrl.deposit(userData.userId);
           } else if (currency.coin == "BNB") {
-            bnbCtrl.deposit(userData.userId);
+            // bnbCtrl.deposit(userData.userId); //comment for bnbhook
           } else if (currency.coin == "TRX") {
             tronCtrl.tronDeposit(userData.userId);
           }
@@ -340,7 +340,7 @@ export const checkDeposit = async (req, res) => {
             "currency.tokenType"
           );
           if (currency.tokenType == "bep20") {
-            bnbCtrl.tokenDeposit(userData.userId, currency.coin);
+            // bnbCtrl.tokenDeposit(userData.userId, currency.coin); //comment for bnbhook
           }
           if (currency.tokenType == "trc20") {
             tronCtrl.tronTokenDeposit(userData.userId, currency.coin);

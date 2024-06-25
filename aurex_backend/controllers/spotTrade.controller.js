@@ -22568,7 +22568,7 @@ export const decryptTradeOrder = (req, res, next) => {
     try {
         let api_key = req.header("x-api-key");
         let authorization = req.header('Authorization')
-        console.log("orderreq", req.user, req.body,authorization)
+        console.log("orderreq", req.user, req.body, authorization)
         if (api_key !== null && api_key !== undefined && authorization == undefined) {
             return next();
         }
@@ -22610,7 +22610,7 @@ export const allPairs = (req, res) => {
 */
 export const getPairList = async (req, res) => {
     try {
-        console.log("pair",req.body)
+        console.log("pair", req.body)
         let spotPairData = await SpotPair.aggregate([
             { "$match": { "status": "active" } },
             {
@@ -22668,11 +22668,11 @@ export const getPairList = async (req, res) => {
                     'secondVolume': 1,
                     'changePrice': 1,
                     'change': 1,
-                    'pip_size':1
+                    'pip_size': 1
                 }
             },
         ])
-        console.log("tradepair",spotPairData)
+        console.log("tradepair", spotPairData)
         return res.status(200).json({ 'success': true, 'messages': "success", 'result': spotPairData })
     } catch (err) {
         return res.status(500).json({ 'status': false, 'message': "Error occured" });
@@ -22822,7 +22822,7 @@ export const getFilledOrderHistory = async (req, res) => {
 */
 export const cancelOrder = async (req, res) => {
     try {
-        console.log("cancel",req.params.orderId)
+        console.log("cancel", req.params.orderId)
         if (cancelOrderArr.includes(IncCntObjId(req.params.orderId))) {
             return res.status(400).json({ 'status': false, 'message': 'Order has been excute processing ...' })
         }
@@ -22891,13 +22891,13 @@ export const cancelOrder = async (req, res) => {
 export const orderPlace = async (req, res) => {
     try {
         let api_key = req.header("x-api-key");
-        console.log("orderreq",req.user)
-        if(api_key!==null && api_key!== undefined && req.user.trade !==true){
-             return res.status(400).json({ 'status': false, 'message': "You don't have permission to trade" });      
+        console.log("orderreq", req.user)
+        if (api_key !== null && api_key !== undefined && req.user.trade !== true) {
+            return res.status(400).json({ 'status': false, 'message': "You don't have permission to trade" });
         }
-        else{
+        else {
             let reqBody = req.body
-            console.log("orderreq",reqBody)
+            console.log("orderreq", reqBody)
             if (reqBody.orderType == 'limit') {
                 limitOrderPlace(req, res)
             } else if (reqBody.orderType == 'market') {
@@ -22911,7 +22911,7 @@ export const orderPlace = async (req, res) => {
             }
         }
     } catch (err) {
-        console.log(err,'orderreq-err')
+        console.log(err, 'orderreq-err')
         return res.status(400).json({ 'status': false, 'message': "Error occured For the Interval_orderPlace_err" });
     }
 }
@@ -22925,11 +22925,11 @@ export const orderPlace = async (req, res) => {
 export const limitOrderPlace = async (req, res) => {
     try {
         let reqBody = req.body;
-        console.log("limitreq",reqBody)
+        console.log("limitreq", reqBody)
         reqBody.price = parseFloat(reqBody.price)
         reqBody.quantity = parseFloat(reqBody.quantity)
         // console.log("-------reqBody.", reqBody)
-        let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId,status:'active'});
+        let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId, status: 'active' });
 
         if (!spotPairData) {
             return res.status(400).json({ 'status': false, 'message': "Invalid Pair or pair is not active" });
@@ -22941,18 +22941,18 @@ export const limitOrderPlace = async (req, res) => {
             return res.status(400).json({ 'status': false, 'message': `Quantity of contract must not be higher than ${spotPairData.maxQuantity}` });
         }
 
-        if(reqBody.quantity < 0.0001){
+        if (reqBody.quantity < 0.0001) {
             return res.status(400).json({ 'status': false, 'message': "Quantity of contract must not be lesser than 0.0001" });
         }
 
-        if(reqBody.price < 0.0001){
+        if (reqBody.price < 0.0001) {
             return res.status(400).json({ 'status': false, 'message': "Price of contract must not be lesser than 0.0001" });
         }
         let
             minPrice = spotPairData.markPrice - (spotPairData.markPrice * (spotPairData.minPricePercentage / 100)),
             maxPrice = spotPairData.markPrice + (spotPairData.markPrice * (spotPairData.maxPricePercentage / 100));
-            console.log("minprice",minPrice);
-            console.log("maxprice",maxPrice);
+        console.log("minprice", minPrice);
+        console.log("maxprice", maxPrice);
 
 
         if (reqBody.price < minPrice) {
@@ -23151,9 +23151,9 @@ export const marketOrderPlace = async (req, res) => {
     try {
         let reqBody = req.body;
 
-        console.log("marketOrderPlace ",reqBody)
+        console.log("marketOrderPlace ", reqBody)
         reqBody.quantity = parseFloat(reqBody.quantity)
-        let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId,status:'active' });
+        let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId, status: 'active' });
 
         if (!spotPairData) {
             return res.status(400).json({ 'status': false, 'message': "Invalid Pair or pair is not active" });
@@ -23165,7 +23165,7 @@ export const marketOrderPlace = async (req, res) => {
             return res.status(400).json({ 'status': false, 'message': `Quantity of contract must not be higher than ${spotPairData.maxQuantity}` });
         }
 
-        if(reqBody.quantity < 0.0001){
+        if (reqBody.quantity < 0.0001) {
             return res.status(400).json({ 'status': false, 'message': "Quantity of contract must not be lesser than 0.0001" });
         }
 
@@ -23223,7 +23223,7 @@ export const marketOrderPlace = async (req, res) => {
                 return res.status(400).json({ 'status': false, 'message': "There is no order" });
             }
             // orderPrice = spotOrder[0].orderBook[0]._id
-            
+
             let orderBookQuantity = 0;
             // if (reqBody.buyorsell == 'buy') {
             // for (const key in spotOrder[0].orderBook) {
@@ -23263,12 +23263,12 @@ export const marketOrderPlace = async (req, res) => {
                         orderPrice = item._id;
                         orderCost = orderCost + (item._id * needQty)
                         orderBookQuantity = orderBookQuantity + needQty;
-                        console.log("orderBookQuantity",orderBookQuantity,"orderCost",orderCost,"orderPrice",orderPrice)
+                        console.log("orderBookQuantity", orderBookQuantity, "orderCost", orderCost, "orderPrice", orderPrice)
                     } else {
                         orderPrice = item._id;
                         orderCost = orderCost + (item._id * (item.quantity - item.filledQuantity))
                         orderBookQuantity = orderBookQuantity + (item.quantity - item.filledQuantity);
-                        console.log("orderBookQuantity",orderBookQuantity,"orderCost",orderCost,"orderPrice",orderPrice)
+                        console.log("orderBookQuantity", orderBookQuantity, "orderCost", orderCost, "orderPrice", orderPrice)
                     }
                 } else {
                     break
@@ -23277,7 +23277,7 @@ export const marketOrderPlace = async (req, res) => {
             // orderValue = (reqBody.buyorsell == 'buy') ? orderPrice * reqBody.quantity : reqBody.quantity;
             // orderValue = (reqBody.buyorsell == 'buy') ? orderPrice : orderBookQuantity;
             orderValue = (reqBody.buyorsell == 'buy') ? orderCost : orderBookQuantity;
-            console.log("orderValue",orderValue)
+            console.log("orderValue", orderValue)
         } else if (spotPairData.botstatus == "binance") {
             orderValue = (reqBody.buyorsell == 'buy') ? binanceCtrl.calculateMarkup(spotPairData.markPrice, spotPairData.markupPercentage, '+') * reqBody.quantity : reqBody.quantity;
             orderPrice = (reqBody.buyorsell == 'buy') ? binanceCtrl.calculateMarkup(spotPairData.markPrice, spotPairData.markupPercentage, '+') : spotPairData.markPrice;
@@ -23988,7 +23988,7 @@ export const stopLimitOrderPlace = async (req, res) => {
             conditionalType,
             status: 'conditional'
         });
-        console.log("newSpotTrade_stoplimit",newSpotTrade)
+        console.log("newSpotTrade_stoplimit", newSpotTrade)
 
         if (spotPairData.botstatus == "binance") {
             let payloadObj = {
@@ -24038,7 +24038,7 @@ export const stopLimitOrderPlace = async (req, res) => {
         getOpenOrderSocket(newOrder.userId, newOrder.pairId)
         return res.status(200).json({ 'status': true, 'message': "Your order placed successfully." });
     } catch (err) {
-       console.log("-------err", err)
+        console.log("-------err", err)
         return res.status(400).json({ 'status': false, 'message': "Limit order match error" });
     }
 }
@@ -24052,13 +24052,13 @@ export const stopLimitOrderPlace = async (req, res) => {
 export const stopMarketOrderPlace = async (req, res) => {
     try {
         let reqBody = req.body;
-        console.log("reqBody",reqBody)
+        console.log("reqBody", reqBody)
         reqBody.stopPrice = parseFloat(reqBody.stopPrice)
         // reqBody.price = parseFloat(reqBody.price)
         reqBody.quantity = parseFloat(reqBody.quantity)
 
         let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
-        
+
         if (!spotPairData) {
             return res.status(400).json({ 'status': false, 'message': "Invalid Pair" });
         }
@@ -24084,13 +24084,13 @@ export const stopMarketOrderPlace = async (req, res) => {
         let
             balance = parseFloat(usrAsset.spotBal),
             orderValue = (reqBody.buyorsell == 'buy') ? reqBody.stopPrice * reqBody.quantity : reqBody.quantity;
-            console.log("reqBody.price",reqBody.stopPrice,reqBody.quantity)
-            console.log("orderValue_orderValue",orderValue)
+        console.log("reqBody.price", reqBody.stopPrice, reqBody.quantity)
+        console.log("orderValue_orderValue", orderValue)
 
         if (balance < orderValue) {
             return res.status(400).json({ 'status': false, 'message': "Due to insuffient balance order cannot be placed" });
         }
-        
+
         usrAsset.spotBal = balance - orderValue;
         let updateUserAsset = await usrWallet.save();
 
@@ -24137,9 +24137,9 @@ export const stopMarketOrderPlace = async (req, res) => {
         getOpenOrderSocket(newOrder.userId, newOrder.pairId)
         return res.status(200).json({ 'status': true, 'message': "Your order placed successfully." });
     } catch (err) {
-        console.log("err_stopmarket",err)
+        console.log("err_stopmarket", err)
         return res.status(400).json({ 'status': false, 'message': "Stop Market order match error" });
-        
+
     }
 }
 
@@ -24250,7 +24250,7 @@ export const marketProcess = async (newOrder) => {
 
         // console.log("----updateOrder", updateOrder)
 
-        await getOpenOrderSocket(newOrder.userId,newOrder.pairId)
+        await getOpenOrderSocket(newOrder.userId, newOrder.pairId)
         await getOrderHistorySocket(newOrder.userId, newOrder.pairId)
         await getTradeHistorySocket(newOrder.userId, newOrder.pairId)
 
@@ -24330,7 +24330,7 @@ export const tradeMatching = async (newOrder, orderData, count = 0, pairData) =>
         if (!['open', 'pending'].includes(newOrder.status)) {
             return true;
         } else if (isEmpty(orderData[count])) {
-             if (newOrder.orderType == 'market') {
+            if (newOrder.orderType == 'market') {
                 marketProcess(newOrder)
                 return (count == 0) ? false : true
             }
@@ -25085,12 +25085,12 @@ export const getOrderBook = async (req, res) => {
 */
 export const getOrderBookSocket = async (pairId) => {
     try {
-        console.log("getOrderBookSocket",pairId)
+        console.log("getOrderBookSocket", pairId)
         let result = await orderBookData({
             'pairId': pairId
         })
         result['pairId'] = pairId;
-        console.log("getOrderBookSocket",result)
+        console.log("getOrderBookSocket", result)
         socketEmitAll('orderBook', result)
         return true
     } catch (err) {
@@ -25100,6 +25100,7 @@ export const getOrderBookSocket = async (pairId) => {
 
 export const orderBookData = async ({ pairId }) => {
     try {
+        let pairData = await SpotPair.findOne({ _id: pairId })
         let buyOrder = await SpotTrade.aggregate([
             {
                 "$match": {
@@ -25144,6 +25145,36 @@ export const orderBookData = async ({ pairId }) => {
             { "$limit": 10 }
         ])
 
+        if (pairData.botstatus == 'binance') {
+            let symbol = pairData.firstCurrencySymbol + pairData.secondCurrencySymbol
+            let { sellOrderData, buyOrderData } = await binanceCtrl.spotOrderBook(symbol)
+            if (sellOrderData.length > 0) {
+                for (let sellItem of sellOrderData) {
+                    let orderData = sellOrder.find((x) => x._id === parseFloat(sellItem[0]));
+                    if (!orderData) {
+
+                        sellOrder.push({
+                            '_id': binanceCtrl.calculateMarkup(sellItem[0], pairData.markupPercentage, '+'),
+                            'quantity': parseFloat(sellItem[1]),
+                            'filledQuantity': 0
+                        })
+                    }
+                }
+            }
+            if (buyOrderData.length > 0) {
+                for (let buyItem of buyOrderData) {
+                    let orderData = buyOrder.find((x) => x._id === parseFloat(buyItem[0]));
+                    if (!orderData) {
+                        buyOrder.push({
+                            '_id': binanceCtrl.calculateMarkup(buyItem[0], pairData.markupPercentage, '+'),
+                            'quantity': parseFloat(buyItem[1]),
+                            'filledQuantity': 0
+                        })
+                    }
+                }
+            }
+        }
+
         if (buyOrder.length > 0) {
             let sumamount = 0
             for (let i = 0; i < buyOrder.length; i++) {
@@ -25164,8 +25195,8 @@ export const orderBookData = async ({ pairId }) => {
             }
         }
         sellOrder = sellOrder.reverse();
-        console.log("buy",buyOrder)
-        console.log("sell",sellOrder)
+        console.log("buy", buyOrder)
+        console.log("sell", sellOrder)
         return {
             buyOrder,
             sellOrder
@@ -25189,9 +25220,9 @@ export const orderBookData = async ({ pairId }) => {
 */
 export const getOpenOrder = async (req, res) => {
     try {
-        console.log("getOpenOrder",req.body,req.user    )
+        console.log("getOpenOrder", req.body, req.user)
         let pagination = paginationQuery(req.query);
-        console.log("open",req.params)
+        console.log("open", req.params)
         let count = await SpotTrade.countDocuments({
             "userId": req.user.id,
             'pairId': req.params.pairId,
@@ -25232,10 +25263,10 @@ export const getOpenOrder = async (req, res) => {
             'limit': pagination.limit,
             data
         }
-         console.log("openorder",result)
+        console.log("openorder", result)
         return res.status(200).json({ 'success': true, result })
     } catch (err) {
-        console.log(err,'errrr')
+        console.log(err, 'errrr')
         return res.status(500).json({ 'success': false })
     }
 }
@@ -25294,7 +25325,7 @@ export const allOpenOrder = async (req, res) => {
         }
         return res.status(200).json({ 'success': true, result })
     } catch (err) {
-        console.log(err,'allOpenOrder')
+        console.log(err, 'allOpenOrder')
         return res.status(500).json({ 'success': false })
     }
 }
@@ -25393,14 +25424,14 @@ export const getOpenOrderSocket = async (userId, pairId) => {
 
         let result = {
             pairId,
-            handelcount:count.length,
+            handelcount: count.length,
             count: data.length,
             'currentPage': 1,
             'nextPage': count.length > data.length,
             'limit': 10,
             data
         }
-        console.log("openordersocket",result.pairId)
+        console.log("openordersocket", result.pairId)
         socketEmitOne('openOrder', result, userId)
         return true
     } catch (err) {
@@ -25562,16 +25593,16 @@ export const getOrderHistory = async (req, res) => {
                     "stopPrice": 1,
                     "averageTotal": {
                         $reduce: {
-                          input: "$filled",
-                          initialValue: 0,
-                          in: {
-                            $avg: {
-                              $add: [
-                                "$$value",
-                                { $multiply: ["$$this.price", "$$this.filledQuantity"] },
-                              ],
+                            input: "$filled",
+                            initialValue: 0,
+                            in: {
+                                $avg: {
+                                    $add: [
+                                        "$$value",
+                                        { $multiply: ["$$this.price", "$$this.filledQuantity"] },
+                                    ],
+                                },
                             },
-                          },
                         },
                     }
                 }
@@ -25584,7 +25615,7 @@ export const getOrderHistory = async (req, res) => {
             'limit': pagination.limit,
             data
         }
-        console.log("orderhistory",result)
+        console.log("orderhistory", result)
         return res.status(200).json({ 'success': true, result })
     } catch (err) {
         return res.status(500).json({ 'success': false })
@@ -25627,16 +25658,16 @@ export const getOrderHistorySocket = async (userId, pairId) => {
                     "buyorsell": 1,
                     "averageTotal": {
                         $reduce: {
-                          input: "$filled",
-                          initialValue: 0,
-                          in: {
-                            $avg: {
-                              $add: [
-                                "$$value",
-                                { $multiply: ["$$this.price", "$$this.filledQuantity"] },
-                              ],
+                            input: "$filled",
+                            initialValue: 0,
+                            in: {
+                                $avg: {
+                                    $add: [
+                                        "$$value",
+                                        { $multiply: ["$$this.price", "$$this.filledQuantity"] },
+                                    ],
+                                },
                             },
-                          },
                         },
                     },
                     "price": 1,
@@ -25726,7 +25757,7 @@ export const getTradeHistory = async (req, res) => {
             'limit': pagination.limit,
             data
         }
-        console.log("TradeHistory",result)
+        console.log("TradeHistory", result)
         return res.status(200).json({ 'success': true, result })
     } catch (err) {
         return res.status(500).json({ 'success': false })
@@ -26137,7 +26168,7 @@ export const triggerStopLimitOrder = async (spotPairData) => {
 
         }
     } catch (err) {
-        console.log(err,'triggerStopLimitOrder')
+        console.log(err, 'triggerStopLimitOrder')
     }
 }
 
@@ -26161,7 +26192,7 @@ export const triggerStopMarketOrder = async (spotPairData) => {
             if (takeProfitOrder && takeProfitOrder.length > 0) {
                 for (let profitOrder of takeProfitOrder) {
 
-                    let newOrder = await SpotTrade.findOneAndUpdate({ "_id": profitOrder._id }, { "status": "open",'price': spotPairData.markPrice }, { "new": true })
+                    let newOrder = await SpotTrade.findOneAndUpdate({ "_id": profitOrder._id }, { "status": "open", 'price': spotPairData.markPrice }, { "new": true })
                     getOpenOrderSocket(newOrder.userId, newOrder.pairId)
                     getOrderBookSocket(newOrder.pairId)
                     await tradeList(newOrder, spotPairData)
@@ -26178,7 +26209,7 @@ export const triggerStopMarketOrder = async (spotPairData) => {
 
             if (stopLossOrder && stopLossOrder.length > 0) {
                 for (let lossOrder of stopLossOrder) {
-                    let newOrder = await SpotTrade.findOneAndUpdate({ "_id": lossOrder._id }, { "status": "open",'price': spotPairData.markPrice }, { "new": true })
+                    let newOrder = await SpotTrade.findOneAndUpdate({ "_id": lossOrder._id }, { "status": "open", 'price': spotPairData.markPrice }, { "new": true })
                     getOpenOrderSocket(newOrder.userId, newOrder.pairId)
                     getOrderBookSocket(newOrder.pairId)
                     await tradeList(newOrder, spotPairData)
@@ -26188,7 +26219,7 @@ export const triggerStopMarketOrder = async (spotPairData) => {
 
         }
     } catch (err) {
-        console.log(err,'triggerStopMarketOrder')
+        console.log(err, 'triggerStopMarketOrder')
     }
 }
 
@@ -26309,14 +26340,14 @@ export const getRecentTrade = async (req, res) => {
                 'secondCurrencySymbol': pairData.secondCurrencySymbol
             })
             if (recentTradeData && recentTradeData.length > 0) {
-                console.log("rectradebtc",recentTradeData)
+                console.log("rectradebtc", recentTradeData)
                 return res.status(200).json({ 'success': true, 'result': recentTradeData })
-                
+
             }
         } else {
             let recentTradeData = await recentTrade(req.params.pairId);
             if (recentTradeData.status) {
-                console.log("rectradeusdt",recentTradeData.result)
+                console.log("rectradeusdt", recentTradeData.result)
                 return res.status(200).json({ 'success': true, 'result': recentTradeData.result })
             }
         }

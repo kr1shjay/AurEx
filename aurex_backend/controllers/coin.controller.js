@@ -206,9 +206,9 @@ export const generateCryptoAddr = async ({
       return [];
     }
     let assetList = [];
-    // console.log(currencyList, "currencyListcurrencyList");
+    console.log(currencyList, "currencyListcurrencyList");
     for (let currency of currencyList) {
-      console.log(
+      console.log(currency,
         currency.depositType == "local",
         "currency.depositType =='local'"
       );
@@ -242,7 +242,9 @@ export const generateCryptoAddr = async ({
             address: "",
             destTag: "",
           };
+          
           let ntwAddDoc = await ntwAddress(currency.coin, option);
+          console.log(ntwAddDoc,'ntwAddDoc')
           if (ntwAddDoc.status) {
             assetObj["address"] = ntwAddDoc.address;
             assetObj["privateKey"] =
@@ -252,7 +254,7 @@ export const generateCryptoAddr = async ({
             assetObj["destTag"] = ntwAddDoc.destTag ? ntwAddDoc.destTag : "";
           }
           assetList.push(assetObj);
-        } else if (currency.depositType == "  ") {
+        } else if (currency.depositType == "coin_payment") {
           console.log("option.emailId", option.emailId);
           let emailId = "AUREX" + option.emailId; // user registered address
           let ipnUrl = config.IPN_URL; // config ipn url
@@ -279,6 +281,79 @@ export const generateCryptoAddr = async ({
     return [];
   }
 };
+
+
+export const generateSingleCryptoAddr  =  async({currency,option})=>{
+  try{
+    console.log(currency,option,'generateSingleCryptoAddr')
+    if (
+      currency.depositType == "binance" &&
+      !isEmpty(option) &&
+      !isEmpty(option.binSubAcctEmail)
+    ) {
+      let subAccAsset = await binanceCtrl.subAccDepAddr({
+        email: option.binSubAcctEmail,
+        coin: currency.coin,
+      });
+      let assetObj = {
+        _id: currency._id,
+        coin: currency.coin,
+        privateKey: "",
+      };
+
+      if (subAccAsset.status) {
+        assetObj["address"] = subAccAsset.address;
+        assetObj["destTag"] = subAccAsset.tag;
+      }
+      // assetList.push(assetObj);
+      return assetObj
+    } else if (currency.depositType == "local") {
+      console.log(currency.depositType == "local", "currency.depositType");
+      let assetObj = {
+        _id: currency._id,
+        coin: currency.coin,
+        privateKey: "",
+        address: "",
+        destTag: "",
+      };
+      
+      let ntwAddDoc = await ntwAddress(currency.coin, option);
+      console.log(ntwAddDoc,'ntwAddDoc')
+      if (ntwAddDoc.status) {
+        assetObj["address"] = ntwAddDoc.address;
+        assetObj["privateKey"] =
+          ntwAddDoc && ntwAddDoc.privateKey
+            ? encryptString(ntwAddDoc.privateKey)
+            : "";
+        assetObj["destTag"] = ntwAddDoc.destTag ? ntwAddDoc.destTag : "";
+      }
+      // assetList.push(assetObj);
+      return assetObj
+    } else if (currency.depositType == "coin_payment") {
+      console.log("option.emailId", option.emailId);
+      let emailId = "AUREX" + option.emailId; // user registered address
+      let ipnUrl = config.IPN_URL; // config ipn url
+      var coinpayment_details = await coinPayment.createAddress(
+        currency.coin,
+        emailId,
+        ipnUrl
+      );
+
+      let assetObj = {
+        _id: currency._id,
+        coin: currency.coin,
+        privateKey: coinpayment_details.privateKey,
+      };
+
+      assetObj["address"] = coinpayment_details.address;
+      assetObj["destTag"] = coinpayment_details.destTag;
+      // assetList.push(assetObj);
+      return assetObj
+    }
+  }catch(err){
+    console.log(err,'generateSingleCryptoAddress__err')
+  }
+}
 
 /**
  * Generate Token Address
@@ -390,9 +465,103 @@ export const generateTokenAddr = async ({ currencyList = [], walletData }) => {
     }
     return assetList;
   } catch (err) {
+    console.log(err,"generateTokenAddr__err")
     return [];
   }
 };
+
+export const generateSingleTokenAddr  =  async({currency,walletData})=>{
+  try{
+    if (
+      currency &&
+      currency.type == "token" &&
+      walletData.assets &&
+      walletData.assets.length > 0
+    ) {
+      // if (currency.tokenType == 'erc20') {
+      //     let ETH = walletData.assets.find(el => el.coin == 'ETH');
+      //     if (ETH) {
+      //         let assetObj = {
+      //             "_id": currency._id,
+      //             "coin": currency.coin,
+      //             'address': ETH.address,
+      //             'privateKey': ETH.privateKey,
+      //         }
+      //         assetList.push(assetObj)
+      //     }
+      // } else
+      // console.log(currency.tokenType, "currency.tokenType");
+      if (currency.tokenType == "bep20") {
+        let assetObj = {
+          _id: currency._id,
+          coin: currency.coin,
+          privateKey: "",
+          address: "",
+          destTag: "",
+        };
+        let ntwAddDoc = await ntwAddress("BNB");
+        if (ntwAddDoc.status) {
+          assetObj["address"] = ntwAddDoc.address;
+          assetObj["privateKey"] =
+            ntwAddDoc && ntwAddDoc.privateKey
+              ? encryptString(ntwAddDoc.privateKey)
+              : "";
+        }
+        // assetList.push(assetObj);
+        return assetObj
+      } else if (currency.tokenType == "trc20") {
+        let assetObj = {
+          _id: currency._id,
+          coin: currency.coin,
+          privateKey: "",
+          address: "",
+          destTag: "",
+        };
+        let ntwAddDoc = await ntwAddress("TRX");
+        if (ntwAddDoc.status) {
+          assetObj["address"] = ntwAddDoc.address;
+          assetObj["privateKey"] =
+            ntwAddDoc && ntwAddDoc.privateKey
+              ? encryptString(ntwAddDoc.privateKey)
+              : "";
+        }
+        return assetObj
+        // assetList.push(assetObj);
+        // console.log(currency.tokenType, "currency.tokenType");
+      } else if (currency.tokenType == "erc20") {
+        let assetObj = {
+          _id: currency._id,
+          coin: currency.coin,
+          privateKey: "",
+          address: "",
+          destTag: "",
+        };
+        let ntwAddDoc = await ntwAddress("ETH");
+        if (ntwAddDoc.status) {
+          assetObj["address"] = ntwAddDoc.address;
+          assetObj["privateKey"] =
+            ntwAddDoc && ntwAddDoc.privateKey
+              ? encryptString(ntwAddDoc.privateKey)
+              : "";
+        }
+        // assetList.push(assetObj);
+        return assetObj
+      } else {
+        let assetObj = {
+          _id: currency._id,
+          coin: currency.coin,
+          privateKey: "",
+          address: "",
+          destTag: "",
+        };
+        return assetObj
+        // assetList.push(assetObj);
+      }
+    }
+  }catch(err){
+    console.log(err,'generateSingleCryptoAddress__err')
+  }
+}
 
 /**
  * Generate Address for fiat
@@ -418,6 +587,22 @@ export const generateFiatAddr = async ({ currencyList = [] }) => {
       // }
     }
     return assetList;
+  } catch (err) {
+    return [];
+  }
+};
+
+export const generateSingleFiatAddr = async ({ currency}) => {
+  try {
+      if (currency && currency.type == "fiat") {
+        // if (currency.depositType == 'coin_payment') {
+        let assetObj = {
+          _id: currency._id,
+          coin: currency.coin,
+          privateKey: "",
+        };
+        return assetObj
+      }
   } catch (err) {
     return [];
   }
@@ -476,6 +661,7 @@ export const isCryptoAddr = async (coin, address, currencyId) => {
  */
 export const ntwAddress = async (network, option) => {
   try {
+    console.log(network,'ntwAddress')
     // if (network == "BTC") {
     //     let reqData = {
     //         'userId': option.userId
@@ -509,8 +695,10 @@ export const ntwAddress = async (network, option) => {
     // } else
     // console.log(network, option, "network, option");
     if (network == "BNB") {
+      console.log("BNB BNB");
       return await bnbCtrl.createAddress();
     } else if (network == "TRX") {
+      console.log("TRX TRX");
       return await tronCtrl.createAddress();
     } else if (network == "ETH") {
       console.log("ETH ETH");
@@ -527,6 +715,7 @@ export const ntwAddress = async (network, option) => {
       status: false,
     };
   } catch (err) {
+    console.log(err,"ntwAddress__err")
     return {
       status: false,
     };

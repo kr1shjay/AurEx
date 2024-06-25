@@ -145,11 +145,8 @@ export const deposit = async (userId) => {
                 console.log(AssetData, "---------005BNB");
 
                 let beforeBalance = parseFloat(AssetData.spotBal);
-                console.log("50000000000000000005000000000000000000_beforeBalance", beforeBalance)
-
                 AssetData.spotBal =
                   parseFloat(AssetData.spotBal) + parseFloat(amount);
-                console.log("50000000000000000005000000000000000000_AssetData", AssetData, AssetData.spotBal)
                 let WalletData = await userData.save();
                 console.log(WalletData, "---------006BNB");
                 // CREATE PASS_BOOK
@@ -185,54 +182,64 @@ export const bnbMovetoAdmin = async ({
   try {
     console.log("BNB Amount Move to Admin");
     var userprivatekey = decryptString(userprivatekey);
+    web3.eth.accounts.wallet.add(userprivatekey);
     let balance = await web3.eth.getBalance(useraddress);
     let getGasPrice = await web3.eth.getGasPrice();
     let txCount = await web3.eth.getTransactionCount(useraddress);
-    var gaslimit = web3.utils.toHex(21000);
+    // var gaslimit = web3.utils.toHex(21000);
+    var gaslimit = await web3.eth.estimateGas({
+      from: useraddress,
+      to: adminAddress,
+      value: toFixedNumber(amount * 1000000000000000000).toString(),
+    });
     var fee = web3.utils.toHex(getGasPrice) * gaslimit;
 
-    amount = amount * 1000000000000000000 - fee;
+    amount = toFixedNumber(amount * 1000000000000000000 - fee);
     console.log(balance, "balancebalancebalanceBNB");
     console.log(amount, "amountamountamountBNB");
     console.log(balance > amount, "balance > amountBNB");
     if (balance > amount) {
       var updateVal = {};
-      const txObject = {
-        nonce: web3.utils.toHex(txCount),
-        gasLimit: web3.utils.toHex(gaslimit),
-        gasPrice: web3.utils.toHex(getGasPrice),
-        to: adminAddress.toString(),
-        // value: "0x1e18",
-        value: web3.utils.toHex(amount),
-      };
-      const common = await Common.forCustomChain(
-        "mainnet",
-        {
-          name: "bnb",
-          networkId: config.COIN_GATE_WAY.BNB.NETWORK_ID,
-          chainId: config.COIN_GATE_WAY.BNB.CHAIN_ID,
-        },
-        "petersburg"
-      );
+      // const txObject = {
+      //   nonce: web3.utils.toHex(txCount),
+      //   gasLimit: web3.utils.toHex(gaslimit),
+      //   gasPrice: web3.utils.toHex(getGasPrice),
+      //   to: adminAddress.toString(),
+      //   // value: "0x1e18",
+      //   value: web3.utils.toHex(amount),
+      // };
+      // const common = await Common.forCustomChain(
+      //   "mainnet",
+      //   {
+      //     name: "bnb",
+      //     networkId: config.COIN_GATE_WAY.BNB.NETWORK_ID,
+      //     chainId: config.COIN_GATE_WAY.BNB.CHAIN_ID,
+      //   },
+      //   "petersburg"
+      // );
 
-      const tx = Transaction.fromTxData(txObject, {
-        common,
-      });
-      const privateKey = Buffer.from(userprivatekey.substring(2, 66), "hex");
+      // const tx = Transaction.fromTxData(txObject, {
+      //   common,
+      // });
+      // const privateKey = Buffer.from(userprivatekey.substring(2, 66), "hex");
 
-      const signedTx = tx.sign(privateKey);
+      // const signedTx = tx.sign(privateKey);
 
-      const serializedTx = signedTx.serialize();
+      // const serializedTx = signedTx.serialize();
 
-      const raw1 = "0x" + serializedTx.toString("hex");
+      // const raw1 = "0x" + serializedTx.toString("hex");
 
-      let responseData = await web3.eth.sendSignedTransaction(raw1);
+      // let responseData = await web3.eth.sendSignedTransaction(raw1);
+
+      let responseData = await web3.eth.sendTransaction({ from: useraddress, to: adminAddress , value: amount.toString(), gas: gaslimit, getGasPrice });
       console.log(responseData, "responseDataresponseDataBNB");
+      web3.eth.accounts.wallet.remove(userprivatekey);
       return {
         status: true,
         message: "success",
       };
     } else {
+      web3.eth.accounts.wallet.remove(userprivatekey);
       console.log("USER BNB BALNCE NOT FOUND");
       return {
         status: false,
@@ -240,6 +247,7 @@ export const bnbMovetoAdmin = async ({
       };
     }
   } catch (err) {
+    web3.eth.accounts.wallet.remove(userprivatekey);
     console.log(err, "Amount Move to Admin Catch Error");
     return {
       status: false,
@@ -255,8 +263,10 @@ export const bnbMovetoUser = async ({
   userAddress,
 }) => {
   try {
+
     console.log("BNB Amount Move to User");
     var adminPrivatekey = decryptString(adminPrivatekey);
+    web3.eth.accounts.wallet.add(adminPrivatekey);
     // var adminPrivatekey = adminPrivatekey
 
     console.log(
@@ -272,7 +282,12 @@ export const bnbMovetoUser = async ({
     let balance = await web3.eth.getBalance(adminAddress);
     let getGasPrice = await web3.eth.getGasPrice();
     let txCount = await web3.eth.getTransactionCount(adminAddress);
-    var gaslimit = web3.utils.toHex(21000);
+    // var gaslimit = web3.utils.toHex(21000);
+    var gaslimit = await web3.eth.estimateGas({
+      from: adminAddress,
+      to: userAddress,
+      value: toFixedNumber(amount * 1000000000000000000).toString(),
+    });
     var fee = web3.utils.toHex(getGasPrice) * gaslimit;
     // var amount1 = amount * 1000000000000000000 - fee;
     var amount1 = amount * 1000000000000000000;
@@ -289,46 +304,45 @@ export const bnbMovetoUser = async ({
     console.log(balance > amount1, "balance > amount1BNB");
     if (balance > amount1) {
       // const amountToSend = web3.toWei(amount1, "ether");
-      var updateVal = {};
-      const txObject = {
-        nonce: web3.utils.toHex(txCount),
-        gasLimit: web3.utils.toHex(gaslimit),
-        gasPrice: web3.utils.toHex(getGasPrice),
-        to: userAddress.toString(),
-        // value: amountToSend ,
-        value: web3.utils.toHex(amount1),
-      };
-      console.log(txObject, "txobjecttttttttttttttttttBNB");
-      const common = await Common.forCustomChain(
-        "mainnet",
-        {
-          name: "bnb",
-          networkId: config.COIN_GATE_WAY.BNB.NETWORK_ID,
-          chainId: config.COIN_GATE_WAY.BNB.CHAIN_ID,
-        },
-        "petersburg"
-      );
-      // console.log(common,'commoncommoncommoncommon')
 
-      const tx = Transaction.fromTxData(txObject, { common });
-      // console.log(tx,'txtxtx')
+      // var updateVal = {};
+      // const txObject = {
+      //   nonce: web3.utils.toHex(txCount),
+      //   gasLimit: web3.utils.toHex(gaslimit),
+      //   gasPrice: web3.utils.toHex(getGasPrice),
+      //   to: userAddress.toString(),
+      //   value: web3.utils.toHex(amount1),
+      // };
+      // console.log(txObject, "txobjecttttttttttttttttttBNB");
+      // const common = await Common.forCustomChain(
+      //   "mainnet",
+      //   {
+      //     name: "bnb",
+      //     networkId: config.COIN_GATE_WAY.BNB.NETWORK_ID,
+      //     chainId: config.COIN_GATE_WAY.BNB.CHAIN_ID,
+      //   },
+      //   "petersburg"
+      // );
+      // // console.log(common,'commoncommoncommoncommon')
 
-      const privateKey = Buffer.from(adminPrivatekey.substring(2, 66), "hex");
+      // const tx = Transaction.fromTxData(txObject, { common });
+      // // console.log(tx,'txtxtx')
 
-      const signedTx = tx.sign(privateKey);
+      // const privateKey = Buffer.from(adminPrivatekey.substring(2, 66), "hex");
+      // const signedTx = tx.sign(privateKey);
 
-      const serializedTx = signedTx.serialize();
+      // const serializedTx = signedTx.serialize();
 
-      const raw1 = "0x" + serializedTx.toString("hex");
+      // const raw1 = "0x" + serializedTx.toString("hex");
 
-      let responseData = await web3.eth.sendSignedTransaction(raw1);
-
+      // let responseData = await web3.eth.sendSignedTransaction(raw1);
+      let responseData = await web3.eth.sendTransaction({ from: adminAddress, to: userAddress, value: amount1.toString(), gas: gaslimit, getGasPrice });
       var recamount = web3.utils.fromWei(
         amount1.toString(),
         // amount1,
         "ether"
       );
-
+      web3.eth.accounts.wallet.remove(adminPrivatekey);
       return {
         status: true,
         message: "Withdraw successfully",
@@ -336,6 +350,7 @@ export const bnbMovetoUser = async ({
       };
     } else {
       console.log("ther is no balance check it");
+      web3.eth.accounts.wallet.remove(adminPrivatekey);
       return {
         status: false,
         message: "BNB No Balance",
@@ -343,6 +358,7 @@ export const bnbMovetoUser = async ({
     }
   } catch (err) {
     console.log(err, "errerrerrerrerrerrerr");
+    web3.eth.accounts.wallet.remove(adminPrivatekey);
     return {
       status: false,
       message: err.toString(),
@@ -510,6 +526,24 @@ export const tokenDeposit = async (userId, currencySymbol) => {
   }
 };
 
+export const toFixedNumber = (x) => {
+  if (Math.abs(x) < 1.0) {
+    var e = parseInt(x.toString().split("e-")[1]);
+    if (e) {
+      x *= Math.pow(10, e - 1);
+      x = "0." + new Array(e).join("0") + x.toString().substring(2);
+    }
+  } else {
+    var e = parseInt(x.toString().split("+")[1]);
+    if (e > 20) {
+      e -= 20;
+      x /= Math.pow(10, e);
+      x += new Array(e + 1).join("0");
+    }
+  }
+  return x.toString();
+};
+
 export const tokenMoveToAdmin = async ({
   userPrivateKey,
   minAbi,
@@ -527,6 +561,10 @@ export const tokenMoveToAdmin = async ({
       contractAddress,
       "userPrivateKeyTOKENBNB"
     );
+    // let UserAddress  = web3.eth.accounts.privateKeyToAccount(userPrivateKey);
+    // // if(UserAddress.address.toLocaleLowerCase() !== userAddress.toLocaleLowerCase() ){
+
+    // // }
     let contract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
     let tokenbalance = await contract.methods.balanceOf(userAddress).call();
 
@@ -551,14 +589,16 @@ export const tokenMoveToAdmin = async ({
 
     console.log(muldecimal, "muldecimalBNB");
     // amount = parseFloat(amount) * parseFloat(muldecimal);
-    amount = parseFloat(amount) * 10**parseFloat(decimals);
+    amount = toFixedNumber(parseFloat(amount) * 10 ** parseFloat(decimals));
     console.log(tokenbalance, "tokenbalancetokenbalance");
     if (tokenbalance > 0) {
       let getBalance = await web3.eth.getBalance(userAddress);
       let txCount = await web3.eth.getTransactionCount(userAddress);
       let getGasPrice = await web3.eth.getGasPrice();
-      let gaslimit = web3.utils.toHex(500000);
-      let fee = web3.utils.toHex(getGasPrice) * gaslimit;
+      let params = [web3.utils.toChecksumAddress(adminAddress), amount.toString()]
+      let { gasLimit } = await EstGas(params, JSON.parse(minAbi), contractAddress, 'transfer', userAddress)
+      // let gaslimit = web3.utils.toHex(500000);
+      let fee = web3.utils.toHex(getGasPrice) * gasLimit;
       console.log(getBalance, "------------>>>>getBalanceBNB");
       console.log(fee, "------------>>>>feeBNB");
 
@@ -572,40 +612,45 @@ export const tokenMoveToAdmin = async ({
           web3.utils.toWei(amount.toString(), "ether")
         );
         // let tokenAmount = web3.utils.toHex(web3.utils.toWei(amount.toString(), "ether"));
-        let data = contract.methods
-          .transfer(adminAddress, amount.toString())
-          .encodeABI();
-        let transactionObject = {
-          gasLimit: web3.utils.toHex(500000),
-          gasPrice: web3.utils.toHex(getGasPrice),
-          data: data,
-          nonce: txCount,
-          from: userAddress,
-          to: contractAddress,
-        };
+        // let data = contract.methods
+        //   .transfer(adminAddress, amount.toString())
+        //   .encodeABI();
+        // let transactionObject = {
+        //   gasLimit: web3.utils.toHex(500000),
+        //   gasPrice: web3.utils.toHex(getGasPrice),
+        //   data: data,
+        //   nonce: txCount,
+        //   from: userAddress,
+        //   to: contractAddress,
+        // };
 
-        const common = await Common.forCustomChain(
-          "mainnet",
-          {
-            name: "bnb",
-            networkId: config.COIN_GATE_WAY.BNB.NETWORK_ID,
-            chainId: config.COIN_GATE_WAY.BNB.CHAIN_ID,
-          },
-          "petersburg"
-        );
+        // const common = await Common.forCustomChain(
+        //   "mainnet",
+        //   {
+        //     name: "bnb",
+        //     networkId: config.COIN_GATE_WAY.BNB.NETWORK_ID,
+        //     chainId: config.COIN_GATE_WAY.BNB.CHAIN_ID,
+        //   },
+        //   "petersburg"
+        // );
 
-        const tx = Transaction.fromTxData(transactionObject, {
-          common,
-        });
-        const privateKey = Buffer.from(userPrivateKey.substring(2, 66), "hex");
+        // const tx = Transaction.fromTxData(transactionObject, {
+        //   common,
+        // });
+        // const privateKey = Buffer.from(userPrivateKey.substring(2, 66), "hex");
 
-        const signedTx = tx.sign(privateKey);
+        // const signedTx = tx.sign(privateKey);
 
-        const serializedTx = signedTx.serialize();
+        // const serializedTx = signedTx.serialize();
 
-        const raw1 = "0x" + serializedTx.toString("hex");
+        // const raw1 = "0x" + serializedTx.toString("hex");
 
-        let result = await web3.eth.sendSignedTransaction(raw1);
+        // let result = await web3.eth.sendSignedTransaction(raw1);
+
+        web3.eth.accounts.wallet.add(userPrivateKey);
+        let Tokencontract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
+        let result = await Tokencontract.methods.transfer(web3.utils.toChecksumAddress(adminAddress), amount.toString()).send({ from: userAddress, gas: gasLimit, getGasPrice });
+        web3.eth.accounts.wallet.remove(userPrivateKey);
         return {
           status: true,
           result: result,
@@ -626,6 +671,20 @@ export const tokenMoveToAdmin = async ({
           adminPrivatekey: config.COIN_GATE_WAY.BNB.PRIVATE_KEY,
           userAddress: userAddress,
         });
+        if (status) {
+          console.log("BNB move from admim")
+          web3.eth.accounts.wallet.add(userPrivateKey);
+          let params = [web3.utils.toChecksumAddress(adminAddress), amount.toString()]
+          let { gasLimit } = await EstGas(params, JSON.parse(minAbi), contractAddress, 'transfer', userAddress)
+          let Tokencontract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
+          let result = await Tokencontract.methods.transfer(web3.utils.toChecksumAddress(adminAddress), amount.toString()).send({ from: userAddress, gas: gasLimit, getGasPrice });
+          console.log("Token move to admin")
+          web3.eth.accounts.wallet.remove(userPrivateKey);
+          return {
+            status: true,
+            result: result,
+          };
+        }
         return {
           status: false,
           message: "No Balance",
@@ -731,56 +790,64 @@ export const tokenMoveToUser = async ({
     }
     console.log(muldecimal, "parseFloat(muldecimal)");
     // amount = parseFloat(amount) * parseFloat(muldecimal);
-    amount = parseFloat(amount) * 10**parseFloat(decimals);
+    amount = parseFloat(amount) * 10 ** parseFloat(decimals);
     // amount = convert(amount)
     console.log(amount, "--------------amount");
     if (tokenbalance > 0) {
       let getBalance = await web3.eth.getBalance(adminAddress);
       let txCount = await web3.eth.getTransactionCount(adminAddress);
       let getGasPrice = await web3.eth.getGasPrice();
-      let gaslimit = web3.utils.toHex(500000);
+      let params = [web3.utils.toChecksumAddress(userAddress), amount.toString()]
+      let { gasLimit } = await EstGas(params, JSON.parse(minAbi), contractAddress, 'transfer', adminAddress)
+      // let gaslimit = web3.utils.toHex(500000);
+      let gaslimit = gasLimit;
       let fee = web3.utils.toHex(getGasPrice) * gaslimit;
 
       if (getBalance > fee) {
-        let tokenAmount = web3.utils.toHex(
-          web3.utils.toWei(amount.toString(), "ether")
-        );
-        // let tokenAmount = web3.utils.toHex(web3.utils.toWei(amount.toString(), "ether"));
-        let data = contract.methods
-          .transfer(userAddress, amount.toString())
-          .encodeABI();
-        console.log("🚀 ~ file: bnb.controller.js:883 ~ data:", data);
-        let transactionObject = {
-          gasLimit: web3.utils.toHex(500000),
-          gasPrice: web3.utils.toHex(getGasPrice),
-          data: data,
-          nonce: txCount,
-          from: adminAddress,
-          to: contractAddress,
-        };
+        // let tokenAmount = web3.utils.toHex(
+        //   web3.utils.toWei(amount.toString(), "ether")
+        // );
+        // // let tokenAmount = web3.utils.toHex(web3.utils.toWei(amount.toString(), "ether"));
+        // let data = contract.methods
+        //   .transfer(userAddress, amount.toString())
+        //   .encodeABI();
+        // console.log("🚀 ~ file: bnb.controller.js:883 ~ data:", data);
+        // let transactionObject = {
+        //   gasLimit: web3.utils.toHex(500000),
+        //   gasPrice: web3.utils.toHex(getGasPrice),
+        //   data: data,
+        //   nonce: txCount,
+        //   from: adminAddress,
+        //   to: contractAddress,
+        // };
 
-        const common = await Common.forCustomChain(
-          "mainnet",
-          {
-            name: "bnb",
-            networkId: config.COIN_GATE_WAY.BNB.NETWORK_ID,
-            chainId: config.COIN_GATE_WAY.BNB.CHAIN_ID,
-          },
-          "petersburg"
-        );
+        // const common = await Common.forCustomChain(
+        //   "mainnet",
+        //   {
+        //     name: "bnb",
+        //     networkId: config.COIN_GATE_WAY.BNB.NETWORK_ID,
+        //     chainId: config.COIN_GATE_WAY.BNB.CHAIN_ID,
+        //   },
+        //   "petersburg"
+        // );
 
-        const tx = Transaction.fromTxData(transactionObject, {
-          common,
-        });
-        const privateKey = Buffer.from(adminPrivateKey.substring(2, 66), "hex");
+        // const tx = Transaction.fromTxData(transactionObject, {
+        //   common,
+        // });
+        // const privateKey = Buffer.from(adminPrivateKey.substring(2, 66), "hex");
 
-        const signedTx = tx.sign(privateKey);
+        // const signedTx = tx.sign(privateKey);
 
-        const serializedTx = signedTx.serialize();
+        // const serializedTx = signedTx.serialize();
 
-        const raw1 = "0x" + serializedTx.toString("hex");
+        // const raw1 = "0x" + serializedTx.toString("hex");
 
-        let result = await web3.eth.sendSignedTransaction(raw1);
+        // let result = await web3.eth.sendSignedTransaction(raw1);
+        web3.eth.accounts.wallet.remove(adminPrivateKey);
+        let Tokencontract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
+        let result = await Tokencontract.methods.transfer(web3.utils.toChecksumAddress(userAddress), amount.toString()).send({ from: adminAddress, gas: gaslimit, getGasPrice });
+        console.log("Token move to user")
+        web3.eth.accounts.wallet.remove(adminPrivateKey);
 
         return {
           status: true,
@@ -806,6 +873,30 @@ export const tokenMoveToUser = async ({
     };
   }
 };
+
+export const EstGas = async (params, abi, contractAddress, methodName, account) => {
+  try {
+    // const web3 = await useWeb3();
+    const gasPrice = await web3.eth.getGasPrice();
+    console.log(gasPrice, "EstGas", params, contractAddress, methodName, account)
+
+    const Contract = new web3.eth.Contract(abi, contractAddress)
+    const encoded = await Contract.methods[methodName].apply(null, params).encodeABI();
+    let estimatedGasLimit = await web3.eth.estimateGas({
+      from: web3.utils.toChecksumAddress(account),
+      to: web3.utils.toChecksumAddress(contractAddress),
+      data: encoded,
+    });
+
+    return {
+      gasLimit: parseInt(estimatedGasLimit * 1.5, 10),
+      gasPrice: gasPrice
+    }
+  } catch (e) {
+    consolelog('EstGas_err', e, true);
+    return false
+  }
+}
 
 export const isAddress = (address) => {
   try {

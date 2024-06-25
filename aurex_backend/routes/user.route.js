@@ -99,6 +99,7 @@ router.route('/add-fav').post(apiKeyCtrl.authorization, userCtrl.AddFavorite)
 router.route('/get-fav').get(apiKeyCtrl.authorization, userCtrl.getFavorit)
 
 // wallet
+router.route('/getWalletAddress').post(apiKeyCtrl.authorization, walletCtrl.GenerateAddress);//
 // router.route('/getAssetsDetails').get(passportAuth, walletCtrl.getAssetsDetails);
 router.route('/getAssetsDetails').get(apiKeyCtrl.authorization, walletCtrl.getWallet);//
 router.route('/getHideoZeroStatus').get(apiKeyCtrl.authorization,walletCtrl.getHideZeroStatus).put(apiKeyCtrl.authorization,walletCtrl.updateHideZeroStatus);//
@@ -274,5 +275,5 @@ router.route('/getFilledOrderHistory').post(apiKeyCtrl.authorization, spotTradeC
 router.route('/checkEmail').post(apiKeyCtrl.authorization,userCtrl.checkEmail)//
 
 //tron api
-router.route('/energyLimit').post(tronCtrl.EnergyLimit)
+// router.route('/energyLimit').post(tronCtrl.EnergyLimit)
 export default router;

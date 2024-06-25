@@ -1,5 +1,5 @@
 // import package
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -12,14 +12,40 @@ import GridItem from "components/Grid/GridItem.js";
 // import lib
 import { toastAlert } from "../../lib/toastAlert";
 import isEmpty from "../../lib/isEmpty";
-import {createNotification} from '../../actions/notificationAction'
+import { createNotification } from '../../actions/notificationAction'
+import { getAddress } from "actions/walletAction";
+import { useDispatch } from "react-redux";
 
 const CryptoDeposit = (props) => {
   const { t, i18n } = useTranslation();
-
+  const [Asset, setAsset] = useState({})
+  const dispatch = useDispatch()
   // props
   const { show, assetData, currency, onHide } = props;
+  useEffect(() => {
+    console.log(assetData, 'Asset')
+    if(!isEmpty(assetData)){
+      generateAddress()
+    }
+    
+  }, [assetData])
 
+  const generateAddress = async () => {
+    try {
+      let data = {
+        currencyId: assetData?._id
+      }
+      // if (isEmpty(assetData.address)) {
+        let Asset = await getAddress(data,dispatch)
+        setAsset(Asset)
+      // } else {
+      //   setAsset(assetData)
+      // }
+
+    } catch (err) {
+      console.log(err, 'generateAddress__err')
+    }
+  }
   // function
   const handleClose = () => {
     onHide();
@@ -42,7 +68,7 @@ const CryptoDeposit = (props) => {
                   <input
                     type="text"
                     placeholder=""
-                    value={assetData && assetData.coin}
+                    value={Asset && Asset.coin}
                   />
                 </div>
               </div>
@@ -50,18 +76,18 @@ const CryptoDeposit = (props) => {
           </GridItem>
           <GridItem xs={12} sm={12} md={12} lg={12}>
             <label>
-              {t("YOUR")} {assetData && assetData.coin} {t("WALLET_ADDRESS")}
+              {t("YOUR")} {Asset && Asset.coin} {t("WALLET_ADDRESS")}
             </label>
             <div className="form-group  ">
               <div class="seacr_box_s right_qr_input">
                 <input
                   type="text"
                   placeholder=""
-                  value={assetData && assetData.address}
+                  value={Asset && Asset.address}
                 />
-                {assetData && !isEmpty(assetData.address) && (
+                {Asset && !isEmpty(Asset.address) && (
                   <CopyToClipboard
-                    text={assetData.address}
+                    text={Asset.address}
                     onCopy={() => {
                       toastAlert("success", "Copied", "wallet");
                     }}
@@ -73,7 +99,7 @@ const CryptoDeposit = (props) => {
             </div>
           </GridItem>
 
-          {assetData && !isEmpty(assetData.destTag) && (
+          {Asset && !isEmpty(Asset.destTag) && (
             <GridItem xs={12} sm={12} md={12} lg={12}>
               <label>{t("MEMO_TAG")}</label>
               <div className="form-group">
@@ -81,11 +107,11 @@ const CryptoDeposit = (props) => {
                   <input
                     type="text"
                     placeholder=""
-                    value={assetData && assetData.destTag}
+                    value={Asset && Asset.destTag}
                   />
-                  {assetData && !isEmpty(assetData.destTag) && (
+                  {Asset && !isEmpty(Asset.destTag) && (
                     <CopyToClipboard
-                      text={assetData.destTag}
+                      text={Asset.destTag}
                       onCopy={() => {
                         toastAlert("success", "Copied", "wallet");
                       }}
@@ -101,8 +127,8 @@ const CryptoDeposit = (props) => {
           <GridItem xs={12} sm={12} md={12} lg={12}>
             <div className="qr_cenet">
               <label className="text-white mb-3">{t("SCAN_QR_CODE")}</label>
-              {!isEmpty(assetData.address) && (
-                <QRCode value={assetData.address} />
+              {!isEmpty(Asset.address) && (
+                <QRCode value={Asset.address} />
               )}
               {/* <img src={require("../../assets/images/qr.png")} alt="logo" className="img-fluid" /> */}
             </div>
@@ -121,6 +147,7 @@ const CryptoDeposit = (props) => {
                   2. Deposit minimum deposit limit or greater than deposit limit
                 </li>
                 <li>3. {t("DEPOSIT_TIME")}</li>
+                <li>4.Deposit the selected currency only to this address. Other than depositing the selected currencies the fund will not be deposited to platform </li>
               </ul>
             </div>
           </GridItem>

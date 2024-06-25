@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"cfd395b692f847458f1f221ee7b7c8e7","collectionName":"spotpairs","type":"collection"}

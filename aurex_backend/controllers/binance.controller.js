@@ -116,7 +116,7 @@ export const spotOrderBookWS = async () => {
 
 
 
-                        sellOrder = sellOrder.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+                        sellOrder = sellOrder.sort((a, b) => parseFloat(a._id) - parseFloat(b._id));
 
                         if (sellOrder.length > 0) {
                             let sumAmount = 0
@@ -285,6 +285,30 @@ export const spotTickerPriceWS = async () => {
         }
     } catch (err) {
         console.log("Error on ticker binance ", err)
+    }
+}
+
+export const spotOrderBook = async (symbol) => {
+    try {
+        let payload = {
+            symbol: symbol
+        }
+        // const respData = await axios({
+        //     'url': `https://api.binance.com/api/v3/depth`,
+        //     'method': 'get',
+        //     'params': payload
+        // })
+        const respData = await axios.get(`https://api.binance.com/api/v3/depth?symbol=${symbol}`)
+        if (!isEmpty(respData)) {
+            return {
+                status: true,
+                sellOrderData: respData.data.asks,
+                buyOrderData: respData.data.bids
+            }
+        }
+
+    } catch (err) {
+        console.log(err, 'spotOrderBook___err')
     }
 }
 

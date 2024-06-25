@@ -16,7 +16,7 @@ import { createPassBook } from "./passbook.controller";
 // import config
 import config from "../config";
 import { autoWithdraw } from "../config/cron";
-
+import Web3 from "web3";
 // import lib
 // import { comparePassword } from '../lib/bcrypt';
 import imageFilter from "../lib/imageFilter";
@@ -200,17 +200,17 @@ export const getWallet = async (req, res) => {
       assetList && assetList.length > 0,
       "assetList && assetList.length > 0"
     );
-    if (assetList && assetList.length > 0) {
-      let updateAsset = await updateAddress(assetList, req.user.userId, {
-        walletId: walletData._id,
-        binSubAcctEmail: req.user.binSubAcctEmail,
-        emailId: req.user.email ? req.user.email : userInfo.phoneNo,
-      });
+    // if (assetList && assetList.length > 0) {
+    //   let updateAsset = await updateAddress(assetList, req.user.userId, {
+    //     walletId: walletData._id,
+    //     binSubAcctEmail: req.user.binSubAcctEmail,
+    //     emailId: req.user.email ? req.user.email : userInfo.phoneNo,
+    //   });
 
-      if (updateAsset && updateAsset.length > 0) {
-        usrAsset = updateAsset;
-      }
-    }
+    //   if (updateAsset && updateAsset.length > 0) {
+    //     usrAsset = updateAsset;
+    //   }
+    // }
     return res
       .status(200)
       .json({ success: true, messages: "successfully", result: usrAsset });
@@ -219,6 +219,172 @@ export const getWallet = async (req, res) => {
     return res.status(500).json({ success: false });
   }
 };
+
+
+export const GenerateAddress = async (req, res) => {
+  try {
+    let userId = req.user.id
+
+    let currencyId = req.body.currencyId
+    let walletDetails = await Wallet.findOne({ _id: ObjectId(userId) })
+    if (isEmpty(walletDetails)) {
+      return res
+        .status(400)
+        .json({ success: true, messages: "Wallet not found", });
+    }
+    console.log('GenerateAddress', ObjectId(userId), walletDetails)
+    let currencyData = await Currency.findOne({ _id: ObjectId(currencyId) })
+    if (isEmpty(currencyData)) {
+      return res
+        .status(400)
+        .json({ success: true, messages: "Currency not found", });
+    }
+    let Assets = walletDetails.assets.find((val) => (val._id.toString() == currencyId.toString()))
+    console.log('GenerateAddress', currencyData, walletDetails, Assets)
+    if (isEmpty(Assets)) {
+      return res
+        .status(400)
+        .json({ success: true, messages: "Assets not found", });
+    }
+    let userInfo = await User.findOne({
+      _id: req.user.id,
+    });
+    if (isEmpty(userInfo)) {
+      return res
+        .status(400)
+        .json({ success: true, messages: "User not found", });
+    }
+    let options = {
+      walletId: walletDetails._id,
+      binSubAcctEmail: req.user.binSubAcctEmail,
+      emailId: req.user.email ? req.user.email : userInfo.phoneNo,
+      userId:req.user.userId
+    }
+    
+    const web3 = new Web3(config.COIN_GATE_WAY.BNB.URL);
+    let userPrivateKey = decryptString(Assets.privateKey);
+    let UserAddress  =!isEmpty(Assets.privateKey) ?  web3.eth.accounts.privateKeyToAccount(userPrivateKey) : '';
+    console.log(UserAddress,userPrivateKey,'GenerateAddress')
+    if (isEmpty(Assets.address) || (isEmpty(Assets.privateKey) && currencyData.depositType == 'local')) {
+      console.log('GenerateAddress', currencyData, walletDetails, Assets)
+      let updateData
+      if (currencyData.type == 'crypto') {
+        updateData = await coinCtrl.generateSingleCryptoAddr({ currency: currencyData, option: options })
+      }
+      else if (currencyData.type == 'token') {
+        updateData = await coinCtrl.generateSingleTokenAddr({ currency: currencyData, walletData: walletDetails })
+      }
+      else if (currencyData.type == 'fiat') {
+        updateData = await coinCtrl.generateSingleFiatAddr({ currency: currencyData })
+      }
+      Assets.address = updateData.address
+      Assets.destTag = updateData.destTag
+      Assets.privateKey = updateData.privateKey
+      let updateWallet = await walletDetails.save()
+      return res
+        .status(200)
+        .json({ success: true, messages: "successfully", result: updateWallet.assets });
+    }else if(Assets.address.toLowerCase() != UserAddress.address.toLowerCase() && currencyData.depositType == 'local'){
+      let updateData
+      if (currencyData.type == 'crypto') {
+        updateData = await coinCtrl.generateSingleCryptoAddr({ currency: currencyData, option: options })
+      }
+      else if (currencyData.type == 'token') {
+        updateData = await coinCtrl.generateSingleTokenAddr({ currency: currencyData, walletData: walletDetails })
+      }
+      else if (currencyData.type == 'fiat') {
+        updateData = await coinCtrl.generateSingleFiatAddr({ currency: currencyData })
+      }
+      Assets.address = updateData.address
+      Assets.destTag = updateData.destTag
+      Assets.privateKey = updateData.privateKey
+      let updateWallet = await walletDetails.save()
+      return res
+        .status(200)
+        .json({ success: true, messages: "successfully", result: updateWallet.assets });
+    }
+    return res
+      .status(200)
+      .json({ success: true, messages: "Address already exists", result: walletDetails.assets ,assetData : Assets});
+  } catch (err) {
+    console.log(err, 'generateAddress__err')
+    return res
+      .status(500)
+      .json({ success: true, messages: "Something went worng", });
+  }
+}
+
+
+export const RegenerateAddress = async()=>{
+  try{
+    let walletDetails = await Wallet.find({})
+    for(let i=0;i<walletDetails.length;i++){
+      let userInfo = await User.findOne({
+        _id: walletDetails[i]._id,
+      });
+      console.log(userInfo,'RegenerateAddress')
+      // if(!isEmpty(userInfo)){
+      //   continue;
+      // }
+      let options = {
+        walletId: walletDetails[i]._id,
+        binSubAcctEmail: userInfo.binSubAcctEmail,
+        emailId: userInfo.email ? userInfo.email : userInfo.phoneNo,
+        userId:userInfo.userId
+      }
+      for(let j=0;j<walletDetails[i].assets.length ; j++){
+        
+        let Assets = walletDetails[i].assets[j]
+        let currencyData = await Currency.findOne({ _id: ObjectId(Assets._id) })
+        const web3 = new Web3(config.COIN_GATE_WAY.BNB.URL);
+        let userPrivateKey = decryptString(Assets.privateKey);
+        let UserAddress  =!isEmpty(Assets.privateKey) ?  web3.eth.accounts.privateKeyToAccount(userPrivateKey) : '';
+        console.log(UserAddress,userPrivateKey,'GenerateAddress')
+        if (isEmpty(Assets.address) || isEmpty(Assets.privateKey)) {
+          console.log('GenerateAddress', currencyData, walletDetails, Assets)
+          let updateData
+          if (currencyData.type == 'crypto') {
+            updateData = await coinCtrl.generateSingleCryptoAddr({ currency: currencyData, option: options })
+          }
+          else if (currencyData.type == 'token') {
+            updateData = await coinCtrl.generateSingleTokenAddr({ currency: currencyData, walletData: walletDetails[i] })
+          }
+          else if (currencyData.type == 'fiat') {
+            updateData = await coinCtrl.generateSingleFiatAddr({ currency: currencyData })
+          }
+          Assets.address = updateData.address
+          Assets.destTag = updateData.destTag
+          Assets.privateKey = updateData.privateKey
+          let updateWallet = await walletDetails[i].save()
+          // return res
+          //   .status(200)
+          //   .json({ success: true, messages: "successfully", result: updateWallet.assets });
+        }else if(Assets.address.toLowerCase() != UserAddress.address.toLowerCase()){
+          let updateData
+          if (currencyData.type == 'crypto') {
+            updateData = await coinCtrl.generateSingleCryptoAddr({ currency: currencyData, option: options })
+          }
+          else if (currencyData.type == 'token') {
+            updateData = await coinCtrl.generateSingleTokenAddr({ currency: currencyData, walletData: walletDetails[i] })
+          }
+          else if (currencyData.type == 'fiat') {
+            updateData = await coinCtrl.generateSingleFiatAddr({ currency: currencyData })
+          }
+          console.log(updateData,'updateData')
+          Assets.address = updateData.address
+          Assets.destTag = updateData.destTag
+          Assets.privateKey = updateData.privateKey
+          let updateWallet = await walletDetails[i].save()
+          // return res
+          //   .status(200)
+          //   .json({ success: true, messages: "successfully", result: updateWallet.assets });
+        }
+      }
+    }
+  }catch(err){
+    console.log(err,'RegenerateAddress__err')
+  }
+}
 
 //walletbalance
 
@@ -298,47 +464,54 @@ export const updateAddress = async (assetList, userId, option = {}) => {
     ]);
     // console.log("USer option : ", option)
     let walletData;
-    console.log(currencyList, "currencyListcurrencyList");
+    console.log(currencyList[0].crypto, "currencyListcurrencyList");
     console.log(currencyList[0].token, "currencyListcurrencyList_new", currencyList[0].token && currencyList[0].token.length > 0);
     if (currencyList && currencyList.length > 0) {
       if (currencyList[0].crypto && currencyList[0].crypto.length > 0) {
-        for (let cryptoData of currencyList[0].crypto) {
+        // for (let cryptoData of currencyList[0].crypto) {
+        for (let i = 0; i < currencyList[0].crypto.length; i++) {
+          let cryptoData = currencyList[0].crypto[i]
+          console.log(i, cryptoData, 'cryptoData', currencyList[0].crypto.length)
           let cryptoDoc = await coinCtrl.generateCryptoAddr({
             currencyList: [cryptoData],
             option: { ...option, userId: userId },
           });
 
-          walletData = await Wallet.findOneAndUpdate(
-            {
-              userId: userId,
-              "assets._id": cryptoData._id,
-            },
-            {
-              $set: {
-                "assets.$.address": cryptoDoc[0].address,
-                "assets.$.destTag": cryptoDoc[0].destTag,
-                "assets.$.privateKey": cryptoDoc[0].privateKey,
+          console.log(cryptoDoc, 'cryptoDoc__cryptoDoc')
+          if (cryptoDoc.length > 0) {
+            walletData = await Wallet.findOneAndUpdate(
+              {
+                userId: userId,
+                "assets._id": cryptoData._id,
               },
-            },
-            {
-              fields: {
-                _id: 0,
-                binSubAcctId: 1,
-                "assets._id": 1,
-                "assets.coin": 1,
-                "assets.address": 1,
-                "assets.destTag": 1,
-                "assets.spotBal": 1,
-                "assets.derivativeBal": 1,
-                "assets.p2pBal": 1,
+              {
+                $set: {
+                  "assets.$.address": cryptoDoc[0].address,
+                  "assets.$.destTag": cryptoDoc[0].destTag,
+                  "assets.$.privateKey": cryptoDoc[0].privateKey,
+                },
               },
-              new: true,
-            }
-          );
+              {
+                fields: {
+                  _id: 0,
+                  binSubAcctId: 1,
+                  "assets._id": 1,
+                  "assets.coin": 1,
+                  "assets.address": 1,
+                  "assets.destTag": 1,
+                  "assets.spotBal": 1,
+                  "assets.derivativeBal": 1,
+                  "assets.p2pBal": 1,
+                },
+                new: true,
+              }
+            );
+          }
+
         }
       }
       if (currencyList[0].token && currencyList[0].token.length > 0) {
-        console.log(tokenData, "tokenData_inside_condition",'**************');
+        // console.log(tokenData, "tokenData_inside_condition",'**************');
         for (let tokenData of currencyList[0].token) {
           console.log(tokenData, "tokenData_insidefor");
           walletData = await Wallet.findOne({ userId: userId });
@@ -415,6 +588,7 @@ export const updateAddress = async (assetList, userId, option = {}) => {
     }
     return [];
   } catch (err) {
+    console.log(err, "updateAddress__errr")
     return [];
   }
 };
@@ -795,8 +969,8 @@ export const withdrawCoinRequest = async (req, res) => {
       }
 
       // let finalAmount = reqBody.amount + precentConvetPrice(reqBody.amount, curData.withdrawFee)
-      let feePerc =  parseFloat(reqBody.amount) * (parseFloat(curData.withdrawFee)/100)
-      console.log(feePerc,"handleChange__err")
+      let feePerc = parseFloat(reqBody.amount) * (parseFloat(curData.withdrawFee) / 100)
+      console.log(feePerc, "handleChange__err")
       let finalAmount = reqBody.amount + parseFloat(feePerc);
       if (usrAsset.spotBal < finalAmount) {
         return res.status(400).json({
@@ -1752,7 +1926,7 @@ export const AutoWithdraw = async () => {
         }
       }
     }
-  } catch (err) {}
+  } catch (err) { }
 };
 
 /**

@@ -61,6 +61,7 @@ export const encryptString = (encryptValue, isSpecialCharacters = false) => {
         if (isSpecialCharacters) {
             return replaceSpecialCharacter(ciphertext, 'encrypt')
         }
+        console.log(ciphertext, 'encryptString')
         return ciphertext
     }
     catch (err) {
@@ -77,7 +78,7 @@ export const decryptString = (decryptValue, isSpecialCharacters = false) => {
         let bytes = CryptoJS.AES.decrypt(decryptValue.toString(), config.cryptoSecretKey);
         // console.log("bytes",bytes)
         let originalText = bytes.toString(CryptoJS.enc.Utf8);
-        // console.log("originalText",originalText)
+        console.log("originalText", originalText)
         return originalText
     }
     catch (err) {
@@ -103,7 +104,7 @@ export const decryptObject = (decryptValue) => {
         return decryptedData
     }
     catch (err) {
-        console.log(err,'decryptObject')
+        console.log(err, 'decryptObject')
         return ''
     }
 }

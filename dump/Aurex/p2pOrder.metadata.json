@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"orderId":{"$numberInt":"1"}},"name":"orderId_1","background":true,"unique":true}],"uuid":"d59b27d9545245baa4f6d6ad22fb3b1d","collectionName":"p2pOrder","type":"collection"}
