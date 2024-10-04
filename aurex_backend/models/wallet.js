@@ -56,7 +56,7 @@ const walletSchema = new Schema({
 	},
 	hideZeroStatus: {
 		type: Boolean,
-		default: false,
+		default: true,
 	},
 	assets: [AssetsSchema]
 }, {

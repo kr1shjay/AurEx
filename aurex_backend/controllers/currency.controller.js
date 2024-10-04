@@ -48,6 +48,22 @@ let currencyUpload = multer({
   limits: { fileSize: config.IMAGE.CURRENCY_SIZE },
 }).fields([{ name: "image", maxCount: 1 }]);
 
+const Addpreference = async () => {
+  try {
+    let CurrencyData = await Currency.find()
+    if (CurrencyData.length > 0) {
+      for (let i = 0; i < CurrencyData.length; i++) {
+        CurrencyData[i].preference = i + 1
+        await CurrencyData[i].save()
+      }
+    }
+  } catch (err) {
+    console.log(err, 'Addpreference__err')
+  }
+}
+
+// Addpreference()
+
 export const uploadCurrency = (req, res, next) => {
   currencyUpload(req, res, function (err) {
     if (!isEmpty(req.validationError)) {
@@ -164,7 +180,7 @@ export const currencyList = async (req, res) => {
         depositStatus: 1,
         withdrawStatus: 1,
         depositminlimit: 1,
-        preference:1
+        preference: 1
       })
       // .sort({ createdAt: -1 });
 
@@ -203,10 +219,10 @@ export const currencyList = async (req, res) => {
         depositStatus: 1,
         withdrawStatus: 1,
         depositminlimit: 1,
-        preference:1
+        preference: 1
       }).sort({ createdAt: -1 });
       // .skip(pagination.skip).limit(pagination.limit);
-// console.log("datadatadata", data);
+      // console.log("datadatadata", data);
       data.sort(function (a, b) {
         return parseFloat(a.preference) - parseFloat(b.preference);
       });
@@ -244,9 +260,9 @@ export const currencyList = async (req, res) => {
         depositStatus: 1,
         withdrawStatus: 1,
         depositminlimit: 1,
-        preference:1
+        preference: 1
       })
-        .sort({ createdAt: -1 })
+        // .sort({ createdAt: -1 })
         .skip(pagination.skip)
         .limit(pagination.limit);
 
@@ -320,31 +336,30 @@ export const addCurrency = async (req, res) => {
     }
 
 
-      if(!isEmpty(reqBody.tokenType)){
-        checkIstokenValid = await useToken(reqBody.tokenType,reqBody.contractAddress);
-        console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
-        let checkContractAddress = await Currency.findOne({ contractAddress: reqBody.contractAddress });
-        if(checkContractAddress){
-          return res
+    if (!isEmpty(reqBody.tokenType)) {
+      checkIstokenValid = await useToken(reqBody.tokenType, reqBody.contractAddress);
+      console.log("checkIstokenValid_data", checkIstokenValid, reqBody.depositType)
+      let checkContractAddress = await Currency.findOne({ contractAddress: reqBody.contractAddress });
+      if (checkContractAddress) {
+        return res
           .status(400)
           .json({ success: false, errors: { contractAddress: "ContractAddress already exists" } });
-        }
-        if (!checkIstokenValid.status) {
-          return res
-            .status(400)
-            .json({ success: false, errors: { contractAddress: "Invalid contract address" } });
-        }
       }
-      
+      if (!checkIstokenValid.status) {
+        return res
+          .status(400)
+          .json({ success: false, errors: { contractAddress: "Invalid contract address" } });
+      }
+    }
+
     let checkCurrency = await Currency.findOne({ coin: reqBody.coin });
-    
+
     if (checkCurrency) {
       return res
         .status(400)
         .json({ success: false, errors: { coin: "Coin already exists" } });
     }
     // console.log("files name ---", reqFile.image[0].filename);
-
     const newDoc = new Currency({
       name: reqBody.name,
       coin: reqBody.coin,
@@ -367,7 +382,7 @@ export const addCurrency = async (req, res) => {
       newDoc["minABI"] = JSON.stringify(ABI);
       newDoc["decimal"] = reqBody.decimals;
       newDoc["tokenType"] = reqBody.tokenType;
-    
+
 
     } else if (reqBody.type == "token" && reqBody.depositType == "coin_payment") {
       newDoc["contractAddress"] = reqBody.contractAddress;
@@ -422,10 +437,10 @@ export const updateCurrency = async (req, res) => {
     }
     let currencyDoc = await Currency.findOne({ _id: reqBody.currencyId });
     var PreferenceData = await Currency.findOne({ preference: reqBody.preference })
-    if(PreferenceData){
+    if (PreferenceData) {
       PreferenceData.preference = currencyDoc.preference
       await PreferenceData.save()
-  }
+    }
 
 
     currencyDoc.name = reqBody.name;

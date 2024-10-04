@@ -1,11 +1,11 @@
 // import package
 import mongoose from "mongoose";
-import node2fa from "node-2fa";
+import * as node2fa from 'node-2fa'
 import multer from "multer";
 import path from "path";
 
 // import model
-import { User, UserKyc, Transaction, Currency, Wallet } from "../models";
+import { User, UserKyc, Transaction, Currency, Wallet, UserSetting } from "../models";
 
 // import controller
 import { mailTemplateLang } from "./emailTemplate.controller";
@@ -50,6 +50,21 @@ let walletUpload = multer({
   limits: { fileSize: config.IMAGE.DEFAULT_SIZE },
 }).fields([{ name: "image", maxCount: 1 }]);
 
+export const AutoUpdate = async () => {
+  try {
+    let userSettingData = await UserSetting.find({})
+    for (let i = 0; i < userSettingData.length; i++) {
+      userSettingData[i].currencySymbol = 'USDT'
+      userSettingData[i].afterLogin = {
+        page: 'dashboard',
+        url: '/dashboard'
+      }
+      await userSettingData[i].save()
+    }
+  } catch (err) {
+    console.log(err, 'AutoUpdate__err')
+  }
+}
 export const uploadWalletDoc = (req, res, next) => {
   walletUpload(req, res, function (err) {
     if (!isEmpty(req.validationError)) {
@@ -149,10 +164,10 @@ export const updateHideZeroStatus = async (req, res) => {
       { hideZeroStatus: reqBody.hideZeroStatus },
       { new: true }
     );
-
+    let message = reqBody.hideZeroStatus == true ? "zero balance asstes show successfully" : "zero balance asstes hide  successfully"
     return res.status(200).json({
       success: true,
-      message: "zero balance asstes hide  successfully",
+      message: message,
     });
   } catch (err) {
     console.log("errrrrrrrrrrrrrrrrrr", err);
@@ -258,13 +273,13 @@ export const GenerateAddress = async (req, res) => {
       walletId: walletDetails._id,
       binSubAcctEmail: req.user.binSubAcctEmail,
       emailId: req.user.email ? req.user.email : userInfo.phoneNo,
-      userId:req.user.userId
+      userId: req.user.userId
     }
-    
+
     const web3 = new Web3(config.COIN_GATE_WAY.BNB.URL);
     let userPrivateKey = decryptString(Assets.privateKey);
-    let UserAddress  =!isEmpty(Assets.privateKey) ?  web3.eth.accounts.privateKeyToAccount(userPrivateKey) : '';
-    console.log(UserAddress,userPrivateKey,'GenerateAddress')
+    let UserAddress = !isEmpty(Assets.privateKey) ? web3.eth.accounts.privateKeyToAccount(userPrivateKey) : '';
+    console.log(UserAddress, userPrivateKey, 'GenerateAddress')
     if (isEmpty(Assets.address) || (isEmpty(Assets.privateKey) && currencyData.depositType == 'local')) {
       console.log('GenerateAddress', currencyData, walletDetails, Assets)
       let updateData
@@ -284,7 +299,7 @@ export const GenerateAddress = async (req, res) => {
       return res
         .status(200)
         .json({ success: true, messages: "successfully", result: updateWallet.assets });
-    }else if(Assets.address.toLowerCase() != UserAddress.address.toLowerCase() && currencyData.depositType == 'local'){
+    } else if (Assets.address.toLowerCase() != UserAddress.address.toLowerCase() && currencyData.depositType == 'local') {
       let updateData
       if (currencyData.type == 'crypto') {
         updateData = await coinCtrl.generateSingleCryptoAddr({ currency: currencyData, option: options })
@@ -305,7 +320,7 @@ export const GenerateAddress = async (req, res) => {
     }
     return res
       .status(200)
-      .json({ success: true, messages: "Address already exists", result: walletDetails.assets ,assetData : Assets});
+      .json({ success: true, messages: "Address already exists", result: walletDetails.assets, assetData: Assets });
   } catch (err) {
     console.log(err, 'generateAddress__err')
     return res
@@ -315,14 +330,14 @@ export const GenerateAddress = async (req, res) => {
 }
 
 
-export const RegenerateAddress = async()=>{
-  try{
+export const RegenerateAddress = async () => {
+  try {
     let walletDetails = await Wallet.find({})
-    for(let i=0;i<walletDetails.length;i++){
+    for (let i = 0; i < walletDetails.length; i++) {
       let userInfo = await User.findOne({
         _id: walletDetails[i]._id,
       });
-      console.log(userInfo,'RegenerateAddress')
+      console.log(userInfo, 'RegenerateAddress')
       // if(!isEmpty(userInfo)){
       //   continue;
       // }
@@ -330,16 +345,16 @@ export const RegenerateAddress = async()=>{
         walletId: walletDetails[i]._id,
         binSubAcctEmail: userInfo.binSubAcctEmail,
         emailId: userInfo.email ? userInfo.email : userInfo.phoneNo,
-        userId:userInfo.userId
+        userId: userInfo.userId
       }
-      for(let j=0;j<walletDetails[i].assets.length ; j++){
-        
+      for (let j = 0; j < walletDetails[i].assets.length; j++) {
+
         let Assets = walletDetails[i].assets[j]
         let currencyData = await Currency.findOne({ _id: ObjectId(Assets._id) })
         const web3 = new Web3(config.COIN_GATE_WAY.BNB.URL);
         let userPrivateKey = decryptString(Assets.privateKey);
-        let UserAddress  =!isEmpty(Assets.privateKey) ?  web3.eth.accounts.privateKeyToAccount(userPrivateKey) : '';
-        console.log(UserAddress,userPrivateKey,'GenerateAddress')
+        let UserAddress = !isEmpty(Assets.privateKey) ? web3.eth.accounts.privateKeyToAccount(userPrivateKey) : '';
+        console.log(UserAddress, userPrivateKey, 'GenerateAddress')
         if (isEmpty(Assets.address) || isEmpty(Assets.privateKey)) {
           console.log('GenerateAddress', currencyData, walletDetails, Assets)
           let updateData
@@ -359,7 +374,7 @@ export const RegenerateAddress = async()=>{
           // return res
           //   .status(200)
           //   .json({ success: true, messages: "successfully", result: updateWallet.assets });
-        }else if(Assets.address.toLowerCase() != UserAddress.address.toLowerCase()){
+        } else if (Assets.address.toLowerCase() != UserAddress.address.toLowerCase()) {
           let updateData
           if (currencyData.type == 'crypto') {
             updateData = await coinCtrl.generateSingleCryptoAddr({ currency: currencyData, option: options })
@@ -370,7 +385,7 @@ export const RegenerateAddress = async()=>{
           else if (currencyData.type == 'fiat') {
             updateData = await coinCtrl.generateSingleFiatAddr({ currency: currencyData })
           }
-          console.log(updateData,'updateData')
+          console.log(updateData, 'updateData')
           Assets.address = updateData.address
           Assets.destTag = updateData.destTag
           Assets.privateKey = updateData.privateKey
@@ -381,8 +396,8 @@ export const RegenerateAddress = async()=>{
         }
       }
     }
-  }catch(err){
-    console.log(err,'RegenerateAddress__err')
+  } catch (err) {
+    console.log(err, 'RegenerateAddress__err')
   }
 }
 

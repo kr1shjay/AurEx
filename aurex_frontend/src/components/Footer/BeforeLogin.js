@@ -13,7 +13,7 @@ import styles from "assets/jss/material-kit-react/components/footerStyle.js";
 
 // import action
 import { getLanguage } from '../../actions/commonAction';
-import {newsLetter} from '../../actions/spotTradeAction'
+import { newsLetter } from '../../actions/spotTradeAction'
 // import lib
 import { toastAlert } from '../../lib/toastAlert';
 import { capitalize } from '../../lib/stringCase';
@@ -43,7 +43,7 @@ export default function BeforeLogin(props) {
   const [langOption, setLangOption] = useState([])
   const [language, setLanguage] = useState('')
   //const [validateError, setValidateError] = useState({});
-  const [letter,setLetter]=useState({})
+  const [letter, setLetter] = useState({})
   // redux-state
   const { isAuth } = useSelector(state => state.auth);
   const socialMedia = useSelector(state => state.socialMedia);
@@ -58,26 +58,26 @@ export default function BeforeLogin(props) {
   }
 
   const emailValidation = (value) => {
-    console.log(value,"emailValidation")
+    console.log(value, "emailValidation")
     let errors = {};
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/;
 
     if (isEmpty(value.email)) {
       //setValidateError({...validateError,'email' : "REQUIRED"})
-     return errors = "email required"
+      return errors = "email required"
     } else if (!(emailRegex.test(value.email))) {
       //setValidateError({...validateError,'email': "invalid email"})
-     return errors ="invalid email"
+      return errors = "invalid email"
     }
   }
-  const onInputchage=(e)=>{
-    setLetter({...letter,[e.target.name]:e.target.value})
+  const onInputchage = (e) => {
+    setLetter({ ...letter, [e.target.name]: e.target.value })
   }
 
-  const OnSubmit =async (e)=>{
+  const OnSubmit = async (e) => {
     e.preventDefault()
-   var validateError =await  emailValidation(letter)
-   console.log(validateError,"validateError")
+    var validateError = await emailValidation(letter)
+    console.log(validateError, "validateError")
     if (isEmpty(validateError)) {
       var res = await newsLetter(letter)
       if (res.status) {
@@ -87,9 +87,9 @@ export default function BeforeLogin(props) {
         toastAlert('error', res.message, 'newsLetter')
       }
     }
-    else{
+    else {
       toastAlert('error', validateError, 'newsLetter')
-    }  
+    }
   }
 
   const fetchLanguage = async () => {
@@ -135,14 +135,14 @@ export default function BeforeLogin(props) {
               <div className="ftRight_left">
                 <h3>Join Newsletter</h3>
                 <div className="form-group form_grp_newsletr mt-3">
-                      <div className="input-group">
-                        
-                        <input type="email" autoComplete="off" className="form-control" placeholder="Mail Id" name="email" onChange={(e)=>{onInputchage(e)}}/>
-                        <div className="input-group-append">
-                        <button className="btn btn_green_su btn_green_su_news" href="/" onClick={(e)=>{OnSubmit(e)}}>Submit</button>
-                        </div>
-                      </div>
+                  <div className="input-group">
+
+                    <input type="email" autoComplete="off" className="form-control" placeholder="Mail Id" name="email" onChange={(e) => { onInputchage(e) }} />
+                    <div className="input-group-append">
+                      <button className="btn btn_green_su btn_green_su_news" href="/" onClick={(e) => { OnSubmit(e) }}>Submit</button>
                     </div>
+                  </div>
+                </div>
                 {/* <p>Each Referral get 5 Aurex Coin</p> */}
               </div>
               {/* <NavLink className="primary_btn m-auto" to={isAuth ? "/referral" : "/register"}><span>Start Earning</span></NavLink>               */}
@@ -160,17 +160,16 @@ export default function BeforeLogin(props) {
               <li><NavLink to="/privacy-policy">Privacy Policy</NavLink></li>
             </ul>
             <p class="mt-2 cpy_txt">&copy; Copyright 2022 <NavLink to="/home">Aurex</NavLink> All rights reserved</p>
-          </div>  
-          <div className="footerMidd_right">
+          </div>
+          {/* <div className="footerMidd_right">
             <h3>Social Media With Us:</h3>
             <ul className="socialLinks">
               <li><a href={socialMedia && socialMedia.twitterUrl} target="_blank"><i className="fab fa-twitter"></i></a></li>
               <li><a href={socialMedia && socialMedia.facebookLink} target="_blank"><i className="fab fa-facebook"></i></a></li>
               <li><a href={socialMedia && socialMedia.linkedinLink} target="_blank"><i class="fab fa-linkedin"></i></a></li>
-              {/*<li><a href="#" target="_blank"><i class="fab fa-medium-m"></i></a></li>*/}
             </ul>
-          </div>        
-        </div>    
+          </div>*/}
+        </div>
       </div>
     </footer>
   );

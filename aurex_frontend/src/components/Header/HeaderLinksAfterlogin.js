@@ -43,8 +43,8 @@ export default function HeaderLinks(props) {
   const { unread, isOpen } = useSelector((state) => state.notice);
 
   // redux-state
-const accountData = useSelector(state => state.account);
-const { firstName, lastName, email, blockNo, address, state, city, postalCode, country } = accountData;
+  const accountData = useSelector(state => state.account);
+  const { firstName, lastName, email, blockNo, address, state, city, postalCode, country } = accountData;
 
   // function'
   const handleClick = (event) => {
@@ -53,10 +53,9 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
 
   };
 
-  const handleClickNotification = async (event,val) => {
+  const handleClickNotification = async (event, val) => {
     // alert(1);
-    if(val=="readall")
-    {
+    if (val == "readall") {
       let { staus, message } = await readNotification();
     }
     setAnchorElNoti(event.currentTarget);
@@ -66,7 +65,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
 
   };
 
-  
+
   const handleClose = () => {
     setAnchorEl(null);
     document.getElementsByTagName("body")[0].classList.remove("padi_over_body");
@@ -86,7 +85,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
 
 
 
-  
+
   const readAllMsg = async () => {
     let { staus, message } = await readNotification();
     noticePopup(dispatch, false);
@@ -132,7 +131,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                 <NavLink to="/spot">{t("MARKET")}</NavLink>
               </li>
             }
-              {/* {
+            {/* {
               <li>
                 <NavLink to="/api-management">API Key</NavLink>
               </li>
@@ -143,103 +142,102 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                 {/* <Link to="/walletnew">Wallet</Link> */}
               </li>
             )}
-            {isAuth && (
+            {/* {isAuth && (
               <li>
                 <NavLink to="/launchpad">Launchpad</NavLink>
-                {/* <Link to="/walletnew">Wallet</Link> */}
               </li>
-            )}
-            {
+            )} */}
+            {/* {
               isAuth && <li>
                 <NavLink to="/staking">{t('STAKING')}</NavLink>
               </li>
-            }
+            } */}
 
-{isAuth && (
+            {isAuth && (
               <>
-              <li className="noti_parent_po notiification_link_for_web">
-                {unread && unread.length > 0 ? (
-                  <span className="notify_count">
-                    {unread && unread.length}
-                  </span>
-                ) : null}
-                {isOpen == false ? (
-                  // <Button
-                  //   class="btn btnNotification"
-                  //   type="button"
-                  //   data-toggle="collapse"
-                  //   data-target="#notificationDropdown"
-                  //   onClick={closeBox}
-                  //   aria-expanded="false"
-                  //   aria-controls="notificationDropdown"
-                  // >
-                  <Button
-                  aria-controls="notificationDropdown"
-                  aria-haspopup="true"
-                  onClick={handleClickNotification}
-                >
-                    <i className="fas fa-bell"></i>
-                  </Button>
-                ) : (
-                  <Button
-                  aria-controls="notificationDropdown"
-                  aria-haspopup="true"
-                  onClick={()=>{handleClickNotification("readall")}}
-                >
-                    <i className="fas fa-bell"></i>
-                  </Button>
-                )}
-                <Menu
-                  id="notificationDropdown"
-                  className="afterlogin_hr"
-                  anchorEl={anchorElNoti}
-                  keepMounted
-                  open={Boolean(anchorElNoti)}
-                  onClose={handleCloseNotification}
-                >
-               
-                  <div className="notificationDropdown noti_child_po">
-                    {!isEmpty(unread) && unread.length > 0 ? (
-                      <>
-                      <div className="text-right">
-                        <button onClick={()=>{readAllMsg()}} className="mark_read_link">Mark all as read </button>
-                        </div>
-                        <ul>
-                          {unread &&
-                            unread.length > 0 &&
-                            unread.map((item) => {
-                              return (
-                                <li>
-                                  <p>
-                                    <TimeAgo date={new Date(item.createdAt)}>
-                                      {({ value }) => value}
-                                    </TimeAgo>
-                                  </p>
-                                  <h5>{item.description}</h5>
-                                </li>
-                              );
-                            })}
-                        </ul>
-                      </>
-                    ) : (
-                      <>
-                        <ul>
-                          <li>
-                            <h5>No more unread Notifications ...</h5>
-                          </li>
-                        </ul>
-                      </>
-                    )}
+                <li className="noti_parent_po notiification_link_for_web">
+                  {unread && unread.length > 0 ? (
+                    <span className="notify_count">
+                      {unread && unread.length}
+                    </span>
+                  ) : null}
+                  {isOpen == false ? (
+                    // <Button
+                    //   class="btn btnNotification"
+                    //   type="button"
+                    //   data-toggle="collapse"
+                    //   data-target="#notificationDropdown"
+                    //   onClick={closeBox}
+                    //   aria-expanded="false"
+                    //   aria-controls="notificationDropdown"
+                    // >
+                    <Button
+                      aria-controls="notificationDropdown"
+                      aria-haspopup="true"
+                      onClick={handleClickNotification}
+                    >
+                      <i className="fas fa-bell"></i>
+                    </Button>
+                  ) : (
+                    <Button
+                      aria-controls="notificationDropdown"
+                      aria-haspopup="true"
+                      onClick={() => { handleClickNotification("readall") }}
+                    >
+                      <i className="fas fa-bell"></i>
+                    </Button>
+                  )}
+                  <Menu
+                    id="notificationDropdown"
+                    className="afterlogin_hr"
+                    anchorEl={anchorElNoti}
+                    keepMounted
+                    open={Boolean(anchorElNoti)}
+                    onClose={handleCloseNotification}
+                  >
 
-                    <p className="text-center pb-3 pt-2">
-                      <Link to="/notification" className="all_noti_link_green">All Notifications</Link>
-                    </p>
-                  </div>
+                    <div className="notificationDropdown noti_child_po">
+                      {!isEmpty(unread) && unread.length > 0 ? (
+                        <>
+                          <div className="text-right">
+                            <button onClick={() => { readAllMsg() }} className="mark_read_link">Mark all as read </button>
+                          </div>
+                          <ul>
+                            {unread &&
+                              unread.length > 0 &&
+                              unread.map((item) => {
+                                return (
+                                  <li>
+                                    <p>
+                                      <TimeAgo date={new Date(item.createdAt)}>
+                                        {({ value }) => value}
+                                      </TimeAgo>
+                                    </p>
+                                    <h5>{item.description}</h5>
+                                  </li>
+                                );
+                              })}
+                          </ul>
+                        </>
+                      ) : (
+                        <>
+                          <ul>
+                            <li>
+                              <h5>No more unread Notifications ...</h5>
+                            </li>
+                          </ul>
+                        </>
+                      )}
+
+                      <p className="text-center pb-3 pt-2">
+                        <Link to="/notification" className="all_noti_link_green">All Notifications</Link>
+                      </p>
+                    </div>
                   </Menu>
-            
-              </li>
 
-              <li className="notiification_link_for_mob"><a href="/notification">Notifications</a></li>
+                </li>
+
+                <li className="notiification_link_for_mob"><a href="/notification">Notifications</a></li>
               </>
             )}
             {isAuth && (
@@ -249,11 +247,11 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                   aria-haspopup="true"
                   onClick={handleClick}
                 >
-                    {/* <div className="d-flex prof_icon_header"> */}
-                      {/* <div> */}
-                        <img src={Profileicon} className="prof_icon_header" alt="profileicon"/> 
-                        {/* </div> */}
-                          {/* </div> */}
+                  {/* <div className="d-flex prof_icon_header"> */}
+                  {/* <div> */}
+                  <img src={Profileicon} className="prof_icon_header" alt="profileicon" />
+                  {/* </div> */}
+                  {/* </div> */}
 
                   {/* <i className="fas fa-user"></i> */}
                   {/* <i class="fas fa-ellipsis-h"></i> */}
@@ -266,70 +264,70 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                    <NavLink to="/profile"><MenuItem className="px-2">
-                    <div className="d-flex afterlogin_profile"><div><img src={Profileicon}  alt="profileicon"/> </div><div><p className="mx-3 mb-0 first">{`${firstName} ${lastName}`}</p>
-<p className="second mb-0 mx-3">{email}</p></div> </div>
+                  <NavLink to="/profile"><MenuItem className="px-2">
+                    <div className="d-flex afterlogin_profile"><div><img src={Profileicon} alt="profileicon" /> </div><div><p className="mx-3 mb-0 first">{`${firstName} ${lastName}`}</p>
+                      <p className="second mb-0 mx-3">{email}</p></div> </div>
                   </MenuItem></NavLink>
-                                
-                  <NavLink to="/profile">        
-                  <MenuItem>
-                    <i className="fa fa-user" aria-hidden="true"></i><span>Profile</span>
-                  </MenuItem>
+
+                  <NavLink to="/profile">
+                    <MenuItem>
+                      <i className="fa fa-user" aria-hidden="true"></i><span>Profile</span>
+                    </MenuItem>
                   </NavLink>
-                  <hr/> 
-                  <NavLink to="/launchpad"><MenuItem><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></MenuItem></NavLink>
-                  <hr/> 
-                  <NavLink to="/staking"><MenuItem><i class="fab fa-stack-exchange"></i><span>Staking</span></MenuItem></NavLink>
-                  <hr/> 
+                  <hr />
+                  {/* <NavLink to="/launchpad"><MenuItem><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></MenuItem></NavLink> */}
+                  <hr />
+                  {/* <NavLink to="/staking"><MenuItem><i class="fab fa-stack-exchange"></i><span>Staking</span></MenuItem></NavLink> */}
+                  <hr />
                   <NavLink to="/security"><MenuItem>
                     <i className="fa fa-lock" aria-hidden="true"></i><span>Security</span>
                   </MenuItem></NavLink>
-                  
-                  <hr/> 
-                  <NavLink to="/setting">
-                  <MenuItem>
-                    <i className="fa fa-cog" aria-hidden="true"></i><span>Settings</span>
-                  </MenuItem>
-                  </NavLink>
-                  <hr/> 
-                  <NavLink to="/api-management">
-                  <MenuItem>
-                    <i className="fa fa-key" aria-hidden="true"></i><span>API Key</span>
-                  </MenuItem>
-                  </NavLink>
-                 
-                  <hr/> 
+
+                  <hr />
+                  {/* <NavLink to="/setting">
+                    <MenuItem>
+                      <i className="fa fa-cog" aria-hidden="true"></i><span>Settings</span>
+                    </MenuItem>
+                  </NavLink> */}
+                  <hr />
+                  {/* <NavLink to="/api-management">
+                    <MenuItem>
+                      <i className="fa fa-key" aria-hidden="true"></i><span>API Key</span>
+                    </MenuItem>
+                  </NavLink> */}
+
+                  <hr />
                   <NavLink to="/orders">
-                  <MenuItem>
-                    <i className="fa fa-list" aria-hidden="true"></i><span>Orders</span>
-                  </MenuItem>
+                    <MenuItem>
+                      <i className="fa fa-list" aria-hidden="true"></i><span>Orders</span>
+                    </MenuItem>
                   </NavLink>
                   {/* <hr/> 
                   <MenuItem>
                     <Link to="/referral"><i className="fa fa-users" aria-hidden="true"></i><span>Referral</span></Link>
                   </MenuItem> */}
-                  <hr/> 
+                  <hr />
                   {/* <MenuItem><Link to="/notification">Notifications</Link></MenuItem> */}
                   <NavLink to="/history"><MenuItem>
                     <i className="far fa-clock"></i><span>History</span>
                   </MenuItem>
                   </NavLink>
-                  <hr/> 
+                  <hr />
                   <NavLink to="/support-ticket">
-                  <MenuItem>
-                    <i className="fa fa-question-circle" aria-hidden="true"></i><span>Support</span>
-                  </MenuItem>
+                    <MenuItem>
+                      <i className="fa fa-question-circle" aria-hidden="true"></i><span>Support</span>
+                    </MenuItem>
                   </NavLink>
                   {/* <MenuItem>
                     <Link to="/orders">Orders</Link>
                   </MenuItem> */}
                   {/* <MenuItem><Link to="/api-management">API Management</Link></MenuItem> */}
                   <Link to="#" onClick={() => logout(history, dispatch)}>
-                  <MenuItem>
-                   
-                    <i className="fas fa-sign-out-alt"></i> <span> Logout</span>
-                  
-                  </MenuItem>
+                    <MenuItem>
+
+                      <i className="fas fa-sign-out-alt"></i> <span> Logout</span>
+
+                    </MenuItem>
                   </Link>
                 </Menu>
               </li>
@@ -365,9 +363,9 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
             <li>
               <NavLink to="/spot">Spot</NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink to="/api-management">API Key</NavLink>
-            </li>
+            </li> */}
             {/*<li>
               <Link to="/derivative">Derivative</Link>
             </li>*/}
@@ -377,7 +375,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                 <NavLink to="/dashboard">Dashboard</NavLink>
               </li>
             )}
-            
+
             {/*{
               isAuth && <li>
                 <Link to="/p2p">P2P</Link>
@@ -390,7 +388,7 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
               </li>
             )}
 
-           
+
             {isAuth && (
               <li>
                 <NavLink to="/notification">Notifications</NavLink>
@@ -402,18 +400,18 @@ const { firstName, lastName, email, blockNo, address, state, city, postalCode, c
                 <NavLink to="/profile">Profile</NavLink>
               </li>
             )}
-              {
+            {/* {
               isAuth && <li>
                 <NavLink to="/launchpad">Launchpad</NavLink>
               </li>
-            }
-             {
-              isAuth && 
+            } */}
+            {/* {
+              isAuth &&
               <li>
                 <NavLink to="/staking">Staking</NavLink>
               </li>
-            }
-          
+            } */}
+
             {/* {
               isAuth && <li>
                 <Link to="/profile">KYC</Link>

@@ -82,9 +82,9 @@ const BalanceDetail = () => {
                     }
                 </div>
             </div>
-            <div className="table-responsive">
+            {/* <div className="table-responsive">
                 <BalanceList />
-            </div>
+            </div> */}
         </div>
     )
 }

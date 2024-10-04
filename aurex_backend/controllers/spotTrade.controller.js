@@ -22941,13 +22941,13 @@ export const limitOrderPlace = async (req, res) => {
             return res.status(400).json({ 'status': false, 'message': `Quantity of contract must not be higher than ${spotPairData.maxQuantity}` });
         }
 
-        if (reqBody.quantity < 0.0001) {
-            return res.status(400).json({ 'status': false, 'message': "Quantity of contract must not be lesser than 0.0001" });
-        }
+        // if (reqBody.quantity < 0.0001) {
+        //     return res.status(400).json({ 'status': false, 'message': "Quantity of contract must not be lesser than 0.0001" });
+        // }
 
-        if (reqBody.price < 0.0001) {
-            return res.status(400).json({ 'status': false, 'message': "Price of contract must not be lesser than 0.0001" });
-        }
+        // if (reqBody.price < 0.0001) {
+        //     return res.status(400).json({ 'status': false, 'message': "Price of contract must not be lesser than 0.0001" });
+        // }
         let
             minPrice = spotPairData.markPrice - (spotPairData.markPrice * (spotPairData.minPricePercentage / 100)),
             maxPrice = spotPairData.markPrice + (spotPairData.markPrice * (spotPairData.maxPricePercentage / 100));
@@ -25166,7 +25166,7 @@ export const orderBookData = async ({ pairId }) => {
                     let orderData = buyOrder.find((x) => x._id === parseFloat(buyItem[0]));
                     if (!orderData) {
                         buyOrder.push({
-                            '_id': binanceCtrl.calculateMarkup(buyItem[0], pairData.markupPercentage, '+'),
+                            '_id': binanceCtrl.calculateMarkup(buyItem[0], pairData.markupPercentage, '-'),
                             'quantity': parseFloat(buyItem[1]),
                             'filledQuantity': 0
                         })

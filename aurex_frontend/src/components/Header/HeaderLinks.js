@@ -118,12 +118,12 @@ const HeaderLinks = () => {
             </ListItem>
 
           } */}
-          <ListItem className={classes.listItem}>
+          {/* <ListItem className={classes.listItem}>
             <NavLink to="/launchpad" color="transparent" className="nav-link">Launchpad</NavLink>
-          </ListItem>
-          <ListItem className={classes.listItem}>
+          </ListItem> */}
+          {/* <ListItem className={classes.listItem}>
             <NavLink to="/staking" color="transparent" className="nav-link">Staking</NavLink>
-          </ListItem>
+          </ListItem> */}
           {
             isAuth && <ListItem className={classes.listItem}>
               <NavLink to="/wallet" color="transparent" className="nav-link">Wallet</NavLink>
@@ -165,10 +165,10 @@ const HeaderLinks = () => {
                   </NavLink>
                   <hr />
 
-                  <NavLink to="/launchpad"><MenuItem><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></MenuItem></NavLink>
+                  {/* <NavLink to="/launchpad"><MenuItem><i className="fa fa-rocket" aria-hidden="true"></i><span>Launchpad</span></MenuItem></NavLink>
                   <hr />
                   <NavLink to="/staking"><MenuItem><i class="fab fa-stack-exchange"></i><span>Staking</span></MenuItem></NavLink>
-                  <hr />
+                  <hr /> */}
                   <NavLink to="/security"><MenuItem>
                     <i className="fa fa-lock" aria-hidden="true"></i><span>Security</span>
                   </MenuItem></NavLink>
@@ -180,11 +180,11 @@ const HeaderLinks = () => {
                     </MenuItem>
                   </NavLink>
                   <hr />
-                  <NavLink to="/api-management">
+                  {/* <NavLink to="/api-management">
                     <MenuItem>
                       <i className="fa fa-key" aria-hidden="true"></i><span>API Key</span>
                     </MenuItem>
-                  </NavLink>
+                  </NavLink> */}
                   <hr />
                   <NavLink to="/orders">
                     <MenuItem>
@@ -273,9 +273,9 @@ const HeaderLinks = () => {
               <li>
                 <NavLink to="/spot" color="transparent" >{t('MARKET')}</NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink to="/api-management" color="transparent" >API Key</NavLink>
-              </li>
+              </li> */}
               {!isAuth && (
                 <li>
                   <NavLink to="/login" color="transparent" className="nav-link home_menu_btn1">{t('LOGIN')}</NavLink>
@@ -306,7 +306,7 @@ const HeaderLinks = () => {
                   <NavLink to="/profile">Profile</NavLink>
                 </li>
               )}
-              {
+              {/* {
                 isAuth && <li>
                   <NavLink to="/launchpad">Launchpad</NavLink>
                 </li>
@@ -316,7 +316,7 @@ const HeaderLinks = () => {
                 <li>
                   <NavLink to="/staking">Staking</NavLink>
                 </li>
-              }
+              } */}
 
               {/* {
               isAuth && <li>

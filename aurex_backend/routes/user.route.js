@@ -49,6 +49,7 @@ const passportAuth = passport.authenticate("usersAuth", { session: false });
 
 // User
 router.route('/register').post(userValid.registerValidate, userCtrl.createNewUser);//
+router.route('/check2fa').post(userCtrl.Check2fa)
 router.route('/login').post(userValid.loginValidate, userCtrl.userLogin);//
 router.route('/confirm-mail').post(userValid.confirmMailValidate, userCtrl.confirmMail);
 router.route('/check-deposit').get(apiKeyCtrl.authorization, userCtrl.checkDeposit)//
@@ -102,7 +103,7 @@ router.route('/get-fav').get(apiKeyCtrl.authorization, userCtrl.getFavorit)
 router.route('/getWalletAddress').post(apiKeyCtrl.authorization, walletCtrl.GenerateAddress);//
 // router.route('/getAssetsDetails').get(passportAuth, walletCtrl.getAssetsDetails);
 router.route('/getAssetsDetails').get(apiKeyCtrl.authorization, walletCtrl.getWallet);//
-router.route('/getHideoZeroStatus').get(apiKeyCtrl.authorization,walletCtrl.getHideZeroStatus).put(apiKeyCtrl.authorization,walletCtrl.updateHideZeroStatus);//
+router.route('/getHideoZeroStatus').get(apiKeyCtrl.authorization, walletCtrl.getHideZeroStatus).put(apiKeyCtrl.authorization, walletCtrl.updateHideZeroStatus);//
 router.route('/getbalance').get(apiKeyCtrl.authorization, walletCtrl.getbalance);
 
 // auto withdraw
@@ -129,9 +130,9 @@ router.route('/loginHistory').get(apiKeyCtrl.authorization, dashboardCtrl.getLog
 router.route('/notificationHistory').get(apiKeyCtrl.authorization, dashboardCtrl.getNotificationHistory);
 router.route('/getDashBal').get(apiKeyCtrl.authorization, dashboardCtrl.getDashBal);//
 router
-  .route("/gettradehistory_dash")
-  .get(apiKeyCtrl.authorization, dashboardCtrl.gettradehistory_dash);
-  
+    .route("/gettradehistory_dash")
+    .get(apiKeyCtrl.authorization, dashboardCtrl.gettradehistory_dash);
+
 //Top gain list
 router.route('/top-gain').get(spotTradeCtrl.topGainList)
 //statistic
@@ -268,11 +269,11 @@ router.route("/p2p/orderHistoryDoc").get(apiKeyCtrl.authorization, p2pCtrl.order
 router.route("/newsLetter/subscribe").post(newsLetterCtrl.newSubscribe);//
 
 // Webhook
-router.route('/depositwebhook').post(coinpaymentCtrl.verifySign,coinpaymentCtrl.depositwebhook)
+router.route('/depositwebhook').post(coinpaymentCtrl.verifySign, coinpaymentCtrl.depositwebhook)
 router.route('/getMySpotHistory').post(apiKeyCtrl.authorization, spotTradeCtrl.getMySpotHistory);
 router.route('/getFilledOrderHistory').post(apiKeyCtrl.authorization, spotTradeCtrl.getFilledOrderHistory);
 //chechemail
-router.route('/checkEmail').post(apiKeyCtrl.authorization,userCtrl.checkEmail)//
+router.route('/checkEmail').post(apiKeyCtrl.authorization, userCtrl.checkEmail)//
 
 //tron api
 // router.route('/energyLimit').post(tronCtrl.EnergyLimit)

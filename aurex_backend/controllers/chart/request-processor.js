@@ -195,11 +195,15 @@ function convertabcdHistoryToUDFFormat(data, callBy) {
 				var formatDatex = formatDate(new Date(time).toISOString());
 				var fi = dateToYMD(formatDatex.datex);
 				result.t.push(parseDated(fi, formatDatex.timex) / 1000);
-				console.log(parseFloat(open).toFixed(2),parseFloat(high).toFixed(2),parseFloat(low).toFixed(2),parseFloat(close).toFixed(2),'data')
-				result.o.push(parseFloat(open).toFixed(2));
-				result.h.push(parseFloat(high).toFixed(2));
-				result.l.push(parseFloat(low).toFixed(2));
-				result.c.push(parseFloat(close).toFixed(2));
+				console.log(parseFloat(open).toFixed(2), parseFloat(high).toFixed(2), parseFloat(low).toFixed(2), parseFloat(close).toFixed(2), 'data')
+				// result.o.push(parseFloat(open).toFixed(2));
+				// result.h.push(parseFloat(high).toFixed(2));
+				// result.l.push(parseFloat(low).toFixed(2));
+				// result.c.push(parseFloat(close).toFixed(2));
+				result.o.push(parseFloat(open));
+				result.h.push(parseFloat(high));
+				result.l.push(parseFloat(low));
+				result.c.push(parseFloat(close));
 				result.v.push(volume);
 			} else if (callBy == 'wazirx') {
 				let { time, open, high, low, close, volume, closeTime, assetVolume, trades, buyBaseVolume, buyAssetVolume, ignored } = row;
@@ -226,9 +230,9 @@ function convertabcdHistoryToUDFFormat(data, callBy) {
 	} catch (error) {
 		return null;
 	}
-	console.log("resultudf",result)
+	console.log("resultudf", result)
 	return result;
-	
+
 }
 
 function convertYahooQuotesToUDFFormat(tickersMap, data) {
@@ -398,9 +402,9 @@ RequestProcessor.prototype._sendConfig = function (response) {
 	};
 
 	response.writeHead(200, defaultResponseHeader);
-	console.log("resheaderconfig",defaultResponseHeader)
+	console.log("resheaderconfig", defaultResponseHeader)
 	response.write(JSON.stringify(config));
-	console.log("config",config)
+	console.log("config", config)
 	response.end();
 };
 
@@ -494,7 +498,7 @@ RequestProcessor.prototype._sendSymbolSearchResults = function (query, type, exc
 
 RequestProcessor.prototype._prepareSymbolInfo = function (symbolName, tradeType) {
 	var symbolInfo = this._symbolsDatabase.symbolInfo(symbolName, tradeType);
-	console.log(symbolInfo,"symbolInfo")
+	console.log(symbolInfo, "symbolInfo")
 	if (!symbolInfo) {
 		throw "unknown_symbol " + symbolName;
 	}
@@ -513,7 +517,7 @@ RequestProcessor.prototype._prepareSymbolInfo = function (symbolName, tradeType)
 		"description": symbolInfo.description.length > 0 ? symbolInfo.description : symbolInfo.name,
 		"type": symbolInfo.type,
 		"supported_resolutions": ["1", "5", "15", "30", "60", "1D", "1W", "1M"],
-		"pricescale":  Math.pow(10,symbolInfo.pip_size),
+		"pricescale": Math.pow(10, symbolInfo.pip_size),
 		"ticker": symbolInfo.name.toUpperCase()
 	};
 };
@@ -522,7 +526,7 @@ RequestProcessor.prototype._sendSymbolInfo = function (symbolName, response, tra
 	var info = this._prepareSymbolInfo(symbolName, tradeType);
 
 	response.writeHead(200, defaultResponseHeader);
-	console.log("resheaderconfig",defaultResponseHeader)
+	console.log("resheaderconfig", defaultResponseHeader)
 	response.write(JSON.stringify(info));
 	response.end();
 };
@@ -550,8 +554,8 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 		var toCacheTime = data && data.t ? data.t[data.t.length - 1] : null;
 		//console.log(dateForLogs() + "Return abcd result" + (isCached ? " from cache" : "") + ": " + key + ", from " + secondsToISO(fromCacheTime) + " to " + secondsToISO(toCacheTime));
 	}
-	console.log(new Date(parseFloat(startDateTimestamp)),startDateTimestamp,new Date(parseFloat(endDateTimestamp)),endDateTimestamp,'new Date(startDateTimestamp)')
-	if(new Date(parseFloat(startDateTimestamp)) =="Invalid Date" || new Date(parseFloat(endDateTimestamp))=='Invalid Date'){
+	console.log(new Date(parseFloat(startDateTimestamp)), startDateTimestamp, new Date(parseFloat(endDateTimestamp)), endDateTimestamp, 'new Date(startDateTimestamp)')
+	if (new Date(parseFloat(startDateTimestamp)) == "Invalid Date" || new Date(parseFloat(endDateTimestamp)) == 'Invalid Date') {
 		sendResult(JSON.stringify({ 'statusCode': 400, 'status': false, 'message': "Invalid Parameter" }))
 	}
 
@@ -564,8 +568,8 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 			case '60': return "1h";
 			case '1d': return "1d";
 			case 'd': return "1M";
-		    // default: return "1m";
-			default : return "Invalid Parameter"
+			// default: return "1m";
+			default: return "Invalid Parameter"
 		}
 	}
 
@@ -575,7 +579,7 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 	var from = abcdMinimumDate;
 	// var to = dateToYMD(Date.now());
 	const today = new Date()
-	console.log("today",typeof(today))
+	console.log("today", typeof (today))
 	const tomorrow = new Date(today)
 	tomorrow.setDate(tomorrow.getDate() + 1)
 	var to = dateToYMD(tomorrow);
@@ -630,10 +634,10 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 		res.json({ "message": "End date parameter not found" });
 		return false;
 	}
-	
+
 
 	let timeType = resolutionType(resol)
-    console.log('timeType',timeType)
+	console.log('timeType', timeType)
 	let tradeChart;
 
 	if (tradeType == 'spot') {
@@ -667,12 +671,12 @@ RequestProcessor.prototype._sendSymbolHistory = async function (symbol, startDat
 	} else {
 		// res.json([]);
 		console.log(tradeChart)
-		if(tradeChart.timeType == 'Invalid Parameter'){
-			console.log("tradeChart_timeType",tradeChart)
+		if (tradeChart.timeType == 'Invalid Parameter') {
+			console.log("tradeChart_timeType", tradeChart)
 			sendResult(JSON.stringify({ 'statusCode': 400, 'status': false, 'message': "Invalid Parameter" }))
-		    // res.json();
-		}else if(tradeChart == ""){
-			console.log("tradeChart_tradechart",tradeChart)
+			// res.json();
+		} else if (tradeChart == "") {
+			console.log("tradeChart_tradechart", tradeChart)
 			sendResult(JSON.stringify({ 'statusCode': 400, 'status': false, 'message': "Invalid Parameter" }))
 		}
 		console.log("null1");

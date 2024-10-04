@@ -1,9 +1,10 @@
 // import package
 import mongoose from "mongoose";
-import node2fa from "node-2fa";
+import * as node2fa from 'node-2fa'
 import moment from "moment";
 import multer from "multer";
 import path from "path";
+import QRCode from 'qrcode'
 
 // import modal
 import {
@@ -400,6 +401,33 @@ export const confirmMail = async (req, res) => {
 };
 
 /**
+ * 
+ * User 2fa finf
+ * Method : POST
+ * URL : /api/check2fa
+ * BODY : email 
+ */
+
+export const Check2fa = async (req, res) => {
+  try {
+    let email = req.body.email
+    let checkUser = await User.findOne({ email: email });
+    if (isEmpty(checkUser)) {
+      return res.status(400).json({ success: false, errors: { email: "Email not found" } })
+    } else if (checkUser) {
+      if (checkUser.google2Fa && !isEmpty(checkUser.google2Fa.secret)) {
+        return res.status(200).json({ success: true, status: "TWO_FA", message: "Please Enter Your 2 FA Code" });
+      } else {
+        return res.status(200).json({ success: true, status: "", message: "Enable 2fa" });
+      }
+    }
+  } catch (err) {
+    console.log(err, 'Check2fa__err')
+    return res.status(500).json({ success: false, message: "Error on server" });
+  }
+}
+
+/**
  * User Login
  * METHOD : POST
  * URL : /api/login
@@ -589,7 +617,7 @@ const loginHistory = ({
         loginhistory: data,
       },
     },
-    (err, data) => {}
+    (err, data) => { }
   );
 };
 
@@ -982,13 +1010,13 @@ export const changePassword = async (req, res) => {
  */
 export const get2faCode = async (req, res) => {
   let result = {};
-  User.findOne({ _id: req.user.id }, (err, userData) => {
+  User.findOne({ _id: req.user.id }, async (err, userData) => {
     if (err) {
       return res
         .status(500)
         .json({ success: false, message: "SOMETHING_WRONG" });
     }
-    let result = generateTwoFa(userData);
+    let result = await generateTwoFa(userData);
     return res.status(200).json({ success: true, result: result });
   });
 };
@@ -1016,7 +1044,7 @@ export const update2faCode = async (req, res) => {
         },
         { new: true }
       );
-      let result = generateTwoFa(updateData);
+      let result = await generateTwoFa(updateData);
       if (chackStatus.twoFA == true) {
         let content = {
           date: new Date(),
@@ -1073,7 +1101,7 @@ export const diabled2faCode = async (req, res) => {
       userData.google2Fa.secret = "";
       userData.google2Fa.uri = "";
       let updateData = await userData.save();
-      let result = generateTwoFa(updateData);
+      let result = await generateTwoFa(updateData);
 
       if (chackStatus.twoFA == true) {
         let content = {
@@ -1105,12 +1133,14 @@ export const diabled2faCode = async (req, res) => {
   }
 };
 
-export const generateTwoFa = (userData) => {
+export const generateTwoFa = async (userData) => {
   let result = {};
   if (userData && userData.google2Fa.secret != "") {
+    let url = await QRCode.toDataURL(userData.google2Fa.uri)
     result = {
       secret: userData.google2Fa.secret,
-      imageUrl: config.NODE_TWOFA.QR_IMAGE + userData.google2Fa.uri,
+      // imageUrl: config.NODE_TWOFA.QR_IMAGE + userData.google2Fa.uri,
+      imageUrl: url,
       uri: userData.google2Fa.uri,
       twoFaStatus: "enabled",
     };
@@ -1119,9 +1149,11 @@ export const generateTwoFa = (userData) => {
       name: config.NODE_TWOFA.NAME,
       account: userData.email,
     });
+    let url = await QRCode.toDataURL(newSecret.uri)
     result = {
       secret: newSecret.secret,
-      imageUrl: newSecret.qr,
+      // imageUrl: newSecret.qr,
+      imageUrl: url,
       uri: newSecret.uri,
       twoFaStatus: "disabled",
     };

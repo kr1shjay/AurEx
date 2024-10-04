@@ -68,13 +68,13 @@ async function decryy() {
 export const orderPlace = async (req, res) => {
     try {
         let api_key = req.header("x-api-key");
-        console.log("OrderPlace api hit",new Date(),api_key)
-        if(api_key!==null && api_key!== undefined && req.user.trade !==true){
-             return res.status(400).json({  'statusCode':400, 'status': false, 'message': "You don't have permission to trade" });      
+        console.log("OrderPlace api hit", new Date(), api_key)
+        if (api_key !== null && api_key !== undefined && req.user.trade !== true) {
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "You don't have permission to trade" });
         }
-        else{
+        else {
             let reqBody = req.body
-            console.log("orderreq",reqBody)
+            console.log("orderreq", reqBody)
             if (reqBody.orderType == 'limit') {
                 limitOrderPlace(req, res)
             } else if (reqBody.orderType == 'market') {
@@ -88,8 +88,8 @@ export const orderPlace = async (req, res) => {
             }
         }
     } catch (err) {
-        console.log(err,'orderreq-err')
-        return res.status(500).json({  'statusCode':400,'status': false, 'message': "System error" });
+        console.log(err, 'orderreq-err')
+        return res.status(500).json({ 'statusCode': 400, 'status': false, 'message': "System error" });
     }
 }
 
@@ -102,40 +102,40 @@ export const orderPlace = async (req, res) => {
 export const limitOrderPlace = async (req, res) => {
     try {
         let reqBody = req.body;
-        console.log("limitreq",reqBody)
+        console.log("limitreq", reqBody)
         reqBody.price = parseFloat(reqBody.price)
         reqBody.quantity = parseFloat(reqBody.quantity)
         // console.log("-------reqBody.", reqBody)
         let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
 
         if (!spotPairData) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Trade pair does not exist" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Trade pair does not exist" });
         }
 
         if (reqBody.quantity < spotPairData.minQuantity) {
-            return res.status(400).json({'statusCode':400,'status': false, 'message': 'Invalid Amount' });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': 'Invalid Amount' });
         } else if (reqBody.quantity > spotPairData.maxQuantity) {
-            return res.status(400).json({'statusCode':400,'status': false, 'message': 'Invalid Amount' });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': 'Invalid Amount' });
         }
 
-        if(reqBody.quantity < 0.0001){
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': 'Invalid Amount'});
-        }
+        // if(reqBody.quantity < 0.0001){
+        //     return res.status(400).json({ 'statusCode':400,'status': false, 'message': 'Invalid Amount'});
+        // }
 
-        if(reqBody.price < 0.0001){
-            return res.status(400).json({'statusCode':400,'status': false, 'message': "Invalid Price" });
-        }
+        // if(reqBody.price < 0.0001){
+        //     return res.status(400).json({'statusCode':400,'status': false, 'message': "Invalid Price" });
+        // }
         let
             minPrice = spotPairData.markPrice - (spotPairData.markPrice * (spotPairData.minPricePercentage / 100)),
             maxPrice = spotPairData.markPrice + (spotPairData.markPrice * (spotPairData.maxPricePercentage / 100));
-            console.log("minprice",minPrice);
-            console.log("maxprice",maxPrice);
+        console.log("minprice", minPrice);
+        console.log("maxprice", maxPrice);
 
 
         if (reqBody.price < minPrice) {
-            return res.status(400).json({ 'statusCode':400, 'status': false, 'message': 'Invalid Price' });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': 'Invalid Price' });
         } else if (reqBody.price > maxPrice) {
-            return res.status(400).json({ 'statusCode':400, 'status': false, 'message': 'Invalid Price' });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': 'Invalid Price' });
         }
 
         let currencyId = reqBody.buyorsell == 'buy' ? spotPairData.secondCurrencyId : spotPairData.firstCurrencyId;
@@ -143,13 +143,13 @@ export const limitOrderPlace = async (req, res) => {
         let usrWallet = await Wallet.findOne({ '_id': req.user.id });
         if (!usrWallet) {
             console.log('!usrWallet')
-            return res.status(500).json({ 'statusCode':500, 'status': false, 'message': "System error" });
+            return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
         }
 
         let usrAsset = usrWallet.assets.id(currencyId)
         if (!usrAsset) {
             console.log('!usrAsset')
-            return res.status(500).json({'statusCode':500,'status': false, 'message': "System error" });
+            return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
         }
 
         let
@@ -159,7 +159,7 @@ export const limitOrderPlace = async (req, res) => {
         orderValue = toFixed(orderValue, 8)
 
         if (balance < orderValue) {
-            return res.status(400).json({'statusCode':400,'status': false, 'message': "Insufficient wallet balance" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Insufficient wallet balance" });
         }
 
         usrAsset.spotBal = balance - orderValue;
@@ -180,7 +180,7 @@ export const limitOrderPlace = async (req, res) => {
         });
 
         if (balDetect && balDetect.nModified != 1) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Insufficient wallet balance" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Insufficient wallet balance" });
         }
 
 
@@ -205,7 +205,7 @@ export const limitOrderPlace = async (req, res) => {
             pairName: `${spotPairData.firstCurrencySymbol}${spotPairData.secondCurrencySymbol}`,
             beforeBalance: balance,
             afterBalance: usrAsset.spotBal,
-            
+
             orderType: reqBody.orderType,
             orderDate: new Date(),
             buyorsell: reqBody.buyorsell,
@@ -235,7 +235,7 @@ export const limitOrderPlace = async (req, res) => {
 
                 await usrWallet.save();
             } else {
-                return res.status(400).json({ 'statusCode':400,'status': false, 'message': binOrder.message });
+                return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': binOrder.message });
             }
         }
 
@@ -265,11 +265,11 @@ export const limitOrderPlace = async (req, res) => {
             await getTradeHistorySocket(newOrder.userId, newOrder.pairId)
         }
 
-        return res.status(200).json({ 'statusCode':200,'status': true, 'message': "Your order placed successfully.",'orderId':newOrder._id});
+        return res.status(200).json({ 'statusCode': 200, 'status': true, 'message': "Your order placed successfully.", 'orderId': newOrder._id });
 
     } catch (err) {
         console.log('limitOrderPlace__err', err)
-        return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
+        return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
     }
 }
 
@@ -314,7 +314,7 @@ export const matchEngine = async () => {
         // matchEngine()
         return
     } catch (err) {
-        return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
+        return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
     }
 }
 
@@ -329,34 +329,34 @@ export const marketOrderPlace = async (req, res) => {
     try {
         let reqBody = req.body;
 
-        console.log("marketOrderPlace ",reqBody)
+        console.log("marketOrderPlace ", reqBody)
         reqBody.quantity = parseFloat(reqBody.quantity)
         let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
 
         if (!spotPairData) {
-            return res.status(400).json({  'statusCode':400,'status': false, 'message': "Trade pair does not exist" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Trade pair does not exist" });
         }
 
         if (reqBody.quantity < spotPairData.minQuantity) {
-            return res.status(400).json({  'statusCode':400,'status': false, 'message': 'Invalid Amount' });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': 'Invalid Amount' });
         } else if (reqBody.quantity > spotPairData.maxQuantity) {
-            return res.status(400).json({  'statusCode':400,'status': false, 'message': 'Invalid Amount' });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': 'Invalid Amount' });
         }
 
-        if(reqBody.quantity < 0.0001){
-            return res.status(400).json({  'statusCode':400,'status': false, 'message': 'Invalid Amount' });
+        if (reqBody.quantity < 0.0001) {
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': 'Invalid Amount' });
         }
 
         let currencyId = reqBody.buyorsell == 'buy' ? spotPairData.secondCurrencyId : spotPairData.firstCurrencyId;
 
         let usrWallet = await Wallet.findOne({ "_id": req.user.id, })
         if (!usrWallet) {
-            return res.status(500).json({ 'statusCode':500, 'status': false, 'message': "System error" });
+            return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
         }
 
         let usrAsset = usrWallet.assets.id(currencyId)
         if (!usrAsset) {
-            return res.status(500).json({  'statusCode':500,'status': false, 'message': "System error" });
+            return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
         }
 
         let spotOrder,
@@ -398,10 +398,10 @@ export const marketOrderPlace = async (req, res) => {
             ])
 
             if ((spotOrder && spotOrder.length == 0) || (spotOrder[0].orderBook && spotOrder[0].orderBook.length == 0)) {
-                return res.status(400).json({  'statusCode':400,'status': false, 'message': "There is no order" });
+                return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "There is no order" });
             }
             // orderPrice = spotOrder[0].orderBook[0]._id
-            
+
             let orderBookQuantity = 0;
             // if (reqBody.buyorsell == 'buy') {
             // for (const key in spotOrder[0].orderBook) {
@@ -441,12 +441,12 @@ export const marketOrderPlace = async (req, res) => {
                         orderPrice = item._id;
                         orderCost = orderCost + (item._id * needQty)
                         orderBookQuantity = orderBookQuantity + needQty;
-                        console.log("orderBookQuantity",orderBookQuantity,"orderCost",orderCost,"orderPrice",orderPrice)
+                        console.log("orderBookQuantity", orderBookQuantity, "orderCost", orderCost, "orderPrice", orderPrice)
                     } else {
                         orderPrice = item._id;
                         orderCost = orderCost + (item._id * (item.quantity - item.filledQuantity))
                         orderBookQuantity = orderBookQuantity + (item.quantity - item.filledQuantity);
-                        console.log("orderBookQuantity",orderBookQuantity,"orderCost",orderCost,"orderPrice",orderPrice)
+                        console.log("orderBookQuantity", orderBookQuantity, "orderCost", orderCost, "orderPrice", orderPrice)
                     }
                 } else {
                     break
@@ -455,13 +455,13 @@ export const marketOrderPlace = async (req, res) => {
             // orderValue = (reqBody.buyorsell == 'buy') ? orderPrice * reqBody.quantity : reqBody.quantity;
             // orderValue = (reqBody.buyorsell == 'buy') ? orderPrice : orderBookQuantity;
             orderValue = (reqBody.buyorsell == 'buy') ? orderCost : orderBookQuantity;
-            console.log("orderValue",orderValue)
+            console.log("orderValue", orderValue)
         } else if (spotPairData.botstatus == "binance") {
             orderValue = (reqBody.buyorsell == 'buy') ? binanceCtrl.calculateMarkup(spotPairData.markPrice, spotPairData.markupPercentage, '+') * reqBody.quantity : reqBody.quantity;
             orderPrice = (reqBody.buyorsell == 'buy') ? binanceCtrl.calculateMarkup(spotPairData.markPrice, spotPairData.markupPercentage, '+') : spotPairData.markPrice;
         }
         if (orderValue <= 0) {
-            return res.status(400).json({ 'statusCode':400, 'status': false, 'message': "Market order match error" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Market order match error" });
         }
 
 
@@ -502,7 +502,7 @@ export const marketOrderPlace = async (req, res) => {
         });
 
         if (balDetect && balDetect.nModified != 1) {
-            return res.status(400).json({  'statusCode':400,'status': false, 'message': "Insufficient wallet balance" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Insufficient wallet balance" });
         }
 
 
@@ -596,7 +596,7 @@ export const marketOrderPlace = async (req, res) => {
 
             let binOrder = await binanceCtrl.marketOrderPlace(payloadObj);
             if (!binOrder.status) {
-                return res.status(400).json({  'statusCode':400,'status': false, 'message': binOrder.message });
+                return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': binOrder.message });
             }
 
             newOrder.liquidityId = binOrder.data.orderId;
@@ -670,11 +670,11 @@ export const marketOrderPlace = async (req, res) => {
             getOrderHistorySocket(newOrder.userId, newOrder.pairId)
             getTradeHistorySocket(newOrder.userId, newOrder.pairId)
         }
-        return res.status(200).json({ 'statusCode':200,'status': true, 'message': "Your order placed successfully.",'orderId':newOrder._id});
+        return res.status(200).json({ 'statusCode': 200, 'status': true, 'message': "Your order placed successfully.", 'orderId': newOrder._id });
     } catch (err) {
 
         console.log("errrrrrrrrrrrrrrrrrrrrrrrrrr", err)
-        return res.status(500).json({  'statusCode':500,'status': false, 'message': "System error" });
+        return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
     }
 }
 
@@ -1065,7 +1065,7 @@ export const marketOrderPlace = async (req, res) => {
 //             return await marketTradeMatch(newOrderUpdate, orderData, count = count + 1, pairData)
 //         }
 //     } catch (err) {
-       
+
 //         return res.status(500).json({  'statusCode':500,'status': false, 'message': "System error" });
 //     }
 // }
@@ -1086,25 +1086,25 @@ export const stopLimitOrderPlace = async (req, res) => {
         let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
 
         if (!spotPairData) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Trade pair does not exist" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Trade pair does not exist" });
         }
 
         if (reqBody.quantity < spotPairData.minQuantity) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Invalid Amount" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Invalid Amount" });
         } else if (reqBody.quantity > spotPairData.maxQuantity) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Invalid Amount" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Invalid Amount" });
         }
 
         let currencyId = reqBody.buyorsell == 'buy' ? spotPairData.secondCurrencyId : spotPairData.firstCurrencyId;
 
         let usrWallet = await Wallet.findOne({ "_id": req.user.id, })
         if (!usrWallet) {
-            return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
+            return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
         }
 
         let usrAsset = usrWallet.assets.id(currencyId)
         if (!usrAsset) {
-            return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
+            return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
         }
 
         let
@@ -1112,7 +1112,7 @@ export const stopLimitOrderPlace = async (req, res) => {
             orderValue = (reqBody.buyorsell == 'buy') ? reqBody.price * reqBody.quantity : reqBody.quantity;
 
         if (balance < orderValue) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Insufficient wallet balance" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Insufficient wallet balance" });
         }
 
         usrAsset.spotBal = balance - orderValue;
@@ -1133,7 +1133,7 @@ export const stopLimitOrderPlace = async (req, res) => {
         });
 
         if (balDetect && balDetect.nModified != 1) {
-            return res.status(400).json({'statusCode':400, 'status': false, 'message': "Insufficient wallet balance" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Insufficient wallet balance" });
         }
 
         let conditionalType = 'equal';
@@ -1168,7 +1168,7 @@ export const stopLimitOrderPlace = async (req, res) => {
             conditionalType,
             status: 'conditional'
         });
-        console.log("newSpotTrade_stoplimit",newSpotTrade)
+        console.log("newSpotTrade_stoplimit", newSpotTrade)
 
         if (spotPairData.botstatus == "binance") {
             let payloadObj = {
@@ -1190,7 +1190,7 @@ export const stopLimitOrderPlace = async (req, res) => {
 
                 await usrWallet.save();
             } else {
-                return res.status(400).json({ 'statusCode':400,'status': false, 'message': binOrder.message });
+                return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': binOrder.message });
             }
         }
 
@@ -1216,10 +1216,10 @@ export const stopLimitOrderPlace = async (req, res) => {
         }, req.user.id)
 
         getOpenOrderSocket(newOrder.userId, newOrder.pairId)
-        return res.status(200).json({'statusCode':200, 'status': true, 'message': "Your order placed successfully.", 'orderId':newOrder._id });
+        return res.status(200).json({ 'statusCode': 200, 'status': true, 'message': "Your order placed successfully.", 'orderId': newOrder._id });
     } catch (err) {
-       console.log("-------err", err)
-        return res.status(400).json({ 'statusCode':400,'status': false, 'message': "System error" });
+        console.log("-------err", err)
+        return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "System error" });
     }
 }
 
@@ -1232,45 +1232,45 @@ export const stopLimitOrderPlace = async (req, res) => {
 export const stopMarketOrderPlace = async (req, res) => {
     try {
         let reqBody = req.body;
-        console.log("reqBody",reqBody)
+        console.log("reqBody", reqBody)
         reqBody.stopPrice = parseFloat(reqBody.stopPrice)
         // reqBody.price = parseFloat(reqBody.price)
         reqBody.quantity = parseFloat(reqBody.quantity)
 
         let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
-        
+
         if (!spotPairData) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Invalid Pair" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Invalid Pair" });
         }
 
         if (reqBody.quantity < spotPairData.minQuantity) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Invalid Amount" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Invalid Amount" });
         } else if (reqBody.quantity > spotPairData.maxQuantity) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Invalid Amount" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Invalid Amount" });
         }
 
         let currencyId = reqBody.buyorsell == 'buy' ? spotPairData.secondCurrencyId : spotPairData.firstCurrencyId;
 
         let usrWallet = await Wallet.findOne({ "_id": req.user.id, })
         if (!usrWallet) {
-            return res.status(500).json({'statusCode':500, 'status': false, 'message': "System error" });
+            return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
         }
 
         let usrAsset = usrWallet.assets.id(currencyId)
         if (!usrAsset) {
-            return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
+            return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
         }
 
         let
             balance = parseFloat(usrAsset.spotBal),
             orderValue = (reqBody.buyorsell == 'buy') ? reqBody.stopPrice * reqBody.quantity : reqBody.quantity;
-            console.log("reqBody.price",reqBody.stopPrice,reqBody.quantity)
-            console.log("orderValue_orderValue",orderValue)
+        console.log("reqBody.price", reqBody.stopPrice, reqBody.quantity)
+        console.log("orderValue_orderValue", orderValue)
 
         if (balance < orderValue) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Insufficient wallet balance" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Insufficient wallet balance" });
         }
-        
+
         usrAsset.spotBal = balance - orderValue;
         let updateUserAsset = await usrWallet.save();
 
@@ -1315,11 +1315,11 @@ export const stopMarketOrderPlace = async (req, res) => {
 
         let newOrder = await newSpotTrade.save();
         getOpenOrderSocket(newOrder.userId, newOrder.pairId)
-        return res.status(200).json({'statusCode':200, 'status': true, 'message': "Your order placed successfully.", 'orderId':newOrder._id });
+        return res.status(200).json({ 'statusCode': 200, 'status': true, 'message': "Your order placed successfully.", 'orderId': newOrder._id });
     } catch (err) {
-        console.log("err_stopmarket",err)
-        return res.status(400).json({'statusCode':400, 'status': false, 'message': "System error" });
-        
+        console.log("err_stopmarket", err)
+        return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "System error" });
+
     }
 }
 
@@ -1338,25 +1338,25 @@ export const trailingStopOrderPlace = async (req, res) => {
         let spotPairData = await SpotPair.findOne({ "_id": reqBody.spotPairId });
 
         if (!spotPairData) {
-            return res.status(400).json({'statusCode':400, 'status': false, 'message': "Trade pair does not exist" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Trade pair does not exist" });
         }
 
         if (reqBody.quantity < spotPairData.minQuantity) {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': 'Invalid Amount' });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': 'Invalid Amount' });
         } else if (reqBody.quantity > spotPairData.maxQuantity) {
-            return res.status(400).json({'statusCode':400, 'status': false, 'message': 'Invalid Amount' });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': 'Invalid Amount' });
         }
 
         let currencyId = reqBody.buyorsell == 'buy' ? spotPairData.secondCurrencyId : spotPairData.firstCurrencyId;
 
         let usrWallet = await Wallet.findOne({ "_id": req.user.id, })
         if (!usrWallet) {
-            return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
+            return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
         }
 
         let usrAsset = usrWallet.assets.id(currencyId)
         if (!usrAsset) {
-            return res.status(500).json({'statusCode':500, 'status': false, 'message': "System error" });
+            return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
         }
 
         let
@@ -1364,7 +1364,7 @@ export const trailingStopOrderPlace = async (req, res) => {
             orderValue = (reqBody.buyorsell == 'buy') ? (spotPairData.markPrice + reqBody.distance) * reqBody.quantity : reqBody.quantity;
 
         if (balance < orderValue) {
-            return res.status(400).json({'statusCode':400, 'status': false, 'message': "Insufficient wallet balance" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Insufficient wallet balance" });
         }
 
         usrAsset.spotBal = balance - orderValue;
@@ -1410,9 +1410,9 @@ export const trailingStopOrderPlace = async (req, res) => {
 
         let newOrder = await newSpotTrade.save();
         getOpenOrderSocket(newOrder.userId, newOrder.pairId)
-        return res.status(200).json({ 'statusCode':200,'status': true, 'message': "Your order placed successfully.",'orderId':newOrder._id`` });
+        return res.status(200).json({ 'statusCode': 200, 'status': true, 'message': "Your order placed successfully.", 'orderId': newOrder._id`` });
     } catch (err) {
-        return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
+        return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
     }
 }
 
@@ -1425,7 +1425,7 @@ export const decryptTradeOrder = (req, res, next) => {
     try {
         let api_key = req.header("x-api-key");
         let authorization = req.header('Authorization')
-        console.log("orderreq", req.user, req.body,authorization)
+        console.log("orderreq", req.user, req.body, authorization)
         if (api_key !== null && api_key !== undefined && authorization == undefined) {
             return next();
         }
@@ -1437,7 +1437,7 @@ export const decryptTradeOrder = (req, res, next) => {
             return next();
         }
     } catch (err) {
-        return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
+        return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
     }
 }
 
@@ -1449,12 +1449,12 @@ export const decryptTradeOrder = (req, res, next) => {
 */
 export const getOpenOrder = async (req, res) => {
     try {
-        console.log("getOpenOrder",req.body,req.user)
+        console.log("getOpenOrder", req.body, req.user)
         // let pagination = paginationQuery(req.query);
-        let limit =  10 
+        let limit = 10
         let skip = (req.query.page - 1) * limit;
-        let pageCount= limit+skip
-        console.log("open",req.body)
+        let pageCount = limit + skip
+        console.log("open", req.body)
         let count = await SpotTrade.countDocuments({
             "userId": req.user.id,
             'pairId': req.body.pairId,
@@ -1470,7 +1470,7 @@ export const getOpenOrder = async (req, res) => {
             },
             { "$sort": { '_id': -1 } },
             { "$skip": skip },
-            { "$limit":limit },
+            { "$limit": limit },
             {
                 "$project": {
                     "orderDate": 1,
@@ -1488,23 +1488,25 @@ export const getOpenOrder = async (req, res) => {
             }
         ])
         // data.length>0 ? true : false
-        let result ={}
-       {data.length>0 ? 
-         result = {
-            count,
-            'currentPage': req.query.page,
-            'nextPage': count > pageCount,
-            'limit': limit,
-            data
-        } : result = {
-            'message': "No data found"
-        }}
+        let result = {}
+        {
+            data.length > 0 ?
+            result = {
+                count,
+                'currentPage': req.query.page,
+                'nextPage': count > pageCount,
+                'limit': limit,
+                data
+            } : result = {
+                'message': "No data found"
+            }
+        }
 
-         console.log("openorder",result)
-        return res.status(200).json({ 'statusCode':200,'success': true, result })
+        console.log("openorder", result)
+        return res.status(200).json({ 'statusCode': 200, 'success': true, result })
     } catch (err) {
-        console.log(err,'errrr')
-        return res.status(500).json({'statusCode':500, 'success': false, 'message': "System error" })
+        console.log(err, 'errrr')
+        return res.status(500).json({ 'statusCode': 500, 'success': false, 'message': "System error" })
     }
 }
 
@@ -1517,14 +1519,14 @@ export const getOpenOrder = async (req, res) => {
 */
 export const cancelOrder = async (req, res) => {
     try {
-        console.log("cancel",req.body.orderId)
+        console.log("cancel", req.body.orderId)
         if (cancelOrderArr.includes(IncCntObjId(req.body.orderId))) {
-            return res.status(400).json({'statusCode':400, 'status': false, 'message': 'Order has been excute processing ...' })
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': 'Order has been excute processing ...' })
         }
 
         let orderData = await SpotTrade.findOne({ '_id': req.body.orderId, 'userId': req.user.id });
         if (!orderData) {
-            return res.status(400).json({'statusCode':400, 'status': false, 'message': "There is no order" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "There is no order" });
         }
 
         if (['open', 'pending', 'conditional'].includes(orderData.status)) {
@@ -1542,7 +1544,7 @@ export const cancelOrder = async (req, res) => {
                     })
 
                     if (!binOrder.status) {
-                        return res.status(400).json({'statusCode':400, 'status': false, 'message': "Something went wrong" });
+                        return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Something went wrong" });
                     }
                 }
             }
@@ -1564,15 +1566,15 @@ export const cancelOrder = async (req, res) => {
             getOrderBookSocket(orderData.pairId)
             getTradeHistorySocket(orderData.userId, orderData.pairId)
 
-            return res.status(200).json({ 'statusCode':200,'status': true, 'message': "Your Order cancelled successfully" });
+            return res.status(200).json({ 'statusCode': 200, 'status': true, 'message': "Your Order cancelled successfully" });
         } else if (orderData.status == 'completed') {
-            return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Your Order already completed" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Your Order already completed" });
         } else if (orderData.status == 'cancel') {
-            return res.status(400).json({'statusCode':400, 'status': false, 'message': "Your Order already cancelled" });
+            return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Your Order already cancelled" });
         }
-        return res.status(400).json({ 'statusCode':400,'status': false, 'message': "Something went wrong" });
+        return res.status(400).json({ 'statusCode': 400, 'status': false, 'message': "Something went wrong" });
     } catch (err) {
-        return res.status(500).json({ 'statusCode':500,'status': false, 'message': "System error" });
+        return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
     }
 }
 
@@ -1585,9 +1587,9 @@ export const cancelOrder = async (req, res) => {
 export const getOrderHistory = async (req, res) => {
     try {
         // let pagination = paginationQuery(req.query);
-        let limit =  10 
+        let limit = 10
         let skip = (req.query.page - 1) * limit;
-        let pageCount= limit+skip
+        let pageCount = limit + skip
         let count = await SpotTrade.countDocuments({
             "userId": req.user.id,
             'pairId': req.body.pairId,
@@ -1627,33 +1629,35 @@ export const getOrderHistory = async (req, res) => {
                     "stopPrice": 1,
                     "averageTotal": {
                         $reduce: {
-                          input: "$filled",
-                          initialValue: 0,
-                          in: {
-                            $avg: {
-                              $add: [
-                                "$$value",
-                                { $multiply: ["$$this.price", "$$this.filledQuantity"] },
-                              ],
+                            input: "$filled",
+                            initialValue: 0,
+                            in: {
+                                $avg: {
+                                    $add: [
+                                        "$$value",
+                                        { $multiply: ["$$this.price", "$$this.filledQuantity"] },
+                                    ],
+                                },
                             },
-                          },
                         },
                     }
                 }
             }
         ])
 
-        let result ={}
-        {data.length>0 ? 
-          result = {
-             count,
-             'currentPage': req.query.page,
-             'nextPage': count > pageCount,
-             'limit': limit,
-             data
-         } : result = {
-             'message': "No data found"
-         }}
+        let result = {}
+        {
+            data.length > 0 ?
+            result = {
+                count,
+                'currentPage': req.query.page,
+                'nextPage': count > pageCount,
+                'limit': limit,
+                data
+            } : result = {
+                'message': "No data found"
+            }
+        }
         // let result = {
         //     count,
         //     'currentPage': req.query.page,
@@ -1661,10 +1665,10 @@ export const getOrderHistory = async (req, res) => {
         //     'limit': limit,
         //     data
         // }
-        console.log("orderhistory",result)
-        return res.status(200).json({ 'statusCode':200,'success': true, result })
+        console.log("orderhistory", result)
+        return res.status(200).json({ 'statusCode': 200, 'success': true, result })
     } catch (err) {
-        return res.status(500).json({ 'statusCode':500,'success': false ,'message': "System error" })
+        return res.status(500).json({ 'statusCode': 500, 'success': false, 'message': "System error" })
     }
 }
 
@@ -1677,9 +1681,9 @@ export const getOrderHistory = async (req, res) => {
 export const getTradeHistory = async (req, res) => {
     try {
         // let pagination = paginationQuery(req.query);
-        let limit =  10 
+        let limit = 10
         let skip = (req.query.page - 1) * limit;
-        let pageCount= limit+skip
+        let pageCount = limit + skip
         let count = await SpotTrade.aggregate([
             {
                 "$match": {
@@ -1706,8 +1710,8 @@ export const getTradeHistory = async (req, res) => {
             },
             { "$unwind": "$filled" },
             { "$sort": { 'createdAt': -1 } },
-            { "$skip": skip},
-            { "$limit":limit},
+            { "$skip": skip },
+            { "$limit": limit },
 
             {
                 "$project": {
@@ -1723,17 +1727,19 @@ export const getTradeHistory = async (req, res) => {
                 }
             }
         ])
-        let result ={}
-        {data.length>0 ? 
-          result = {
-            count : count.length,
-             'currentPage': req.query.page,
-             'nextPage': count.length > pageCount,
-             'limit': limit,
-             data
-         } : result = {
-             'message': "No data found"
-         }}
+        let result = {}
+        {
+            data.length > 0 ?
+            result = {
+                count: count.length,
+                'currentPage': req.query.page,
+                'nextPage': count.length > pageCount,
+                'limit': limit,
+                data
+            } : result = {
+                'message': "No data found"
+            }
+        }
         // let result = {
         //     count: count.length,
         //     'currentPage': req.query.page,
@@ -1741,10 +1747,10 @@ export const getTradeHistory = async (req, res) => {
         //     'limit': limit,
         //     data
         // }
-        console.log("TradeHistory",result)
-        return res.status(200).json({'statusCode':200, 'success': true, result })
+        console.log("TradeHistory", result)
+        return res.status(200).json({ 'statusCode': 200, 'success': true, result })
     } catch (err) {
-        return res.status(500).json({'statusCode':500, 'success': false , 'message': "System error"})
+        return res.status(500).json({ 'statusCode': 500, 'success': false, 'message': "System error" })
     }
 }
 
@@ -1762,9 +1768,9 @@ export const getOrderBook = async (req, res) => {
 
         console.log("-----result", result)
 
-        return res.status(200).json({'statusCode':200, 'success': true, result })
+        return res.status(200).json({ 'statusCode': 200, 'success': true, result })
     } catch (err) {
-        return res.status(500).json({ 'statusCode':500,'success': false,  'message': "System error" })
+        return res.status(500).json({ 'statusCode': 500, 'success': false, 'message': "System error" })
     }
 }
 
@@ -1784,7 +1790,7 @@ export const getRecentTrade = async (req, res) => {
             }
         );
         if (!pairData) {
-            return res.status(400).json({'statusCode':400, 'success': false,'message':"Trade pair does not exist"})
+            return res.status(400).json({ 'statusCode': 400, 'success': false, 'message': "Trade pair does not exist" })
         }
 
         if (pairData.botstatus == 'binance') {
@@ -1793,21 +1799,21 @@ export const getRecentTrade = async (req, res) => {
                 'secondCurrencySymbol': pairData.secondCurrencySymbol
             })
             if (recentTradeData && recentTradeData.length > 0) {
-                console.log("rectradebtc",recentTradeData)
-                return res.status(200).json({'statusCode':200, 'success': true, 'result': recentTradeData })
-                
+                console.log("rectradebtc", recentTradeData)
+                return res.status(200).json({ 'statusCode': 200, 'success': true, 'result': recentTradeData })
+
             }
         } else {
             let recentTradeData = await recentTrade(req.params.pairId);
             if (recentTradeData.status) {
-                console.log("rectradeusdt",recentTradeData.result)
-                return res.status(200).json({ 'statusCode':200,'success': true, 'result': recentTradeData.result })
+                console.log("rectradeusdt", recentTradeData.result)
+                return res.status(200).json({ 'statusCode': 200, 'success': true, 'result': recentTradeData.result })
             }
         }
 
         // return res.status(400).json({'statusCode':400, 'success': false })
     } catch (err) {
-        return res.status(500).json({ 'statusCode':500,'success': false,  'message': "System error" })
+        return res.status(500).json({ 'statusCode': 500, 'success': false, 'message': "System error" })
     }
 }
 
@@ -1818,7 +1824,7 @@ export const getRecentTrade = async (req, res) => {
 */
 export const getPairList = async (req, res) => {
     try {
-        console.log("pair",req.body)
+        console.log("pair", req.body)
         let spotPairData = await SpotPair.aggregate([
             { "$match": { "status": "active" } },
             {
@@ -1879,10 +1885,10 @@ export const getPairList = async (req, res) => {
                 }
             },
         ])
-        console.log("tradepair",spotPairData)
-        return res.status(200).json({ 'statusCode':200,'success': true, 'message': "success", 'result': spotPairData })
+        console.log("tradepair", spotPairData)
+        return res.status(200).json({ 'statusCode': 200, 'success': true, 'message': "success", 'result': spotPairData })
     } catch (err) {
-        return res.status(500).json({ 'statusCode':500,'status': false,  'message': "System error" });
+        return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
     }
 }
 
@@ -1896,7 +1902,7 @@ export const allOpenOrder = async (req, res) => {
     try {
         console.log('allOpenOrder')
         // let pagination = paginationQuery(req.query);
-        let limit =  10 
+        let limit = 10
         let skip = (req.query.page - 1) * limit;
         let filter, reqQuery = req.query;
 
@@ -1918,7 +1924,7 @@ export const allOpenOrder = async (req, res) => {
             { "$match": filter },
             { "$sort": { '_id': -1 } },
             { "$skip": skip },
-            { "$limit":limit },
+            { "$limit": limit },
             {
                 "$project": {
                     "orderDate": 1,
@@ -1940,10 +1946,10 @@ export const allOpenOrder = async (req, res) => {
             count,
             data
         }
-        return res.status(200).json({ 'statusCode':200,'success': true, result })
+        return res.status(200).json({ 'statusCode': 200, 'success': true, result })
     } catch (err) {
-        console.log(err,'allOpenOrder')
-        return res.status(500).json({ 'statusCode':500,'success': false,  'message': "System error" })
+        console.log(err, 'allOpenOrder')
+        return res.status(500).json({ 'statusCode': 500, 'success': false, 'message': "System error" })
     }
 }
 
@@ -1956,7 +1962,7 @@ export const allOpenOrder = async (req, res) => {
 export const allTradeOrder = async (req, res) => {
     try {
         // let pagination = paginationQuery(req.query);
-        let limit =  10 
+        let limit = 10
         let skip = (req.query.page - 1) * limit;
         let filter = {}, reqQuery = req.query;
 
@@ -2001,9 +2007,9 @@ export const allTradeOrder = async (req, res) => {
             count: count.length,
             data
         }
-        return res.status(200).json({ 'statusCode':200,'success': true, result })
+        return res.status(200).json({ 'statusCode': 200, 'success': true, result })
     } catch (err) {
-        return res.status(500).json({'statusCode':500, 'success': false,  'message': "System error" })
+        return res.status(500).json({ 'statusCode': 500, 'success': false, 'message': "System error" })
     }
 }
 
@@ -2025,6 +2031,6 @@ export const getOrderStatus = async (req, res) => {
 
     }
     catch (err) {
-        return res.status(500).json({ 'statusCode': 500, 'status': false,  'message': "System error" });
+        return res.status(500).json({ 'statusCode': 500, 'status': false, 'message': "System error" });
     }
 }

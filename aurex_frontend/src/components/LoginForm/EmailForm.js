@@ -5,11 +5,11 @@ import { Button } from "@material-ui/core";
 import browser from 'browser-detect';
 import Checkbox from 'rc-checkbox';
 import { useTranslation } from 'react-i18next';
-import { useHistory,Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import clsx from 'classnames';
 
 // import action
-import { getGeoInfoData, login } from '../../actions/users';
+import { check2fa, getGeoInfoData, login } from '../../actions/users';
 
 // import lib
 import validation from './validation';
@@ -40,21 +40,37 @@ const EmailForm = () => {
     const [loginHistory, setLoginHistory] = useState({});
     const [showTwoFA, setShowTowFA] = useState(false)
 
-    const { email, password, formType, showPassword,remember, twoFACode } = formValue;
+    const { email, password, formType, showPassword, remember, twoFACode } = formValue;
 
     const handleChange = (e) => {
         e.preventDefault();
         const { name, value } = e.target;
-
+        console.log(name, 'handleCheck2fa')
         if (name == 'twoFACode') {
             if (!(value == '' || (/^[0-9\b]+$/.test(value) && value.length <= 6))) {
                 return
             }
         }
+        if (name == 'email') {
+            console.log(value, 'handleCheck2fa')
+            handleCheck2fa(value)
+        }
 
         let formData = { ...formValue, ...{ [name]: value } }
         setFormValue(formData)
         setValidateError(validation(formData))
+    }
+
+    const handleCheck2fa = async (email) => {
+        try {
+            console.log(email, 'handleCheck2fa')
+            let { status, message } = await check2fa({ email: email })
+            if (status == 'TWO_FA') {
+                setShowTowFA(true)
+            }
+        } catch (err) {
+            console.log(err, 'handleCheck2fa__err')
+        }
     }
 
     const handleBlur = (e) => {
@@ -90,6 +106,13 @@ const EmailForm = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         setLoader(true)
+        if (showTwoFA && isEmpty(twoFACode)) {
+            let error = { ...validateError, ['twoFACode']: "2fa is required" }
+            setValidateError(error)
+            setLoader(false)
+            return false
+        }
+
         let reqData = {
             email,
             password,
@@ -128,10 +151,10 @@ const EmailForm = () => {
             if (error) {
                 setValidateError(error);
             }
-            if(message == "Your Password is Old Please Reset Your Password"){
+            if (message == "Your Password is Old Please Reset Your Password") {
                 toastAlert('error', message, 'login');
-                history.push("/reset-password/"+authToken)
- 
+                history.push("/reset-password/" + authToken)
+
             }
             toastAlert('error', message, 'login');
         }
@@ -177,21 +200,21 @@ const EmailForm = () => {
                     onBlur={handleBlur}
                 />
                 {toched.email && validateError.email && <p className="error-message">{t(validateError.email)}</p>}
-                 {/* <span style={{ color: 'red' }}>{validateError && t(validateError.email)}</span>          */}
-                   </div> 
+                {/* <span style={{ color: 'red' }}>{validateError && t(validateError.email)}</span>          */}
+            </div>
             <div className="form-group">
                 <span className="login_label">{t('PASSWORD')}</span>
                 <div className="input-group regGroupInput mt-2">
-                <input
-                    type={showPassword ? "text" : "password"}
-                    className="form-control mt-2"
-                    placeholder={t('PASSWORD_PLACEHOLDER')}
-                    name="password"
-                    value={password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                <div className="input-group-append">
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        className="form-control mt-2"
+                        placeholder={t('PASSWORD_PLACEHOLDER')}
+                        name="password"
+                        value={password}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                    />
+                    <div className="input-group-append">
                         <Link onClick={(e) => {
                             e.preventDefault();
                             setFormValue((el => {
@@ -200,7 +223,7 @@ const EmailForm = () => {
                         }}>
                             <i className={clsx("fa", { "fa-eye": showPassword }, { "fa-eye-slash": !showPassword })} aria-hidden="true"></i>
                         </Link>
-                </div>
+                    </div>
                 </div>
                 {toched.password && validateError.password && <p className="error-message">{t(validateError.password)}</p>}
                 {/* <span style={{ color: 'red' }}>{validateError && validateError.password}</span>   */}
@@ -223,7 +246,7 @@ const EmailForm = () => {
 
 
             <div className="form-group">
-            {/* <div class="custom-control custom-checkbox">
+                {/* <div class="custom-control custom-checkbox">
   <input type="checkbox" class="custom-control-input" id="customCheck1" />
   <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
 </div> */}
@@ -231,7 +254,7 @@ const EmailForm = () => {
                     <Checkbox className='custom_checkbox'
                         name="remember"
                         onChange={handleCheckBox}
-                        checked={remember} 
+                        checked={remember}
                     />
                     <label className="form-check-label" for="flexCheckDefault">
                         {t('KEEP_SIGN_COMPUTER')}

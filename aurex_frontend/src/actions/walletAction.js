@@ -1,5 +1,5 @@
 // import config
-import axios , {handleResp} from '../config/axios'
+import axios, { handleResp } from '../config/axios'
 
 // import constant
 import {
@@ -10,17 +10,17 @@ import {
     HIDE_ZERO
 } from '../constant';
 
-export const getAddress  = async(data,dispatch)=>{
+export const getAddress = async (data, dispatch) => {
     try {
-        console.log('getAddress',data)
+        console.log('getAddress', data)
         let respData = await axios({
             'method': 'post',
             'url': `/api/getWalletAddress`,
-            data:data
+            data: data
         });
         dispatch(userWalletList(respData.data.result))
-        console.log("respDatarespDatarespDatarespData",respData.data)
-        return respData.data.assetData
+        console.log("respDatarespDatarespDatarespData", respData.data)
+        return respData.data.result
     }
     catch (err) {
         handleResp(err, 'error')
@@ -35,9 +35,9 @@ export const getAssetData = async (dispatch) => {
             'url': `/api/getAssetsDetails`,
         });
 
-        console.log("respDatarespDatarespDatarespData",respData.data)
+        console.log("respDatarespDatarespDatarespData", respData.data)
         dispatch(userWalletList(respData.data.result))
-       
+
         return true
     }
     catch (err) {
@@ -46,37 +46,37 @@ export const getAssetData = async (dispatch) => {
     }
 }
 
-export const gethideZeroStatus=async()=>{
+export const gethideZeroStatus = async () => {
 
-    try{
+    try {
         let respData = await axios({
             'method': 'get',
             'url': `/api/getHideoZeroStatus`,
         });
 
         return {
-            result:respData.data.hideZeroStatus
+            result: respData.data.hideZeroStatus
         }
-    }catch(err){
+    } catch (err) {
         handleResp(err, 'error')
         return false
 
     }
 }
 
-export const updateHideZeroStatus=async(data)=>{
+export const updateHideZeroStatus = async (data) => {
 
-    try{
+    try {
         let respData = await axios({
             'method': 'put',
             'url': `/api/getHideoZeroStatus`,
-            data:data
+            data: data
         });
         return {
-            status:true,
-            message:respData.data.message
+            status: true,
+            message: respData.data.message
         }
-    }catch(err){
+    } catch (err) {
         handleResp(err, 'error')
         return false
 
@@ -386,12 +386,12 @@ export const getTrnxHistory = async (params, query) => {
     }
 }
 
-export const checkEmail =async()=>{
+export const checkEmail = async () => {
     console.log("checkEmail action")
     let respData = await axios({
         'method': 'post',
         'url': `/api/checkEmail`,
     });
-    console.log(respData.data.result,"checkEmail")
+    console.log(respData.data.result, "checkEmail")
     return respData.data.result
 }

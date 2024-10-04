@@ -4,7 +4,7 @@ import { encryptString, decryptString } from '../../lib/cryptoJS';
 import { mailTemplateLang } from '../../controllers/emailTemplate.controller';
 import { newNotification } from '../../controllers/notification.controller'
 import isEmpty from '../../lib/isEmpty';
-import node2fa from 'node-2fa';
+import * as node2fa from 'node-2fa'
 import moment from 'moment';
 import multer from 'multer';
 import path from 'path';

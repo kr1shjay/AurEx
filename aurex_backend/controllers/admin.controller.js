@@ -1,6 +1,7 @@
 // import package
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
+import QRCode from 'qrcode'
 // import modal
 import Admin from '../models/Admin';
 import LoginHistory from '../models/LoginHistory';
@@ -20,7 +21,7 @@ import { encryptString, decryptString } from '../lib/cryptoJS';
 import { mailTemplateLang } from './emailTemplate.controller';
 
 //2fa
-import node2fa from 'node-2fa';
+import * as node2fa from 'node-2fa'
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -38,7 +39,7 @@ export const creatAdmin = async (req, res) => {
     try {
         let reqBody = req.body
         let checkUser = await Admin.findOne({ "email": reqBody.email })
-        let adminCheck = await Admin.findOne({'_id' : req.user.id })
+        let adminCheck = await Admin.findOne({ '_id': req.user.id })
         // console.log(checkUser,'---checkUser')
         if (adminCheck.role === 'admin') {
             return res.status(400).json({ status: false, message: 'super Admin Only created' })
@@ -65,7 +66,7 @@ export const creatAdmin = async (req, res) => {
             return res.status(400).json({ 'success': false, message: 'Failed' })
         }
     } catch (err) {
-        console.log(err,'---err')
+        console.log(err, '---err')
         return res.status(500).json({ staus: false, message: 'something went wrong' })
     }
 
@@ -455,22 +456,25 @@ export const changePassword = async (req, res) => {
 /**
  * creat 2FA Code
 */
-export const generateTwoFa = (userData) => {
+export const generateTwoFa = async (userData) => {
     let result = {}
     if (userData && userData.google2Fa.secret != "") {
-
+        let url = await QRCode.toDataURL(userData.google2Fa.uri)
         result = {
             secret: userData.google2Fa.secret,
-            imageUrl: config.NODE_TWOFA.QR_IMAGE + userData.google2Fa.uri,
+            // imageUrl: config.NODE_TWOFA.QR_IMAGE + userData.google2Fa.uri,
+            imageUrl: url,
             uri: userData.google2Fa.uri,
             twoFaStatus: "enabled"
         }
 
     } else {
         let newSecret = node2fa.generateSecret({ 'name': config.NODE_TWOFA.NAME, 'account': userData.email })
+        let url = await QRCode.toDataURL(newSecret.uri)
         result = {
             secret: newSecret.secret,
-            imageUrl: newSecret.qr,
+            // imageUrl: newSecret.qr,
+            imageUrl: url,
             uri: newSecret.uri,
             twoFaStatus: "disabled"
         }
@@ -486,11 +490,11 @@ export const generateTwoFa = (userData) => {
 export const get2faCode = async (req, res) => {
     Admin.findOne(
         { "_id": req.user.id },
-        (err, userData) => {
+        async (err, userData) => {
             if (err) {
                 return res.status(500).json({ "success": false, 'message': "SOMETHING_WRONG" })
             }
-            let result = generateTwoFa(userData)
+            let result = await generateTwoFa(userData)
             return res.status(200).json({ 'success': true, 'result': result })
         }
     )
@@ -523,7 +527,7 @@ export const UpdateTwoFA = async (req, res) => {
                 { "new": true }
             )
 
-            let result = generateTwoFa(updateData)
+            let result = await generateTwoFa(updateData)
 
             return res.status(200).json({ 'success': true, 'message': "2FA Enable Sucessfully", result })
         }
@@ -561,7 +565,7 @@ export const diabled2faCode = async (req, res) => {
             userData.google2Fa.secret = '';
             userData.google2Fa.uri = '';
             let updateData = await userData.save();
-            let result = generateTwoFa(updateData)
+            let result = await generateTwoFa(updateData)
             return res.status(200).json({ 'success': true, 'message': "2FA Disable Sucessfully", result })
         }
         return res.status(400).json({ 'success': false, 'errors': { 'code': "Invalid Code" } })

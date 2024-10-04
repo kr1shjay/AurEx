@@ -98,7 +98,7 @@ const GeneralSetting = () => {
             afterLogin
         }
         let validationError = validation(reqData)
-        console.log(validationError,'-----------error')
+        console.log(validationError, '-----------error')
         if (!isEmpty(validationError)) {
             setValidateError(validationError)
             setLoader(false)
@@ -160,7 +160,12 @@ const GeneralSetting = () => {
                                     >
                                         {
                                             currencyOption && currencyOption.length > 0 && currencyOption.map((item, key) => {
-                                                if (item.type == 'crypto' && item.coin != 'BTC') {
+                                                // if (item.type == 'crypto' && item.coin != 'BTC') {
+                                                //     return (
+                                                //         <MenuItem value={item.coin} key={key}>{item.coin}</MenuItem>
+                                                //     )
+                                                // }
+                                                if (item.type == 'token' && item.coin == 'USDT') {
                                                     return (
                                                         <MenuItem value={item.coin} key={key}>{item.coin}</MenuItem>
                                                     )
@@ -198,6 +203,14 @@ const GeneralSetting = () => {
                                         onChange={handleChange}
                                     >
                                         {
+                                            //  {
+                                            //     "label": "wallet",
+                                            //     "url": "/wallet"
+                                            // },
+                                            // {
+                                            //     "label": "spot trade",
+                                            //     "url": "/spot"
+                                            // }
                                             pageList && pageList.length > 0 && pageList.map((item, key) => {
                                                 return (
                                                     <MenuItem value={item.label}>{capitalize(item.label)}</MenuItem>

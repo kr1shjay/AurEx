@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === "production") {
     secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
     cryptoSecretKey: "1234567812345678",
     DATABASE_URL:
-    "mongodb+srv://aurex-prod:sf5vmllmkyccgunm@aurex-production.wvbvo.mongodb.net/wXZeko",
+      "mongodb+srv://aurex-prod:SF5vmlLMkYccGuNm@aurex-production.wvbvo.mongodb.net/wXZeko",
     RUN_CRON: true,
     PORT: PORT,
     FRONT_URL: "https://aurexchange.com",
@@ -115,11 +115,11 @@ if (process.env.NODE_ENV === "production") {
         URL: "https://bsc-rpc.publicnode.com",
         START_BLOCK: 0,
         DEPOSIT_URL:
-          "https://api-testnet.bscscan.com/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=15YENF4YFTS1N8SWJWX8X4WTKTM17M8I49",
+          "https://api.bscscan.com/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=15YENF4YFTS1N8SWJWX8X4WTKTM17M8I49",
         DEPOSIT_TOKEN_URL:
-          "https://api-testnet.bscscan.com/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=15YENF4YFTS1N8SWJWX8X4WTKTM17M8I49",
-        NETWORK_ID: 97,
-        CHAIN_ID: 97,
+          "https://api.bscscan.com/api?module=account&action=tokentx&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=15YENF4YFTS1N8SWJWX8X4WTKTM17M8I49",
+        NETWORK_ID: 56,
+        CHAIN_ID: 56,
         ADDRESS: "0x10A0F4712445934960ffad7DEdd0d0D6657c7f55",
         PRIVATE_KEY:
           "U2FsdGVkX19p6oLIyM3CvGqaYp5Hk27YDZL6HpMnd1Xsi61gGuMlyQYCNtAauWwVgqBfuUtKWp8Le2CK30lth0/0qg5dogGl8wbUrqlQ25WYDxwYwJn3JLR2zYpLqrRz",
@@ -127,10 +127,9 @@ if (process.env.NODE_ENV === "production") {
       },
       XRP: {
         URL: "wss://s1.ripple.com",
-        ADDRESS:"" ,
-        // "rKJfjNZporeg4AMZAczpTkVyTwWbVzy1if",
-        PRIVATE_KEY:"",
-          // "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
+        ADDRESS: "", //"rKJfjNZporeg4AMZAczpTkVyTwWbVzy1if",
+        PRIVATE_KEY: "",
+        // "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
       },
       TRON: {
         FULLNODE: "https://nile.trongrid.io",
@@ -192,12 +191,6 @@ if (process.env.NODE_ENV === "production") {
         "It9KcIzwZjoClj18zlW58kNDH79qaYlnQkiDBivB3gXl18zWQBqAfb3iTGnbMzJo",
     },
     coinpaymentGateway: {
-      // PUBLIC_KEY:'83b47856ed43ab01753526952728017906011bbd43266073ccaa7da8781edc1b',
-      //   // "5299072eb40c2e4f259acacf20f1bfc283c07f177c662f388bf0943ce91e4517",
-      // PRIVATE_KEY:'Ee6De7071851Aeb52C83a5d1876622c6a7524Bc8e1A97368421295A19eAc143F',
-      //   // "FE760285a5cFd6c7F1eB6d8c593cF0E91A531B3458Dea547fAc4a618D4dAe658",
-      // IPN_SECRET: "erhoryptic",
-      // MERCHANT_ID: '0beb4a60b9fdc1e89e458c213df939df' //"19aa9c53f994083147f93e8e9cd50d5f",
       PUBLIC_KEY:
         "987decdb6456ad95b81ceadedb36e50e1514579e5724afac022a456bdc5899d5",
       PRIVATE_KEY:
@@ -348,10 +341,9 @@ if (process.env.NODE_ENV === "production") {
       },
       XRP: {
         URL: "wss://s1.ripple.com",
-        ADDRESS: "",
-        // "rKJfjNZporeg4AMZAczpTkVyTwWbVzy1if",
-        PRIVATE_KEY:"",
-          // "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
+        ADDRESS: "", //"rKJfjNZporeg4AMZAczpTkVyTwWbVzy1if",
+        PRIVATE_KEY: "",
+        // "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
       },
       // TRON: {
       //     FULLNODE: "https://api.trongrid.io",
@@ -465,9 +457,8 @@ if (process.env.NODE_ENV === "production") {
     secretOrKey: "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
     cryptoSecretKey: "1234567812345678",
     // DATABASE_URL: "mongodb://localhost:27017/cluxold",
-    // DATABASE_URL: "mongodb://localhost:27017/wXZeko",
     DATABASE_URL: "mongodb://localhost:27017/wXZeko",
-    IPN_URL: `${API_URL}:${PORT}/api/depositwebhook`,
+
     // DATABASE_URL: "mongodb://cluxdb:Fvdhcdcedhf6wed34sxdz@172.105.40.100:10730/cluxdb",
     // DATABASE_URL: "mongodb://clux:Password__2022__PasworD@23.239.23.84:10330/clux",
     RUN_CRON: false,
@@ -577,7 +568,7 @@ if (process.env.NODE_ENV === "production") {
         CHAIN_ID: 11155111,
       },
       BNB: {
-        URL: "https://bsc-rpc.publicnode.com", //"https://data-seed-prebsc-1-s1.binance.org:8545",
+        URL: "https://data-seed-prebsc-1-s1.binance.org:8545",
         START_BLOCK: 0,
         DEPOSIT_URL:
           "https://api-testnet.bscscan.com/api?module=account&action=txlist&address=##USER_ADDRESS##&startblock=##START_BLOCK##&endblock=##END_BLOCK##&sort=asc&apikey=15YENF4YFTS1N8SWJWX8X4WTKTM17M8I49",
@@ -592,10 +583,9 @@ if (process.env.NODE_ENV === "production") {
       },
       XRP: {
         URL: "wss://s1.ripple.com",
-        ADDRESS: "",
-        // "rKJfjNZporeg4AMZAczpTkVyTwWbVzy1if",
-        PRIVATE_KEY:"",
-          // "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
+        ADDRESS: "",//"rKJfjNZporeg4AMZAczpTkVyTwWbVzy1if",
+        PRIVATE_KEY: "",
+        // "U2FsdGVkX1/TinQdTyZCjQ5xfbhvxYUqnOMPCYJ2ufGr3zzzKDeP6T6qBMCT4/O6",
       },
       ETC: {
         URL: "http://173.255.221.129:3000",

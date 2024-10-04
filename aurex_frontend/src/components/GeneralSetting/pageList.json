@@ -2,13 +2,5 @@
     {
         "label": "dashboard",
         "url": "/dashboard"
-    },
-    {
-        "label": "wallet",
-        "url": "/wallet"
-    },
-    {
-        "label": "spot trade",
-        "url": "/spot"
     }
 ]

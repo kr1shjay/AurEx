@@ -74,7 +74,7 @@ const TwoFA = () => {
         }
 
         try {
-            const { status, loading, error, message, result } = await disabled2faCode(reqData,dispatch);
+            const { status, loading, error, message, result } = await disabled2faCode(reqData, dispatch);
             setLoader(loading)
             if (status == 'success') {
                 toastAlert('success', t(message), 'twoFA')
@@ -107,7 +107,7 @@ const TwoFA = () => {
         }
 
         try {
-            const { status, loading, error, message, result } = await update2faCode(reqData,dispatch);
+            const { status, loading, error, message, result } = await update2faCode(reqData, dispatch);
             setLoader(loading)
             if (status == 'success') {
                 toastAlert('success', t(message), 'twoFA')

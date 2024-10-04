@@ -231,7 +231,7 @@ export const bnbMovetoAdmin = async ({
 
       // let responseData = await web3.eth.sendSignedTransaction(raw1);
 
-      let responseData = await web3.eth.sendTransaction({ from: useraddress, to: adminAddress , value: amount.toString(), gas: gaslimit, getGasPrice });
+      let responseData = await web3.eth.sendTransaction({ from: useraddress, to: adminAddress, value: amount.toString(), gas: gaslimit, getGasPrice });
       console.log(responseData, "responseDataresponseDataBNB");
       web3.eth.accounts.wallet.remove(userprivatekey);
       return {
@@ -558,7 +558,7 @@ export const tokenMoveToAdmin = async ({
     console.log(
       userPrivateKey,
       decimals,
-      contractAddress,
+      contractAddress, userAddress,
       "userPrivateKeyTOKENBNB"
     );
     // let UserAddress  = web3.eth.accounts.privateKeyToAccount(userPrivateKey);
@@ -567,7 +567,7 @@ export const tokenMoveToAdmin = async ({
     // // }
     let contract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
     let tokenbalance = await contract.methods.balanceOf(userAddress).call();
-
+    decimals = await contract.methods.decimals().call()
     let muldecimal = 2;
     if (decimals == 0) {
       muldecimal = 1;
@@ -599,10 +599,12 @@ export const tokenMoveToAdmin = async ({
       let { gasLimit } = await EstGas(params, JSON.parse(minAbi), contractAddress, 'transfer', userAddress)
       // let gaslimit = web3.utils.toHex(500000);
       let fee = web3.utils.toHex(getGasPrice) * gasLimit;
+      fee = fee * 1.5
       console.log(getBalance, "------------>>>>getBalanceBNB");
       console.log(fee, "------------>>>>feeBNB");
 
       if (getBalance > fee) {
+
         console.log(
           "-------------->>>>>>>>>>BNB-----------------<<<<<<<<<<<",
           amount
@@ -648,8 +650,10 @@ export const tokenMoveToAdmin = async ({
         // let result = await web3.eth.sendSignedTransaction(raw1);
 
         web3.eth.accounts.wallet.add(userPrivateKey);
+        let accountS = await web3.eth.getAccounts()
+        console.log(accountS, 'accountS')
         let Tokencontract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
-        let result = await Tokencontract.methods.transfer(web3.utils.toChecksumAddress(adminAddress), amount.toString()).send({ from: userAddress, gas: gasLimit, getGasPrice });
+        let result = await Tokencontract.methods.transfer(web3.utils.toChecksumAddress(adminAddress), amount.toString()).send({ from: web3.utils.toChecksumAddress(userAddress), gas: gasLimit });
         web3.eth.accounts.wallet.remove(userPrivateKey);
         return {
           status: true,
@@ -843,7 +847,7 @@ export const tokenMoveToUser = async ({
         // const raw1 = "0x" + serializedTx.toString("hex");
 
         // let result = await web3.eth.sendSignedTransaction(raw1);
-        web3.eth.accounts.wallet.remove(adminPrivateKey);
+        web3.eth.accounts.wallet.add(adminPrivateKey);
         let Tokencontract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
         let result = await Tokencontract.methods.transfer(web3.utils.toChecksumAddress(userAddress), amount.toString()).send({ from: adminAddress, gas: gaslimit, getGasPrice });
         console.log("Token move to user")

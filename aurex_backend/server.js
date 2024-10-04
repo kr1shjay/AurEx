@@ -31,9 +31,9 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
 
 import { encryptString, decryptString } from "./lib/cryptoJS";
 
-import { UseRecieve,UseValidateTx } from "./hooks/bnbHooks";
+import { UseRecieve, UseValidateTx } from "./hooks/bnbHooks";
 
-import { RegenerateAddress } from "./controllers/wallet.controller";
+import { RegenerateAddress, AutoUpdate } from "./controllers/wallet.controller";
 
 const app = express();
 app.use(morgan("dev"));
@@ -134,10 +134,11 @@ dbConnection((done) => {
     // console.log(privateKey,'privateKey',Buffer.from(privateKey.substring(2, 66), "hex"))
     server = server.listen(config.PORT, function () {
       // UseValidateTx('0xda9d9eddb1882b0a5072070ada7743b2c59cf985f7dad0c4b9daee5aaf98285a')
-      RegenerateAddress()
-      setInterval(()=>{
+      // RegenerateAddress()
+      // AutoUpdate()
+      setInterval(() => {
         UseRecieve()
-      },3000)
+      }, 3000)
       console.log(
         "\x1b[34m%s\x1b[0m",
         `server is running on port ${config.PORT}`

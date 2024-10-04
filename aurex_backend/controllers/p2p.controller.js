@@ -2,7 +2,7 @@
 import mongoose from 'mongoose';
 import multer from 'multer';
 import path from 'path';
-import node2fa from 'node-2fa';
+import * as node2fa from 'node-2fa'
 
 // import model
 import {

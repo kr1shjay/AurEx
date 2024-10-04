@@ -24,10 +24,10 @@ const CryptoDeposit = (props) => {
   const { show, assetData, currency, onHide } = props;
   useEffect(() => {
     console.log(assetData, 'Asset')
-    if(!isEmpty(assetData)){
+    if (!isEmpty(assetData)) {
       generateAddress()
     }
-    
+
   }, [assetData])
 
   const generateAddress = async () => {
@@ -36,8 +36,10 @@ const CryptoDeposit = (props) => {
         currencyId: assetData?._id
       }
       // if (isEmpty(assetData.address)) {
-        let Asset = await getAddress(data,dispatch)
-        setAsset(Asset)
+      let Assets = await getAddress(data, dispatch)
+      let Asste = Assets.find((val) => (val._id.toString() == assetData?._id.toString()))
+      console.log(Asste, 'Asste')
+      setAsset(Asste)
       // } else {
       //   setAsset(assetData)
       // }

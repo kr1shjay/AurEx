@@ -13,7 +13,7 @@ import isEmpty from "../../lib/isEmpty";
 const initialFormValue = {
   currencyId: "",
   name: "",
-  preference:"",
+  preference: "",
   coin: "",
   symbol: "",
   type: "crypto",
@@ -48,17 +48,17 @@ class CurrencyUpdateModal extends React.Component {
       loader: false,
       formValue: initialFormValue,
       errors: {},
-      count:''
+      count: ''
     };
   }
 
   componentWillReceiveProps(nextProps) {
     const { record, imageUrl } = nextProps;
     if (record) {
-      console.log("recordrecord",record);
+      console.log("recordrecord", record);
       let formData = {
         currencyId: record._id,
-        preference:record.preference,
+        preference: record.preference,
         name: record.name,
         coin: record.coin,
         symbol: record.symbol,
@@ -89,15 +89,16 @@ class CurrencyUpdateModal extends React.Component {
         // formData["contractDecimal"] = record.contractDecimal;
         formData["tokenType"] = record.tokenType;
       }
-      this.setState({ formValue: formData,count:nextProps.count });
+      this.setState({ formValue: formData, count: nextProps.count });
     }
   }
 
   handleChange = (e) => {
+    console.log(e, 'handleChange')
     e.preventDefault();
     const { name, value } = e.target;
-    
-    console.log("value",value,'valuevaluevalue',this.state.count,this.state.formValue?.preference);
+
+    console.log("value", value, 'valuevaluevalue', this.state.count, this.state.formValue?.preference);
     if (name == 'preference') {
       if (this.state.count < value && value != '') {
         return false
@@ -187,7 +188,7 @@ class CurrencyUpdateModal extends React.Component {
           toastAlert("error", message, "currencyUpdateModal");
         }
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 
   render() {
@@ -698,6 +699,7 @@ class CurrencyUpdateModal extends React.Component {
                     name="depositType"
                     value={depositType}
                     onChange={this.handleChange}
+                    onSelect={(e) => { console.log(e, 'onSelect') }}
                     as="select"
                     custom
                   >
@@ -758,15 +760,15 @@ class CurrencyUpdateModal extends React.Component {
                   <label htmlFor="minimum">Currency icon</label>
                 </div>
                 <div className="col-md-9">
-                <label class="custom-file-upload">
-                  <input
-                    name="image"
-                    type="file"
-                    onChange={this.handleFile}
-                    accept="image/x-png,image/gif,image/jpeg"
-                    aria-describedby="fileHelp"
-                  />
-                  Choose File
+                  <label class="custom-file-upload">
+                    <input
+                      name="image"
+                      type="file"
+                      onChange={this.handleFile}
+                      accept="image/x-png,image/gif,image/jpeg"
+                      aria-describedby="fileHelp"
+                    />
+                    Choose File
                   </label>
                   <span className="text-danger">{errors.image}</span>
                   <img

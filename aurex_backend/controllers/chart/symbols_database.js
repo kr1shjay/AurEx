@@ -130,7 +130,7 @@ exports.symbolInfo = function (symbolName, tradeType) {
 			var item = symbols[i];
 
 			if (item.name.toUpperCase() == symbol && (exchange.length === 0 || exchange == item.exchange.toUpperCase())) {
-				
+
 				return item;
 			}
 		}
@@ -167,7 +167,9 @@ export const initialChartSymbol = async () => {
 					"exchange": 'Trading',
 					"type": 'crypto',
 					"botstatus": 1,
-					'pip_size':1
+					'pip_size': 1,
+					'firstFloatDigit': 1,
+					'secondFloatDigit': 1
 				}
 			}
 		])
@@ -211,6 +213,6 @@ const perpetualSymbol = async () => {
 perpetualSymbol();
 
 export const getSymbol = () => {
-	console.log("getSymbol",symbols);
+	console.log("getSymbol", symbols);
 	return symbols
 }

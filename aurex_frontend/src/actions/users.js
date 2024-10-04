@@ -1,5 +1,5 @@
 // import config
-import axios, { setAuthorization, removeAuthorization,handleResp } from "../config/axios";
+import axios, { setAuthorization, removeAuthorization, handleResp } from "../config/axios";
 import config from "../config";
 import { removeAuthToken, setAuthToken } from "../lib/localStorage";
 
@@ -46,6 +46,36 @@ export const createUser = async (data) => {
     };
   }
 };
+
+export const check2fa = async (data) => {
+  try {
+    let respData = await axios({
+      method: "post",
+      url: `/api/check2fa`,
+      data,
+    });
+    if (respData?.data?.status == "TWO_FA") {
+      return {
+        status: "TWO_FA",
+        loading: false,
+        message: respData?.data?.message,
+      };
+    }
+    return {
+      status: "success",
+      loading: false,
+      message: respData?.data?.message,
+    };
+  } catch (err) {
+    handleResp(err, 'error')
+    return {
+      status: "failed",
+      loading: false,
+      message: err?.response?.data?.message,
+      error: err?.response?.data?.errors,
+    };
+  }
+}
 
 export const verifyOtp = async (data) => {
   try {
@@ -120,8 +150,8 @@ export const login = async (data, dispatch) => {
       url: `/api/login`,
       data,
     });
-    console.log("respData",respData)
-    console.log("data",respData.data)
+    console.log("respData", respData)
+    console.log("data", respData.data)
     if (respData.data.status == "TWO_FA") {
       return {
         status: "TWO_FA",

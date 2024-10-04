@@ -34,7 +34,7 @@ const CryptoWallet = () => {
   const [originalData, setOriginal] = useState([]);
   const [checkValue, setCheckValue] = useState(false);
   const [pairList, setPairList] = useState([]);
-console.log("pairList",pairList)
+  console.log("pairList", pairList)
   const [model, setModal] = useState({
     type: "",
     assetData: {},
@@ -44,8 +44,8 @@ console.log("pairList",pairList)
   // redux-state
   const walletData = useSelector((state) => state.wallet);
   const currencyDoc = useSelector((state) => state.currency);
-  console.log('currency',currencyDoc)
-  
+  console.log('currency', currencyDoc)
+
   // function
   const handleChange = (e) => {
     e.preventDefault();
@@ -64,7 +64,7 @@ console.log("pairList",pairList)
     e.preventDefault();
     const { name, checked } = e.target;
     let reqData = {
-      hideZeroStatus: checked,
+      hideZeroStatus: !checked,
     };
     const { message, status } = await updateHideZeroStatus(reqData);
     if (status) {
@@ -89,7 +89,7 @@ console.log("pairList",pairList)
     if (arrayData && arrayData.length > 0) {
       setOriginal(arrayData);
     }
-    else{
+    else {
       setOriginal(arrayData);
     }
     if (isEmpty(value)) {
@@ -115,7 +115,8 @@ console.log("pairList",pairList)
   };
   const gethideZeroSatus = async () => {
     const { result } = await gethideZeroStatus();
-    setCheckValue(result.hideZeroStatus);
+    console.log(result, !result.hideZeroStatus, 'gethideZeroSatus')
+    setCheckValue(!result.hideZeroStatus);
   };
 
   // const
@@ -163,7 +164,7 @@ console.log("pairList",pairList)
               checked={checkValue}
             />
             {/* <input class="form-check-input" type="checkbox" value={checkValue}  name={"checkValue"} checked={checkValue} onChange={handleCheckBox}  /> */}
-            <label className="ml-1">Hide Zero Balance</label>
+            <label className="ml-1">Show Zero Balance</label>
           </div>
 
           {
@@ -206,16 +207,16 @@ console.log("pairList",pairList)
 
             pair =
               !isEmpty(firstCurrencyPair) &&
-              firstCurrencyPair.firstCurrencySymbol == item.coin
+                firstCurrencyPair.firstCurrencySymbol == item.coin
                 ? `${item.coin}_${firstCurrencyPair.secondCurrencySymbol}`
                 : !isEmpty(seconCurrencyPair) &&
                   seconCurrencyPair.secondCurrencySymbol == item.coin
-                ? `${seconCurrencyPair.firstCurrencySymbol}_${item.coin}`
-                : "";
+                  ? `${seconCurrencyPair.firstCurrencySymbol}_${item.coin}`
+                  : "";
             if (curData && ["crypto", "token"].includes(curData.type)) {
 
               return item.spotBal == 0 ? (
-                checkValue ? (
+                !checkValue ? (
                   <>{""}</>
                 ) : (
                   <div className="fiat_wallet_list" key={key}>
@@ -239,7 +240,7 @@ console.log("pairList",pairList)
                         <div className="Subscribe">
                           <Button
                             className="btn-primary"
-                            onClick={async() => {
+                            onClick={async () => {
                               console.log("check-email")
                               const emailvlaid = await checkEmail();
                               if (emailvlaid.email) {
@@ -295,11 +296,11 @@ console.log("pairList",pairList)
                       )}
 
                       <div className="Subscribe">
-                      { pairList.find((el) => el.firstCurrencySymbol == item.coin) ||  pairList.find((el) => el.secondCurrencySymbol == item.coin)?
-                        <Button className="btn-primary">
-                          <Link to={`/spot/${pair}`}>{t("TRADE")}</Link>
-                        </Button>:  <Button className="btn-primary" disabled="true">{t("TRADE")}</Button>
-            }
+                        {pairList.find((el) => el.firstCurrencySymbol == item.coin) || pairList.find((el) => el.secondCurrencySymbol == item.coin) ?
+                          <Button className="btn-primary">
+                            <Link to={`/spot/${pair}`}>{t("TRADE")}</Link>
+                          </Button> : <Button className="btn-primary" disabled="true">{t("TRADE")}</Button>
+                        }
                       </div>
                       {/* <div className="Subscribe">
                                   <Button className="btn-primary" onClick={() => {
@@ -346,7 +347,7 @@ console.log("pairList",pairList)
                         <div className="Subscribe">
                           <Button
                             className="btn-primary"
-                            onClick={async() => {
+                            onClick={async () => {
                               console.log("check-email")
                               const emailvlaid = await checkEmail();
                               if (emailvlaid.email) {
@@ -402,11 +403,11 @@ console.log("pairList",pairList)
                       )}
 
                       <div className="Subscribe">
-                        {pairList.find((el) => el.firstCurrencySymbol == item.coin) ||  pairList.find((el) => el.secondCurrencySymbol == item.coin)?
-                        <Button className="btn-primary">
-                          <Link to={`/spot/${pair}`}>{t("TRADE")}</Link>
-                        </Button>:  <Button className="btn-primary" disabled="true">{t("TRADE")}</Button>
-            }
+                        {pairList.find((el) => el.firstCurrencySymbol == item.coin) || pairList.find((el) => el.secondCurrencySymbol == item.coin) ?
+                          <Button className="btn-primary">
+                            <Link to={`/spot/${pair}`}>{t("TRADE")}</Link>
+                          </Button> : <Button className="btn-primary" disabled="true">{t("TRADE")}</Button>
+                        }
                       </div>
                       {/* <div className="Subscribe">
                                             <Button className="btn-primary" onClick={() => {
