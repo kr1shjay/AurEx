@@ -1,1 +1,0 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"userId":{"$numberInt":"1"}},"name":"userId_1","background":true},{"v":{"$numberInt":"2"},"key":{"projectId":{"$numberInt":"1"}},"name":"projectId_1","background":true}],"uuid":"db6bf2aa5f054951928ddb29788e5b4f","collectionName":"lockerinvested","type":"collection"}

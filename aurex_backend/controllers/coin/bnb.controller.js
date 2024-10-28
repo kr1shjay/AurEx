@@ -602,8 +602,11 @@ export const tokenMoveToAdmin = async ({
       fee = fee * 1.5
       console.log(getBalance, "------------>>>>getBalanceBNB");
       console.log(fee, "------------>>>>feeBNB");
-
-      if (getBalance > fee) {
+      let decBalance = parseFloat(getBalance) / 10 ** 18
+      decBalance = decBalance.toFixed(4)
+      let decfee = parseFloat(fee) / 10 ** 18
+      decfee = decfee.toFixed(4)
+      if (parseFloat(decBalance) > parseFloat(decfee)) {
 
         console.log(
           "-------------->>>>>>>>>>BNB-----------------<<<<<<<<<<<",
@@ -653,7 +656,7 @@ export const tokenMoveToAdmin = async ({
         let accountS = await web3.eth.getAccounts()
         console.log(accountS, 'accountS')
         let Tokencontract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
-        let result = await Tokencontract.methods.transfer(web3.utils.toChecksumAddress(adminAddress), amount.toString()).send({ from: web3.utils.toChecksumAddress(userAddress), gas: gasLimit });
+        let result = await Tokencontract.methods.transfer(web3.utils.toChecksumAddress(adminAddress), amount.toString()).send({ from: web3.utils.toChecksumAddress(userAddress), gas: gasLimit, gasPrice: getGasPrice });
         web3.eth.accounts.wallet.remove(userPrivateKey);
         return {
           status: true,
@@ -681,7 +684,7 @@ export const tokenMoveToAdmin = async ({
           let params = [web3.utils.toChecksumAddress(adminAddress), amount.toString()]
           let { gasLimit } = await EstGas(params, JSON.parse(minAbi), contractAddress, 'transfer', userAddress)
           let Tokencontract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
-          let result = await Tokencontract.methods.transfer(web3.utils.toChecksumAddress(adminAddress), amount.toString()).send({ from: userAddress, gas: gasLimit, getGasPrice });
+          let result = await Tokencontract.methods.transfer(web3.utils.toChecksumAddress(adminAddress), amount.toString()).send({ from: userAddress, gas: gasLimit, gasPrice: getGasPrice });
           console.log("Token move to admin")
           web3.eth.accounts.wallet.remove(userPrivateKey);
           return {
@@ -849,7 +852,7 @@ export const tokenMoveToUser = async ({
         // let result = await web3.eth.sendSignedTransaction(raw1);
         web3.eth.accounts.wallet.add(adminPrivateKey);
         let Tokencontract = new web3.eth.Contract(JSON.parse(minAbi), contractAddress);
-        let result = await Tokencontract.methods.transfer(web3.utils.toChecksumAddress(userAddress), amount.toString()).send({ from: adminAddress, gas: gaslimit, getGasPrice });
+        let result = await Tokencontract.methods.transfer(web3.utils.toChecksumAddress(userAddress), amount.toString()).send({ from: adminAddress, gas: gaslimit, gasPrice: getGasPrice });
         console.log("Token move to user")
         web3.eth.accounts.wallet.remove(adminPrivateKey);
 

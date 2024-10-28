@@ -56,36 +56,38 @@ const CryptoWithdraw = (props) => {
   };
 
   const handleChange = (e) => {
-    try{e.preventDefault();
-    const { name, value } = e.target;
-    if (!isEmpty(validateError)) {
-      setValidateError({});
-    }
+    try {
+      e.preventDefault();
+      const { name, value } = e.target;
+      if (!isEmpty(validateError)) {
+        setValidateError({});
+      }
 
-    if (name == "amount") {
-      if (!/^\d*\.?\d*$/.test(value)) {
+      if (name == "amount") {
+        if (!/^\d*\.?\d*$/.test(value)) {
+          return;
+        }
+        let feePerc = parseFloat(value) * (parseFloat(currency.withdrawFee) / 100)
+        console.log(feePerc, "handleChange__err")
+        let finalAmountBal = parseFloat(value) + + +parseFloat(feePerc);
+        console.log(finalAmountBal, "handleChange__err")
+        let formData = {
+          ...formValue,
+          ...{ [name]: value, finalAmount: finalAmountBal },
+        };
+        setFormValue(formData);
         return;
       }
-      let feePerc =  parseFloat(value) * (parseFloat(currency.withdrawFee)/100)
-      console.log(feePerc,"handleChange__err")
-      let finalAmountBal = parseFloat(value)+ + +parseFloat(feePerc);
-      console.log(finalAmountBal,"handleChange__err")
-      let formData = {
-        ...formValue,
-        ...{ [name]: value, finalAmount: finalAmountBal },
-      };
+
+      if (name == "twoFACode") {
+        if (!(value == "" || (/^[0-9\b]+$/.test(value) && value.length <= 6))) {
+          return;
+        }
+      }
+      let formData = { ...formValue, ...{ [name]: value } };
       setFormValue(formData);
-      return;
-    }
-
-    if (name == "twoFACode") {
-      if (!(value == "" || (/^[0-9\b]+$/.test(value) && value.length <= 6))) {
-        return;
-      }
-    }
-    let formData = { ...formValue, ...{ [name]: value } };
-    setFormValue(formData);}catch(err){
-      console.log(err,"handleChange__err")
+    } catch (err) {
+      console.log(err, "handleChange__err")
     }
   };
 
@@ -102,18 +104,18 @@ const CryptoWithdraw = (props) => {
       finalAmount,
       spotBal: assetData.spotBal,
     };
- let newDoc ={
-    "title" : "withdraw request",
-    "description" : "withdraw request send Successfully",
-    "isRead" : false,
-    "trxId" : "",
-    "currencySymbol" : "",
-    "amount" : 0,
-    "paymentType" : "coin_deposit",
-    "status" : "new",
- }
+    let newDoc = {
+      "title": "withdraw request",
+      "description": "withdraw request send Successfully",
+      "isRead": false,
+      "trxId": "",
+      "currencySymbol": "",
+      "amount": 0,
+      "paymentType": "coin_deposit",
+      "status": "new",
+    }
     let validationError = coinValidation(reqData, t);
-    console.log(validationError,'------------101')
+    console.log(validationError, '------------101')
     if (!isEmpty(validationError)) {
       setValidateError(validationError);
       setLoader(false);
@@ -142,9 +144,25 @@ const CryptoWithdraw = (props) => {
         }
         toastAlert("error", t(message), "withdraw");
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 
+  const MaxSubmit = async () => {
+    try {
+      let feePerc = parseFloat(assetData.spotBal) * (parseFloat(currency.withdrawFee) / 100)
+      console.log(feePerc, "handleChange__err")
+      let Amount = parseFloat(assetData.spotBal) - parseFloat(feePerc);
+      let finalAmountBal = parseFloat(assetData.spotBal)
+      console.log(finalAmountBal, "handleChange__err")
+      let formData = {
+        ...formValue,
+        ...{ ['amount']: Amount, finalAmount: finalAmountBal },
+      };
+      setFormValue(formData);
+    } catch (err) {
+      console.log(err, 'MaxSubmit__err')
+    }
+  }
   return (
     <Modal show={show} onHide={handleClose} centered backdrop="static">
       <Modal.Header closeButton>
@@ -191,11 +209,21 @@ const CryptoWithdraw = (props) => {
           </GridItem>
           <GridItem xs={12} sm={12} md={12} lg={12}>
             <div className="wallwt_balance">
-              <p>
+              <p className="d-flex align-items-center">
                 {t("WALLET_BALANCE")}
-                <span>
+                <span className="me-2">
                   {assetData && assetData.spotBal} {assetData.coin}
                 </span>
+                <span className="ml-2 maxvalue">
+                  <div className="submit_btn w-100">
+                    <Button
+                      className="w-100"
+                      onClick={() => { MaxSubmit() }}
+                    // disabled={loader}
+                    >
+                      max
+                    </Button>
+                  </div></span>
               </p>
             </div>
           </GridItem>
@@ -206,7 +234,7 @@ const CryptoWithdraw = (props) => {
                 <input
                   type="text"
                   placeholder=""
-                  value={toFixed(finalAmount,8)}
+                  value={toFixed(finalAmount, 8)}
                   disabled
                 />
                 <i class="">{assetData.coin}</i>
@@ -248,7 +276,7 @@ const CryptoWithdraw = (props) => {
               <ul>
                 <li>
                   1. {t("MIN_WITHDRAW_LIMIT")}
-                  {currency && toFixed(currency.minimumWithdraw,8)}
+                  {currency && toFixed(currency.minimumWithdraw, 8)}
                 </li>
                 <li>2. {t("WITHDRAW_PROCESS")}</li>
                 <li>3. {t("WITHDRAW_TIME")}</li>

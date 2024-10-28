@@ -1,1 +1,0 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"postId":{"$numberInt":"1"}},"name":"postId_1","background":true,"unique":true}],"uuid":"15de8fc37a0645d5b12efb5347f10409","collectionName":"p2pPost","type":"collection"}

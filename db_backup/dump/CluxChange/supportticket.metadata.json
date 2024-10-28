@@ -1,1 +1,0 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"tickerId":{"$numberInt":"1"}},"name":"tickerId_1","background":true,"unique":true}],"uuid":"042564131dda47e7b6c555890fa5e582","collectionName":"supportticket","type":"collection"}
