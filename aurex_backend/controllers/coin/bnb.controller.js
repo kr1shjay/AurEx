@@ -800,7 +800,7 @@ export const tokenMoveToUser = async ({
     amount = parseFloat(amount) * 10 ** parseFloat(decimals);
     // amount = convert(amount)
     console.log(amount, "--------------amount");
-    if (tokenbalance > 0) {
+    if (tokenbalance > amount) {
       let getBalance = await web3.eth.getBalance(adminAddress);
       let txCount = await web3.eth.getTransactionCount(adminAddress);
       let getGasPrice = await web3.eth.getGasPrice();
@@ -867,6 +867,11 @@ export const tokenMoveToUser = async ({
           message: "Te1 Balance Not Found",
         };
       }
+    } else {
+      return {
+        status: false,
+        message: "Insufficient Balance",
+      };
     }
   } catch (err) {
     console.log(

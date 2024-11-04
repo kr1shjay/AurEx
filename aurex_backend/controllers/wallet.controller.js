@@ -1752,17 +1752,23 @@ export const getWithdrawList = async (req, res) => {
 export const coinWithdrawApprove = async (req, res) => {
   try {
     let reqParam = req.params;
-
-    let trxData = await Transaction.findOneAndUpdate(
+    // let trxData = await Transaction.findOneAndUpdate(
+    //   {
+    //     _id: reqParam.transactionId,
+    //     paymentType: "coin_withdraw",
+    //     status: "pending",
+    //   },
+    //   {
+    //     status: "completed",
+    //   },
+    //   { new: true }
+    // );
+    let trxData = await Transaction.findOne(
       {
         _id: reqParam.transactionId,
         paymentType: "coin_withdraw",
         status: "pending",
-      },
-      {
-        status: "completed",
-      },
-      { new: true }
+      }
     );
     // console.log("trxData", trxData)
 
@@ -1783,7 +1789,7 @@ export const coinWithdrawApprove = async (req, res) => {
         .status(400)
         .json({ success: false, message: "SOMETHING_WRONG" });
     }
-
+    trxData.status = 'completed'
     trxData.txid = withdrawData.trxId;
     let updateTrxData = await trxData.save();
 
