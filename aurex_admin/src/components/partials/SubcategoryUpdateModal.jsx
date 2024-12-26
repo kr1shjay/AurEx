@@ -143,9 +143,10 @@ class CategoryUpdateModal extends React.Component {
   };
 
   componentDidMount() {
+
     console.log("call here");
-    // this.setState({ errors: "" });
     this.getData();
+    
   }
 
 

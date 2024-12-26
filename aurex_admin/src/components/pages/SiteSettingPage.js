@@ -248,11 +248,13 @@ class SiteSettingPage extends Component {
 
 
     componentDidMount() {
+
         this.fetchSiteSetting();
         this.fetchPairDropdown();
         this.fetchCurrency();
         this.fetchFaqDropdown();
         this.fetchApiLimit();
+        
     };
 
 
